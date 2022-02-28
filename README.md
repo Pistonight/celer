@@ -1,2 +1,0 @@
-# celer
-Celer Route Engine

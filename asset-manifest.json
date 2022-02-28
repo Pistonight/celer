@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/celer/static/css/main.a4aae348.css",
+    "main.js": "/celer/static/js/main.5e67a4e9.js",
+    "index.html": "/celer/index.html",
+    "main.a4aae348.css.map": "/celer/static/css/main.a4aae348.css.map",
+    "main.5e67a4e9.js.map": "/celer/static/js/main.5e67a4e9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4aae348.css",
+    "static/js/main.5e67a4e9.js"
+  ]
+}
