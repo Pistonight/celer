@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "packages/celer-lib",
+    "packages/celer-cli"
+]
