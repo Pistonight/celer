@@ -1,0 +1,34 @@
+install:
+    npm install
+
+lint:
+    npm run lint
+
+build:
+    npm run build
+
+watch:
+    npm run watch
+
+release: build
+    mkdir -p ../../release
+    npm run package
+    mv *.vsix ../../release
+
+dev:
+    code .
+
+devinstall: build
+    npm run package
+    mv -T *.vsix temp.vsix
+    code --install-extension temp.vsix
+    rm temp.vsix
+
+devuninstall:
+    code --uninstall-extension itntpiston.celer
+
+clean:
+    rm -rf build
+
+nuke: clean
+    rm -rf node_modules

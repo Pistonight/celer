@@ -1,0 +1,11 @@
+lint:
+    pylint generate.py scripts
+
+build:
+    ./generate.py
+
+apply:
+    ./generate.py apply
+
+clean:
+    rm -rf build

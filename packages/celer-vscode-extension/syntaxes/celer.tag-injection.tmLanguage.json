@@ -1,0 +1,12 @@
+{
+    "name": "Celer BOTW TagInjection",
+	"scopeName": "source.celer.tag.injection",
+    "injectionSelector": [
+        "L:string.unquoted.plain.out.yaml"
+    ],
+	"patterns": [
+		{
+			"include": "source.celer.tag"
+		}
+	]
+}

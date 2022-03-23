@@ -1,0 +1,14 @@
+{
+    "name": "Celer BOTW Injection",
+	"scopeName": "source.celer.injection",
+    "injectionSelector": [
+        "L:string.quoted.double.yaml",
+        "L:string.unquoted.plain.out.yaml",
+		"L:string.quoted.single.yaml"
+    ],
+	"patterns": [
+		{
+			"include": "source.celer.generated"
+		}
+	]
+}

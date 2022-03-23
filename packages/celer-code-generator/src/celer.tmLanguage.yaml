@@ -1,0 +1,365 @@
+$schema: "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json"
+name: "Celer BOTW Generated Grammar"
+scopeName: "source.celer.generated"
+patterns:
+  - include: "#celer-use"
+  - include: "#celer-banner"
+  - include: "#celer-operator"
+  - include: "#celer-direction"
+  - include: "#celer-function"
+  - include: "#celer-preset"
+  - include: "#celer-partial"
+
+repository:
+  celer-use:
+    name: keyword.control.use.celer
+    match: __use__
+  celer-banner:
+    name: keyword.control.banner.celer
+    match: \(==\)|\(\!=\)|\(\?=\)|\(\^=\)|\(\^\!\)|\(\^\?\)
+  celer-operator:
+    patterns:
+      - name: keyword.operator.step.celer
+        match: \+
+      - name: keyword.operator.parenthesis.celer
+        match: '[\(\)\<]'
+      - name: keyword.operator.parenthesis.celer
+        match: '(?<!\s|^)\>'
+  celer-direction:
+    name: entity.name.class.direction.celer
+    match: \b(N|E|W|S|NE|NW|SE|SW|[0-1][0-9]:[0-5][0-9])\b
+  celer-function:
+    patterns:
+      - name: keyword.control.important.celer
+        match: \.\!\!
+      - match: (\.(gale|fury))(\()([^\)]*)(\))
+        captures: 
+          1: 
+            name: entity.name.class.ability.celer
+          3: 
+            name: keyword.operator.parenthesis.celer
+          4: 
+            name: invalid.illegal.ability.celer
+          5: 
+            name: keyword.operator.parenthesis.celer
+      - match: (\.link)(\()([^\)]*)(\))
+        captures: 
+          1: 
+            name: entity.name.class.link.celer
+          2: 
+            name: keyword.operator.parenthesis.celer
+          3: 
+            name: markup.underline.link
+          4: 
+            name: keyword.operator.parenthesis.celer
+      - match: '(\.v)(\()([a-zA-Z0-9]*)(\))'
+        captures: 
+          1: 
+            name: entity.name.function.v.celer
+          2: 
+            name: keyword.operator.parenthesis.celer
+          3: 
+            name: variable.celer
+          4: 
+            name: keyword.operator.parenthesis.celer
+      - match: (\.(item|loc|npc|rune|boss|enemy|code|dir))(\()
+        captures: 
+          1: 
+            name: entity.name.function.celer
+          3: 
+            name: keyword.operator.parenthesis.celer
+  celer-preset:
+    patterns:
+      - include: "#celer-shrine"
+      - include: "#celer-tower"
+      - include: "#celer-korok"
+      - include: "#celer-warp"
+      - include: "#celer-memory"
+      - include: "#celer-boss"
+      - include: "#celer-parameterized"
+      - include: "#celer-tod"
+  celer-shrine:
+    patterns:
+      - match: "(_Shrine)(::)(CODEGEN_START shrine_compact_name_regex() CODEGEN_END)"
+        captures:
+          1: 
+            name: entity.name.class.shrine.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+      - match: "(_Shrine)(::)([a-zA-Z0-9]+)"
+        captures:
+          1: 
+            name: entity.name.class.shrine.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: invalid.illegal.celer
+  celer-tower:
+    patterns:
+      - match: "(_Tower)(::)(CODEGEN_START tower_compact_name_regex() CODEGEN_END)"
+        captures:
+          1: 
+            name: entity.name.class.tower.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+      - match: "(_Tower)(::)([a-zA-Z0-9]+)"
+        captures:
+          1: 
+            name: entity.name.class.tower.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: invalid.illegal.celer
+  celer-korok:
+    match: "(_Korok)(::)([CPLDFNZEKAXTGWHR][0-9][0-9])"
+    captures:
+      1: 
+        name: entity.name.class.korok.celer
+      2: 
+        name: keyword.operator.property.celer
+      3: 
+        name: variable.preset.celer
+  celer-warp:
+    patterns:
+      - match: "(_Warp)(::)(Tower)(::)(CODEGEN_START tower_compact_name_regex() CODEGEN_END)"
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.warp.celer
+          4: 
+            name: keyword.operator.property.celer
+          5: 
+            name: variable.preset.celer
+      - match: "(_Warp)(::)(Shrine)(::)(CODEGEN_START shrine_compact_name_regex() CODEGEN_END)"
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.warp.celer
+          4: 
+            name: keyword.operator.property.celer
+          5: 
+            name: variable.preset.celer
+      - match: "(_Warp)(::)(TechLab)(::)(Hateno|Akkala)"
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.warp.celer
+          4: 
+            name: keyword.operator.property.celer
+          5: 
+            name: variable.preset.celer
+      - match: "(_Warp)(::)(Vah)(Medoh|Naboris|Ruta|Rudania)"
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+          4: 
+            name: variable.preset.celer
+      - match: "(_Warp)(::)(SOR)"
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+      - match: (_Warp)(::)(TravelMedallion)(<)\s*([0-9\.]+)\s*(,)\s*([0-9\.]+)\s*(>)
+        captures:
+          1: 
+            name: entity.name.class.warp.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.warp.celer
+          4:
+            name: keyword.operator.parenthesis.celer
+          5:
+            name: constant.numeric
+          6:
+            name: keyword.operator.separator.celer
+          7:
+            name: constant.numeric
+          8:
+            name: keyword.operator.parenthesis.celer
+  celer-memory:
+    patterns:
+      - match: "(_Memory)(::)(CODEGEN_START memory_compact_name_regex() CODEGEN_END)"
+        captures:
+          1: 
+            name: entity.name.class.memory.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+      - match: "(_Memory)(::)([a-zA-Z0-9]+)"
+        captures:
+          1: 
+            name: entity.name.class.memory.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: invalid.illegal.celer
+  celer-boss:
+    patterns:
+      - match: "(_Boss)(::)(Talus)(::)(Stone|Luminous|Rare|Igneo|Frost)"
+        captures:
+          1: 
+            name: entity.name.class.boss.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.boss.celer
+          4: 
+            name: keyword.operator.property.celer
+          5: 
+            name: variable.preset.celer
+      - match: "(_Boss)(::)(Hinox)(::)(Red|Blue|Black|Stal)"
+        captures:
+          1: 
+            name: entity.name.class.boss.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.boss.celer
+          4: 
+            name: keyword.operator.property.celer
+          5: 
+            name: variable.preset.celer
+      - match: "(_Boss)(::)(Molduga|Stalnox)"
+        captures:
+          1: 
+            name: entity.name.class.boss.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: variable.preset.celer
+  celer-parameterized:
+    patterns:
+      - match: (_Equipment)(::)(Weapon|Shield|Bow)(<)([^>]*)(>)
+        captures:
+          1: 
+            name: entity.name.class.equipment.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.equipment.celer
+          4:
+            name: keyword.operator.parenthesis.celer
+          5:
+            name: entity.name.function
+          6:
+            name: keyword.operator.parenthesis.celer
+      - match: (_Chest)((::)(Special))?(<)([^>]*)(>)
+        captures:
+          1: 
+            name: entity.name.class.chest.celer
+          3: 
+            name: keyword.operator.property.celer
+          4: 
+            name: entity.name.class.chest.special.celer
+          5:
+            name: keyword.operator.parenthesis.celer
+          6:
+            name: entity.name.function
+          7:
+            name: keyword.operator.parenthesis.celer
+      - match: (_Snap)(::)(Quest|Elite)(<)([^>]*)(>)
+        captures:
+          1:
+            name: entity.name.class.snap.celer
+          2: 
+            name: keyword.operator.property.celer
+          3: 
+            name: entity.name.class.snap.celer
+          4:
+            name: keyword.operator.parenthesis.celer
+          5:
+            name: entity.name.function
+          6:
+            name: keyword.operator.parenthesis.celer
+      - match: (_Npc)((::)(Rito|Goron|Gerudo|SheikaFemale|SheikaMale|ZoraFemale|ZoraMale))?(<)([^>]*)(>)
+        captures:
+          1: 
+            name: entity.name.class.npc.celer
+          3: 
+            name: keyword.operator.property.celer
+          4: 
+            name: entity.name.class.npc.celer
+          5:
+            name: keyword.operator.parenthesis.celer
+          6:
+            name: entity.name.function
+          7:
+            name: keyword.operator.parenthesis.celer
+      - match: (_Material)(<)([^(>|,)]*)(\s*(,)\s*([0-9]+)\s*)?(>)
+        captures:
+          1: 
+            name: entity.name.class.material.celer
+          2:
+            name: keyword.operator.parenthesis.celer
+          3: 
+            name: entity.name.function
+          5:
+            name: keyword.operator.separator.celer
+          6:
+            name: constant.numeric
+          7:
+            name: keyword.operator.parenthesis.celer
+      - match: (_(Shop|Cook|Discover))(<)([^>]*)(>)
+        captures:
+          1: 
+            name: entity.name.class.other.celer
+          3:
+            name: keyword.operator.parenthesis.celer
+          4:
+            name: entity.name.function
+          5:
+            name: keyword.operator.parenthesis.celer
+  celer-tod:
+    match: (_Tod)(::)(Morning|Noon|Night)
+    captures:
+      1: 
+        name: entity.name.class.tod.celer
+      2: 
+        name: keyword.operator.property.celer
+      3: 
+        name: variable.preset.celer
+  celer-partial:
+    patterns:
+      - match: "\\."
+        name: keyword.operator.dot.celer
+      - name: entity.name.class.preset.celer
+        match: >
+          (?x)
+          _(Shrine|
+          Warp::Shrine|Warp::Tower|Warp::TechLab|Warp|
+          Tower|
+          Korok|
+          Memory|
+          TechLab|
+          Boss::Talus|Boss::Hinox|Boss|
+          Material|
+          Equipment::Weapon|Equipment::Shield|Equipment::Bow|Equipment|
+          Tod|
+          Chest::Special|Chest|
+          Snap::Quest|Snap::Elite|Snap|
+          Shop|
+          Npc::Rito|Npc::Goron|Npc::Gerudo|Npc::SheikaFemale|Npc::SheikaMale|Npc::ZoraFemale|Npc::ZoraMale|Npc|
+          Cook|
+          Discover)

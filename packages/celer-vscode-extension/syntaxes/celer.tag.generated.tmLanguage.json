@@ -1,0 +1,16 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Celer BOTW Generated Tag",
+    "scopeName": "source.celer.tag",
+    "patterns": [
+        {
+            "include": "#celer-tag"
+        }
+    ],
+    "repository": {
+        "celer-tag": {
+            "match": "(text|icon|comment|notes|line-color|hide-icon-on-map|coord|movements|to|away|warp|split-type|var-change|fury|gale|time-override|commands|suppress)\\s*:(?=$|\\s)",
+            "name": "variable.tag.celer"
+        }
+    }
+}

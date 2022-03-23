@@ -1,3 +1,14 @@
-/target
-/build
+# Output
+build/
+release/
+# Rust
+target/
 Cargo.lock
+# Packaged VS Code Extension
+.vsix
+
+# Npm
+node_modules/
+
+# Python
+__pycache__

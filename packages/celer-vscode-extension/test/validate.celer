@@ -1,0 +1,3574 @@
+### Use this file to manually validate the syntax highlighting
+
+### Use Directive
+# __use__ Module
+__use__ Module
+"__use__ Module"
+'__use__ Module'
+- __use__ Module
+# __use__ Module:
+__use__ Module:
+"__use__ Module":
+'__use__ Module':
+- __use__ Module:
+# foo: __use__ Module
+foo: __use__ Module
+foo: "__use__ Module"
+foo: '__use__ Module'
+- foo: __use__ Module
+test: " foo
+__use__ Module
+bar "
+test: ' foo
+__use__ Module
+bar '
+test: foo
+  __use__ Module
+  bar
+test: >
+  foo
+  __use__ Module
+  bar
+test: |
+  foo
+  __use__ Module
+  bar
+
+
+
+### Banners
+# (==) Foo
+(==) Foo
+"(==) Foo"
+'(==) Foo'
+- (==) Foo
+# (==) Foo:
+(==) Foo:
+"(==) Foo":
+'(==) Foo':
+- (==) Foo:
+# foo: (==) Foo
+foo: (==) Foo
+foo: "(==) Foo"
+foo: '(==) Foo'
+- foo: (==) Foo
+test: " foo
+(==) Foo
+bar "
+test: ' foo
+(==) Foo
+bar '
+test: foo
+  (==) Foo
+  bar
+test: >
+  foo
+  (==) Foo
+  bar
+test: |
+  foo
+  (==) Foo
+  bar
+
+
+# (^=) Foo
+(^=) Foo
+"(^=) Foo"
+'(^=) Foo'
+- (^=) Foo
+# (^=) Foo:
+(^=) Foo:
+"(^=) Foo":
+'(^=) Foo':
+- (^=) Foo:
+# foo: (^=) Foo
+foo: (^=) Foo
+foo: "(^=) Foo"
+foo: '(^=) Foo'
+- foo: (^=) Foo
+test: " foo
+(^=) Foo
+bar "
+test: ' foo
+(^=) Foo
+bar '
+test: foo
+  (^=) Foo
+  bar
+test: >
+  foo
+  (^=) Foo
+  bar
+test: |
+  foo
+  (^=) Foo
+  bar
+
+
+# (?=) Foo
+(?=) Foo
+"(?=) Foo"
+'(?=) Foo'
+- (?=) Foo
+# (?=) Foo:
+(?=) Foo:
+"(?=) Foo":
+'(?=) Foo':
+- (?=) Foo:
+# foo: (?=) Foo
+foo: (?=) Foo
+foo: "(?=) Foo"
+foo: '(?=) Foo'
+- foo: (?=) Foo
+test: " foo
+(?=) Foo
+bar "
+test: ' foo
+(?=) Foo
+bar '
+test: foo
+  (?=) Foo
+  bar
+test: >
+  foo
+  (?=) Foo
+  bar
+test: |
+  foo
+  (?=) Foo
+  bar
+
+
+# (!=) Foo
+(!=) Foo
+"(!=) Foo"
+'(!=) Foo'
+- (!=) Foo
+# (!=) Foo:
+(!=) Foo:
+"(!=) Foo":
+'(!=) Foo':
+- (!=) Foo:
+# foo: (!=) Foo
+foo: (!=) Foo
+foo: "(!=) Foo"
+foo: '(!=) Foo'
+- foo: (!=) Foo
+test: " foo
+(!=) Foo
+bar "
+test: ' foo
+(!=) Foo
+bar '
+test: foo
+  (!=) Foo
+  bar
+test: >
+  foo
+  (!=) Foo
+  bar
+test: |
+  foo
+  (!=) Foo
+  bar
+
+
+# (^!) Foo
+(^!) Foo
+"(^!) Foo"
+'(^!) Foo'
+- (^!) Foo
+# (^!) Foo:
+(^!) Foo:
+"(^!) Foo":
+'(^!) Foo':
+- (^!) Foo:
+# foo: (^!) Foo
+foo: (^!) Foo
+foo: "(^!) Foo"
+foo: '(^!) Foo'
+- foo: (^!) Foo
+test: " foo
+(^!) Foo
+bar "
+test: ' foo
+(^!) Foo
+bar '
+test: foo
+  (^!) Foo
+  bar
+test: >
+  foo
+  (^!) Foo
+  bar
+test: |
+  foo
+  (^!) Foo
+  bar
+
+
+# (^?) Foo
+(^?) Foo
+"(^?) Foo"
+'(^?) Foo'
+- (^?) Foo
+# (^?) Foo:
+(^?) Foo:
+"(^?) Foo":
+'(^?) Foo':
+- (^?) Foo:
+# foo: (^?) Foo
+foo: (^?) Foo
+foo: "(^?) Foo"
+foo: '(^?) Foo'
+- foo: (^?) Foo
+test: " foo
+(^?) Foo
+bar "
+test: ' foo
+(^?) Foo
+bar '
+test: foo
+  (^?) Foo
+  bar
+test: >
+  foo
+  (^?) Foo
+  bar
+test: |
+  foo
+  (^?) Foo
+  bar
+
+
+
+### Step Symbol
+# +Single Step
++Single Step
+"+Single Step"
+'+Single Step'
+- +Single Step
+# +Single Step:
++Single Step:
+"+Single Step":
+'+Single Step':
+- +Single Step:
+# foo: +Single Step
+foo: +Single Step
+foo: "+Single Step"
+foo: '+Single Step'
+- foo: +Single Step
+test: " foo
++Single Step
+bar "
+test: ' foo
++Single Step
+bar '
+test: foo
+  +Single Step
+  bar
+test: >
+  foo
+  +Single Step
+  bar
+test: |
+  foo
+  +Single Step
+  bar
+
+
+# +Many + Steps
++Many + Steps
+"+Many + Steps"
+'+Many + Steps'
+- +Many + Steps
+# +Many + Steps:
++Many + Steps:
+"+Many + Steps":
+'+Many + Steps':
+- +Many + Steps:
+# foo: +Many + Steps
+foo: +Many + Steps
+foo: "+Many + Steps"
+foo: '+Many + Steps'
+- foo: +Many + Steps
+test: " foo
++Many + Steps
+bar "
+test: ' foo
++Many + Steps
+bar '
+test: foo
+  +Many + Steps
+  bar
+test: >
+  foo
+  +Many + Steps
+  bar
+test: |
+  foo
+  +Many + Steps
+  bar
+
+
+
+### Functions
+# foo .foo(bar) bar
+foo .foo(bar) bar
+"foo .foo(bar) bar"
+'foo .foo(bar) bar'
+- foo .foo(bar) bar
+# foo .foo(bar) bar:
+foo .foo(bar) bar:
+"foo .foo(bar) bar":
+'foo .foo(bar) bar':
+- foo .foo(bar) bar:
+# foo: foo .foo(bar) bar
+foo: foo .foo(bar) bar
+foo: "foo .foo(bar) bar"
+foo: 'foo .foo(bar) bar'
+- foo: foo .foo(bar) bar
+test: " foo
+foo .foo(bar) bar
+bar "
+test: ' foo
+foo .foo(bar) bar
+bar '
+test: foo
+  foo .foo(bar) bar
+  bar
+test: >
+  foo
+  foo .foo(bar) bar
+  bar
+test: |
+  foo
+  foo .foo(bar) bar
+  bar
+
+
+# .foo(bar .bar(foo))
+.foo(bar .bar(foo))
+".foo(bar .bar(foo))"
+'.foo(bar .bar(foo))'
+- .foo(bar .bar(foo))
+# .foo(bar .bar(foo)):
+.foo(bar .bar(foo)):
+".foo(bar .bar(foo))":
+'.foo(bar .bar(foo))':
+- .foo(bar .bar(foo)):
+# foo: .foo(bar .bar(foo))
+foo: .foo(bar .bar(foo))
+foo: ".foo(bar .bar(foo))"
+foo: '.foo(bar .bar(foo))'
+- foo: .foo(bar .bar(foo))
+test: " foo
+.foo(bar .bar(foo))
+bar "
+test: ' foo
+.foo(bar .bar(foo))
+bar '
+test: foo
+  .foo(bar .bar(foo))
+  bar
+test: >
+  foo
+  .foo(bar .bar(foo))
+  bar
+test: |
+  foo
+  .foo(bar .bar(foo))
+  bar
+
+
+# .foo(bar) .bar(foo)
+.foo(bar) .bar(foo)
+".foo(bar) .bar(foo)"
+'.foo(bar) .bar(foo)'
+- .foo(bar) .bar(foo)
+# .foo(bar) .bar(foo):
+.foo(bar) .bar(foo):
+".foo(bar) .bar(foo)":
+'.foo(bar) .bar(foo)':
+- .foo(bar) .bar(foo):
+# foo: .foo(bar) .bar(foo)
+foo: .foo(bar) .bar(foo)
+foo: ".foo(bar) .bar(foo)"
+foo: '.foo(bar) .bar(foo)'
+- foo: .foo(bar) .bar(foo)
+test: " foo
+.foo(bar) .bar(foo)
+bar "
+test: ' foo
+.foo(bar) .bar(foo)
+bar '
+test: foo
+  .foo(bar) .bar(foo)
+  bar
+test: >
+  foo
+  .foo(bar) .bar(foo)
+  bar
+test: |
+  foo
+  .foo(bar) .bar(foo)
+  bar
+
+
+# item .item(item) item
+item .item(item) item
+"item .item(item) item"
+'item .item(item) item'
+- item .item(item) item
+# item .item(item) item:
+item .item(item) item:
+"item .item(item) item":
+'item .item(item) item':
+- item .item(item) item:
+# foo: item .item(item) item
+foo: item .item(item) item
+foo: "item .item(item) item"
+foo: 'item .item(item) item'
+- foo: item .item(item) item
+test: " foo
+item .item(item) item
+bar "
+test: ' foo
+item .item(item) item
+bar '
+test: foo
+  item .item(item) item
+  bar
+test: >
+  foo
+  item .item(item) item
+  bar
+test: |
+  foo
+  item .item(item) item
+  bar
+
+
+# .item(item .item(item))
+.item(item .item(item))
+".item(item .item(item))"
+'.item(item .item(item))'
+- .item(item .item(item))
+# .item(item .item(item)):
+.item(item .item(item)):
+".item(item .item(item))":
+'.item(item .item(item))':
+- .item(item .item(item)):
+# foo: .item(item .item(item))
+foo: .item(item .item(item))
+foo: ".item(item .item(item))"
+foo: '.item(item .item(item))'
+- foo: .item(item .item(item))
+test: " foo
+.item(item .item(item))
+bar "
+test: ' foo
+.item(item .item(item))
+bar '
+test: foo
+  .item(item .item(item))
+  bar
+test: >
+  foo
+  .item(item .item(item))
+  bar
+test: |
+  foo
+  .item(item .item(item))
+  bar
+
+
+# .item(item) .item(item)
+.item(item) .item(item)
+".item(item) .item(item)"
+'.item(item) .item(item)'
+- .item(item) .item(item)
+# .item(item) .item(item):
+.item(item) .item(item):
+".item(item) .item(item)":
+'.item(item) .item(item)':
+- .item(item) .item(item):
+# foo: .item(item) .item(item)
+foo: .item(item) .item(item)
+foo: ".item(item) .item(item)"
+foo: '.item(item) .item(item)'
+- foo: .item(item) .item(item)
+test: " foo
+.item(item) .item(item)
+bar "
+test: ' foo
+.item(item) .item(item)
+bar '
+test: foo
+  .item(item) .item(item)
+  bar
+test: >
+  foo
+  .item(item) .item(item)
+  bar
+test: |
+  foo
+  .item(item) .item(item)
+  bar
+
+
+# .item(Foo)
+.item(Foo)
+".item(Foo)"
+'.item(Foo)'
+- .item(Foo)
+# .item(Foo):
+.item(Foo):
+".item(Foo)":
+'.item(Foo)':
+- .item(Foo):
+# foo: .item(Foo)
+foo: .item(Foo)
+foo: ".item(Foo)"
+foo: '.item(Foo)'
+- foo: .item(Foo)
+test: " foo
+.item(Foo)
+bar "
+test: ' foo
+.item(Foo)
+bar '
+test: foo
+  .item(Foo)
+  bar
+test: >
+  foo
+  .item(Foo)
+  bar
+test: |
+  foo
+  .item(Foo)
+  bar
+
+
+# .loc(Foo)
+.loc(Foo)
+".loc(Foo)"
+'.loc(Foo)'
+- .loc(Foo)
+# .loc(Foo):
+.loc(Foo):
+".loc(Foo)":
+'.loc(Foo)':
+- .loc(Foo):
+# foo: .loc(Foo)
+foo: .loc(Foo)
+foo: ".loc(Foo)"
+foo: '.loc(Foo)'
+- foo: .loc(Foo)
+test: " foo
+.loc(Foo)
+bar "
+test: ' foo
+.loc(Foo)
+bar '
+test: foo
+  .loc(Foo)
+  bar
+test: >
+  foo
+  .loc(Foo)
+  bar
+test: |
+  foo
+  .loc(Foo)
+  bar
+
+
+# .npc(Foo)
+.npc(Foo)
+".npc(Foo)"
+'.npc(Foo)'
+- .npc(Foo)
+# .npc(Foo):
+.npc(Foo):
+".npc(Foo)":
+'.npc(Foo)':
+- .npc(Foo):
+# foo: .npc(Foo)
+foo: .npc(Foo)
+foo: ".npc(Foo)"
+foo: '.npc(Foo)'
+- foo: .npc(Foo)
+test: " foo
+.npc(Foo)
+bar "
+test: ' foo
+.npc(Foo)
+bar '
+test: foo
+  .npc(Foo)
+  bar
+test: >
+  foo
+  .npc(Foo)
+  bar
+test: |
+  foo
+  .npc(Foo)
+  bar
+
+
+# .rune(Foo)
+.rune(Foo)
+".rune(Foo)"
+'.rune(Foo)'
+- .rune(Foo)
+# .rune(Foo):
+.rune(Foo):
+".rune(Foo)":
+'.rune(Foo)':
+- .rune(Foo):
+# foo: .rune(Foo)
+foo: .rune(Foo)
+foo: ".rune(Foo)"
+foo: '.rune(Foo)'
+- foo: .rune(Foo)
+test: " foo
+.rune(Foo)
+bar "
+test: ' foo
+.rune(Foo)
+bar '
+test: foo
+  .rune(Foo)
+  bar
+test: >
+  foo
+  .rune(Foo)
+  bar
+test: |
+  foo
+  .rune(Foo)
+  bar
+
+
+# .boss(Foo)
+.boss(Foo)
+".boss(Foo)"
+'.boss(Foo)'
+- .boss(Foo)
+# .boss(Foo):
+.boss(Foo):
+".boss(Foo)":
+'.boss(Foo)':
+- .boss(Foo):
+# foo: .boss(Foo)
+foo: .boss(Foo)
+foo: ".boss(Foo)"
+foo: '.boss(Foo)'
+- foo: .boss(Foo)
+test: " foo
+.boss(Foo)
+bar "
+test: ' foo
+.boss(Foo)
+bar '
+test: foo
+  .boss(Foo)
+  bar
+test: >
+  foo
+  .boss(Foo)
+  bar
+test: |
+  foo
+  .boss(Foo)
+  bar
+
+
+# .enemy(Foo)
+.enemy(Foo)
+".enemy(Foo)"
+'.enemy(Foo)'
+- .enemy(Foo)
+# .enemy(Foo):
+.enemy(Foo):
+".enemy(Foo)":
+'.enemy(Foo)':
+- .enemy(Foo):
+# foo: .enemy(Foo)
+foo: .enemy(Foo)
+foo: ".enemy(Foo)"
+foo: '.enemy(Foo)'
+- foo: .enemy(Foo)
+test: " foo
+.enemy(Foo)
+bar "
+test: ' foo
+.enemy(Foo)
+bar '
+test: foo
+  .enemy(Foo)
+  bar
+test: >
+  foo
+  .enemy(Foo)
+  bar
+test: |
+  foo
+  .enemy(Foo)
+  bar
+
+
+# .code(Foo)
+.code(Foo)
+".code(Foo)"
+'.code(Foo)'
+- .code(Foo)
+# .code(Foo):
+.code(Foo):
+".code(Foo)":
+'.code(Foo)':
+- .code(Foo):
+# foo: .code(Foo)
+foo: .code(Foo)
+foo: ".code(Foo)"
+foo: '.code(Foo)'
+- foo: .code(Foo)
+test: " foo
+.code(Foo)
+bar "
+test: ' foo
+.code(Foo)
+bar '
+test: foo
+  .code(Foo)
+  bar
+test: >
+  foo
+  .code(Foo)
+  bar
+test: |
+  foo
+  .code(Foo)
+  bar
+
+
+# .dir(Foo)
+.dir(Foo)
+".dir(Foo)"
+'.dir(Foo)'
+- .dir(Foo)
+# .dir(Foo):
+.dir(Foo):
+".dir(Foo)":
+'.dir(Foo)':
+- .dir(Foo):
+# foo: .dir(Foo)
+foo: .dir(Foo)
+foo: ".dir(Foo)"
+foo: '.dir(Foo)'
+- foo: .dir(Foo)
+test: " foo
+.dir(Foo)
+bar "
+test: ' foo
+.dir(Foo)
+bar '
+test: foo
+  .dir(Foo)
+  bar
+test: >
+  foo
+  .dir(Foo)
+  bar
+test: |
+  foo
+  .dir(Foo)
+  bar
+
+
+# .!!(important)
+.!!(important)
+".!!(important)"
+'.!!(important)'
+- .!!(important)
+# .!!(important):
+.!!(important):
+".!!(important)":
+'.!!(important)':
+- .!!(important):
+# foo: .!!(important)
+foo: .!!(important)
+foo: ".!!(important)"
+foo: '.!!(important)'
+- foo: .!!(important)
+test: " foo
+.!!(important)
+bar "
+test: ' foo
+.!!(important)
+bar '
+test: foo
+  .!!(important)
+  bar
+test: >
+  foo
+  .!!(important)
+  bar
+test: |
+  foo
+  .!!(important)
+  bar
+
+
+# .v(Bar)
+.v(Bar)
+".v(Bar)"
+'.v(Bar)'
+- .v(Bar)
+# .v(Bar):
+.v(Bar):
+".v(Bar)":
+'.v(Bar)':
+- .v(Bar):
+# foo: .v(Bar)
+foo: .v(Bar)
+foo: ".v(Bar)"
+foo: '.v(Bar)'
+- foo: .v(Bar)
+test: " foo
+.v(Bar)
+bar "
+test: ' foo
+.v(Bar)
+bar '
+test: foo
+  .v(Bar)
+  bar
+test: >
+  foo
+  .v(Bar)
+  bar
+test: |
+  foo
+  .v(Bar)
+  bar
+
+
+# .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+.gale() .gale(Foo) .gale(.gale(Foo)Bar)
+".gale() .gale(Foo) .gale(.gale(Foo)Bar)"
+'.gale() .gale(Foo) .gale(.gale(Foo)Bar)'
+- .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+# .gale() .gale(Foo) .gale(.gale(Foo)Bar):
+.gale() .gale(Foo) .gale(.gale(Foo)Bar):
+".gale() .gale(Foo) .gale(.gale(Foo)Bar)":
+'.gale() .gale(Foo) .gale(.gale(Foo)Bar)':
+- .gale() .gale(Foo) .gale(.gale(Foo)Bar):
+# foo: .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+foo: .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+foo: ".gale() .gale(Foo) .gale(.gale(Foo)Bar)"
+foo: '.gale() .gale(Foo) .gale(.gale(Foo)Bar)'
+- foo: .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+test: " foo
+.gale() .gale(Foo) .gale(.gale(Foo)Bar)
+bar "
+test: ' foo
+.gale() .gale(Foo) .gale(.gale(Foo)Bar)
+bar '
+test: foo
+  .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+  bar
+test: >
+  foo
+  .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+  bar
+test: |
+  foo
+  .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+  bar
+
+
+# .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+.fury() .fury(Foo) .fury(.gale(Foo)Bar)
+".fury() .fury(Foo) .fury(.gale(Foo)Bar)"
+'.fury() .fury(Foo) .fury(.gale(Foo)Bar)'
+- .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+# .fury() .fury(Foo) .fury(.gale(Foo)Bar):
+.fury() .fury(Foo) .fury(.gale(Foo)Bar):
+".fury() .fury(Foo) .fury(.gale(Foo)Bar)":
+'.fury() .fury(Foo) .fury(.gale(Foo)Bar)':
+- .fury() .fury(Foo) .fury(.gale(Foo)Bar):
+# foo: .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+foo: .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+foo: ".fury() .fury(Foo) .fury(.gale(Foo)Bar)"
+foo: '.fury() .fury(Foo) .fury(.gale(Foo)Bar)'
+- foo: .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+test: " foo
+.fury() .fury(Foo) .fury(.gale(Foo)Bar)
+bar "
+test: ' foo
+.fury() .fury(Foo) .fury(.gale(Foo)Bar)
+bar '
+test: foo
+  .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+  bar
+test: >
+  foo
+  .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+  bar
+test: |
+  foo
+  .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+  bar
+
+
+# .link(Foo/Bar)
+.link(Foo/Bar)
+".link(Foo/Bar)"
+'.link(Foo/Bar)'
+- .link(Foo/Bar)
+# .link(Foo/Bar):
+.link(Foo/Bar):
+".link(Foo/Bar)":
+'.link(Foo/Bar)':
+- .link(Foo/Bar):
+# foo: .link(Foo/Bar)
+foo: .link(Foo/Bar)
+foo: ".link(Foo/Bar)"
+foo: '.link(Foo/Bar)'
+- foo: .link(Foo/Bar)
+test: " foo
+.link(Foo/Bar)
+bar "
+test: ' foo
+.link(Foo/Bar)
+bar '
+test: foo
+  .link(Foo/Bar)
+  bar
+test: >
+  foo
+  .link(Foo/Bar)
+  bar
+test: |
+  foo
+  .link(Foo/Bar)
+  bar
+
+
+
+### Directions
+# Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+"Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar"
+'Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar'
+- Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+# Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar:
+Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar:
+"Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar":
+'Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar':
+- Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar:
+# foo: Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+foo: Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+foo: "Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar"
+foo: 'Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar'
+- foo: Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+test: " foo
+Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+bar "
+test: ' foo
+Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+bar '
+test: foo
+  Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+  bar
+test: >
+  foo
+  Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+  bar
+test: |
+  foo
+  Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+  bar
+
+
+# Foo NBar EFoo WBar SESW 6:00
+Foo NBar EFoo WBar SESW 6:00
+"Foo NBar EFoo WBar SESW 6:00"
+'Foo NBar EFoo WBar SESW 6:00'
+- Foo NBar EFoo WBar SESW 6:00
+# Foo NBar EFoo WBar SESW 6:00:
+Foo NBar EFoo WBar SESW 6:00:
+"Foo NBar EFoo WBar SESW 6:00":
+'Foo NBar EFoo WBar SESW 6:00':
+- Foo NBar EFoo WBar SESW 6:00:
+# foo: Foo NBar EFoo WBar SESW 6:00
+foo: Foo NBar EFoo WBar SESW 6:00
+foo: "Foo NBar EFoo WBar SESW 6:00"
+foo: 'Foo NBar EFoo WBar SESW 6:00'
+- foo: Foo NBar EFoo WBar SESW 6:00
+test: " foo
+Foo NBar EFoo WBar SESW 6:00
+bar "
+test: ' foo
+Foo NBar EFoo WBar SESW 6:00
+bar '
+test: foo
+  Foo NBar EFoo WBar SESW 6:00
+  bar
+test: >
+  foo
+  Foo NBar EFoo WBar SESW 6:00
+  bar
+test: |
+  foo
+  Foo NBar EFoo WBar SESW 6:00
+  bar
+
+
+
+### Shrines
+# _Shrine::OmanAu
+_Shrine::OmanAu
+"_Shrine::OmanAu"
+'_Shrine::OmanAu'
+- _Shrine::OmanAu
+# _Shrine::OmanAu:
+_Shrine::OmanAu:
+"_Shrine::OmanAu":
+'_Shrine::OmanAu':
+- _Shrine::OmanAu:
+# foo: _Shrine::OmanAu
+foo: _Shrine::OmanAu
+foo: "_Shrine::OmanAu"
+foo: '_Shrine::OmanAu'
+- foo: _Shrine::OmanAu
+test: " foo
+_Shrine::OmanAu
+bar "
+test: ' foo
+_Shrine::OmanAu
+bar '
+test: foo
+  _Shrine::OmanAu
+  bar
+test: >
+  foo
+  _Shrine::OmanAu
+  bar
+test: |
+  foo
+  _Shrine::OmanAu
+  bar
+
+
+# Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+"Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma"
+'Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma'
+- Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+# Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma:
+Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma:
+"Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma":
+'Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma':
+- Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma:
+# foo: Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+foo: Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+foo: "Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma"
+foo: 'Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma'
+- foo: Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+test: " foo
+Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+bar "
+test: ' foo
+Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+bar '
+test: foo
+  Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+  bar
+test: >
+  foo
+  Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+  bar
+test: |
+  foo
+  Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+  bar
+
+
+# _Shrine::ShaGehma foobar
+_Shrine::ShaGehma foobar
+"_Shrine::ShaGehma foobar"
+'_Shrine::ShaGehma foobar'
+- _Shrine::ShaGehma foobar
+# _Shrine::ShaGehma foobar:
+_Shrine::ShaGehma foobar:
+"_Shrine::ShaGehma foobar":
+'_Shrine::ShaGehma foobar':
+- _Shrine::ShaGehma foobar:
+# foo: _Shrine::ShaGehma foobar
+foo: _Shrine::ShaGehma foobar
+foo: "_Shrine::ShaGehma foobar"
+foo: '_Shrine::ShaGehma foobar'
+- foo: _Shrine::ShaGehma foobar
+test: " foo
+_Shrine::ShaGehma foobar
+bar "
+test: ' foo
+_Shrine::ShaGehma foobar
+bar '
+test: foo
+  _Shrine::ShaGehma foobar
+  bar
+test: >
+  foo
+  _Shrine::ShaGehma foobar
+  bar
+test: |
+  foo
+  _Shrine::ShaGehma foobar
+  bar
+
+
+# _Shrine::Foobar
+_Shrine::Foobar
+"_Shrine::Foobar"
+'_Shrine::Foobar'
+- _Shrine::Foobar
+# _Shrine::Foobar:
+_Shrine::Foobar:
+"_Shrine::Foobar":
+'_Shrine::Foobar':
+- _Shrine::Foobar:
+# foo: _Shrine::Foobar
+foo: _Shrine::Foobar
+foo: "_Shrine::Foobar"
+foo: '_Shrine::Foobar'
+- foo: _Shrine::Foobar
+test: " foo
+_Shrine::Foobar
+bar "
+test: ' foo
+_Shrine::Foobar
+bar '
+test: foo
+  _Shrine::Foobar
+  bar
+test: >
+  foo
+  _Shrine::Foobar
+  bar
+test: |
+  foo
+  _Shrine::Foobar
+  bar
+
+
+
+### Towers
+# _Tower::Central
+_Tower::Central
+"_Tower::Central"
+'_Tower::Central'
+- _Tower::Central
+# _Tower::Central:
+_Tower::Central:
+"_Tower::Central":
+'_Tower::Central':
+- _Tower::Central:
+# foo: _Tower::Central
+foo: _Tower::Central
+foo: "_Tower::Central"
+foo: '_Tower::Central'
+- foo: _Tower::Central
+test: " foo
+_Tower::Central
+bar "
+test: ' foo
+_Tower::Central
+bar '
+test: foo
+  _Tower::Central
+  bar
+test: >
+  foo
+  _Tower::Central
+  bar
+test: |
+  foo
+  _Tower::Central
+  bar
+
+
+# Foo _Tower::GreatPlateau Bar _Tower::Hebra
+Foo _Tower::GreatPlateau Bar _Tower::Hebra
+"Foo _Tower::GreatPlateau Bar _Tower::Hebra"
+'Foo _Tower::GreatPlateau Bar _Tower::Hebra'
+- Foo _Tower::GreatPlateau Bar _Tower::Hebra
+# Foo _Tower::GreatPlateau Bar _Tower::Hebra:
+Foo _Tower::GreatPlateau Bar _Tower::Hebra:
+"Foo _Tower::GreatPlateau Bar _Tower::Hebra":
+'Foo _Tower::GreatPlateau Bar _Tower::Hebra':
+- Foo _Tower::GreatPlateau Bar _Tower::Hebra:
+# foo: Foo _Tower::GreatPlateau Bar _Tower::Hebra
+foo: Foo _Tower::GreatPlateau Bar _Tower::Hebra
+foo: "Foo _Tower::GreatPlateau Bar _Tower::Hebra"
+foo: 'Foo _Tower::GreatPlateau Bar _Tower::Hebra'
+- foo: Foo _Tower::GreatPlateau Bar _Tower::Hebra
+test: " foo
+Foo _Tower::GreatPlateau Bar _Tower::Hebra
+bar "
+test: ' foo
+Foo _Tower::GreatPlateau Bar _Tower::Hebra
+bar '
+test: foo
+  Foo _Tower::GreatPlateau Bar _Tower::Hebra
+  bar
+test: >
+  foo
+  Foo _Tower::GreatPlateau Bar _Tower::Hebra
+  bar
+test: |
+  foo
+  Foo _Tower::GreatPlateau Bar _Tower::Hebra
+  bar
+
+
+# _Tower::Hateno foobar
+_Tower::Hateno foobar
+"_Tower::Hateno foobar"
+'_Tower::Hateno foobar'
+- _Tower::Hateno foobar
+# _Tower::Hateno foobar:
+_Tower::Hateno foobar:
+"_Tower::Hateno foobar":
+'_Tower::Hateno foobar':
+- _Tower::Hateno foobar:
+# foo: _Tower::Hateno foobar
+foo: _Tower::Hateno foobar
+foo: "_Tower::Hateno foobar"
+foo: '_Tower::Hateno foobar'
+- foo: _Tower::Hateno foobar
+test: " foo
+_Tower::Hateno foobar
+bar "
+test: ' foo
+_Tower::Hateno foobar
+bar '
+test: foo
+  _Tower::Hateno foobar
+  bar
+test: >
+  foo
+  _Tower::Hateno foobar
+  bar
+test: |
+  foo
+  _Tower::Hateno foobar
+  bar
+
+
+# _Tower::Foobar
+_Tower::Foobar
+"_Tower::Foobar"
+'_Tower::Foobar'
+- _Tower::Foobar
+# _Tower::Foobar:
+_Tower::Foobar:
+"_Tower::Foobar":
+'_Tower::Foobar':
+- _Tower::Foobar:
+# foo: _Tower::Foobar
+foo: _Tower::Foobar
+foo: "_Tower::Foobar"
+foo: '_Tower::Foobar'
+- foo: _Tower::Foobar
+test: " foo
+_Tower::Foobar
+bar "
+test: ' foo
+_Tower::Foobar
+bar '
+test: foo
+  _Tower::Foobar
+  bar
+test: >
+  foo
+  _Tower::Foobar
+  bar
+test: |
+  foo
+  _Tower::Foobar
+  bar
+
+
+
+### Koroks
+# _Korok::K05
+_Korok::K05
+"_Korok::K05"
+'_Korok::K05'
+- _Korok::K05
+# _Korok::K05:
+_Korok::K05:
+"_Korok::K05":
+'_Korok::K05':
+- _Korok::K05:
+# foo: _Korok::K05
+foo: _Korok::K05
+foo: "_Korok::K05"
+foo: '_Korok::K05'
+- foo: _Korok::K05
+test: " foo
+_Korok::K05
+bar "
+test: ' foo
+_Korok::K05
+bar '
+test: foo
+  _Korok::K05
+  bar
+test: >
+  foo
+  _Korok::K05
+  bar
+test: |
+  foo
+  _Korok::K05
+  bar
+
+
+# Foo _Korok::X17 Bar _Korok::X9
+Foo _Korok::X17 Bar _Korok::X9
+"Foo _Korok::X17 Bar _Korok::X9"
+'Foo _Korok::X17 Bar _Korok::X9'
+- Foo _Korok::X17 Bar _Korok::X9
+# Foo _Korok::X17 Bar _Korok::X9:
+Foo _Korok::X17 Bar _Korok::X9:
+"Foo _Korok::X17 Bar _Korok::X9":
+'Foo _Korok::X17 Bar _Korok::X9':
+- Foo _Korok::X17 Bar _Korok::X9:
+# foo: Foo _Korok::X17 Bar _Korok::X9
+foo: Foo _Korok::X17 Bar _Korok::X9
+foo: "Foo _Korok::X17 Bar _Korok::X9"
+foo: 'Foo _Korok::X17 Bar _Korok::X9'
+- foo: Foo _Korok::X17 Bar _Korok::X9
+test: " foo
+Foo _Korok::X17 Bar _Korok::X9
+bar "
+test: ' foo
+Foo _Korok::X17 Bar _Korok::X9
+bar '
+test: foo
+  Foo _Korok::X17 Bar _Korok::X9
+  bar
+test: >
+  foo
+  Foo _Korok::X17 Bar _Korok::X9
+  bar
+test: |
+  foo
+  Foo _Korok::X17 Bar _Korok::X9
+  bar
+
+
+# _Korok::A78 foobar
+_Korok::A78 foobar
+"_Korok::A78 foobar"
+'_Korok::A78 foobar'
+- _Korok::A78 foobar
+# _Korok::A78 foobar:
+_Korok::A78 foobar:
+"_Korok::A78 foobar":
+'_Korok::A78 foobar':
+- _Korok::A78 foobar:
+# foo: _Korok::A78 foobar
+foo: _Korok::A78 foobar
+foo: "_Korok::A78 foobar"
+foo: '_Korok::A78 foobar'
+- foo: _Korok::A78 foobar
+test: " foo
+_Korok::A78 foobar
+bar "
+test: ' foo
+_Korok::A78 foobar
+bar '
+test: foo
+  _Korok::A78 foobar
+  bar
+test: >
+  foo
+  _Korok::A78 foobar
+  bar
+test: |
+  foo
+  _Korok::A78 foobar
+  bar
+
+
+# _Korok::A789
+_Korok::A789
+"_Korok::A789"
+'_Korok::A789'
+- _Korok::A789
+# _Korok::A789:
+_Korok::A789:
+"_Korok::A789":
+'_Korok::A789':
+- _Korok::A789:
+# foo: _Korok::A789
+foo: _Korok::A789
+foo: "_Korok::A789"
+foo: '_Korok::A789'
+- foo: _Korok::A789
+test: " foo
+_Korok::A789
+bar "
+test: ' foo
+_Korok::A789
+bar '
+test: foo
+  _Korok::A789
+  bar
+test: >
+  foo
+  _Korok::A789
+  bar
+test: |
+  foo
+  _Korok::A789
+  bar
+
+
+
+### Warps
+# _Warp::Shrine::AkhVaquot
+_Warp::Shrine::AkhVaquot
+"_Warp::Shrine::AkhVaquot"
+'_Warp::Shrine::AkhVaquot'
+- _Warp::Shrine::AkhVaquot
+# _Warp::Shrine::AkhVaquot:
+_Warp::Shrine::AkhVaquot:
+"_Warp::Shrine::AkhVaquot":
+'_Warp::Shrine::AkhVaquot':
+- _Warp::Shrine::AkhVaquot:
+# foo: _Warp::Shrine::AkhVaquot
+foo: _Warp::Shrine::AkhVaquot
+foo: "_Warp::Shrine::AkhVaquot"
+foo: '_Warp::Shrine::AkhVaquot'
+- foo: _Warp::Shrine::AkhVaquot
+test: " foo
+_Warp::Shrine::AkhVaquot
+bar "
+test: ' foo
+_Warp::Shrine::AkhVaquot
+bar '
+test: foo
+  _Warp::Shrine::AkhVaquot
+  bar
+test: >
+  foo
+  _Warp::Shrine::AkhVaquot
+  bar
+test: |
+  foo
+  _Warp::Shrine::AkhVaquot
+  bar
+
+
+# Foo _Warp::Shrine::Invalid Bar
+Foo _Warp::Shrine::Invalid Bar
+"Foo _Warp::Shrine::Invalid Bar"
+'Foo _Warp::Shrine::Invalid Bar'
+- Foo _Warp::Shrine::Invalid Bar
+# Foo _Warp::Shrine::Invalid Bar:
+Foo _Warp::Shrine::Invalid Bar:
+"Foo _Warp::Shrine::Invalid Bar":
+'Foo _Warp::Shrine::Invalid Bar':
+- Foo _Warp::Shrine::Invalid Bar:
+# foo: Foo _Warp::Shrine::Invalid Bar
+foo: Foo _Warp::Shrine::Invalid Bar
+foo: "Foo _Warp::Shrine::Invalid Bar"
+foo: 'Foo _Warp::Shrine::Invalid Bar'
+- foo: Foo _Warp::Shrine::Invalid Bar
+test: " foo
+Foo _Warp::Shrine::Invalid Bar
+bar "
+test: ' foo
+Foo _Warp::Shrine::Invalid Bar
+bar '
+test: foo
+  Foo _Warp::Shrine::Invalid Bar
+  bar
+test: >
+  foo
+  Foo _Warp::Shrine::Invalid Bar
+  bar
+test: |
+  foo
+  Foo _Warp::Shrine::Invalid Bar
+  bar
+
+
+# Foo _Warp::Tower::Ridgeland Bar
+Foo _Warp::Tower::Ridgeland Bar
+"Foo _Warp::Tower::Ridgeland Bar"
+'Foo _Warp::Tower::Ridgeland Bar'
+- Foo _Warp::Tower::Ridgeland Bar
+# Foo _Warp::Tower::Ridgeland Bar:
+Foo _Warp::Tower::Ridgeland Bar:
+"Foo _Warp::Tower::Ridgeland Bar":
+'Foo _Warp::Tower::Ridgeland Bar':
+- Foo _Warp::Tower::Ridgeland Bar:
+# foo: Foo _Warp::Tower::Ridgeland Bar
+foo: Foo _Warp::Tower::Ridgeland Bar
+foo: "Foo _Warp::Tower::Ridgeland Bar"
+foo: 'Foo _Warp::Tower::Ridgeland Bar'
+- foo: Foo _Warp::Tower::Ridgeland Bar
+test: " foo
+Foo _Warp::Tower::Ridgeland Bar
+bar "
+test: ' foo
+Foo _Warp::Tower::Ridgeland Bar
+bar '
+test: foo
+  Foo _Warp::Tower::Ridgeland Bar
+  bar
+test: >
+  foo
+  Foo _Warp::Tower::Ridgeland Bar
+  bar
+test: |
+  foo
+  Foo _Warp::Tower::Ridgeland Bar
+  bar
+
+
+# _Warp::Tower::AkhVaquot
+_Warp::Tower::AkhVaquot
+"_Warp::Tower::AkhVaquot"
+'_Warp::Tower::AkhVaquot'
+- _Warp::Tower::AkhVaquot
+# _Warp::Tower::AkhVaquot:
+_Warp::Tower::AkhVaquot:
+"_Warp::Tower::AkhVaquot":
+'_Warp::Tower::AkhVaquot':
+- _Warp::Tower::AkhVaquot:
+# foo: _Warp::Tower::AkhVaquot
+foo: _Warp::Tower::AkhVaquot
+foo: "_Warp::Tower::AkhVaquot"
+foo: '_Warp::Tower::AkhVaquot'
+- foo: _Warp::Tower::AkhVaquot
+test: " foo
+_Warp::Tower::AkhVaquot
+bar "
+test: ' foo
+_Warp::Tower::AkhVaquot
+bar '
+test: foo
+  _Warp::Tower::AkhVaquot
+  bar
+test: >
+  foo
+  _Warp::Tower::AkhVaquot
+  bar
+test: |
+  foo
+  _Warp::Tower::AkhVaquot
+  bar
+
+
+# _Warp::TechLab::Akkala
+_Warp::TechLab::Akkala
+"_Warp::TechLab::Akkala"
+'_Warp::TechLab::Akkala'
+- _Warp::TechLab::Akkala
+# _Warp::TechLab::Akkala:
+_Warp::TechLab::Akkala:
+"_Warp::TechLab::Akkala":
+'_Warp::TechLab::Akkala':
+- _Warp::TechLab::Akkala:
+# foo: _Warp::TechLab::Akkala
+foo: _Warp::TechLab::Akkala
+foo: "_Warp::TechLab::Akkala"
+foo: '_Warp::TechLab::Akkala'
+- foo: _Warp::TechLab::Akkala
+test: " foo
+_Warp::TechLab::Akkala
+bar "
+test: ' foo
+_Warp::TechLab::Akkala
+bar '
+test: foo
+  _Warp::TechLab::Akkala
+  bar
+test: >
+  foo
+  _Warp::TechLab::Akkala
+  bar
+test: |
+  foo
+  _Warp::TechLab::Akkala
+  bar
+
+
+# Foo _Warp::TechLab::Invalid Bar
+Foo _Warp::TechLab::Invalid Bar
+"Foo _Warp::TechLab::Invalid Bar"
+'Foo _Warp::TechLab::Invalid Bar'
+- Foo _Warp::TechLab::Invalid Bar
+# Foo _Warp::TechLab::Invalid Bar:
+Foo _Warp::TechLab::Invalid Bar:
+"Foo _Warp::TechLab::Invalid Bar":
+'Foo _Warp::TechLab::Invalid Bar':
+- Foo _Warp::TechLab::Invalid Bar:
+# foo: Foo _Warp::TechLab::Invalid Bar
+foo: Foo _Warp::TechLab::Invalid Bar
+foo: "Foo _Warp::TechLab::Invalid Bar"
+foo: 'Foo _Warp::TechLab::Invalid Bar'
+- foo: Foo _Warp::TechLab::Invalid Bar
+test: " foo
+Foo _Warp::TechLab::Invalid Bar
+bar "
+test: ' foo
+Foo _Warp::TechLab::Invalid Bar
+bar '
+test: foo
+  Foo _Warp::TechLab::Invalid Bar
+  bar
+test: >
+  foo
+  Foo _Warp::TechLab::Invalid Bar
+  bar
+test: |
+  foo
+  Foo _Warp::TechLab::Invalid Bar
+  bar
+
+
+# Foo _Warp::VahMedoh Bar
+Foo _Warp::VahMedoh Bar
+"Foo _Warp::VahMedoh Bar"
+'Foo _Warp::VahMedoh Bar'
+- Foo _Warp::VahMedoh Bar
+# Foo _Warp::VahMedoh Bar:
+Foo _Warp::VahMedoh Bar:
+"Foo _Warp::VahMedoh Bar":
+'Foo _Warp::VahMedoh Bar':
+- Foo _Warp::VahMedoh Bar:
+# foo: Foo _Warp::VahMedoh Bar
+foo: Foo _Warp::VahMedoh Bar
+foo: "Foo _Warp::VahMedoh Bar"
+foo: 'Foo _Warp::VahMedoh Bar'
+- foo: Foo _Warp::VahMedoh Bar
+test: " foo
+Foo _Warp::VahMedoh Bar
+bar "
+test: ' foo
+Foo _Warp::VahMedoh Bar
+bar '
+test: foo
+  Foo _Warp::VahMedoh Bar
+  bar
+test: >
+  foo
+  Foo _Warp::VahMedoh Bar
+  bar
+test: |
+  foo
+  Foo _Warp::VahMedoh Bar
+  bar
+
+
+# _Warp::VahPorger
+_Warp::VahPorger
+"_Warp::VahPorger"
+'_Warp::VahPorger'
+- _Warp::VahPorger
+# _Warp::VahPorger:
+_Warp::VahPorger:
+"_Warp::VahPorger":
+'_Warp::VahPorger':
+- _Warp::VahPorger:
+# foo: _Warp::VahPorger
+foo: _Warp::VahPorger
+foo: "_Warp::VahPorger"
+foo: '_Warp::VahPorger'
+- foo: _Warp::VahPorger
+test: " foo
+_Warp::VahPorger
+bar "
+test: ' foo
+_Warp::VahPorger
+bar '
+test: foo
+  _Warp::VahPorger
+  bar
+test: >
+  foo
+  _Warp::VahPorger
+  bar
+test: |
+  foo
+  _Warp::VahPorger
+  bar
+
+
+# _Warp::SOR
+_Warp::SOR
+"_Warp::SOR"
+'_Warp::SOR'
+- _Warp::SOR
+# _Warp::SOR:
+_Warp::SOR:
+"_Warp::SOR":
+'_Warp::SOR':
+- _Warp::SOR:
+# foo: _Warp::SOR
+foo: _Warp::SOR
+foo: "_Warp::SOR"
+foo: '_Warp::SOR'
+- foo: _Warp::SOR
+test: " foo
+_Warp::SOR
+bar "
+test: ' foo
+_Warp::SOR
+bar '
+test: foo
+  _Warp::SOR
+  bar
+test: >
+  foo
+  _Warp::SOR
+  bar
+test: |
+  foo
+  _Warp::SOR
+  bar
+
+
+# _Warp::Invalid
+_Warp::Invalid
+"_Warp::Invalid"
+'_Warp::Invalid'
+- _Warp::Invalid
+# _Warp::Invalid:
+_Warp::Invalid:
+"_Warp::Invalid":
+'_Warp::Invalid':
+- _Warp::Invalid:
+# foo: _Warp::Invalid
+foo: _Warp::Invalid
+foo: "_Warp::Invalid"
+foo: '_Warp::Invalid'
+- foo: _Warp::Invalid
+test: " foo
+_Warp::Invalid
+bar "
+test: ' foo
+_Warp::Invalid
+bar '
+test: foo
+  _Warp::Invalid
+  bar
+test: >
+  foo
+  _Warp::Invalid
+  bar
+test: |
+  foo
+  _Warp::Invalid
+  bar
+
+
+# _Warp::TravelMedallion<1,2>
+_Warp::TravelMedallion<1,2>
+"_Warp::TravelMedallion<1,2>"
+'_Warp::TravelMedallion<1,2>'
+- _Warp::TravelMedallion<1,2>
+# _Warp::TravelMedallion<1,2>:
+_Warp::TravelMedallion<1,2>:
+"_Warp::TravelMedallion<1,2>":
+'_Warp::TravelMedallion<1,2>':
+- _Warp::TravelMedallion<1,2>:
+# foo: _Warp::TravelMedallion<1,2>
+foo: _Warp::TravelMedallion<1,2>
+foo: "_Warp::TravelMedallion<1,2>"
+foo: '_Warp::TravelMedallion<1,2>'
+- foo: _Warp::TravelMedallion<1,2>
+test: " foo
+_Warp::TravelMedallion<1,2>
+bar "
+test: ' foo
+_Warp::TravelMedallion<1,2>
+bar '
+test: foo
+  _Warp::TravelMedallion<1,2>
+  bar
+test: >
+  foo
+  _Warp::TravelMedallion<1,2>
+  bar
+test: |
+  foo
+  _Warp::TravelMedallion<1,2>
+  bar
+
+
+# _Warp::TravelMedallion<1>
+_Warp::TravelMedallion<1>
+"_Warp::TravelMedallion<1>"
+'_Warp::TravelMedallion<1>'
+- _Warp::TravelMedallion<1>
+# _Warp::TravelMedallion<1>:
+_Warp::TravelMedallion<1>:
+"_Warp::TravelMedallion<1>":
+'_Warp::TravelMedallion<1>':
+- _Warp::TravelMedallion<1>:
+# foo: _Warp::TravelMedallion<1>
+foo: _Warp::TravelMedallion<1>
+foo: "_Warp::TravelMedallion<1>"
+foo: '_Warp::TravelMedallion<1>'
+- foo: _Warp::TravelMedallion<1>
+test: " foo
+_Warp::TravelMedallion<1>
+bar "
+test: ' foo
+_Warp::TravelMedallion<1>
+bar '
+test: foo
+  _Warp::TravelMedallion<1>
+  bar
+test: >
+  foo
+  _Warp::TravelMedallion<1>
+  bar
+test: |
+  foo
+  _Warp::TravelMedallion<1>
+  bar
+
+
+# _Warp::TravelMedallion<NotNumber>
+_Warp::TravelMedallion<NotNumber>
+"_Warp::TravelMedallion<NotNumber>"
+'_Warp::TravelMedallion<NotNumber>'
+- _Warp::TravelMedallion<NotNumber>
+# _Warp::TravelMedallion<NotNumber>:
+_Warp::TravelMedallion<NotNumber>:
+"_Warp::TravelMedallion<NotNumber>":
+'_Warp::TravelMedallion<NotNumber>':
+- _Warp::TravelMedallion<NotNumber>:
+# foo: _Warp::TravelMedallion<NotNumber>
+foo: _Warp::TravelMedallion<NotNumber>
+foo: "_Warp::TravelMedallion<NotNumber>"
+foo: '_Warp::TravelMedallion<NotNumber>'
+- foo: _Warp::TravelMedallion<NotNumber>
+test: " foo
+_Warp::TravelMedallion<NotNumber>
+bar "
+test: ' foo
+_Warp::TravelMedallion<NotNumber>
+bar '
+test: foo
+  _Warp::TravelMedallion<NotNumber>
+  bar
+test: >
+  foo
+  _Warp::TravelMedallion<NotNumber>
+  bar
+test: |
+  foo
+  _Warp::TravelMedallion<NotNumber>
+  bar
+
+
+# _Warp::TravelMedallion<NotNumber, 1>
+_Warp::TravelMedallion<NotNumber, 1>
+"_Warp::TravelMedallion<NotNumber, 1>"
+'_Warp::TravelMedallion<NotNumber, 1>'
+- _Warp::TravelMedallion<NotNumber, 1>
+# _Warp::TravelMedallion<NotNumber, 1>:
+_Warp::TravelMedallion<NotNumber, 1>:
+"_Warp::TravelMedallion<NotNumber, 1>":
+'_Warp::TravelMedallion<NotNumber, 1>':
+- _Warp::TravelMedallion<NotNumber, 1>:
+# foo: _Warp::TravelMedallion<NotNumber, 1>
+foo: _Warp::TravelMedallion<NotNumber, 1>
+foo: "_Warp::TravelMedallion<NotNumber, 1>"
+foo: '_Warp::TravelMedallion<NotNumber, 1>'
+- foo: _Warp::TravelMedallion<NotNumber, 1>
+test: " foo
+_Warp::TravelMedallion<NotNumber, 1>
+bar "
+test: ' foo
+_Warp::TravelMedallion<NotNumber, 1>
+bar '
+test: foo
+  _Warp::TravelMedallion<NotNumber, 1>
+  bar
+test: >
+  foo
+  _Warp::TravelMedallion<NotNumber, 1>
+  bar
+test: |
+  foo
+  _Warp::TravelMedallion<NotNumber, 1>
+  bar
+
+
+# _Warp::TravelMedallion<NotNumber, NotNumber>
+_Warp::TravelMedallion<NotNumber, NotNumber>
+"_Warp::TravelMedallion<NotNumber, NotNumber>"
+'_Warp::TravelMedallion<NotNumber, NotNumber>'
+- _Warp::TravelMedallion<NotNumber, NotNumber>
+# _Warp::TravelMedallion<NotNumber, NotNumber>:
+_Warp::TravelMedallion<NotNumber, NotNumber>:
+"_Warp::TravelMedallion<NotNumber, NotNumber>":
+'_Warp::TravelMedallion<NotNumber, NotNumber>':
+- _Warp::TravelMedallion<NotNumber, NotNumber>:
+# foo: _Warp::TravelMedallion<NotNumber, NotNumber>
+foo: _Warp::TravelMedallion<NotNumber, NotNumber>
+foo: "_Warp::TravelMedallion<NotNumber, NotNumber>"
+foo: '_Warp::TravelMedallion<NotNumber, NotNumber>'
+- foo: _Warp::TravelMedallion<NotNumber, NotNumber>
+test: " foo
+_Warp::TravelMedallion<NotNumber, NotNumber>
+bar "
+test: ' foo
+_Warp::TravelMedallion<NotNumber, NotNumber>
+bar '
+test: foo
+  _Warp::TravelMedallion<NotNumber, NotNumber>
+  bar
+test: >
+  foo
+  _Warp::TravelMedallion<NotNumber, NotNumber>
+  bar
+test: |
+  foo
+  _Warp::TravelMedallion<NotNumber, NotNumber>
+  bar
+
+
+
+### Memory
+# _Memory::HyruleCastle
+_Memory::HyruleCastle
+"_Memory::HyruleCastle"
+'_Memory::HyruleCastle'
+- _Memory::HyruleCastle
+# _Memory::HyruleCastle:
+_Memory::HyruleCastle:
+"_Memory::HyruleCastle":
+'_Memory::HyruleCastle':
+- _Memory::HyruleCastle:
+# foo: _Memory::HyruleCastle
+foo: _Memory::HyruleCastle
+foo: "_Memory::HyruleCastle"
+foo: '_Memory::HyruleCastle'
+- foo: _Memory::HyruleCastle
+test: " foo
+_Memory::HyruleCastle
+bar "
+test: ' foo
+_Memory::HyruleCastle
+bar '
+test: foo
+  _Memory::HyruleCastle
+  bar
+test: >
+  foo
+  _Memory::HyruleCastle
+  bar
+test: |
+  foo
+  _Memory::HyruleCastle
+  bar
+
+
+# Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+"Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle"
+'Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle'
+- Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+# Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle:
+Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle:
+"Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle":
+'Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle':
+- Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle:
+# foo: Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+foo: Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+foo: "Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle"
+foo: 'Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle'
+- foo: Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+test: " foo
+Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+bar "
+test: ' foo
+Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+bar '
+test: foo
+  Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+  bar
+test: >
+  foo
+  Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+  bar
+test: |
+  foo
+  Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+  bar
+
+
+#  _Memory::LanayruRoad foobar
+ _Memory::LanayruRoad foobar
+" _Memory::LanayruRoad foobar"
+' _Memory::LanayruRoad foobar'
+-  _Memory::LanayruRoad foobar
+#  _Memory::LanayruRoad foobar:
+ _Memory::LanayruRoad foobar:
+" _Memory::LanayruRoad foobar":
+' _Memory::LanayruRoad foobar':
+-  _Memory::LanayruRoad foobar:
+# foo:  _Memory::LanayruRoad foobar
+foo:  _Memory::LanayruRoad foobar
+foo: " _Memory::LanayruRoad foobar"
+foo: ' _Memory::LanayruRoad foobar'
+- foo:  _Memory::LanayruRoad foobar
+test: " foo
+ _Memory::LanayruRoad foobar
+bar "
+test: ' foo
+ _Memory::LanayruRoad foobar
+bar '
+test: foo
+   _Memory::LanayruRoad foobar
+  bar
+test: >
+  foo
+   _Memory::LanayruRoad foobar
+  bar
+test: |
+  foo
+   _Memory::LanayruRoad foobar
+  bar
+
+
+# _Memory::ModernColumns
+_Memory::ModernColumns
+"_Memory::ModernColumns"
+'_Memory::ModernColumns'
+- _Memory::ModernColumns
+# _Memory::ModernColumns:
+_Memory::ModernColumns:
+"_Memory::ModernColumns":
+'_Memory::ModernColumns':
+- _Memory::ModernColumns:
+# foo: _Memory::ModernColumns
+foo: _Memory::ModernColumns
+foo: "_Memory::ModernColumns"
+foo: '_Memory::ModernColumns'
+- foo: _Memory::ModernColumns
+test: " foo
+_Memory::ModernColumns
+bar "
+test: ' foo
+_Memory::ModernColumns
+bar '
+test: foo
+  _Memory::ModernColumns
+  bar
+test: >
+  foo
+  _Memory::ModernColumns
+  bar
+test: |
+  foo
+  _Memory::ModernColumns
+  bar
+
+
+
+### Boss
+# _Boss::Talus::Luminous
+_Boss::Talus::Luminous
+"_Boss::Talus::Luminous"
+'_Boss::Talus::Luminous'
+- _Boss::Talus::Luminous
+# _Boss::Talus::Luminous:
+_Boss::Talus::Luminous:
+"_Boss::Talus::Luminous":
+'_Boss::Talus::Luminous':
+- _Boss::Talus::Luminous:
+# foo: _Boss::Talus::Luminous
+foo: _Boss::Talus::Luminous
+foo: "_Boss::Talus::Luminous"
+foo: '_Boss::Talus::Luminous'
+- foo: _Boss::Talus::Luminous
+test: " foo
+_Boss::Talus::Luminous
+bar "
+test: ' foo
+_Boss::Talus::Luminous
+bar '
+test: foo
+  _Boss::Talus::Luminous
+  bar
+test: >
+  foo
+  _Boss::Talus::Luminous
+  bar
+test: |
+  foo
+  _Boss::Talus::Luminous
+  bar
+
+
+# Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+"Foo _Boss::Hinox::Blue Bar _Boss::BigStone"
+'Foo _Boss::Hinox::Blue Bar _Boss::BigStone'
+- Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+# Foo _Boss::Hinox::Blue Bar _Boss::BigStone:
+Foo _Boss::Hinox::Blue Bar _Boss::BigStone:
+"Foo _Boss::Hinox::Blue Bar _Boss::BigStone":
+'Foo _Boss::Hinox::Blue Bar _Boss::BigStone':
+- Foo _Boss::Hinox::Blue Bar _Boss::BigStone:
+# foo: Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+foo: Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+foo: "Foo _Boss::Hinox::Blue Bar _Boss::BigStone"
+foo: 'Foo _Boss::Hinox::Blue Bar _Boss::BigStone'
+- foo: Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+test: " foo
+Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+bar "
+test: ' foo
+Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+bar '
+test: foo
+  Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+  bar
+test: >
+  foo
+  Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+  bar
+test: |
+  foo
+  Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+  bar
+
+
+#  _Boss::Hinox::Rare foobar
+ _Boss::Hinox::Rare foobar
+" _Boss::Hinox::Rare foobar"
+' _Boss::Hinox::Rare foobar'
+-  _Boss::Hinox::Rare foobar
+#  _Boss::Hinox::Rare foobar:
+ _Boss::Hinox::Rare foobar:
+" _Boss::Hinox::Rare foobar":
+' _Boss::Hinox::Rare foobar':
+-  _Boss::Hinox::Rare foobar:
+# foo:  _Boss::Hinox::Rare foobar
+foo:  _Boss::Hinox::Rare foobar
+foo: " _Boss::Hinox::Rare foobar"
+foo: ' _Boss::Hinox::Rare foobar'
+- foo:  _Boss::Hinox::Rare foobar
+test: " foo
+ _Boss::Hinox::Rare foobar
+bar "
+test: ' foo
+ _Boss::Hinox::Rare foobar
+bar '
+test: foo
+   _Boss::Hinox::Rare foobar
+  bar
+test: >
+  foo
+   _Boss::Hinox::Rare foobar
+  bar
+test: |
+  foo
+   _Boss::Hinox::Rare foobar
+  bar
+
+
+# _Boss::Molduga _Boss::Stalnox
+_Boss::Molduga _Boss::Stalnox
+"_Boss::Molduga _Boss::Stalnox"
+'_Boss::Molduga _Boss::Stalnox'
+- _Boss::Molduga _Boss::Stalnox
+# _Boss::Molduga _Boss::Stalnox:
+_Boss::Molduga _Boss::Stalnox:
+"_Boss::Molduga _Boss::Stalnox":
+'_Boss::Molduga _Boss::Stalnox':
+- _Boss::Molduga _Boss::Stalnox:
+# foo: _Boss::Molduga _Boss::Stalnox
+foo: _Boss::Molduga _Boss::Stalnox
+foo: "_Boss::Molduga _Boss::Stalnox"
+foo: '_Boss::Molduga _Boss::Stalnox'
+- foo: _Boss::Molduga _Boss::Stalnox
+test: " foo
+_Boss::Molduga _Boss::Stalnox
+bar "
+test: ' foo
+_Boss::Molduga _Boss::Stalnox
+bar '
+test: foo
+  _Boss::Molduga _Boss::Stalnox
+  bar
+test: >
+  foo
+  _Boss::Molduga _Boss::Stalnox
+  bar
+test: |
+  foo
+  _Boss::Molduga _Boss::Stalnox
+  bar
+
+
+
+### Equipment
+# _Equipment::Weapon<Foo>
+_Equipment::Weapon<Foo>
+"_Equipment::Weapon<Foo>"
+'_Equipment::Weapon<Foo>'
+- _Equipment::Weapon<Foo>
+# _Equipment::Weapon<Foo>:
+_Equipment::Weapon<Foo>:
+"_Equipment::Weapon<Foo>":
+'_Equipment::Weapon<Foo>':
+- _Equipment::Weapon<Foo>:
+# foo: _Equipment::Weapon<Foo>
+foo: _Equipment::Weapon<Foo>
+foo: "_Equipment::Weapon<Foo>"
+foo: '_Equipment::Weapon<Foo>'
+- foo: _Equipment::Weapon<Foo>
+test: " foo
+_Equipment::Weapon<Foo>
+bar "
+test: ' foo
+_Equipment::Weapon<Foo>
+bar '
+test: foo
+  _Equipment::Weapon<Foo>
+  bar
+test: >
+  foo
+  _Equipment::Weapon<Foo>
+  bar
+test: |
+  foo
+  _Equipment::Weapon<Foo>
+  bar
+
+
+# _Equipment::Shield<Foo>
+_Equipment::Shield<Foo>
+"_Equipment::Shield<Foo>"
+'_Equipment::Shield<Foo>'
+- _Equipment::Shield<Foo>
+# _Equipment::Shield<Foo>:
+_Equipment::Shield<Foo>:
+"_Equipment::Shield<Foo>":
+'_Equipment::Shield<Foo>':
+- _Equipment::Shield<Foo>:
+# foo: _Equipment::Shield<Foo>
+foo: _Equipment::Shield<Foo>
+foo: "_Equipment::Shield<Foo>"
+foo: '_Equipment::Shield<Foo>'
+- foo: _Equipment::Shield<Foo>
+test: " foo
+_Equipment::Shield<Foo>
+bar "
+test: ' foo
+_Equipment::Shield<Foo>
+bar '
+test: foo
+  _Equipment::Shield<Foo>
+  bar
+test: >
+  foo
+  _Equipment::Shield<Foo>
+  bar
+test: |
+  foo
+  _Equipment::Shield<Foo>
+  bar
+
+
+# _Equipment::Bow<Foo>
+_Equipment::Bow<Foo>
+"_Equipment::Bow<Foo>"
+'_Equipment::Bow<Foo>'
+- _Equipment::Bow<Foo>
+# _Equipment::Bow<Foo>:
+_Equipment::Bow<Foo>:
+"_Equipment::Bow<Foo>":
+'_Equipment::Bow<Foo>':
+- _Equipment::Bow<Foo>:
+# foo: _Equipment::Bow<Foo>
+foo: _Equipment::Bow<Foo>
+foo: "_Equipment::Bow<Foo>"
+foo: '_Equipment::Bow<Foo>'
+- foo: _Equipment::Bow<Foo>
+test: " foo
+_Equipment::Bow<Foo>
+bar "
+test: ' foo
+_Equipment::Bow<Foo>
+bar '
+test: foo
+  _Equipment::Bow<Foo>
+  bar
+test: >
+  foo
+  _Equipment::Bow<Foo>
+  bar
+test: |
+  foo
+  _Equipment::Bow<Foo>
+  bar
+
+
+# _Equipment::Bar<Foo>
+_Equipment::Bar<Foo>
+"_Equipment::Bar<Foo>"
+'_Equipment::Bar<Foo>'
+- _Equipment::Bar<Foo>
+# _Equipment::Bar<Foo>:
+_Equipment::Bar<Foo>:
+"_Equipment::Bar<Foo>":
+'_Equipment::Bar<Foo>':
+- _Equipment::Bar<Foo>:
+# foo: _Equipment::Bar<Foo>
+foo: _Equipment::Bar<Foo>
+foo: "_Equipment::Bar<Foo>"
+foo: '_Equipment::Bar<Foo>'
+- foo: _Equipment::Bar<Foo>
+test: " foo
+_Equipment::Bar<Foo>
+bar "
+test: ' foo
+_Equipment::Bar<Foo>
+bar '
+test: foo
+  _Equipment::Bar<Foo>
+  bar
+test: >
+  foo
+  _Equipment::Bar<Foo>
+  bar
+test: |
+  foo
+  _Equipment::Bar<Foo>
+  bar
+
+
+# _Equipment<Foo>
+_Equipment<Foo>
+"_Equipment<Foo>"
+'_Equipment<Foo>'
+- _Equipment<Foo>
+# _Equipment<Foo>:
+_Equipment<Foo>:
+"_Equipment<Foo>":
+'_Equipment<Foo>':
+- _Equipment<Foo>:
+# foo: _Equipment<Foo>
+foo: _Equipment<Foo>
+foo: "_Equipment<Foo>"
+foo: '_Equipment<Foo>'
+- foo: _Equipment<Foo>
+test: " foo
+_Equipment<Foo>
+bar "
+test: ' foo
+_Equipment<Foo>
+bar '
+test: foo
+  _Equipment<Foo>
+  bar
+test: >
+  foo
+  _Equipment<Foo>
+  bar
+test: |
+  foo
+  _Equipment<Foo>
+  bar
+
+
+
+### Chest
+# _Chest::Special<Foo>
+_Chest::Special<Foo>
+"_Chest::Special<Foo>"
+'_Chest::Special<Foo>'
+- _Chest::Special<Foo>
+# _Chest::Special<Foo>:
+_Chest::Special<Foo>:
+"_Chest::Special<Foo>":
+'_Chest::Special<Foo>':
+- _Chest::Special<Foo>:
+# foo: _Chest::Special<Foo>
+foo: _Chest::Special<Foo>
+foo: "_Chest::Special<Foo>"
+foo: '_Chest::Special<Foo>'
+- foo: _Chest::Special<Foo>
+test: " foo
+_Chest::Special<Foo>
+bar "
+test: ' foo
+_Chest::Special<Foo>
+bar '
+test: foo
+  _Chest::Special<Foo>
+  bar
+test: >
+  foo
+  _Chest::Special<Foo>
+  bar
+test: |
+  foo
+  _Chest::Special<Foo>
+  bar
+
+
+# _Chest::Bar<Foo>
+_Chest::Bar<Foo>
+"_Chest::Bar<Foo>"
+'_Chest::Bar<Foo>'
+- _Chest::Bar<Foo>
+# _Chest::Bar<Foo>:
+_Chest::Bar<Foo>:
+"_Chest::Bar<Foo>":
+'_Chest::Bar<Foo>':
+- _Chest::Bar<Foo>:
+# foo: _Chest::Bar<Foo>
+foo: _Chest::Bar<Foo>
+foo: "_Chest::Bar<Foo>"
+foo: '_Chest::Bar<Foo>'
+- foo: _Chest::Bar<Foo>
+test: " foo
+_Chest::Bar<Foo>
+bar "
+test: ' foo
+_Chest::Bar<Foo>
+bar '
+test: foo
+  _Chest::Bar<Foo>
+  bar
+test: >
+  foo
+  _Chest::Bar<Foo>
+  bar
+test: |
+  foo
+  _Chest::Bar<Foo>
+  bar
+
+
+# _Chest<Foo>
+_Chest<Foo>
+"_Chest<Foo>"
+'_Chest<Foo>'
+- _Chest<Foo>
+# _Chest<Foo>:
+_Chest<Foo>:
+"_Chest<Foo>":
+'_Chest<Foo>':
+- _Chest<Foo>:
+# foo: _Chest<Foo>
+foo: _Chest<Foo>
+foo: "_Chest<Foo>"
+foo: '_Chest<Foo>'
+- foo: _Chest<Foo>
+test: " foo
+_Chest<Foo>
+bar "
+test: ' foo
+_Chest<Foo>
+bar '
+test: foo
+  _Chest<Foo>
+  bar
+test: >
+  foo
+  _Chest<Foo>
+  bar
+test: |
+  foo
+  _Chest<Foo>
+  bar
+
+
+
+### Snap
+# _Snap::Elite<Foo>
+_Snap::Elite<Foo>
+"_Snap::Elite<Foo>"
+'_Snap::Elite<Foo>'
+- _Snap::Elite<Foo>
+# _Snap::Elite<Foo>:
+_Snap::Elite<Foo>:
+"_Snap::Elite<Foo>":
+'_Snap::Elite<Foo>':
+- _Snap::Elite<Foo>:
+# foo: _Snap::Elite<Foo>
+foo: _Snap::Elite<Foo>
+foo: "_Snap::Elite<Foo>"
+foo: '_Snap::Elite<Foo>'
+- foo: _Snap::Elite<Foo>
+test: " foo
+_Snap::Elite<Foo>
+bar "
+test: ' foo
+_Snap::Elite<Foo>
+bar '
+test: foo
+  _Snap::Elite<Foo>
+  bar
+test: >
+  foo
+  _Snap::Elite<Foo>
+  bar
+test: |
+  foo
+  _Snap::Elite<Foo>
+  bar
+
+
+# _Snap::Quest<Foo>
+_Snap::Quest<Foo>
+"_Snap::Quest<Foo>"
+'_Snap::Quest<Foo>'
+- _Snap::Quest<Foo>
+# _Snap::Quest<Foo>:
+_Snap::Quest<Foo>:
+"_Snap::Quest<Foo>":
+'_Snap::Quest<Foo>':
+- _Snap::Quest<Foo>:
+# foo: _Snap::Quest<Foo>
+foo: _Snap::Quest<Foo>
+foo: "_Snap::Quest<Foo>"
+foo: '_Snap::Quest<Foo>'
+- foo: _Snap::Quest<Foo>
+test: " foo
+_Snap::Quest<Foo>
+bar "
+test: ' foo
+_Snap::Quest<Foo>
+bar '
+test: foo
+  _Snap::Quest<Foo>
+  bar
+test: >
+  foo
+  _Snap::Quest<Foo>
+  bar
+test: |
+  foo
+  _Snap::Quest<Foo>
+  bar
+
+
+# _Snap::Bar<Foo>
+_Snap::Bar<Foo>
+"_Snap::Bar<Foo>"
+'_Snap::Bar<Foo>'
+- _Snap::Bar<Foo>
+# _Snap::Bar<Foo>:
+_Snap::Bar<Foo>:
+"_Snap::Bar<Foo>":
+'_Snap::Bar<Foo>':
+- _Snap::Bar<Foo>:
+# foo: _Snap::Bar<Foo>
+foo: _Snap::Bar<Foo>
+foo: "_Snap::Bar<Foo>"
+foo: '_Snap::Bar<Foo>'
+- foo: _Snap::Bar<Foo>
+test: " foo
+_Snap::Bar<Foo>
+bar "
+test: ' foo
+_Snap::Bar<Foo>
+bar '
+test: foo
+  _Snap::Bar<Foo>
+  bar
+test: >
+  foo
+  _Snap::Bar<Foo>
+  bar
+test: |
+  foo
+  _Snap::Bar<Foo>
+  bar
+
+
+# _Snap<Foo>
+_Snap<Foo>
+"_Snap<Foo>"
+'_Snap<Foo>'
+- _Snap<Foo>
+# _Snap<Foo>:
+_Snap<Foo>:
+"_Snap<Foo>":
+'_Snap<Foo>':
+- _Snap<Foo>:
+# foo: _Snap<Foo>
+foo: _Snap<Foo>
+foo: "_Snap<Foo>"
+foo: '_Snap<Foo>'
+- foo: _Snap<Foo>
+test: " foo
+_Snap<Foo>
+bar "
+test: ' foo
+_Snap<Foo>
+bar '
+test: foo
+  _Snap<Foo>
+  bar
+test: >
+  foo
+  _Snap<Foo>
+  bar
+test: |
+  foo
+  _Snap<Foo>
+  bar
+
+
+
+### Npc
+# _Npc::Rito<Foo>
+_Npc::Rito<Foo>
+"_Npc::Rito<Foo>"
+'_Npc::Rito<Foo>'
+- _Npc::Rito<Foo>
+# _Npc::Rito<Foo>:
+_Npc::Rito<Foo>:
+"_Npc::Rito<Foo>":
+'_Npc::Rito<Foo>':
+- _Npc::Rito<Foo>:
+# foo: _Npc::Rito<Foo>
+foo: _Npc::Rito<Foo>
+foo: "_Npc::Rito<Foo>"
+foo: '_Npc::Rito<Foo>'
+- foo: _Npc::Rito<Foo>
+test: " foo
+_Npc::Rito<Foo>
+bar "
+test: ' foo
+_Npc::Rito<Foo>
+bar '
+test: foo
+  _Npc::Rito<Foo>
+  bar
+test: >
+  foo
+  _Npc::Rito<Foo>
+  bar
+test: |
+  foo
+  _Npc::Rito<Foo>
+  bar
+
+
+# _Npc::Goron<Foo>
+_Npc::Goron<Foo>
+"_Npc::Goron<Foo>"
+'_Npc::Goron<Foo>'
+- _Npc::Goron<Foo>
+# _Npc::Goron<Foo>:
+_Npc::Goron<Foo>:
+"_Npc::Goron<Foo>":
+'_Npc::Goron<Foo>':
+- _Npc::Goron<Foo>:
+# foo: _Npc::Goron<Foo>
+foo: _Npc::Goron<Foo>
+foo: "_Npc::Goron<Foo>"
+foo: '_Npc::Goron<Foo>'
+- foo: _Npc::Goron<Foo>
+test: " foo
+_Npc::Goron<Foo>
+bar "
+test: ' foo
+_Npc::Goron<Foo>
+bar '
+test: foo
+  _Npc::Goron<Foo>
+  bar
+test: >
+  foo
+  _Npc::Goron<Foo>
+  bar
+test: |
+  foo
+  _Npc::Goron<Foo>
+  bar
+
+
+# _Npc::Gerudo<Foo>
+_Npc::Gerudo<Foo>
+"_Npc::Gerudo<Foo>"
+'_Npc::Gerudo<Foo>'
+- _Npc::Gerudo<Foo>
+# _Npc::Gerudo<Foo>:
+_Npc::Gerudo<Foo>:
+"_Npc::Gerudo<Foo>":
+'_Npc::Gerudo<Foo>':
+- _Npc::Gerudo<Foo>:
+# foo: _Npc::Gerudo<Foo>
+foo: _Npc::Gerudo<Foo>
+foo: "_Npc::Gerudo<Foo>"
+foo: '_Npc::Gerudo<Foo>'
+- foo: _Npc::Gerudo<Foo>
+test: " foo
+_Npc::Gerudo<Foo>
+bar "
+test: ' foo
+_Npc::Gerudo<Foo>
+bar '
+test: foo
+  _Npc::Gerudo<Foo>
+  bar
+test: >
+  foo
+  _Npc::Gerudo<Foo>
+  bar
+test: |
+  foo
+  _Npc::Gerudo<Foo>
+  bar
+
+
+# _Npc::SheikaFemale<Foo>
+_Npc::SheikaFemale<Foo>
+"_Npc::SheikaFemale<Foo>"
+'_Npc::SheikaFemale<Foo>'
+- _Npc::SheikaFemale<Foo>
+# _Npc::SheikaFemale<Foo>:
+_Npc::SheikaFemale<Foo>:
+"_Npc::SheikaFemale<Foo>":
+'_Npc::SheikaFemale<Foo>':
+- _Npc::SheikaFemale<Foo>:
+# foo: _Npc::SheikaFemale<Foo>
+foo: _Npc::SheikaFemale<Foo>
+foo: "_Npc::SheikaFemale<Foo>"
+foo: '_Npc::SheikaFemale<Foo>'
+- foo: _Npc::SheikaFemale<Foo>
+test: " foo
+_Npc::SheikaFemale<Foo>
+bar "
+test: ' foo
+_Npc::SheikaFemale<Foo>
+bar '
+test: foo
+  _Npc::SheikaFemale<Foo>
+  bar
+test: >
+  foo
+  _Npc::SheikaFemale<Foo>
+  bar
+test: |
+  foo
+  _Npc::SheikaFemale<Foo>
+  bar
+
+
+# _Npc::SheikaMale<Foo>
+_Npc::SheikaMale<Foo>
+"_Npc::SheikaMale<Foo>"
+'_Npc::SheikaMale<Foo>'
+- _Npc::SheikaMale<Foo>
+# _Npc::SheikaMale<Foo>:
+_Npc::SheikaMale<Foo>:
+"_Npc::SheikaMale<Foo>":
+'_Npc::SheikaMale<Foo>':
+- _Npc::SheikaMale<Foo>:
+# foo: _Npc::SheikaMale<Foo>
+foo: _Npc::SheikaMale<Foo>
+foo: "_Npc::SheikaMale<Foo>"
+foo: '_Npc::SheikaMale<Foo>'
+- foo: _Npc::SheikaMale<Foo>
+test: " foo
+_Npc::SheikaMale<Foo>
+bar "
+test: ' foo
+_Npc::SheikaMale<Foo>
+bar '
+test: foo
+  _Npc::SheikaMale<Foo>
+  bar
+test: >
+  foo
+  _Npc::SheikaMale<Foo>
+  bar
+test: |
+  foo
+  _Npc::SheikaMale<Foo>
+  bar
+
+
+# _Npc::ZoraFemale<Foo>
+_Npc::ZoraFemale<Foo>
+"_Npc::ZoraFemale<Foo>"
+'_Npc::ZoraFemale<Foo>'
+- _Npc::ZoraFemale<Foo>
+# _Npc::ZoraFemale<Foo>:
+_Npc::ZoraFemale<Foo>:
+"_Npc::ZoraFemale<Foo>":
+'_Npc::ZoraFemale<Foo>':
+- _Npc::ZoraFemale<Foo>:
+# foo: _Npc::ZoraFemale<Foo>
+foo: _Npc::ZoraFemale<Foo>
+foo: "_Npc::ZoraFemale<Foo>"
+foo: '_Npc::ZoraFemale<Foo>'
+- foo: _Npc::ZoraFemale<Foo>
+test: " foo
+_Npc::ZoraFemale<Foo>
+bar "
+test: ' foo
+_Npc::ZoraFemale<Foo>
+bar '
+test: foo
+  _Npc::ZoraFemale<Foo>
+  bar
+test: >
+  foo
+  _Npc::ZoraFemale<Foo>
+  bar
+test: |
+  foo
+  _Npc::ZoraFemale<Foo>
+  bar
+
+
+# _Npc::ZoraMale<Foo>
+_Npc::ZoraMale<Foo>
+"_Npc::ZoraMale<Foo>"
+'_Npc::ZoraMale<Foo>'
+- _Npc::ZoraMale<Foo>
+# _Npc::ZoraMale<Foo>:
+_Npc::ZoraMale<Foo>:
+"_Npc::ZoraMale<Foo>":
+'_Npc::ZoraMale<Foo>':
+- _Npc::ZoraMale<Foo>:
+# foo: _Npc::ZoraMale<Foo>
+foo: _Npc::ZoraMale<Foo>
+foo: "_Npc::ZoraMale<Foo>"
+foo: '_Npc::ZoraMale<Foo>'
+- foo: _Npc::ZoraMale<Foo>
+test: " foo
+_Npc::ZoraMale<Foo>
+bar "
+test: ' foo
+_Npc::ZoraMale<Foo>
+bar '
+test: foo
+  _Npc::ZoraMale<Foo>
+  bar
+test: >
+  foo
+  _Npc::ZoraMale<Foo>
+  bar
+test: |
+  foo
+  _Npc::ZoraMale<Foo>
+  bar
+
+
+# _Npc<Foo>
+_Npc<Foo>
+"_Npc<Foo>"
+'_Npc<Foo>'
+- _Npc<Foo>
+# _Npc<Foo>:
+_Npc<Foo>:
+"_Npc<Foo>":
+'_Npc<Foo>':
+- _Npc<Foo>:
+# foo: _Npc<Foo>
+foo: _Npc<Foo>
+foo: "_Npc<Foo>"
+foo: '_Npc<Foo>'
+- foo: _Npc<Foo>
+test: " foo
+_Npc<Foo>
+bar "
+test: ' foo
+_Npc<Foo>
+bar '
+test: foo
+  _Npc<Foo>
+  bar
+test: >
+  foo
+  _Npc<Foo>
+  bar
+test: |
+  foo
+  _Npc<Foo>
+  bar
+
+
+
+### Material
+# _Material<something>
+_Material<something>
+"_Material<something>"
+'_Material<something>'
+- _Material<something>
+# _Material<something>:
+_Material<something>:
+"_Material<something>":
+'_Material<something>':
+- _Material<something>:
+# foo: _Material<something>
+foo: _Material<something>
+foo: "_Material<something>"
+foo: '_Material<something>'
+- foo: _Material<something>
+test: " foo
+_Material<something>
+bar "
+test: ' foo
+_Material<something>
+bar '
+test: foo
+  _Material<something>
+  bar
+test: >
+  foo
+  _Material<something>
+  bar
+test: |
+  foo
+  _Material<something>
+  bar
+
+
+# _Material<something, 1>
+_Material<something, 1>
+"_Material<something, 1>"
+'_Material<something, 1>'
+- _Material<something, 1>
+# _Material<something, 1>:
+_Material<something, 1>:
+"_Material<something, 1>":
+'_Material<something, 1>':
+- _Material<something, 1>:
+# foo: _Material<something, 1>
+foo: _Material<something, 1>
+foo: "_Material<something, 1>"
+foo: '_Material<something, 1>'
+- foo: _Material<something, 1>
+test: " foo
+_Material<something, 1>
+bar "
+test: ' foo
+_Material<something, 1>
+bar '
+test: foo
+  _Material<something, 1>
+  bar
+test: >
+  foo
+  _Material<something, 1>
+  bar
+test: |
+  foo
+  _Material<something, 1>
+  bar
+
+
+# _Material<something, NotNumber>
+_Material<something, NotNumber>
+"_Material<something, NotNumber>"
+'_Material<something, NotNumber>'
+- _Material<something, NotNumber>
+# _Material<something, NotNumber>:
+_Material<something, NotNumber>:
+"_Material<something, NotNumber>":
+'_Material<something, NotNumber>':
+- _Material<something, NotNumber>:
+# foo: _Material<something, NotNumber>
+foo: _Material<something, NotNumber>
+foo: "_Material<something, NotNumber>"
+foo: '_Material<something, NotNumber>'
+- foo: _Material<something, NotNumber>
+test: " foo
+_Material<something, NotNumber>
+bar "
+test: ' foo
+_Material<something, NotNumber>
+bar '
+test: foo
+  _Material<something, NotNumber>
+  bar
+test: >
+  foo
+  _Material<something, NotNumber>
+  bar
+test: |
+  foo
+  _Material<something, NotNumber>
+  bar
+
+
+
+### Other
+# _Shop<something>
+_Shop<something>
+"_Shop<something>"
+'_Shop<something>'
+- _Shop<something>
+# _Shop<something>:
+_Shop<something>:
+"_Shop<something>":
+'_Shop<something>':
+- _Shop<something>:
+# foo: _Shop<something>
+foo: _Shop<something>
+foo: "_Shop<something>"
+foo: '_Shop<something>'
+- foo: _Shop<something>
+test: " foo
+_Shop<something>
+bar "
+test: ' foo
+_Shop<something>
+bar '
+test: foo
+  _Shop<something>
+  bar
+test: >
+  foo
+  _Shop<something>
+  bar
+test: |
+  foo
+  _Shop<something>
+  bar
+
+
+# _Cook<something>
+_Cook<something>
+"_Cook<something>"
+'_Cook<something>'
+- _Cook<something>
+# _Cook<something>:
+_Cook<something>:
+"_Cook<something>":
+'_Cook<something>':
+- _Cook<something>:
+# foo: _Cook<something>
+foo: _Cook<something>
+foo: "_Cook<something>"
+foo: '_Cook<something>'
+- foo: _Cook<something>
+test: " foo
+_Cook<something>
+bar "
+test: ' foo
+_Cook<something>
+bar '
+test: foo
+  _Cook<something>
+  bar
+test: >
+  foo
+  _Cook<something>
+  bar
+test: |
+  foo
+  _Cook<something>
+  bar
+
+
+# _Discover<something>
+_Discover<something>
+"_Discover<something>"
+'_Discover<something>'
+- _Discover<something>
+# _Discover<something>:
+_Discover<something>:
+"_Discover<something>":
+'_Discover<something>':
+- _Discover<something>:
+# foo: _Discover<something>
+foo: _Discover<something>
+foo: "_Discover<something>"
+foo: '_Discover<something>'
+- foo: _Discover<something>
+test: " foo
+_Discover<something>
+bar "
+test: ' foo
+_Discover<something>
+bar '
+test: foo
+  _Discover<something>
+  bar
+test: >
+  foo
+  _Discover<something>
+  bar
+test: |
+  foo
+  _Discover<something>
+  bar
+
+
+# _Invalid<something>
+_Invalid<something>
+"_Invalid<something>"
+'_Invalid<something>'
+- _Invalid<something>
+# _Invalid<something>:
+_Invalid<something>:
+"_Invalid<something>":
+'_Invalid<something>':
+- _Invalid<something>:
+# foo: _Invalid<something>
+foo: _Invalid<something>
+foo: "_Invalid<something>"
+foo: '_Invalid<something>'
+- foo: _Invalid<something>
+test: " foo
+_Invalid<something>
+bar "
+test: ' foo
+_Invalid<something>
+bar '
+test: foo
+  _Invalid<something>
+  bar
+test: >
+  foo
+  _Invalid<something>
+  bar
+test: |
+  foo
+  _Invalid<something>
+  bar
+
+
+
+### Time of Day
+# _Tod::Morning
+_Tod::Morning
+"_Tod::Morning"
+'_Tod::Morning'
+- _Tod::Morning
+# _Tod::Morning:
+_Tod::Morning:
+"_Tod::Morning":
+'_Tod::Morning':
+- _Tod::Morning:
+# foo: _Tod::Morning
+foo: _Tod::Morning
+foo: "_Tod::Morning"
+foo: '_Tod::Morning'
+- foo: _Tod::Morning
+test: " foo
+_Tod::Morning
+bar "
+test: ' foo
+_Tod::Morning
+bar '
+test: foo
+  _Tod::Morning
+  bar
+test: >
+  foo
+  _Tod::Morning
+  bar
+test: |
+  foo
+  _Tod::Morning
+  bar
+
+
+# _Tod::Noon
+_Tod::Noon
+"_Tod::Noon"
+'_Tod::Noon'
+- _Tod::Noon
+# _Tod::Noon:
+_Tod::Noon:
+"_Tod::Noon":
+'_Tod::Noon':
+- _Tod::Noon:
+# foo: _Tod::Noon
+foo: _Tod::Noon
+foo: "_Tod::Noon"
+foo: '_Tod::Noon'
+- foo: _Tod::Noon
+test: " foo
+_Tod::Noon
+bar "
+test: ' foo
+_Tod::Noon
+bar '
+test: foo
+  _Tod::Noon
+  bar
+test: >
+  foo
+  _Tod::Noon
+  bar
+test: |
+  foo
+  _Tod::Noon
+  bar
+
+
+# _Tod::Night
+_Tod::Night
+"_Tod::Night"
+'_Tod::Night'
+- _Tod::Night
+# _Tod::Night:
+_Tod::Night:
+"_Tod::Night":
+'_Tod::Night':
+- _Tod::Night:
+# foo: _Tod::Night
+foo: _Tod::Night
+foo: "_Tod::Night"
+foo: '_Tod::Night'
+- foo: _Tod::Night
+test: " foo
+_Tod::Night
+bar "
+test: ' foo
+_Tod::Night
+bar '
+test: foo
+  _Tod::Night
+  bar
+test: >
+  foo
+  _Tod::Night
+  bar
+test: |
+  foo
+  _Tod::Night
+  bar
+
+
+# _Tod::Midnight
+_Tod::Midnight
+"_Tod::Midnight"
+'_Tod::Midnight'
+- _Tod::Midnight
+# _Tod::Midnight:
+_Tod::Midnight:
+"_Tod::Midnight":
+'_Tod::Midnight':
+- _Tod::Midnight:
+# foo: _Tod::Midnight
+foo: _Tod::Midnight
+foo: "_Tod::Midnight"
+foo: '_Tod::Midnight'
+- foo: _Tod::Midnight
+test: " foo
+_Tod::Midnight
+bar "
+test: ' foo
+_Tod::Midnight
+bar '
+test: foo
+  _Tod::Midnight
+  bar
+test: >
+  foo
+  _Tod::Midnight
+  bar
+test: |
+  foo
+  _Tod::Midnight
+  bar
+
+
+
+### Tags
+# icon:
+icon:
+"icon:"
+'icon:'
+- icon:
+# icon::
+icon::
+"icon:":
+'icon:':
+- icon::
+# foo: icon:
+foo: icon:
+foo: "icon:"
+foo: 'icon:'
+- foo: icon:
+test: " foo
+icon:
+bar "
+test: ' foo
+icon:
+bar '
+test: foo
+  icon:
+  bar
+test: >
+  foo
+  icon:
+  bar
+test: |
+  foo
+  icon:
+  bar
+
+
+# icon
+icon
+"icon"
+'icon'
+- icon
+# icon:
+icon:
+"icon":
+'icon':
+- icon:
+# foo: icon
+foo: icon
+foo: "icon"
+foo: 'icon'
+- foo: icon
+test: " foo
+icon
+bar "
+test: ' foo
+icon
+bar '
+test: foo
+  icon
+  bar
+test: >
+  foo
+  icon
+  bar
+test: |
+  foo
+  icon
+  bar
+
+
+# text:
+text:
+"text:"
+'text:'
+- text:
+# text::
+text::
+"text:":
+'text:':
+- text::
+# foo: text:
+foo: text:
+foo: "text:"
+foo: 'text:'
+- foo: text:
+test: " foo
+text:
+bar "
+test: ' foo
+text:
+bar '
+test: foo
+  text:
+  bar
+test: >
+  foo
+  text:
+  bar
+test: |
+  foo
+  text:
+  bar
+
+
+# text
+text
+"text"
+'text'
+- text
+# text:
+text:
+"text":
+'text':
+- text:
+# foo: text
+foo: text
+foo: "text"
+foo: 'text'
+- foo: text
+test: " foo
+text
+bar "
+test: ' foo
+text
+bar '
+test: foo
+  text
+  bar
+test: >
+  foo
+  text
+  bar
+test: |
+  foo
+  text
+  bar
+
+
+# suppress:
+suppress:
+"suppress:"
+'suppress:'
+- suppress:
+# suppress::
+suppress::
+"suppress:":
+'suppress:':
+- suppress::
+# foo: suppress:
+foo: suppress:
+foo: "suppress:"
+foo: 'suppress:'
+- foo: suppress:
+test: " foo
+suppress:
+bar "
+test: ' foo
+suppress:
+bar '
+test: foo
+  suppress:
+  bar
+test: >
+  foo
+  suppress:
+  bar
+test: |
+  foo
+  suppress:
+  bar
+
+
+# suppress
+suppress
+"suppress"
+'suppress'
+- suppress
+# suppress:
+suppress:
+"suppress":
+'suppress':
+- suppress:
+# foo: suppress
+foo: suppress
+foo: "suppress"
+foo: 'suppress'
+- foo: suppress
+test: " foo
+suppress
+bar "
+test: ' foo
+suppress
+bar '
+test: foo
+  suppress
+  bar
+test: >
+  foo
+  suppress
+  bar
+test: |
+  foo
+  suppress
+  bar
+
+
+# foo:
+foo:
+"foo:"
+'foo:'
+- foo:
+# foo::
+foo::
+"foo:":
+'foo:':
+- foo::
+# foo: foo:
+foo: foo:
+foo: "foo:"
+foo: 'foo:'
+- foo: foo:
+test: " foo
+foo:
+bar "
+test: ' foo
+foo:
+bar '
+test: foo
+  foo:
+  bar
+test: >
+  foo
+  foo:
+  bar
+test: |
+  foo
+  foo:
+  bar
+
+
+# bar
+bar
+"bar"
+'bar'
+- bar
+# bar:
+bar:
+"bar":
+'bar':
+- bar:
+# foo: bar
+foo: bar
+foo: "bar"
+foo: 'bar'
+- foo: bar
+test: " foo
+bar
+bar "
+test: ' foo
+bar
+bar '
+test: foo
+  bar
+  bar
+test: >
+  foo
+  bar
+  bar
+test: |
+  foo
+  bar
+  bar
+

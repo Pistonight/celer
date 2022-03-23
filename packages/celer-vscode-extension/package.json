@@ -1,44 +1,99 @@
 {
     "name": "celer",
-    "displayName": "Celer Routing Extension",
-    "description": "Extension for celer, a route doc platform for Breath of the Wild",
-    "version": "0.0.1",
+    "displayName": "Celer BOTW",
+    "description": "Extension for celer - a route doc engine for Breath of the Wild Speedrunning",
+    "version": "1.0.1",
+    "publisher": "iTNTPiston",
+    "icon": "icons/celer.png",
     "engines": {
         "vscode": "^1.65.0"
     },
+    "extensionDependencies": [
+        "vscode.yaml"
+    ],
     "categories": [
         "Programming Languages",
         "Other"
     ],
+    "repository": "https://github.com/iTNTPiston/celer/tree/main/packages/celer-vscode-extension",
     "contributes": {
-        "languages": [{
-            "id": "celer",
-            "aliases": ["Celer BOTW", "celer"],
-            "extensions": [".celer",".yaml"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "celer",
-            "scopeName": "source.celer",
-            "path": "./syntaxes/celer.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "celer",
+                "aliases": [
+                    "Celer BOTW",
+                    "celer"
+                ],
+                "extensions": [
+                    ".celer"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "dark": "./icons/celer.svg",
+                    "light": "./icons/celer.svg"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "celer",
+                "scopeName": "source.celer.injection",
+                "path": "./syntaxes/celer-injection.tmLanguage.json",
+                "injectTo": [
+                    "source.celer",
+                    "source.yaml"
+                ]
+            },
+            {
+                "language": "celer",
+                "scopeName": "source.celer.tag.injection",
+                "path": "./syntaxes/celer.tag-injection.tmLanguage.json",
+                "injectTo": [
+                    "source.celer",
+                    "source.yaml"
+                ]
+            },
+            {
+                "language": "celer",
+                "scopeName": "source.celer.generated",
+                "path": "./syntaxes/celer.generated.tmLanguage.json"
+            },
+            {
+                "language": "celer",
+                "scopeName": "source.celer.tag",
+                "path": "./syntaxes/celer.tag.generated.tmLanguage.json"
+            },
+            {
+                "language": "celer",
+                "scopeName": "source.celer",
+                "path": "./syntaxes/celer.tmLanguage.json"
+            }
+        ],
+        "configurationDefaults": {
+            "[celer]": {
+                "editor.insertSpaces": true,
+                "editor.tabSize": 2,
+                "editor.autoIndent": "advanced"
+            }
+        }
     },
     "activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint . --ext .ts,.tsx",
-		"watch": "tsc -watch -p ./"
-	},
+        "onLanguage:celer"
+    ],
+    "main": "./build/main.js",
+    "scripts": {
+        "build": "tsc -p ./",
+        "lint": "eslint . --ext .ts --max-warnings 0",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package"
+    },
     "devDependencies": {
-		"@types/node": "^12.12.0",
-		"@types/vscode": "^1.32.0",
-		"@typescript-eslint/eslint-plugin": "^4.16.0",
-		"@typescript-eslint/parser": "^4.16.0",
-		"eslint": "^7.21.0",
-		"typescript": "^4.5.5"
-	}
+        "@types/node": "^12.12.0",
+        "@types/vscode": "^1.32.0",
+        "@typescript-eslint/eslint-plugin": "^4.16.0",
+        "@typescript-eslint/parser": "^4.16.0",
+        "eslint": "^7.21.0",
+        "typescript": "^4.5.5",
+        "vsce": "^2.7.0"
+    }
 }
