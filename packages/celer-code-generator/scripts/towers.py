@@ -10,5 +10,3 @@ def __add_tower(towers,line):
     towers[line[0]] = (float(line[1]), float(line[2]), float(line[3]))
 
 get_tower_data = memoized_thunk(__get_tower_data)
-
-

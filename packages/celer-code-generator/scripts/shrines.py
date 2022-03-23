@@ -11,5 +11,3 @@ def __add_shrine(shrines,line):
     shrines[line[0]] = (line[1], float(line[2]), float(line[3]), float(line[4]))
 
 get_shrine_data = memoized_thunk(__get_shrine_data)
-
-

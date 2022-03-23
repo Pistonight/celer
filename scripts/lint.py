@@ -16,7 +16,8 @@ ignore = [
 ignore_exts = [
     ".png",
     ".gif",
-    ".vsix"
+    ".vsix",
+    ".celer"
 ]
 
 if len(sys.argv) > 1:
@@ -47,7 +48,6 @@ def lint_file(path):
     print(f"Checking {path}")
     with open(path, 'r', newline="") as file:
         last_line = None
-        prev_line = None
         while True:
             line = file.readline()
             if not line:
@@ -55,12 +55,12 @@ def lint_file(path):
             if line.find("\r") != -1:
                 bad_files.append(("Line Ending", path))
                 return
-            prev_line = last_line
             last_line = line
         if last_line != None:
-            if last_line != "\n":
-                bad_files.append(("Need trailing new line", path))
-            elif last_line == prev_line:
+            if last_line[-1] != "\n":
+                print(f"lastline={last_line} length={len(last_line)}")
+                bad_files.append(("Needs trailing new line", path))
+            elif last_line[0] == "\n":
                 bad_files.append(("Too many trailing new lines", path))
 
 lint_path(ROOT)

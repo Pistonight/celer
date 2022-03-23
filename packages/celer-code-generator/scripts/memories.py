@@ -10,5 +10,3 @@ def __add_memory(memories,line):
     memories[line[0]] = (line[1], float(line[2]), float(line[3]), float(line[4]))
 
 get_memory_data = memoized_thunk(__get_memory_data)
-
-

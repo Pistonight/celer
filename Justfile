@@ -32,4 +32,3 @@ clean:
 
 nuke: clean
     just packages/celer-vscode-extension/nuke
-    

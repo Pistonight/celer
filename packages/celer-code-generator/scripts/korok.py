@@ -11,5 +11,3 @@ def __add_region(regions,line):
     regions[line[0]] = (int(line[1]), line[2])
 
 get_korok_region_data = memoized_thunk(__get_korok_region_data)
-
-

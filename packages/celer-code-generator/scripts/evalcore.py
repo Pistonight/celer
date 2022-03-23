@@ -30,7 +30,7 @@ memory_compact_name_regex = memoized_thunk(__memory_compact_name_regex)
 def yaml_to_json(file_name):
     with open(file_name, "r") as yaml_file:
         object = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        return json.dumps(object, indent=4)
+        return json.dumps(object, indent=4) + "\n"
 
 def test_case(string):
     return f"""# {string}
