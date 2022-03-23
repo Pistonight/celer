@@ -1,6 +1,9 @@
 install:
     just packages/celer-vscode-extension/install
 
+ci:
+    just packages/celer-vscode-extension/ci
+
 lint:
     scripts/lint.py
     pylint scripts
@@ -15,8 +18,10 @@ build:
 watch PROJECT:
     just packages/{{PROJECT}}/watch
 
-release: build
+release:
+    just packages/celer-code-generator/apply
     just packages/celer-vscode-extension/release
+    cargo build --release
 
 clean:
     cargo clean
