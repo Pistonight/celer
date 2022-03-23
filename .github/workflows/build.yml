@@ -26,7 +26,7 @@ jobs:
       with:
         version: 'latest'
     - name: Setup | just
-    - uses: extractions/setup-just@v1
+      uses: extractions/setup-just@v1
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
