@@ -1,0 +1,33 @@
+### Visually verify the test cases
+
+### Comments
+# This is a comment
+
+### YAML String
+Unquoted String
+"Quoted String"
+'Single Quoted String'
+
+### YAML Key-value
+key1: value1
+key2: value2
+key3: value3
+
+### YAML Array
+Key1:
+  - value1
+  - value2
+  - value3
+Key2: [value1, value2, value3]
+
+### Literal
+Number: 123.456
+Boolean:
+  - Yes
+  - No
+  - yes
+  - no
+  - true
+  - false
+  - True
+  - False
