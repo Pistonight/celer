@@ -13,6 +13,12 @@ ignore = [
     ".vscode"
 ]
 
+ignore_exts = [
+    ".png",
+    ".gif",
+    ".vsix"
+]
+
 if len(sys.argv) > 1:
     ROOT = sys.argv[1]
 else:
@@ -23,12 +29,22 @@ def lint_path(path):
         lint_file(path)
     elif isdir(path):
         for subpath in listdir(path):
-            if subpath not in ignore:
+            if should_lint_subpath(subpath):
                 lint_path(join(path, subpath))
+
+def should_lint_subpath(subpath):
+    if subpath in ignore:
+        return False
+    for ignore_ext in ignore_exts:
+        if subpath.endswith(ignore_ext):
+            return False
+
+    return True
 
 bad_files = []
 
 def lint_file(path):
+    print(f"Checking {path}")
     with open(path, 'r', newline="") as file:
         last_line = None
         prev_line = None
