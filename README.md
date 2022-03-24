@@ -22,7 +22,7 @@ Utility to generate code from csv files with game data (such as Koroks, Shrines,
 
 An extension for VS Code that adds syntax highlighting and auto completion for celer route files
 
-#### [celer-user-docs]
+#### [celer-user-docs](https://github.com/iTNTPiston/celer/tree/main/packages/celer-user-docs)
 
 Documentation for users
 

@@ -4,7 +4,8 @@ Version: `1.0.0`
 ## Sections
 1. [Introduction](#introduction)
 2. [Install Celer CLI (WIP)](#install-celer-cli)
-3. [Writing Routes](#writing-routes)
+3. [Install VS Code Extension](#install-celer-vs-code-extension)
+4. [Writing Routes](#writing-routes)
     1. [Getting Started](#getting-started)
     2. [Project Section](#project-section)
     3. [Route Section](#route-section)
@@ -32,6 +33,17 @@ Essentially, celer allows router maintainer to make route changes without doing 
 **NOTE: The newer rust-based CLI is still in development. Please use the  python-based bundler at [iTNTPiston/celer-compiler](https://github.com/iTNTPiston/celer-compiler)**
 
 ****
+
+## Install Celer VS Code Extension
+
+If you use VS Code, you can install an extension to help with writing the route doc.
+
+1. Download the `.vsix` file from the latest release
+2. Run `code --install-extension <path_to_vsix file>` from command line
+   - If you prefer to install from UI, go to the `Extensions` section from side bar within VS Code, Click on the 3 dots near the top of the side panel (`Views and More Actions...`), and choose `Install from VSIX...`
+
+To uninstall, run `code --uninstall-extension itntpiston.celer` or uninstall from within VS Code like you do with other extensions
+
 ## Writing Routes
 Celer routes are files that end with `.celer` extension. These files are text files in YAML format
 
