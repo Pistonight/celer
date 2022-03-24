@@ -4,8 +4,8 @@ install:
 ci:
     just packages/celer-vscode-extension/ci
 
-lint:
-    python3 scripts/lint.py
+lint VERBOSE="":
+    python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     just packages/celer-code-generator/lint
     just packages/celer-vscode-extension/lint

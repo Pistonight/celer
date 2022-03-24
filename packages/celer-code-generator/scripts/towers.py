@@ -1,3 +1,4 @@
+"""Tower data"""
 from .csvutils import read_csv
 from .memoize import memoized_thunk
 # display_name => (x, y, z)

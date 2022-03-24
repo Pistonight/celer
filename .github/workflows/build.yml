@@ -48,7 +48,7 @@ jobs:
     - name: Setup | CI Install
       run: just ci
     - name: Build | Lint
-      run: just lint
+      run: just lint --verbose
     - name: Build | Build
       run: just build
     - name: Build | Test (WIP)

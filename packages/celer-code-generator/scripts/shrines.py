@@ -1,3 +1,4 @@
+"""Shrine data"""
 from .csvutils import read_csv
 from .memoize import memoized_thunk
 # Get shrine data, which is a dictionary of:
