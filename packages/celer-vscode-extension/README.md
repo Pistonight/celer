@@ -19,6 +19,3 @@ Extension for editing route documents for Celer Engine, a routing engine for BOT
 ### 1.0.0
 
 Initial release
-
-
-

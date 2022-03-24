@@ -1,6 +1,9 @@
 install:
     npm install
 
+ci:
+    npm ci
+
 lint:
     npm run lint
 

@@ -1,9 +1,8 @@
-import * as vscode from 'vscode';
-import { getFunctionCompletionItem } from './registerFunction';
-import { getPrefixCompletionItems, getPresetCompletionItems } from './registerPreset';
+import * as vscode from "vscode";
+import { getFunctionCompletionItem } from "./registerFunction";
+import { getPrefixCompletionItems, getPresetCompletionItems } from "./registerPreset";
 
-export function activate(context: vscode.ExtensionContext) {
-
+export function activate(context: vscode.ExtensionContext): void {
 
 	const UnderscoreProvider = vscode.languages.registerCompletionItemProvider({language: "celer"}, {
 
@@ -43,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
 				return getFunctionCompletionItem();
 			}
 		},
-		'.' // triggered whenever a '.' is being typed
+		"." // triggered whenever a '.' is being typed
 	);
 
 	context.subscriptions.push(UnderscoreProvider, ColonProvider, FunctionProvider);
