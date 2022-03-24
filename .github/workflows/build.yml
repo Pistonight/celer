@@ -56,8 +56,15 @@ jobs:
     - name: Release | Package
       if: github.event_name != 'pull_request'
       run: just release
-    - name: Release | Upload
-      run: echo "Nothing to upload"
-    - name: Release | Deploy (WIP)
+    - name: Release | Release
+      if: github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        body_path: release/RELEASE_NOTES.txt
+        files: |
+          release/*.vsix
+          release/README.md
+    - name: Release | Deploy Web App(WIP)
       if: github.event_name != 'pull_request' && github.ref_name == 'main'
       run: echo "Nothing to deploy"

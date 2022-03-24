@@ -1,0 +1,3 @@
+release:
+    mkdir -p ../../release
+    mv README.md ../../release

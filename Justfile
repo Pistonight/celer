@@ -21,8 +21,11 @@ watch PROJECT:
     just packages/{{PROJECT}}/watch
 
 release: code
+    mkdir -p release
     just packages/celer-vscode-extension/release
+    just packages/celer-user-docs/release
     cargo build --release
+    python3 scripts/release.py > release/RELEASE_NOTES.txt
 
 clean:
     cargo clean

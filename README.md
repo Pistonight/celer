@@ -3,6 +3,8 @@
 # celer
 Celer is an engine for maintaining route documents for *The Legend of Zelda: Breath of the Wild* Speedruns
 
+## Packages
+
 #### celer-ui
 **WIP** React frontend
 
@@ -18,16 +20,28 @@ Utility to generate code from csv files with game data (such as Koroks, Shrines,
 
 #### [celer-vscode-extension](https://github.com/iTNTPiston/celer/tree/main/packages/celer-vscode-extension)
 
-need to install node 16, rust, python
-install python modules:
-toml
-pyyaml
-pip install toml
-pylint
-pylint-quotes
+An extension for VS Code that adds syntax highlighting and auto completion for celer route files
 
-install rust crates:
-just
-wasm-pack
+#### [celer-user-docs]
+
+Documentation for users
+
+## Contributing
+
+Need to install node 16, rust and python 3
+
+Python modules:
+- toml
+- pyyaml
+- pylint
+- pylint-quotes
+
+or run `python3 -m pip install toml pyyaml pylint pylint-quotes`
+
+Rust crates:
+- just
+- wasm-pack
+
+or run `cargo install just wasm-pack`
 
 A linux/WSL environment is needed.
