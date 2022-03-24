@@ -41,7 +41,7 @@ jobs:
           pyyaml
           pylint
           pylint-quotes
-    - name: Setup | Node 16.4.2
+    - name: Setup | Node 16.14.2
       uses: actions/setup-node@v3.0.0
       with:
         node-version: '16.14.2'

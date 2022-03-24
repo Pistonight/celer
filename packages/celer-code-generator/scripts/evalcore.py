@@ -84,7 +84,7 @@ def populate_korok_regions(korok_regions):
     data = get_korok_region_data()
     for region in data:
         count, name = data[region]
-        result.append(f"{korok_regions}[\"{region}\"] = {{name: \"{name}\", count: {count}}};")
+        result.append(f"{korok_regions}.{region} = {{name: \"{name}\", count: {count}}};")
     return "\n".join(result)
 
 def register_shrine_presets():
@@ -102,7 +102,7 @@ def register_shrine_presets():
             prefix = "(blessing) "
         elif shrine_type == "DLC":
             prefix = "(DLC) "
-        result.append(f"        register(\"{compact_name(name)}\", \"{prefix}{name} Shrine\");")
+        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{prefix}{name} Shrine\");")
     return "\n".join(result)
 
 def register_tower_presets():
@@ -110,7 +110,7 @@ def register_tower_presets():
     result = ["Generated Code"]
     data = get_tower_data()
     for name in data:
-        result.append(f"        register(\"{compact_name(name)}\", \"{name} Tower\");")
+        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{name} Tower\");")
     return "\n".join(result)
 
 def register_memory_presets():
@@ -118,5 +118,5 @@ def register_memory_presets():
     result = ["Generated Code"]
     data = get_memory_data()
     for name in data:
-        result.append(f"        register(\"{compact_name(name)}\", \"{data[name][0]}\");")
+        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{data[name][0]}\");")
     return "\n".join(result)

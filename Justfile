@@ -4,22 +4,23 @@ install:
 ci:
     just packages/celer-vscode-extension/ci
 
-lint VERBOSE="":
+code:
+    just packages/celer-code-generator/apply
+
+lint VERBOSE="": code
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     just packages/celer-code-generator/lint
     just packages/celer-vscode-extension/lint
 
-build: 
-    just packages/celer-code-generator/apply
+build: code
     just packages/celer-vscode-extension/build
     cargo build
 
 watch PROJECT:
     just packages/{{PROJECT}}/watch
 
-release:
-    just packages/celer-code-generator/apply
+release: code
     just packages/celer-vscode-extension/release
     cargo build --release
 
