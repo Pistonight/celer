@@ -1,7 +1,7 @@
 {
   "name": "celer-web-app",
   "homepage": "https://itntpiston.github.io/celer/",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",

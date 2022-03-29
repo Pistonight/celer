@@ -67,7 +67,7 @@ jobs:
         files: |
           release/*.vsix
           release/README.md
-    - name: Release | Deploy Web App(WIP)
+    - name: Release | Deploy Web App
       if: github.event_name != 'pull_request' && github.ref_name == 'main'
       uses: JamesIves/github-pages-deploy-action@v4.2.5
       with:
