@@ -65,6 +65,6 @@ jobs:
         files: |
           release/*.vsix
           release/README.md
-    - name: Release | Deploy Web App(WIP)
+    - name: Release | Deploy Web App
       if: github.event_name != 'pull_request' && github.ref_name == 'main'
       run: echo "Nothing to deploy"
