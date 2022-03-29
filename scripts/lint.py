@@ -7,6 +7,7 @@ import sys
 
 ignore = [
     "build",
+    "release",
     "node_modules",
     ".git",
     "__pycache__",
@@ -17,7 +18,8 @@ ignore_exts = [
     ".png",
     ".gif",
     ".vsix",
-    ".celer"
+    ".celer",
+    ".ico"
 ]
 
 ROOT = "."

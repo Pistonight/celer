@@ -5,7 +5,7 @@ Celer is an engine for maintaining route documents for *The Legend of Zelda: Bre
 
 ## Packages
 
-#### celer-ui
+#### celer-web-app
 **WIP** React frontend
 
 #### celer-cli

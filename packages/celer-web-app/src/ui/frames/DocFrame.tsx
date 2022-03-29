@@ -1,0 +1,144 @@
+import clsx from "clsx";
+import { MapCore } from "core/map";
+import { DocLine, DocLineText, DocLineTextWithIcon } from "core/route";
+import { LocalStorageWrapper } from "data/settings";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { DocLineComponent } from "ui/components";
+import { useAppRoot, useExperiment } from "ui/root";
+import { useStyles } from "ui/styles";
+
+export interface DocFrameProps {
+	docLines: DocLine[],
+}
+
+const SCROLL_POS_KEY="DocFrameScrollPos";
+
+const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: number)=>{
+	let lo = 0;
+	let hi = docLineRefs.length-1;
+	while(lo<=hi){
+		const mid = Math.floor((lo+hi)/2);
+		const midElement = docLineRefs[mid].current;
+		if(midElement){
+			const rect = midElement.getBoundingClientRect();
+			if(rect.top < y){
+				lo = mid + 1;
+			}else{
+				hi = mid - 1;
+			}
+		}else{
+			return 0;
+		}
+	}
+	return lo;
+};
+
+const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, mapCore: MapCore): void => {
+	const movements = docLine.movements;
+	if(movements.length > 0){
+		const coord = movements[0].to;
+		mapCore.centerMap(coord);
+	}
+	
+};
+
+export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
+	//console.log("Render DocFrame");
+	const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
+
+	// const [docLineComponents, setDocLineComponents] = useState<JSX.Element[]>([]);
+	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
+
+	const { mapCore, docScrollToLine , setDocCurrentLine} = useAppRoot();
+	const EnhancedScrollTrackerEnabled = useExperiment("EnhancedScrollTrackerEnabled");
+	const MapSyncToDocScrollEnabled = useExperiment("MapSyncToDocScrollEnabled");
+
+	const docFrameRef = useRef<HTMLDivElement>(null);
+
+	const [docLineComponents, docLineRefs] = useMemo(()=>{
+		//console.log("Create components");
+		if(EnhancedScrollTrackerEnabled){
+			let altLineColor = false;
+			let altNoteColor = false;
+			const components:JSX.Element[] = [];
+			const refs: React.RefObject<HTMLDivElement>[] = [];
+			docLines.forEach((docLine, i)=>{
+				const r = React.createRef<HTMLDivElement>();
+				refs.push(r);
+				components.push(
+					<div ref={r} key={i}>
+						<DocLineComponent docLine={docLine} key={i} altLineColor={altLineColor} altNotesColor={altNoteColor} />
+					</div>
+				);
+				if(docLine.lineType === "DocLineText" || docLine.lineType === "DocLineTextWithIcon"){
+					altLineColor = !altLineColor;
+					if(docLine.notes){
+						altNoteColor = !altNoteColor;
+					}
+				}
+			});
+			return [components, refs];
+
+		}
+		return [[],[]];
+	}, [docLines]);
+
+	useEffect(()=>{
+		if(docFrameRef.current){
+			if(docScrollToLine >= 0 && docScrollToLine < docLineRefs.length){
+				const line = docLineRefs[docScrollToLine].current;
+				if(line){
+					docFrameRef.current.scrollTop = line.getBoundingClientRect().top + docFrameRef.current.scrollTop;
+				}
+			}
+			
+		}
+	}, [docLineRefs, docScrollToLine]);
+
+	const styles = useStyles();
+	
+	const components:JSX.Element[] = [];
+	if(!EnhancedScrollTrackerEnabled){
+		let altLineColor = false;
+		let altNoteColor = false;
+		docLines.forEach((docLine, i)=>{
+			components.push(<DocLineComponent docLine={docLine} key={i} altLineColor={altLineColor} altNotesColor={altNoteColor} />);
+			if(docLine.lineType === "DocLineText" || docLine.lineType === "DocLineTextWithIcon"){
+				altLineColor = !altLineColor;
+				if(docLine.notes){
+					altNoteColor = !altNoteColor;
+				}
+			}
+		});
+		return (
+			<div ref={docFrameRef} className={clsx(styles.docFrame)} onScroll={(e)=>{
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const target = e.target as any;
+				const pos = target.scrollTop || 0;
+				if(Math.abs(pos - scrollPos) >= 300){
+					setScrollPos(pos);
+					LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
+				}
+			}}>
+				{components}
+			</div>
+		);
+	}
+	
+	return (
+		<div ref={docFrameRef} className={clsx(styles.docFrame)} 
+			onScroll={()=>{
+				const i = binarySearchForLine(docLineRefs, 0);
+				setDocCurrentLine(i);
+				const docLine = docLines[i];
+				if(docLine.lineType === "DocLineText" || docLine.lineType === "DocLineTextWithIcon"){
+					if(MapSyncToDocScrollEnabled){
+						centerMapToLine(docLine, mapCore);
+					}
+				}
+			}}>
+			{docLineComponents}
+		</div>
+	);
+	
+};

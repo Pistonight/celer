@@ -1,0 +1,12 @@
+# Test route scripts
+*.yaml
+!test.yaml
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+bundle.json
+bundle.raw.json
+bundler.js

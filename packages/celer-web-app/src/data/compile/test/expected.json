@@ -1,0 +1,129 @@
+{
+    "compilerVersion": "2.0.1",
+    "Project": {
+        "Name": "Test Project123",
+        "Authors": [],
+        "Url": "",
+        "Version": "0.0.0",
+        "Description": "A test project"
+    },
+    "Route": [
+        "section level text step",
+        "_Equipment<section level text step as preset>",
+        {
+            "_Equipment<section level preset extend>": {
+                "comment": "hello"
+            }
+        },
+        "TextStepSingle",
+        "_Equipment<t>",
+        {
+            "_Custom": {
+                "comment": "cool"
+            }
+        },
+        "single step",
+        "step 1",
+        "step 2",
+        {
+            "Test Section 1": [
+                "inner step",
+                "_Equipment<text step as preset>",
+                {
+                    "_Equipment<preset extend>": {
+                        "comment": "hello"
+                    }
+                },
+                "TextStepSingle",
+                "_Equipment<t>",
+                {
+                    "_Custom": {
+                        "comment": "cool"
+                    }
+                },
+                "single step",
+                "step 1",
+                "step 2"
+            ]
+        },
+        {
+            "Single Text Section": "single text"
+        },
+        {
+            "Single Text Section Include": "TextStepSingle"
+        },
+        {
+            "Single preset extend section": {
+                "_Equipment<single>": {
+                    "comment": "preset extend"
+                }
+            }
+        },
+        {
+            "Single preset extend include": {
+                "_Custom": {
+                    "comment": "cool"
+                }
+            }
+        },
+        {
+            "section array include": [
+                "step 1",
+                "step 2"
+            ]
+        },
+        {
+            "section array include 2": [
+                "single step"
+            ]
+        },
+        {
+            "Test Validation Section": [
+                "(^!) Bundler Error: Step extension cannot be null or undefined",
+                "(^!) Bundler Error: Step extension must be an object (mapping)",
+                "(^!) Bundler Error: Step extension cannot be null or undefined",
+                {
+                    "Test Validation 4": {}
+                },
+                "(^?) Bundler Warning: \"invalid-attr\" is not a valid attribute",
+                {
+                    "Test Validation 5": {}
+                },
+                "(^?) Bundler Warning: \"coord\" is ignored because it is not an array or it has the wrong number of values. Must be either [x, z] or [x, y, z]",
+                {
+                    "Test Validation 6": {}
+                },
+                "(^?) Bundler Warning: \"coord\" is ignored because it is not an array or it has the wrong number of values. Must be either [x, z] or [x, y, z]",
+                {
+                    "Test Validation 6a": {
+                        "coord": [
+                            1,
+                            2,
+                            3
+                        ]
+                    }
+                },
+                {
+                    "Test Validation 6b": {
+                        "coord": [
+                            1,
+                            2
+                        ]
+                    }
+                },
+                {
+                    "Test Validation 6c": {}
+                },
+                "(^?) Bundler Warning: \"coord\" is ignored because it is not an array or it has the wrong number of values. Must be either [x, z] or [x, y, z]",
+                {
+                    "Test Validation 7": {
+                        "coord": [
+                            0,
+                            0
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+};
