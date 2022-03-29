@@ -124,7 +124,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Route Custom Theme: "} /> */}
 
-							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>celer-engine v1.6.3</div></div>
+							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>celer-engine v1.6.4</div></div>
 						</div>
 					</>
 					}
