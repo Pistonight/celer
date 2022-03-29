@@ -69,4 +69,7 @@ jobs:
           release/README.md
     - name: Release | Deploy Web App(WIP)
       if: github.event_name != 'pull_request' && github.ref_name == 'main'
-      run: echo "Nothing to deploy"
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: prod
+          folder: release/celer-web-app
