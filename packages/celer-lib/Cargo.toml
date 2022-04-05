@@ -6,11 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "celerlib"
+name = "celer"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 wasm-bindgen = "=0.2.79"
+yaml-rust = "0.4"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

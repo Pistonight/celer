@@ -3,7 +3,6 @@ build/
 release/
 # Rust
 target/
-Cargo.lock
 # Packaged VS Code Extension
 .vsix
 

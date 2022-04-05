@@ -9,7 +9,10 @@ ci:
 code:
     just packages/celer-code-generator/apply
 
-lint VERBOSE="": code
+version: 
+    python3 scripts/version.py
+
+lint VERBOSE="": code version
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     just packages/celer-code-generator/lint

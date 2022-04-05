@@ -30,7 +30,7 @@ Essentially, celer allows router maintainer to make route changes without doing 
 ****
 ## Install Celer CLI
 
-**NOTE: The newer rust-based CLI is still in development. Please use the  python-based bundler at [iTNTPiston/celer-compiler](https://github.com/iTNTPiston/celer-compiler)**
+**NOTE: The newer rust-based CLI is still in development. Please use the python-based bundler at [iTNTPiston/celer-compiler](https://github.com/iTNTPiston/celer-compiler)**
 
 ****
 
@@ -76,7 +76,7 @@ Route:
   - Section 2:
     - Kill the boss
 ```
-Copy and paste the content into `myroute.yaml`, and then run `gbundle-watch.py myroute.yaml`, you can then use the engine to render the doc [(link)](https://itntpiston.github.io/celer?DevPort=2222)
+Copy and paste the content into `myroute.yaml`, and then run `gbundle-watch.py myroute.yaml`, you can then use the web app to render the doc [(link)](https://celer.itntpiston.app?DevPort=2222)
 
 ### Project Section
 Project section is this
@@ -129,14 +129,14 @@ The following table contains the properties you can set. The ones prefixed with 
 |Property|Use|
 |-|-|
 |text|Override the text of the step|
-|icon|Add/override the icon of the step. [Available icons](https://github.com/iTNTPiston/celer-engine/tree/main/src/data/image). Don't include the `.png` extension when specifying the icon|
+|icon|Add/override the icon of the step. [Available icons](https://github.com/iTNTPiston/celer/tree/main/packages/celer-web-app/src/data/image). Don't include the `.png` extension when specifying the icon|
 |comment|Add/override the comment. Only works if the step also has an icon|
 |notes|Add notes to the step|
 |line-color|Change line color on the map. Colors are specified with html syntax, such as `red`, `#ff0000`, or `rgb(255,0,0)`|
 |hide-icon-on-map|True/False. If true, the icon of this step won't show on map|
 |coord|`[x, z]` or `[x, y, z]`. Location of this step. Can copy direction from objmap|
 |movements|See [Movements](#movements) section|
-|split-type|Add/override the split type of this step. Valid values are case sentivity name of [the SplitType enum](https://github.com/iTNTPiston/celer-engine/blob/main/src/data/assembly/types.ts)|
+|split-type|Add/override the split type of this step. Valid values are case sentivity name of [the SplitType enum](https://github.com/iTNTPiston/celer/tree/main/packages/celer-web-app/src/data/assembly/types.ts)|
 |var-change|A map of variables to update|
 |fury|Number of furies to use|
 |gale|Number of gales to use|
@@ -192,7 +192,7 @@ Route: # route object
     - _Equipment::Shield<Pot Lid>:
         comment: DO NOT BREAK
 ```
-The engine has an [internal page](https://itntpiston.github.io/celer?Internal=1&Id=Presets) that shows all supported presets
+The web app has an [internal page](https://celer.itntpiston.app?Internal=Presets) that shows all supported presets
 
 ### String Typing
 Most strings in the route engine supports adding a type to the string, which will cause the doc to be rendered using custom color.
