@@ -51,6 +51,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 
 	const { mapCore, docScrollToLine , setDocCurrentLine} = useAppRoot();
 	const EnhancedScrollTrackerEnabled = useExperiment("EnhancedScrollTrackerEnabled");
+	const NoTrackDocPos = useExperiment("NoTrackDocPos");
 	const MapSyncToDocScrollEnabled = useExperiment("MapSyncToDocScrollEnabled");
 
 	const docFrameRef = useRef<HTMLDivElement>(null);
@@ -84,16 +85,17 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	}, [docLines]);
 
 	useEffect(()=>{
-		if(docFrameRef.current){
-			if(docScrollToLine >= 0 && docScrollToLine < docLineRefs.length){
-				const line = docLineRefs[docScrollToLine].current;
-				if(line){
-					docFrameRef.current.scrollTop = line.getBoundingClientRect().top + docFrameRef.current.scrollTop;
+		if(!NoTrackDocPos){
+			if(docFrameRef.current){
+				if(docScrollToLine >= 0 && docScrollToLine < docLineRefs.length){
+					const line = docLineRefs[docScrollToLine].current;
+					if(line){
+						docFrameRef.current.scrollTop = line.getBoundingClientRect().top + docFrameRef.current.scrollTop;
+					}
 				}
 			}
-			
 		}
-	}, [docLineRefs, docScrollToLine]);
+	}, [NoTrackDocPos, docLineRefs, docScrollToLine]);
 
 	const styles = useStyles();
 	
@@ -112,12 +114,14 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		});
 		return (
 			<div ref={docFrameRef} className={clsx(styles.docFrame)} onScroll={(e)=>{
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				const target = e.target as any;
-				const pos = target.scrollTop || 0;
-				if(Math.abs(pos - scrollPos) >= 300){
-					setScrollPos(pos);
-					LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
+				if(!NoTrackDocPos){
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const target = e.target as any;
+					const pos = target.scrollTop || 0;
+					if(Math.abs(pos - scrollPos) >= 300){
+						setScrollPos(pos);
+						LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
+					}
 				}
 			}}>
 				{components}

@@ -11,6 +11,7 @@ import React from "react";
 import { createLiveSplitFile } from "data/livesplit";
 import { saveAs } from "data/scripts/external/FileSaver";
 import { EmptyObject } from "data/util";
+import { WebAppVersion } from "data/util/version";
 
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
@@ -112,9 +113,38 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								setContextMenuRef(splitSettingsMenuItemRef);
 								//console.log(splitSettingsMenuItemRef.current?.getBoundingClientRect());
 							} } ref={splitSettingsMenuItemRef}/>
-							{downloadSplitsEnabled && <MenuItem text="Download Livesplit Splits" action={function (): void {
-								const splitContent = createLiveSplitFile(docLines);
+							{downloadSplitsEnabled && <MenuItem text="Download AS Splits" action={function (): void {
+								const splitContent = createLiveSplitFile(docLines, (variables, splitType, lineText)=>{
+									const prefixnumber = (i: number):string => {
+										if (i >= 100) {return String(i);}
+										if(i>=10) {return "0"+String(i);}
+										return "00"+String(i);
+									};
+									let name: string | undefined = undefined;
+									if(splitType === SplitType.Shrine){
+										name = "[" + prefixnumber(variables.SRN) + "] " + lineText;
+									}else if (splitType === SplitType.Warp){
+										name = lineText + " Again";
+									}else if (splitType !== SplitType.None){
+										name = lineText;
+									}
+									return name;
+								});
 								saveAs(splitContent, "celer-splits.lss");
+							} }/>}
+							{downloadSplitsEnabled && <MenuItem text="Download Hundo Splits" action={function (): void {
+								const splitContent = createLiveSplitFile(docLines, (variables, splitType, lineText)=>{
+									let name: string | undefined = undefined;
+									if(splitType === SplitType.Shrine){
+										name = String(variables.KRK) + " - " + lineText;
+									}else if (splitType === SplitType.Warp){
+										name = lineText + " Again";
+									}else if (splitType === SplitType.Tower || splitType === SplitType.UserDefined){
+										name = lineText;
+									}
+									return name;
+								});
+								saveAs(splitContent, "celer-splits-hundo.lss");
 							} }/>}
 							{/* <hr />
     <MenuItem style={appStyle} text="Route Detail..." action={function (): void {
@@ -124,7 +154,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Route Custom Theme: "} /> */}
 
-							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>celer-engine v1.6.4</div></div>
+							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>celer-engine v{WebAppVersion}</div></div>
 						</div>
 					</>
 					}

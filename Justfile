@@ -6,15 +6,24 @@ ci:
     just packages/celer-vscode-extension/ci
     just packages/celer-web-app/ci
 
+check:
+    just packages/celer-code-generator/verify
+
 code:
     just packages/celer-code-generator/apply
 
-lint VERBOSE="": code
+version: 
+    python3 scripts/version.py
+
+lint VERBOSE="": check code version
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     just packages/celer-code-generator/lint
     just packages/celer-vscode-extension/lint
     just packages/celer-web-app/lint
+
+cargo RELEASE="":
+    cargo build {{RELEASE}}
 
 build: code
     just packages/celer-vscode-extension/build

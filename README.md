@@ -5,8 +5,8 @@ Celer is an engine for maintaining route documents for *The Legend of Zelda: Bre
 
 ## Packages
 
-#### celer-web-app
-**WIP** React frontend
+#### [celer-web-app](https://github.com/iTNTPiston/celer/tree/main/packages/celer-web-app)
+React web app for rendering routes. Currently the engine is written in typescript, but the plan is to migrate to rust to allow code sharing between web app and CLI
 
 #### celer-cli
 **WIP** CLI for writing routes, written in Rust

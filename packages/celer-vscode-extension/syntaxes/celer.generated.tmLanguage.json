@@ -155,7 +155,7 @@
         "celer-shrine": {
             "patterns": [
                 {
-                    "match": "(_Shrine)(::)(AkhVaquot|BareedaNaag|BoshKala|ChaasQeta|DaagChokah|DagahKeek|DahHesho|DahKaso|DakaTuss|DaqaKoh|DaqoChisay|DaqoTah|DilaMaag|DowNaeh|DunbaTaag|EtsuKorima|GeeHarah|GomaAsaagh|GoraeTorr|HaDahamar|HawaKoth|HiaMiu|HilaRao|IshtoSoh|JaBaij|JeeNoh|JitanSami|JolooNah|KaoMakagh|KaamYatak|KahMael|KahOkeo|KahYah|KamUrog|KamiaOmuna|KatahChuki|KatosaAug|KayNoh|KayaWan|KayraMah|KenaiShakah|KeeDafunia|KeehaYoog|KehNamut|KeiveTala|KemaKossasa|KemaZoos|KeoRuug|KetohWawai|KiahToza|KihiroMoh|KorguChideh|KorshOhu|KuhTakkar|KuhnSidajj|LaknaRokee|LannoKooh|MaagHalan|MaagNorah|MahEliya|MakaRah|MezzaLo|MijahRokee|MirroShaz|MisaeSuma|MoaKeet|MoggLatan|MonyaToma|MozoShenno|MuwoJeem|MyahmAgana|NamikaOzz|NeezYohma|NoeRajee|NoyaNeha|OmanAu|OwaDaim|PumaagNitae|QazaTokki|QuaRaym|QukahNata|RaqaZunzo|ReeDahee|RinOyaa|RinuHonika|RitaagZumo|RohtaChigah|RokUwog|RonaKachta|RotaOoh|RuccoMaag|RuvoKorbah|SaasKosah|SahDahaj|SasaKai|SatoKoda|ShaGehma|ShaWarvo|ShadaNaw|ShaeKatha|ShaeLoya|ShaeMosah|ShaiUtoh|ShaiYota|SharoLun|SheeVaneer|SheeVaneth|SheemDagoze|ShehRata|ShiraGomar|ShoDantu|ShodaSah|ShoqaTatone|ShoraHah|SohKofi|SumaSahma|TalohNaeg|TahMuhl|TakamaShiri|TalohOah|TawaJinn|TenaKosah|ThoKayu|ToQuomo|TohYahsa|TotoSah|TuKaloh|TutsuwaNima|VooLota|WahgoKatta|YaNaga|YahRin|YowakaIta|ZaltaWa|ZeKasho|ZunaKai)",
+                    "match": "(_Shrine)(::)(JaBaij|OmanAu|OwaDaim|KehNamut|AkhVaquot|BareedaNaag|BoshKala|ChaasQeta|DaagChokah|DagahKeek|DahHesho|DahKaso|DakaTuss|DaqaKoh|DaqoChisay|DakoTah|DilaMaag|DowNaeh|DunbaTaag|EtsuKorima|GeeHarah|GomaAsaagh|GoraeTorr|HaDahamar|HawaKoth|HiaMiu|HilaRao|IshtoSoh|JeeNoh|JitanSami|JolooNah|KaamYatak|KahMael|KahOkeo|KahYah|KamUrog|KamiaOmuna|KaoMakagh|KatahChuki|KatosaAug|KayNoh|KayaWan|KayraMah|KeeDafunia|KeehaYoog|KeiveTala|KemaKosassa|KemaZoos|KenaiShakah|KeoRuug|KetohWawai|KiahToza|KihiroMoh|KorguChideh|KorshOhu|KuhTakkar|KuhnSidajj|LaknaRokee|LannoKooh|MaagHalan|MaagNorah|MahEliya|MakaRah|MezzaLo|MijahRokee|MirroShaz|MisaeSuma|MoaKeet|MoggLatan|MonyaToma|MozoShenno|MuwoJeem|MyahmAgana|NamikaOzz|NeezYohma|NoeRajee|NoyaNeha|PumaagNitae|QazaTokki|QuaRaym|QukahNata|RaqaZunzo|ReeDahee|RinOyaa|RinuHonika|RitaagZumo|RohtaChigah|RokUwog|RonaKachta|RotaOoh|RuccoMaag|RuvoKorbah|SaasKosah|SahDahaj|SasaKai|SatoKoda|ShaGehma|ShaWarvo|ShadaNaw|ShaeKatha|ShaeLoya|ShaeMosah|ShaiUtoh|ShaiYota|SharoLun|SheeVaneer|SheeVaneth|SheemDagoze|ShehRata|ShiraGomar|ShoDantu|ShodaSah|ShoqaTatone|ShoraHah|SohKofi|SumaSahma|TahMuhl|TakamaShiri|TalohNaeg|TahnoOah|TawaJinn|TenaKosah|ThoKayu|ToQuomo|TohYahsa|TotoSah|TuKaloh|TutsuwaNima|VooLota|WahgoKatta|YaNaga|YahRin|YowakaIta|ZaltaWa|ZeKasho|ZunaKai)",
                     "captures": {
                         "1": {
                             "name": "entity.name.class.shrine.celer"
@@ -187,7 +187,7 @@
         "celer-tower": {
             "patterns": [
                 {
-                    "match": "(_Tower)(::)(Akkala|Central|DuelingPeaks|Eldin|Faron|Gerudo|GreatPlateau|Hateno|Hebra|Lake|Lanayru|Ridgeland|Tabantha|Wasteland|Woodland)",
+                    "match": "(_Tower)(::)(GreatPlateau|Central|Lake|DuelingPeaks|Faron|Hateno|Lanayru|Eldin|Woodland|Akkala|Tabantha|Gerudo|Wasteland|Hebra|Ridgeland)",
                     "captures": {
                         "1": {
                             "name": "entity.name.class.tower.celer"
@@ -233,7 +233,7 @@
         "celer-warp": {
             "patterns": [
                 {
-                    "match": "(_Warp)(::)(Tower)(::)(Akkala|Central|DuelingPeaks|Eldin|Faron|Gerudo|GreatPlateau|Hateno|Hebra|Lake|Lanayru|Ridgeland|Tabantha|Wasteland|Woodland)",
+                    "match": "(_Warp)(::)(Tower)(::)(GreatPlateau|Central|Lake|DuelingPeaks|Faron|Hateno|Lanayru|Eldin|Woodland|Akkala|Tabantha|Gerudo|Wasteland|Hebra|Ridgeland)",
                     "captures": {
                         "1": {
                             "name": "entity.name.class.warp.celer"
@@ -253,7 +253,7 @@
                     }
                 },
                 {
-                    "match": "(_Warp)(::)(Shrine)(::)(AkhVaquot|BareedaNaag|BoshKala|ChaasQeta|DaagChokah|DagahKeek|DahHesho|DahKaso|DakaTuss|DaqaKoh|DaqoChisay|DaqoTah|DilaMaag|DowNaeh|DunbaTaag|EtsuKorima|GeeHarah|GomaAsaagh|GoraeTorr|HaDahamar|HawaKoth|HiaMiu|HilaRao|IshtoSoh|JaBaij|JeeNoh|JitanSami|JolooNah|KaoMakagh|KaamYatak|KahMael|KahOkeo|KahYah|KamUrog|KamiaOmuna|KatahChuki|KatosaAug|KayNoh|KayaWan|KayraMah|KenaiShakah|KeeDafunia|KeehaYoog|KehNamut|KeiveTala|KemaKossasa|KemaZoos|KeoRuug|KetohWawai|KiahToza|KihiroMoh|KorguChideh|KorshOhu|KuhTakkar|KuhnSidajj|LaknaRokee|LannoKooh|MaagHalan|MaagNorah|MahEliya|MakaRah|MezzaLo|MijahRokee|MirroShaz|MisaeSuma|MoaKeet|MoggLatan|MonyaToma|MozoShenno|MuwoJeem|MyahmAgana|NamikaOzz|NeezYohma|NoeRajee|NoyaNeha|OmanAu|OwaDaim|PumaagNitae|QazaTokki|QuaRaym|QukahNata|RaqaZunzo|ReeDahee|RinOyaa|RinuHonika|RitaagZumo|RohtaChigah|RokUwog|RonaKachta|RotaOoh|RuccoMaag|RuvoKorbah|SaasKosah|SahDahaj|SasaKai|SatoKoda|ShaGehma|ShaWarvo|ShadaNaw|ShaeKatha|ShaeLoya|ShaeMosah|ShaiUtoh|ShaiYota|SharoLun|SheeVaneer|SheeVaneth|SheemDagoze|ShehRata|ShiraGomar|ShoDantu|ShodaSah|ShoqaTatone|ShoraHah|SohKofi|SumaSahma|TalohNaeg|TahMuhl|TakamaShiri|TalohOah|TawaJinn|TenaKosah|ThoKayu|ToQuomo|TohYahsa|TotoSah|TuKaloh|TutsuwaNima|VooLota|WahgoKatta|YaNaga|YahRin|YowakaIta|ZaltaWa|ZeKasho|ZunaKai)",
+                    "match": "(_Warp)(::)(Shrine)(::)(JaBaij|OmanAu|OwaDaim|KehNamut|AkhVaquot|BareedaNaag|BoshKala|ChaasQeta|DaagChokah|DagahKeek|DahHesho|DahKaso|DakaTuss|DaqaKoh|DaqoChisay|DakoTah|DilaMaag|DowNaeh|DunbaTaag|EtsuKorima|GeeHarah|GomaAsaagh|GoraeTorr|HaDahamar|HawaKoth|HiaMiu|HilaRao|IshtoSoh|JeeNoh|JitanSami|JolooNah|KaamYatak|KahMael|KahOkeo|KahYah|KamUrog|KamiaOmuna|KaoMakagh|KatahChuki|KatosaAug|KayNoh|KayaWan|KayraMah|KeeDafunia|KeehaYoog|KeiveTala|KemaKosassa|KemaZoos|KenaiShakah|KeoRuug|KetohWawai|KiahToza|KihiroMoh|KorguChideh|KorshOhu|KuhTakkar|KuhnSidajj|LaknaRokee|LannoKooh|MaagHalan|MaagNorah|MahEliya|MakaRah|MezzaLo|MijahRokee|MirroShaz|MisaeSuma|MoaKeet|MoggLatan|MonyaToma|MozoShenno|MuwoJeem|MyahmAgana|NamikaOzz|NeezYohma|NoeRajee|NoyaNeha|PumaagNitae|QazaTokki|QuaRaym|QukahNata|RaqaZunzo|ReeDahee|RinOyaa|RinuHonika|RitaagZumo|RohtaChigah|RokUwog|RonaKachta|RotaOoh|RuccoMaag|RuvoKorbah|SaasKosah|SahDahaj|SasaKai|SatoKoda|ShaGehma|ShaWarvo|ShadaNaw|ShaeKatha|ShaeLoya|ShaeMosah|ShaiUtoh|ShaiYota|SharoLun|SheeVaneer|SheeVaneth|SheemDagoze|ShehRata|ShiraGomar|ShoDantu|ShodaSah|ShoqaTatone|ShoraHah|SohKofi|SumaSahma|TahMuhl|TakamaShiri|TalohNaeg|TahnoOah|TawaJinn|TenaKosah|ThoKayu|ToQuomo|TohYahsa|TotoSah|TuKaloh|TutsuwaNima|VooLota|WahgoKatta|YaNaga|YahRin|YowakaIta|ZaltaWa|ZeKasho|ZunaKai)",
                     "captures": {
                         "1": {
                             "name": "entity.name.class.warp.celer"
@@ -357,7 +357,7 @@
         "celer-memory": {
             "patterns": [
                 {
-                    "match": "(_Memory)(::)(AncientColumns|AshSwamp|EldinCanyon|HyruleCastle|HyruleField|IrchPlain|KaraKaraBazaar|LakeKolomo|LanayruRoad|SacredGrounds|SanidinPark|SpringofPower|WestNecluda)",
+                    "match": "(_Memory)(::)(LanayruRoad|SacredGrounds|LakeKolomo|AncientColumns|KaraKaraBazaar|EldinCanyon|IrchPlain|WestNecluda|HyruleCastle|SpringofPower|SanidinPark|HyruleField|AshSwamp)",
                     "captures": {
                         "1": {
                             "name": "entity.name.class.memory.celer"

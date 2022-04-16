@@ -8,7 +8,7 @@ export class TowerPreset implements CelerPreset {
 		return "Tower";
 	}
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
-		// Generated Code
+		// GENERATED CODE
 		register("GreatPlateau", "Great Plateau Tower");
 		register("Central", "Central Tower");
 		register("Lake", "Lake Tower");

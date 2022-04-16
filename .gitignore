@@ -3,7 +3,6 @@ build/
 release/
 # Rust
 target/
-Cargo.lock
 # Packaged VS Code Extension
 .vsix
 
@@ -25,3 +24,10 @@ __pycache__
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# debugging files
+main.celer
+bundle.json
+bundle.src.celer
+bundle.asm.json
+bundle.obj.json

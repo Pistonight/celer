@@ -1,6 +1,7 @@
 import { DocLine } from "core/route";
 import { SplitType } from "./assembly";
 import Icons from "./image";
+import { MapOf } from "./util";
 
 export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
 	if(!webpackImageData) {
@@ -33,25 +34,19 @@ export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
 	return cDataString;
 };
 
-export const createLiveSplitFile = (lines: DocLine[]): string => {
+export const createLiveSplitFile = (lines: DocLine[], formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
 	const header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Run version=\"1.7.0\"><GameIcon/><GameName/><CategoryName/><LayoutPath/><Metadata><Run id=\"\"/><Platform usesEmulator=\"False\"/><Region/><Variables /></Metadata><Offset>00:00:00</Offset><AttemptCount>0</AttemptCount><AttemptHistory/><Segments>";
 	const footer = "</Segments><AutoSplitterSettings/></Run>";
-	return `${header}${createSegmentTags(lines)}${footer}`;
+	return `${header}${createSegmentTags(lines, formatter)}${footer}`;
 };
 
-const createSegmentTags = (lines: DocLine[]): string => {
+const createSegmentTags = (lines: DocLine[], formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
 	const splitNames: string[] = [];
 	const splitIcons: string[] = [];
 	lines.forEach((line)=>{
 		if(line.lineType === "DocLineTextWithIcon"){
-			let name: string | undefined = undefined;
-			if(line.splitType === SplitType.Shrine){
-				name = "[" + prefixnumber(line.variables.SRN) + "] " + line.text.toString();
-			}else if (line.splitType === SplitType.Warp){
-				name = line.text.toString() + " Again";
-			}else if (line.splitType !== SplitType.None){
-				name = line.text.toString();
-			}
+			const name = formatter(line.variables, line.splitType, line.text.toString());
+
 			if(name){
 				splitNames.push(name);
 				splitIcons.push(Icons[line.icon || ""]);
@@ -61,12 +56,6 @@ const createSegmentTags = (lines: DocLine[]): string => {
 
 	});
 	return splitNames.map((name, i)=>createSegmentTag(name, splitIcons[i])).join("");
-};
-
-const prefixnumber = (i: number):string => {
-	if (i >= 100) {return String(i);}
-	if(i>=10) {return "0"+String(i);}
-	return "00"+String(i);
 };
 
 const createSegmentTag = (splitName: string, icon: string): string =>{

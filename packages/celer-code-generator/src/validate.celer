@@ -1,143 +1,220 @@
 ### Use this file to manually validate the syntax highlighting
 
+codegen define begin
+func TestCase
+input String
+write # {{String}}
+write {{String}}
+write "{{String}}"
+write '{{String}}'
+write - {{String}}
+write # {{String}}:
+write {{String}}:
+write "{{String}}":
+write '{{String}}':
+write - {{String}}:
+write # foo: {{String}}
+write foo: {{String}}
+write foo: "{{String}}"
+write foo: '{{String}}'
+write - foo: {{String}}
+write test: " foo
+write {{String}}
+write bar "
+write test: ' foo
+write {{String}}
+write bar '
+write test: foo
+write   {{String}}
+write   bar
+write test: >
+write   foo
+write   {{String}}
+write   bar
+write test: |
+write   foo
+write   {{String}}
+write   bar
+codegen define end
+
 ### Use Directive
-CODEGEN_START test_case("__use__ Module") CODEGEN_END
+codegen begin
+TestCase __use__ Module
+codegen end
 
 ### Banners
-CODEGEN_START test_case("(==) Foo") CODEGEN_END
-CODEGEN_START test_case("(^=) Foo") CODEGEN_END
-CODEGEN_START test_case("(?=) Foo") CODEGEN_END
-CODEGEN_START test_case("(!=) Foo") CODEGEN_END
-CODEGEN_START test_case("(^!) Foo") CODEGEN_END
-CODEGEN_START test_case("(^?) Foo") CODEGEN_END
+codegen begin
+TestCase (==) Foo
+TestCase (^=) Foo
+TestCase (?=) Foo
+TestCase (!=) Foo
+TestCase (^!) Foo
+TestCase (^?) Foo
+codegen end
 
 ### Step Symbol
-CODEGEN_START test_case("+Single Step") CODEGEN_END
-CODEGEN_START test_case("+Many + Steps") CODEGEN_END
+codegen begin
+TestCase +Single Step
+TestCase +Many + Steps
+codegen end
 
 ### Functions
-CODEGEN_START test_case("foo .foo(bar) bar") CODEGEN_END
-CODEGEN_START test_case(".foo(bar .bar(foo))") CODEGEN_END
-CODEGEN_START test_case(".foo(bar) .bar(foo)") CODEGEN_END
-CODEGEN_START test_case("item .item(item) item") CODEGEN_END
-CODEGEN_START test_case(".item(item .item(item))") CODEGEN_END
-CODEGEN_START test_case(".item(item) .item(item)") CODEGEN_END
-CODEGEN_START test_case(".item(Foo)") CODEGEN_END
-CODEGEN_START test_case(".loc(Foo)") CODEGEN_END
-CODEGEN_START test_case(".npc(Foo)") CODEGEN_END
-CODEGEN_START test_case(".rune(Foo)") CODEGEN_END
-CODEGEN_START test_case(".boss(Foo)") CODEGEN_END
-CODEGEN_START test_case(".enemy(Foo)") CODEGEN_END
-CODEGEN_START test_case(".code(Foo)") CODEGEN_END
-CODEGEN_START test_case(".dir(Foo)") CODEGEN_END
-CODEGEN_START test_case(".!!(important)") CODEGEN_END
-CODEGEN_START test_case(".v(Bar)") CODEGEN_END
-CODEGEN_START test_case(".gale() .gale(Foo) .gale(.gale(Foo)Bar)") CODEGEN_END
-CODEGEN_START test_case(".fury() .fury(Foo) .fury(.gale(Foo)Bar)") CODEGEN_END
-CODEGEN_START test_case(".link(Foo/Bar)") CODEGEN_END
+codegen begin
+TestCase foo .foo(bar) bar
+TestCase .foo(bar .bar(foo))
+TestCase .foo(bar) .bar(foo)
+TestCase item .item(item) item
+TestCase .item(item .item(item))
+TestCase .item(item) .item(item)
+TestCase .item(Foo)
+TestCase .loc(Foo)
+TestCase .npc(Foo)
+TestCase .rune(Foo)
+TestCase .boss(Foo)
+TestCase .enemy(Foo)
+TestCase .code(Foo)
+TestCase .dir(Foo)
+TestCase .!!(important)
+TestCase .v(Bar)
+TestCase .gale() .gale(Foo) .gale(.gale(Foo)Bar)
+TestCase .fury() .fury(Foo) .fury(.gale(Foo)Bar)
+TestCase .link(Foo/Bar)
+codegen end
 
 ### Directions
-CODEGEN_START test_case("Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar") CODEGEN_END
-CODEGEN_START test_case("Foo NBar EFoo WBar SESW 6:00") CODEGEN_END
+codegen begin
+TestCase Foo N E W S SE SW NE NW 12:00 06:00 05:35 Bar
+TestCase Foo NBar EFoo WBar SESW 6:00
+codegen end
 
 ### Shrines
-CODEGEN_START test_case("_Shrine::OmanAu") CODEGEN_END
-CODEGEN_START test_case("Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma") CODEGEN_END
-CODEGEN_START test_case("_Shrine::ShaGehma foobar") CODEGEN_END
-CODEGEN_START test_case("_Shrine::Foobar") CODEGEN_END
+codegen begin
+TestCase _Shrine::OmanAu
+TestCase Foo _Shrine::MozoShenno Bar _Shrine::ShaGehma
+TestCase _Shrine::ShaGehma foobar
+TestCase _Shrine::Foobar
+codegen end
 
 ### Towers
-CODEGEN_START test_case("_Tower::Central") CODEGEN_END
-CODEGEN_START test_case("Foo _Tower::GreatPlateau Bar _Tower::Hebra") CODEGEN_END
-CODEGEN_START test_case("_Tower::Hateno foobar") CODEGEN_END
-CODEGEN_START test_case("_Tower::Foobar") CODEGEN_END
+codegen begin
+TestCase _Tower::Central
+TestCase Foo _Tower::GreatPlateau Bar _Tower::Hebra
+TestCase _Tower::Hateno foobar
+TestCase _Tower::Foobar
+codegen end
 
 ### Koroks
-CODEGEN_START test_case("_Korok::K05") CODEGEN_END
-CODEGEN_START test_case("Foo _Korok::X17 Bar _Korok::X9") CODEGEN_END
-CODEGEN_START test_case("_Korok::A78 foobar") CODEGEN_END
-CODEGEN_START test_case("_Korok::A789") CODEGEN_END
+codegen begin
+TestCase _Korok::K05
+TestCase Foo _Korok::X17 Bar _Korok::X9
+TestCase _Korok::A78 foobar
+TestCase _Korok::A789
+codegen end
 
 ### Warps
-CODEGEN_START test_case("_Warp::Shrine::AkhVaquot") CODEGEN_END
-CODEGEN_START test_case("Foo _Warp::Shrine::Invalid Bar") CODEGEN_END
-CODEGEN_START test_case("Foo _Warp::Tower::Ridgeland Bar") CODEGEN_END
-CODEGEN_START test_case("_Warp::Tower::AkhVaquot") CODEGEN_END
-CODEGEN_START test_case("_Warp::TechLab::Akkala") CODEGEN_END
-CODEGEN_START test_case("Foo _Warp::TechLab::Invalid Bar") CODEGEN_END
-CODEGEN_START test_case("Foo _Warp::VahMedoh Bar") CODEGEN_END
-CODEGEN_START test_case("_Warp::VahPorger") CODEGEN_END
-CODEGEN_START test_case("_Warp::SOR") CODEGEN_END
-CODEGEN_START test_case("_Warp::Invalid") CODEGEN_END
-CODEGEN_START test_case("_Warp::TravelMedallion<1,2>") CODEGEN_END
-CODEGEN_START test_case("_Warp::TravelMedallion<1>") CODEGEN_END
-CODEGEN_START test_case("_Warp::TravelMedallion<NotNumber>") CODEGEN_END
-CODEGEN_START test_case("_Warp::TravelMedallion<NotNumber, 1>") CODEGEN_END
-CODEGEN_START test_case("_Warp::TravelMedallion<NotNumber, NotNumber>") CODEGEN_END
+codegen begin
+TestCase _Warp::Shrine::AkhVaquot
+TestCase Foo _Warp::Shrine::Invalid Bar
+TestCase Foo _Warp::Tower::Ridgeland Bar
+TestCase _Warp::Tower::AkhVaquot
+TestCase _Warp::TechLab::Akkala
+TestCase Foo _Warp::TechLab::Invalid Bar
+TestCase Foo _Warp::VahMedoh Bar
+TestCase _Warp::VahPorger
+TestCase _Warp::SOR
+TestCase _Warp::Invalid
+TestCase _Warp::TravelMedallion<1\,2>
+TestCase _Warp::TravelMedallion<1>
+TestCase _Warp::TravelMedallion<NotNumber>
+TestCase _Warp::TravelMedallion<NotNumber\, 1>
+TestCase _Warp::TravelMedallion<NotNumber\, NotNumber>
+codegen end
 
 ### Memory
-CODEGEN_START test_case("_Memory::HyruleCastle") CODEGEN_END
-CODEGEN_START test_case("Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle") CODEGEN_END
-CODEGEN_START test_case(" _Memory::LanayruRoad foobar") CODEGEN_END
-CODEGEN_START test_case("_Memory::ModernColumns") CODEGEN_END
+codegen begin
+TestCase _Memory::HyruleCastle
+TestCase Foo _Memory::HyruleCastle Bar _Memory::LoruleCastle
+TestCase  _Memory::LanayruRoad foobar
+TestCase _Memory::ModernColumns
+codegen end
 
 ### Boss
-CODEGEN_START test_case("_Boss::Talus::Luminous") CODEGEN_END
-CODEGEN_START test_case("Foo _Boss::Hinox::Blue Bar _Boss::BigStone") CODEGEN_END
-CODEGEN_START test_case(" _Boss::Hinox::Rare foobar") CODEGEN_END
-CODEGEN_START test_case("_Boss::Molduga _Boss::Stalnox") CODEGEN_END
+codegen begin
+TestCase _Boss::Talus::Luminous
+TestCase Foo _Boss::Hinox::Blue Bar _Boss::BigStone
+TestCase  _Boss::Hinox::Rare foobar
+TestCase _Boss::Molduga _Boss::Stalnox
+codegen end
 
 ### Equipment
-CODEGEN_START test_case("_Equipment::Weapon<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Equipment::Shield<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Equipment::Bow<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Equipment::Bar<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Equipment<Foo>") CODEGEN_END
+codegen begin
+TestCase _Equipment::Weapon<Foo>
+TestCase _Equipment::Shield<Foo>
+TestCase _Equipment::Bow<Foo>
+TestCase _Equipment::Bar<Foo>
+TestCase _Equipment<Foo>
+codegen end
 
 ### Chest
-CODEGEN_START test_case("_Chest::Special<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Chest::Bar<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Chest<Foo>") CODEGEN_END
+codegen begin
+TestCase _Chest::Special<Foo>
+TestCase _Chest::Bar<Foo>
+TestCase _Chest<Foo>
+codegen end
 
 ### Snap
-CODEGEN_START test_case("_Snap::Elite<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Snap::Quest<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Snap::Bar<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Snap<Foo>") CODEGEN_END
+codegen begin
+TestCase _Snap::Elite<Foo>
+TestCase _Snap::Quest<Foo>
+TestCase _Snap::Bar<Foo>
+TestCase _Snap<Foo>
+codegen end
 
 ### Npc
-CODEGEN_START test_case("_Npc::Rito<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::Goron<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::Gerudo<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::SheikaFemale<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::SheikaMale<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::ZoraFemale<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc::ZoraMale<Foo>") CODEGEN_END
-CODEGEN_START test_case("_Npc<Foo>") CODEGEN_END
+codegen begin
+TestCase _Npc::Rito<Foo>
+TestCase _Npc::Goron<Foo>
+TestCase _Npc::Gerudo<Foo>
+TestCase _Npc::SheikaFemale<Foo>
+TestCase _Npc::SheikaMale<Foo>
+TestCase _Npc::ZoraFemale<Foo>
+TestCase _Npc::ZoraMale<Foo>
+TestCase _Npc<Foo>
+codegen end
 
 ### Material
-CODEGEN_START test_case("_Material<something>") CODEGEN_END
-CODEGEN_START test_case("_Material<something, 1>") CODEGEN_END
-CODEGEN_START test_case("_Material<something, NotNumber>") CODEGEN_END
+codegen begin
+TestCase _Material<something>
+TestCase _Material<something\, 1>
+TestCase _Material<something\, NotNumber>
+codegen end
 
 ### Other
-CODEGEN_START test_case("_Shop<something>") CODEGEN_END
-CODEGEN_START test_case("_Cook<something>") CODEGEN_END
-CODEGEN_START test_case("_Discover<something>") CODEGEN_END
-CODEGEN_START test_case("_Invalid<something>") CODEGEN_END
+codegen begin
+TestCase _Shop<something>
+TestCase _Cook<something>
+TestCase _Discover<something>
+TestCase _Invalid<something>
+codegen end
 
 ### Time of Day
-CODEGEN_START test_case("_Tod::Morning") CODEGEN_END
-CODEGEN_START test_case("_Tod::Noon") CODEGEN_END
-CODEGEN_START test_case("_Tod::Night") CODEGEN_END
-CODEGEN_START test_case("_Tod::Midnight") CODEGEN_END
+codegen begin
+TestCase _Tod::Morning
+TestCase _Tod::Noon
+TestCase _Tod::Night
+TestCase _Tod::Midnight
+codegen end
 
 ### Tags
-CODEGEN_START test_case("icon:") CODEGEN_END
-CODEGEN_START test_case("icon") CODEGEN_END
-CODEGEN_START test_case("text:") CODEGEN_END
-CODEGEN_START test_case("text") CODEGEN_END
-CODEGEN_START test_case("suppress:") CODEGEN_END
-CODEGEN_START test_case("suppress") CODEGEN_END
-CODEGEN_START test_case("foo:") CODEGEN_END
-CODEGEN_START test_case("bar") CODEGEN_END
+codegen begin
+TestCase icon:
+TestCase icon
+TestCase text:
+TestCase text
+TestCase suppress:
+TestCase suppress
+TestCase foo:
+TestCase bar
+TestCase Rito:
+TestCase Rito
+codegen end

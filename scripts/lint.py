@@ -11,7 +11,8 @@ ignore = [
     "node_modules",
     ".git",
     "__pycache__",
-    ".vscode"
+    ".vscode",
+    "target"
 ]
 
 ignore_exts = [
@@ -67,7 +68,8 @@ def lint_file(file_path):
             last_line = line
         if last_line is not None:
             if last_line[-1] != "\n":
-                print(f"lastline={last_line} length={len(last_line)}")
+                if VERBOSE:
+                    print(f"lastline={last_line} length={len(last_line)}")
                 bad_files.append(("Needs trailing new line", file_path))
             elif last_line[0] == "\n":
                 bad_files.append(("Too many trailing new lines", file_path))

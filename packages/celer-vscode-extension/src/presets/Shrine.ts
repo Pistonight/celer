@@ -8,7 +8,7 @@ export class ShrinePreset implements CelerPreset {
 		return "Shrine";
 	}
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
-		// Generated Code
+		// GENERATED CODE
 		register("JaBaij", "Ja Baij Shrine");
 		register("OmanAu", "Oman Au Shrine");
 		register("OwaDaim", "Owa Daim Shrine");
@@ -24,7 +24,7 @@ export class ShrinePreset implements CelerPreset {
 		register("DakaTuss", "Daka Tuss Shrine");
 		register("DaqaKoh", "Daqa Koh Shrine");
 		register("DaqoChisay", "Daqo Chisay Shrine");
-		register("DaqoTah", "Daqo Tah Shrine");
+		register("DakoTah", "Dako Tah Shrine");
 		register("DilaMaag", "(blessing) Dila Maag Shrine");
 		register("DowNaeh", "Dow Na'eh Shrine");
 		register("DunbaTaag", "Dunba Taag Shrine");
@@ -55,7 +55,7 @@ export class ShrinePreset implements CelerPreset {
 		register("KeeDafunia", "(DLC) Kee Dafunia Shrine");
 		register("KeehaYoog", "(blessing) Keeha Yoog Shrine");
 		register("KeiveTala", "(DLC) Keive Tala Shrine");
-		register("KemaKossasa", "(modest/major ToS) Kema Kossasa Shrine");
+		register("KemaKosassa", "(modest/major ToS) Kema Kosassa Shrine");
 		register("KemaZoos", "Kema Zoos Shrine");
 		register("KenaiShakah", "(modest/major ToS) Ke'nai Shakah Shrine");
 		register("KeoRuug", "Keo Ruug Shrine");
@@ -128,7 +128,7 @@ export class ShrinePreset implements CelerPreset {
 		register("TahMuhl", "Tah Muhl Shrine");
 		register("TakamaShiri", "(DLC) Takama Shiri Shrine");
 		register("TalohNaeg", "(minor ToS) Ta'loh Naeg Shrine");
-		register("TalohOah", "(blessing) Taloh O'ah Shrine");
+		register("TahnoOah", "(blessing) Tahno O'ah Shrine");
 		register("TawaJinn", "(blessing) Tawa Jinn Shrine");
 		register("TenaKosah", "(modest/major ToS) Tena Ko'sah Shrine");
 		register("ThoKayu", "(blessing) Tho Kayu Shrine");
