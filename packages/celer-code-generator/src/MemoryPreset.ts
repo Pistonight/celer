@@ -8,7 +8,14 @@ export class MemoryPreset implements CelerPreset {
 		return "Memory";
 	}
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
-		// CODEGEN_START register_memory_presets() CODEGEN_END
+		// GENERATED CODE
+		// codegen csv begin
+		// from memories
+		// compact LocationDisplayName => CompactName
+		// write 		register("{{CompactName}}", "{{Title}}");
+		// joined with newline
+		// codegen csv end
+
 	}
 	getDocumentation(): string {
 		return "The Memory namespace contains a preset for each picture memory in BOTW. Each preset defines the location, memory name, coordinate, and icon.";

@@ -2,6 +2,7 @@
 """Main script to generate code based on game data"""
 
 from os.path import isdir, isfile, join
+from scripts.generator import CodeGenerator
 import os
 import shutil
 import sys
@@ -139,18 +140,20 @@ def do_build(file_to_build):
     else:
         with open(join("src", file_to_build), "r", encoding="utf-8") as src_file:
             with open(join("build", file_to_build), "w+", encoding="utf-8") as out_file:
-                for line in src_file:
-                    start = line.find("CODEGEN_START")
-                    if start != -1:
-                        end = line.find("CODEGEN_END")
-                        if end != -1:
-                            code = line[start+len("CODEGEN_START"):end]
-                            result = eval_codegen(code, dependencies)
-                            new_line = line[:start] + result + line[end+len("CODEGEN_END"):]
-                            out_file.write(new_line)
-                            continue
+                codegen = CodeGenerator(src_file, out_file)
+                codegen.build()
+                # for line in src_file:
+                #     start = line.find("CODEGEN_START")
+                #     if start != -1:
+                #         end = line.find("CODEGEN_END")
+                #         if end != -1:
+                #             code = line[start+len("CODEGEN_START"):end]
+                #             result = eval_codegen(code, dependencies)
+                #             new_line = line[:start] + result + line[end+len("CODEGEN_END"):]
+                #             out_file.write(new_line)
+                #             continue
 
-                    out_file.write(line)
+                #     out_file.write(line)
 
 
 

@@ -8,7 +8,14 @@ export class TowerPreset implements CelerPreset {
 		return "Tower";
 	}
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
-		// CODEGEN_START register_tower_presets() CODEGEN_END
+		// GENERATED CODE
+		// codegen csv begin
+		// from towers
+		// compact DisplayName => CompactName
+		// write 		register("{{CompactName}}", "{{DisplayName}} Tower");
+		// joined with newline
+		// codegen csv end
+
 	}
 	getDocumentation(): string {
 		return "The Tower namespace contains a preset for each tower in BOTW. Each preset defines the name, coordinate, and icon for the tower.";

@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 celer-lib = { path = "../celer-lib" }
+yaml-rust = "0.4"
+linked-hash-map = "0.5.4"

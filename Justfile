@@ -19,6 +19,9 @@ lint VERBOSE="": code version
     just packages/celer-vscode-extension/lint
     just packages/celer-web-app/lint
 
+cargo RELEASE="":
+    cargo build {{RELEASE}}
+
 build: code
     just packages/celer-vscode-extension/build
     just packages/celer-web-app/build

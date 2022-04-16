@@ -13,14 +13,15 @@ name = "celer-cli"
 version = "0.1.0"
 dependencies = [
  "celer-lib",
+ "linked-hash-map",
+ "yaml-rust",
 ]
 
 [[package]]
 name = "celer-lib"
-version = "0.1.0"
+version = "3.0.0"
 dependencies = [
  "wasm-bindgen",
- "yaml-rust",
 ]
 
 [[package]]

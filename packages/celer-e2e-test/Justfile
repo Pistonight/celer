@@ -1,0 +1,11 @@
+build:
+    just ../../cargo
+
+release:
+    just ../../cargo --release
+
+d COMMAND FLAG="": build
+    ../../target/debug/celer-cli {{COMMAND}} {{FLAG}}
+
+s COMMAND FLAG="": release
+    ../../target/release/celer-cli {{COMMAND}} {{FLAG}}

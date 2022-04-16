@@ -17,7 +17,7 @@ def getVersion(map, file, line_number, position, end):
                 map[file] = line[position:end_index]
                 return
 
-def checkPackage(package, versions):
+def checkPackageVersions(package, versions):
     global OK
     if not versionsMatch(versions):
         reportMismatch(package, versions)
@@ -38,25 +38,35 @@ def reportMismatch(package, versions):
         print(f"{versions[name]} in {name}")
     print("")
 
-# celer-user-docs
-CELER_USER_DOCS_VERSIONS = {}
-getVersion(CELER_USER_DOCS_VERSIONS, "packages/celer-user-docs/CHANGELOG.md", 7, 4, "`")
-getVersion(CELER_USER_DOCS_VERSIONS, "packages/celer-user-docs/README.md", 2, 10, "`")
-checkPackage("celer-user-docs", CELER_USER_DOCS_VERSIONS)
-    
-# celer-web-app
-CELER_WEB_APP_VERSIONS = {}
-getVersion(CELER_WEB_APP_VERSIONS, "packages/celer-web-app/package.json", 4, 14, "\"")
-getVersion(CELER_WEB_APP_VERSIONS, "packages/celer-web-app/CHANGELOG.md", 12, 4, "`")
-getVersion(CELER_WEB_APP_VERSIONS, "packages/celer-web-app/src/data/util/version.ts", 1, 30, "\"")
-checkPackage("celer-web-app", CELER_WEB_APP_VERSIONS)
+def checkPackage(package, root_path, configs):
+    versions = {}
+    for config in configs:
+        path, line, col, end = config
+        getVersion(versions, root_path + path, line, col, end)
+    checkPackageVersions(package, versions)
 
-# celer-vscode-extension
-CELER_VSCODE_EXTENSION_VERSIONS = {}
-getVersion(CELER_VSCODE_EXTENSION_VERSIONS, "packages/celer-vscode-extension/package.json", 5, 16, "\"")
-getVersion(CELER_VSCODE_EXTENSION_VERSIONS, "packages/celer-vscode-extension/README.md", 19, 4, "")
-getVersion(CELER_VSCODE_EXTENSION_VERSIONS, "packages/celer-vscode-extension/CHANGELOG.md", 7, 4, "`")
-checkPackage("celer-vscode-extension", CELER_VSCODE_EXTENSION_VERSIONS)
+checkPackage("celer-user-docs", "packages/celer-user-docs/", [
+    ("CHANGELOG.md", 4, 4, "`"),
+    ("README.md", 2, 10, "`")
+])
+
+checkPackage("celer-web-app", "packages/celer-web-app/", [
+    ("package.json", 4, 14, "\""),
+    ("CHANGELOG.md", 4, 4, "`"),
+    ("src/data/util/version.ts", 1, 30, "\"")
+])
+
+checkPackage("celer-vscode-extension", "packages/celer-vscode-extension/", [
+    ("package.json", 5, 16, "\""),
+    ("README.md", 19, 4, "`"),
+    ("CHANGELOG.md", 4, 4, "`")
+])
+
+checkPackage("celer-cli", "packages/celer-cli/", [
+    ("CHANGELOG.md", 4, 4, "`"),
+    ("Cargo.toml", 3, 11, "\""),
+    ("src/main.rs", 1, 27, "\"")
+])
 
 if not OK:
     sys.exit(-1)

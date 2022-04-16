@@ -7,22 +7,22 @@
 #   Dependencies.
 # dependencies = ["file1", "file 2"]
 
-["validate.celer"]
-target = "../celer-vscode-extension/test/validate.celer"
-dependencies = []
+# ["validate.celer"]
+# target = "../celer-vscode-extension/test/validate.celer"
+# dependencies = []
 
-["celer.tmLanguage.json"]
-target = "../celer-vscode-extension/syntaxes/celer.generated.tmLanguage.json"
-dependencies = ["celer.tmLanguage.yaml"]
-generate = "yaml_to_json(dependencies[0])"
+# ["celer.tmLanguage.json"]
+# target = "../celer-vscode-extension/syntaxes/celer.generated.tmLanguage.json"
+# dependencies = ["celer.tmLanguage.yaml"]
+# generate = "yaml_to_json(dependencies[0])"
 
-["celer.tmLanguage.yaml"]
-dependencies = ["shrines.csv", "towers.csv", "memories.csv"]
+# ["celer.tmLanguage.yaml"]
+# dependencies = ["shrines.csv", "towers.csv", "memories.csv"]
 
-["celer.tag.tmLanguage.json"]
-target = "../celer-vscode-extension/syntaxes/celer.tag.generated.tmLanguage.json"
-dependencies = ["celer.tag.tmLanguage.yaml"]
-generate = "yaml_to_json(dependencies[0])"
+# ["celer.tag.tmLanguage.json"]
+# target = "../celer-vscode-extension/syntaxes/celer.tag.generated.tmLanguage.json"
+# dependencies = ["celer.tag.tmLanguage.yaml"]
+# generate = "yaml_to_json(dependencies[0])"
 
 ["KorokRegion.ts"]
 target = "../celer-vscode-extension/src/data/KorokRegions.ts"

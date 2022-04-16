@@ -1,16 +1,31 @@
+use std::collections::HashMap;
 // data structure that represents the source files.
 pub struct SourceObject {
-    compiler_version: String,
     project: RouteMetadata,
     route: Vec<SourceSection>
 }
 
+impl SourceObject {
+    pub fn new() -> SourceObject {
+        SourceObject {
+            project: RouteMetadata {
+                name: String::new(),
+                version: String::new(),
+                authors: Vec::new(),
+                url: String::new(),
+                description: String::new()
+            },
+            route: Vec::new(),
+        }
+    }
+}
+
 pub struct RouteMetadata {
-    project: String,
-    version: String,
-    authors: Vec<String>,
-    url: String,
-    description: String
+    pub name: String,
+    pub version: String,
+    pub authors: Vec<String>,
+    pub url: String,
+    pub description: String
 }
 
 pub enum SourceSection {
@@ -29,11 +44,31 @@ pub enum SourceStep {
 }
 
 pub struct SourceStepCustomization {
-    
+    text: Option<String>,
+    icon: Option<String>,
+    comment: Option<String>,
+    notes: Option<String>,
+    line_color: Option<String>,
+    hide_icon_on_map: bool,
+    split_type: Option<String>,
+    var_change: HashMap<String, i32>,
+    time_override: i32,
+    commands: Option<Vec<String>>,
+    coord: Option<Vec<i32>>,
+    movements: Option<Vec<Movement>>,
+    fury: Option<i32>,
+    gale: Option<i32>
+
+}
+
+pub struct Movement {
+    to: Vec<i32>,
+    away: bool,
+    warp: bool
 }
 
 // Intermediate step. Strings and presets parsed and processed. Data is standardized to make the job of the route engine easier
-pub enum RouteAssembly {
+pub struct RouteAssembly {
 
 }
 

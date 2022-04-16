@@ -1,6 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
+## `1.6.4` - `03-28-2022` `LATEST`
+- fix nonnull assertion bug
+- Migrate from celer-engine
+
 ## `Unreleased`
 - Unreleased feature
 
@@ -9,7 +13,5 @@ This is the change log for celer-web-app
 - `MapSyncToDocScrollEnabled` - sync map to doc position as you scroll. Currently there is no throttling so this is extremely laggy
 - `ExportSplits` - enable the export livesplit splits option. Currently the formatting is hardcoded
 
-## `1.6.4` - `03-28-2022` `LATEST`
-- fix nonnull assertion bug
-- Migrate from celer-engine
+
 

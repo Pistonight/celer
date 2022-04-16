@@ -87,36 +87,5 @@ def populate_korok_regions(korok_regions):
         result.append(f"{korok_regions}.{region} = {{name: \"{name}\", count: {count}}};")
     return "\n".join(result)
 
-def register_shrine_presets():
-    """Generate TS shrine presets"""
-    result = ["Generated Code"]
-    data = get_shrine_data()
-    for name in data:
-        shrine_type = data[name][0]
-        prefix = ""
-        if shrine_type == "TosMinor":
-            prefix = "(minor ToS) "
-        elif shrine_type == "TosSkip":
-            prefix = "(modest/major ToS) "
-        elif shrine_type == "Blessing":
-            prefix = "(blessing) "
-        elif shrine_type == "DLC":
-            prefix = "(DLC) "
-        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{prefix}{name} Shrine\");")
-    return "\n".join(result)
 
-def register_tower_presets():
-    """Genreate TS tower presets"""
-    result = ["Generated Code"]
-    data = get_tower_data()
-    for name in data:
-        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{name} Tower\");")
-    return "\n".join(result)
 
-def register_memory_presets():
-    """Generate TS memory presets"""
-    result = ["Generated Code"]
-    data = get_memory_data()
-    for name in data:
-        result.append(f"\t\tregister(\"{compact_name(name)}\", \"{data[name][0]}\");")
-    return "\n".join(result)
