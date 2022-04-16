@@ -9,12 +9,11 @@ class ShrineModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
     
 	constructor(){
-       
+		// GENERATED CODE
 		this.addShrine("Ja Baij", [-446.70, 180.02, 1990.18]);
 		this.addShrine("Oman Au", [-673.25, 173.09, 1513.01]);
 		this.addShrine("Owa Daim", [-925.03, 274.17, 2321.23]);
 		this.addShrine("Keh Namut", [-1436.35, 337.58, 1990.99]);
-
 		this.addShrine("Akh Va'quot", [-3656.13, 321.74, -1756.70]);
 		this.addShrine("Bareeda Naag", [-3609.19, 246.74, -1515.40]);
 		this.addShrine("Bosh Kala", [87.02, 122.52, 1658.71]);
@@ -26,7 +25,7 @@ class ShrineModule implements CompilerPresetModule {
 		this.addShrine("Daka Tuss", [1601.00, 117.70, 462.20]);
 		this.addShrine("Daqa Koh", [2065.85, 598.01, -2328.36]);
 		this.addShrine("Daqo Chisay", [-3817.03, 150.45, 2819.85]);
-		this.addShrine("Daqo Tah", [-3317.78, 146.11, 2162.48]);
+		this.addShrine("Dako Tah", [-3317.78, 146.11, 2162.48]);
 		this.addBlessing("Dila Maag", [-1795.00, 164.18, 3465.39]);
 		this.addShrine("Dow Na'eh", [2697.65, 220.94, 1333.48]);
 		this.addShrine("Dunba Taag", [-2832.47, 79.88, -1578.04]);
@@ -57,7 +56,7 @@ class ShrineModule implements CompilerPresetModule {
 		this.addDLC("Kee Dafunia", [4935.17, 106.80, -1002.40]);
 		this.addBlessing("Keeha Yoog", [-3853.40, 640.30, 716.70]);
 		this.addDLC("Keive Tala", [-2339.53, 129.50, 3901.64]);
-		this.addDoubleSword("Kema Kossasa", [-4658.48, 619.49, 904.84]);
+		this.addDoubleSword("Kema Kosassa", [-4658.48, 619.49, 904.84]);
 		this.addShrine("Kema Zoos", [-4673.53, 132.12, 1967.79]);
 		this.addDoubleSword("Ke'nai Shakah", [4194.49, 323.11, -856.88]);
 		this.addShrine("Keo Ruug", [470.70, 250.15, -2168.79]);
@@ -130,7 +129,7 @@ class ShrineModule implements CompilerPresetModule {
 		this.addShrine("Tah Muhl", [2300.66, 213.35, -941.32]);
 		this.addDLC("Takama Shiri", [-4895.49, 141.98, 2155.50]);
 		this.addSmallSword("Ta'loh Naeg", [1841.92, 260.10, 890.40]);
-		this.addBlessing("Taloh O'ah", [4181.78, 288.15, 1686.73]);
+		this.addBlessing("Tahno O'ah", [4181.78, 288.15, 1686.73]);
 		this.addBlessing("Tawa Jinn", [2637.53, 318.17, 2834.39]);
 		this.addDoubleSword("Tena Ko'sah", [-3465.47, 384.49, -447.97]);
 		this.addBlessing("Tho Kayu", [-4799.14, 135.13, 2800.18]);
@@ -147,7 +146,6 @@ class ShrineModule implements CompilerPresetModule {
 		this.addShrine("Zalta Wa", [-1432.30, 138.32, -594.19]);
 		this.addShrine("Ze Kasho", [3027.31, 348.65, -1667.85]);
 		this.addBlessing("Zuna Kai", [3324.46, 298.69, -3420.44]);
-
 	}
 
 	public compile(typedString: TypedString): RouteAssembly | undefined {

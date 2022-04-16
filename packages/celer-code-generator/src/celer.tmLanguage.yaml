@@ -80,7 +80,14 @@ repository:
       - include: "#celer-tod"
   celer-shrine:
     patterns:
-      - match: "(_Shrine)(::)(CODEGEN_START shrine_compact_name_regex() CODEGEN_END)"
+      - match: "(_Shrine)(::)(\
+      codegen csv begin
+      from shrines
+      compact DisplayName => CompactName
+      write {{CompactName}}
+      joined with |
+      codegen csv end
+)"
         captures:
           1: 
             name: entity.name.class.shrine.celer
@@ -98,7 +105,14 @@ repository:
             name: invalid.illegal.celer
   celer-tower:
     patterns:
-      - match: "(_Tower)(::)(CODEGEN_START tower_compact_name_regex() CODEGEN_END)"
+      - match: "(_Tower)(::)(\
+      codegen csv begin
+      from towers
+      compact DisplayName => CompactName
+      write {{CompactName}}
+      joined with |
+      codegen csv end
+)"
         captures:
           1: 
             name: entity.name.class.tower.celer
@@ -125,7 +139,14 @@ repository:
         name: variable.preset.celer
   celer-warp:
     patterns:
-      - match: "(_Warp)(::)(Tower)(::)(CODEGEN_START tower_compact_name_regex() CODEGEN_END)"
+      - match: "(_Warp)(::)(Tower)(::)(\
+      codegen csv begin
+      from towers
+      compact DisplayName => CompactName
+      write {{CompactName}}
+      joined with |
+      codegen csv end
+)"
         captures:
           1: 
             name: entity.name.class.warp.celer
@@ -137,7 +158,14 @@ repository:
             name: keyword.operator.property.celer
           5: 
             name: variable.preset.celer
-      - match: "(_Warp)(::)(Shrine)(::)(CODEGEN_START shrine_compact_name_regex() CODEGEN_END)"
+      - match: "(_Warp)(::)(Shrine)(::)(\
+      codegen csv begin
+      from shrines
+      compact DisplayName => CompactName
+      write {{CompactName}}
+      joined with |
+      codegen csv end
+)"
         captures:
           1: 
             name: entity.name.class.warp.celer
@@ -199,7 +227,14 @@ repository:
             name: keyword.operator.parenthesis.celer
   celer-memory:
     patterns:
-      - match: "(_Memory)(::)(CODEGEN_START memory_compact_name_regex() CODEGEN_END)"
+      - match: "(_Memory)(::)(\
+      codegen csv begin
+      from memories
+      compact LocationDisplayName => CompactName
+      write {{CompactName}}
+      joined with |
+      codegen csv end
+)"
         captures:
           1: 
             name: entity.name.class.memory.celer

@@ -258,6 +258,7 @@ export class RouteEngine{
 			}
 
 			common.variables.SRN = this.shrineCount;
+			common.variables.KRK = this.korokCount;
 
 			output.push({
 				...common,

@@ -2,13 +2,13 @@
 """Main script to generate code based on game data"""
 
 from os.path import isdir, isfile, join
-from scripts.generator import CodeGenerator
 import os
 import shutil
 import sys
 import toml
-from scripts.evalcore import eval_codegen
 from scripts.common import md5
+from scripts.fileop import fileop
+from scripts.generator import CodeGenerator
 
 if not isdir("build"):
     os.mkdir("build")
@@ -134,7 +134,9 @@ def do_build(file_to_build):
             config[file_to_build]["dependencies"]))
 
     if "generate" in config[file_to_build]:
-        content = eval_codegen(config[file_to_build]["generate"], dependencies)
+        fileop_function = config[file_to_build]["generate"]
+        fileop_file = dependencies[0]
+        content = fileop(fileop_function, fileop_file)
         with open(f"build/{file_to_build}", "w+", encoding="utf-8") as out_file:
             out_file.write(content)
     else:

@@ -1,5 +1,5 @@
 # Celer User Documentation
-Version: `1.0.0`
+Version: `1.0.1`
 
 ## Sections
 1. [Introduction](#introduction)

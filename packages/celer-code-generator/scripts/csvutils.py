@@ -1,17 +1,18 @@
-"CSV utilities"
+"""CSV utilities"""
 import csv
 
 _memo = {}
 def read_csv(data_name, line_callback):
+    """Memoized wrapper"""
     if data_name in _memo:
         for line in _memo[data_name]:
             line_callback(line)
     else:
-        read_csv_from_file(data_name, line_callback)
+        _read_csv_from_file(data_name, line_callback)
 
-def read_csv_from_file(data_name, line_callback):
-    lines = []
+def _read_csv_from_file(data_name, line_callback):
     """Read CSV file in src and use callback to process it"""
+    lines = []
     with open(f"src/{data_name}.csv", "r", encoding="utf-8") as csv_file:
         headers = None
         reader = csv.reader(csv_file)
@@ -27,7 +28,7 @@ def read_csv_from_file(data_name, line_callback):
                     if i < len(row):
                         mapping[header] = row[i]
                     else:
-                        mapping[header] = None
+                        mapping[header] = ""
                 line_callback(mapping)
                 lines.append(mapping)
     _memo[data_name] = lines

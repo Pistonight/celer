@@ -5,7 +5,7 @@ import sys
 
 
 OK = True
-def getVersion(map, file, line_number, position, end):
+def get_version(verion_map, file, line_number, position, end):
     """Get version string and populate in map"""
     with open(file, "r", encoding="utf-8") as in_file:
         for i, line in enumerate(in_file):
@@ -14,16 +14,19 @@ def getVersion(map, file, line_number, position, end):
                     end_index = -1
                 else:
                     end_index = line.find(end, position)
-                map[file] = line[position:end_index]
+                verion_map[file] = line[position:end_index]
                 return
 
-def checkPackageVersions(package, versions):
+def check_package_versions(package, versions):
+    """Check the versions and report if mismatch"""
+    # pylint: disable-next=global-statement
     global OK
-    if not versionsMatch(versions):
-        reportMismatch(package, versions)
+    if not versions_match(versions):
+        report_mismatch(package, versions)
         OK = False
 
-def versionsMatch(versions):
+def versions_match(versions):
+    """Check if the versions are the same"""
     base = None
     for name in versions:
         if base is None:
@@ -32,37 +35,39 @@ def versionsMatch(versions):
             return False
     return True
 
-def reportMismatch(package, versions):
+def report_mismatch(package, versions):
+    """Print the mismatched versions"""
     print(f"Version mismatch found in {package}")
     for name in versions:
         print(f"{versions[name]} in {name}")
     print("")
 
-def checkPackage(package, root_path, configs):
+def check_package(package, root_path, configs):
+    """API to check versions"""
     versions = {}
     for config in configs:
         path, line, col, end = config
-        getVersion(versions, root_path + path, line, col, end)
-    checkPackageVersions(package, versions)
+        get_version(versions, root_path + path, line, col, end)
+    check_package_versions(package, versions)
 
-checkPackage("celer-user-docs", "packages/celer-user-docs/", [
+check_package("celer-user-docs", "packages/celer-user-docs/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("README.md", 2, 10, "`")
 ])
 
-checkPackage("celer-web-app", "packages/celer-web-app/", [
+check_package("celer-web-app", "packages/celer-web-app/", [
     ("package.json", 4, 14, "\""),
     ("CHANGELOG.md", 4, 4, "`"),
     ("src/data/util/version.ts", 1, 30, "\"")
 ])
 
-checkPackage("celer-vscode-extension", "packages/celer-vscode-extension/", [
+check_package("celer-vscode-extension", "packages/celer-vscode-extension/", [
     ("package.json", 5, 16, "\""),
     ("README.md", 19, 4, "`"),
     ("CHANGELOG.md", 4, 4, "`")
 ])
 
-checkPackage("celer-cli", "packages/celer-cli/", [
+check_package("celer-cli", "packages/celer-cli/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
     ("src/main.rs", 1, 27, "\"")

@@ -10,7 +10,7 @@ checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
 name = "celer-cli"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "celer-lib",
  "linked-hash-map",

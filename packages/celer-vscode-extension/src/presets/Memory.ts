@@ -8,7 +8,7 @@ export class MemoryPreset implements CelerPreset {
 		return "Memory";
 	}
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
-		// Generated Code
+		// GENERATED CODE
 		register("LanayruRoad", "Return of Calamity Ganon");
 		register("SacredGrounds", "Subdued Ceremony");
 		register("LakeKolomo", "Resolve and Grief");

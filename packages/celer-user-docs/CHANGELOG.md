@@ -9,4 +9,3 @@ This is the change log for celer-user-docs
 
 ## `1.0.0` - `03-23-2022`
 - Migrated doc from celer-compiler
-

@@ -1,6 +1,8 @@
-from .common import compact_name 
-from .csvutils import read_csv
+"""In-text code generator"""
 import re
+from .common import compact_name
+from .csvutils import read_csv
+
 VALID_CSV = [
     "korok_movements",
     "korok_regions",
@@ -10,21 +12,21 @@ VALID_CSV = [
     "shrines",
     "towers"
 ]
-def read_format(format):
+def read_format(format_string):
     """Return a function that can be used to format the format string passed in"""
     # Tokenize
     tokens = []
     while True:
-        match = re.search("[\\{\\}]", format)
+        match = re.search("[\\{\\}]", format_string)
         if match is None:
-            if len(format) > 0:
-                tokens.append(format)
+            if len(format_string) > 0:
+                tokens.append(format_string)
             break
         start = match.start()
         if start != 0:
-            tokens.append(format[:start])
-        tokens.append(format[start])
-        format = format[start+1:]
+            tokens.append(format_string[:start])
+        tokens.append(format_string[start])
+        format_string = format_string[start+1:]
     # Parse
     # Scan the tokens with a window of 5
     # If any matches { { string } }, it will be a variable
@@ -33,7 +35,10 @@ def read_format(format):
     i = 0
     while i < len(tokens):
         if i+4 < len(tokens):
-            if tokens[i] == "{" and tokens[i+1] == "{" and tokens[i+3] == "}" and tokens[i+4] == "}":
+            if tokens[i] == "{" and \
+               tokens[i+1] == "{" and \
+               tokens[i+3] == "}" and \
+               tokens[i+4] == "}":
                 if tokens[i+2] != "{" and tokens[i+2] != "}":
                     if current != "":
                         parts.append((False, current))
@@ -58,12 +63,16 @@ def read_format(format):
     return formatter
 
 class CodeGenerator:
+    """Code Generator"""
     def __init__(self, in_file, out_file):
+        """Constructor"""
         self.in_file = in_file
         self.out_file = out_file
         self.functions = {}
-    
+        self.indent = -1
+
     def build(self):
+        """Process the file and generate code"""
         self.indent = -1
         line_iter = iter(self.in_file)
         while True:
@@ -82,9 +91,9 @@ class CodeGenerator:
                     self.out_file.write(line)
             except StopIteration:
                 break
-           
 
     def read_define(self, line_iter):
+        """Read define block and populate self.functions"""
         panic = False
         input_names = None
         func_name = None
@@ -111,14 +120,24 @@ class CodeGenerator:
             return
         def execute(args_array):
             # Bind args
+            # preprcess args to escape \,
+            args_array_escaped = []
+            for arg in args_array:
+                if len(args_array_escaped) > 0 and args_array_escaped[-1].endswith("\\"):
+                    args_array_escaped[-1] = args_array_escaped[-1][:-1] + "," + arg
+                else:
+                    args_array_escaped.append(arg)
+
             args_map = {}
-            for i, arg in enumerate(args_array):
+            for i, arg in enumerate(args_array_escaped):
                 args_map[input_names[i]] = arg
             for write in writes:
                 self.out_file.write(write(args_map)+"\n")
         self.functions[func_name] = execute
 
+    # pylint: disable-next=too-many-locals too-many-statements too-many-branches
     def read_gen_csv(self, line_iter):
+        """Read gen csv block and output the generated code to self.out_file"""
         panic = False
         data_name = None
         mappers = []
@@ -138,6 +157,7 @@ class CodeGenerator:
         if data_name is None or data_name not in VALID_CSV:
             self.out_file.write("<codegen error: missing or invalid csv data>\n")
             return
+        # pylint: disable-next=too-many-nested-blocks
         while True:
             try:
                 if prev_line is None:
@@ -163,10 +183,10 @@ class CodeGenerator:
                                 break
                         except StopIteration:
                             break
-                    def mapfunc(input):
-                        if input in map_entries:
-                            return map_entries[input]
-                        return input
+                    def mapfunc(key):
+                        if key in map_entries:
+                            return map_entries[key]
+                        return key
                     mappers.append((map_key, map_value, mapfunc))
                 elif line.startswith("compact "):
                     compact_string = line[8:].split("=>")
@@ -186,8 +206,7 @@ class CodeGenerator:
                     line = prev_line
                     prev_line = None
                 if line.startswith("write "):
-                    format = line[6:]
-                    write = read_format(format)
+                    write = read_format(line[6:])
                 elif line.startswith("joined with newline"):
                     join_string = "\n"
                 elif line.startswith("joined with "):
@@ -208,15 +227,16 @@ class CodeGenerator:
         # Start processing
         outputs = []
         def process(args_map):
-            for k, v, f in mappers:
-                if k in args_map:
-                    args_map[v] = f(args_map[k])
+            for key, val, func in mappers:
+                if key in args_map:
+                    args_map[val] = func(args_map[key])
             outputs.append(write(args_map))
 
         read_csv(data_name, process)
         self.out_file.write(join_string.join(outputs))
 
     def read_gen(self, line_iter):
+        """Read gen block and output to self.out_file"""
         while True:
             try:
                 line = next(line_iter)[self.indent:].strip()

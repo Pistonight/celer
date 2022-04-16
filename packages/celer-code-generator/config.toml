@@ -1,28 +1,28 @@
 # Template
 # [build file name]
 #   Target location. If not specified, will still output to build/
-# target = path/to/target/file 
+# target = "path/to/target/file"
 #   Generator code. If specified, no source file is needed and generator will run the code to generate the content, and write it to the file
-# generate = py_code_to_run()
+# generate = "fileop_function"
 #   Dependencies.
 # dependencies = ["file1", "file 2"]
 
-# ["validate.celer"]
-# target = "../celer-vscode-extension/test/validate.celer"
-# dependencies = []
+["validate.celer"]
+target = "../celer-vscode-extension/test/validate.celer"
+dependencies = []
 
-# ["celer.tmLanguage.json"]
-# target = "../celer-vscode-extension/syntaxes/celer.generated.tmLanguage.json"
-# dependencies = ["celer.tmLanguage.yaml"]
-# generate = "yaml_to_json(dependencies[0])"
+["celer.tmLanguage.json"]
+target = "../celer-vscode-extension/syntaxes/celer.generated.tmLanguage.json"
+dependencies = ["celer.tmLanguage.yaml"]
+generate = "yaml_to_json"
 
-# ["celer.tmLanguage.yaml"]
-# dependencies = ["shrines.csv", "towers.csv", "memories.csv"]
+["celer.tmLanguage.yaml"]
+dependencies = ["shrines.csv", "towers.csv", "memories.csv"]
 
-# ["celer.tag.tmLanguage.json"]
-# target = "../celer-vscode-extension/syntaxes/celer.tag.generated.tmLanguage.json"
-# dependencies = ["celer.tag.tmLanguage.yaml"]
-# generate = "yaml_to_json(dependencies[0])"
+["celer.tag.tmLanguage.json"]
+target = "../celer-vscode-extension/syntaxes/celer.tag.generated.tmLanguage.json"
+dependencies = ["celer.tag.tmLanguage.yaml"]
+generate = "yaml_to_json"
 
 ["KorokRegion.ts"]
 target = "../celer-vscode-extension/src/data/KorokRegions.ts"
@@ -39,3 +39,11 @@ dependencies = ["towers.csv"]
 ["MemoryPreset.ts"]
 target = "../celer-vscode-extension/src/presets/Memory.ts"
 dependencies = ["memories.csv"]
+
+["Korok.ts"]
+target = "../celer-web-app/src/data/assembly/modules/Korok.ts"
+dependencies = ["koroks.csv", "korok_movements.csv"]
+
+["Shrine.ts"]
+target = "../celer-web-app/src/data/assembly/modules/Shrine.ts"
+dependencies = ["shrines.csv"]

@@ -1,11 +1,14 @@
 lint:
-    pylint generate.py scripts
+    pylint generate.py verify.py scripts
 
 build:
     python3 ./generate.py
 
 apply:
     python3 ./generate.py apply
+
+verify:
+    python3 ./verify.py
 
 clean:
     rm -rf build
