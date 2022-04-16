@@ -7,7 +7,7 @@ build:
 apply:
     python3 ./generate.py apply
 
-verify:
+verify: build
     python3 ./verify.py
 
 clean:
