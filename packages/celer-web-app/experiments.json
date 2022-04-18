@@ -2,5 +2,6 @@
     "EnhancedScrollTrackerEnabled": false,
     "MapSyncToDocScrollEnabled": false,
     "ExportSplits": false,
-    "NoTrackDocPos": true
+    "NoTrackDocPos": true,
+    "PigeonMap": false
 }

@@ -6,12 +6,20 @@
 // import { Koroks } from "./library";
 // import { EngineCommand, EngineCommands } from "./command";
 // import { InstructionPacketWithExtend } from "./creator";
-import { DocLine } from "core/route";
-import { BannerType, RouteAssembly, RouteAssemblySection, SplitType } from "data/assembly/types";
-import { defaultSplitSetting, SplitTypeSetting } from "data/settings";
+import { 
+	BannerType, 
+	RouteAssembly, 
+	RouteAssemblySection, 
+	SplitType, 
+	StringType, 
+	TypedString, 
+	TypedStringBlock, 
+	TypedStringSingle,
+	RouteCommand,
+} from "core/compiler";
+import { DocLine } from "core/engine";
+import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
 import { MapOf } from "data/util";
-import { StringType, TypedString, TypedStringBlock, TypedStringSingle } from "data/assembly";
-import { RouteCommand } from "data/assembly";
 
 //Recharge time in seconds
 const BASE_ABILITY_RECHARGE = {

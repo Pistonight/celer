@@ -1,5 +1,6 @@
-import { DocLineSection } from "core/route";
-import { useStyles } from "ui/styles";
+import { useStyles } from "ui/StyleContext";
+
+import { DocLineSection } from "core/engine";
 export interface DocLineSectionProps{
     docLine: DocLineSection
 }

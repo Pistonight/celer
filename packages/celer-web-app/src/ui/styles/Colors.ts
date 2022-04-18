@@ -1,5 +1,5 @@
 import { ReadonlyMapOf } from "data/util";
-import { AppColors } from "./constants";
+import { AppColors } from "./types";
 
 export const DefaultColors: AppColors = {
 	text: "black",

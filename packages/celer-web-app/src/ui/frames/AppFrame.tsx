@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "../../components/MenuItem/MenuItem";
-import { useAppRoot, useExperiment } from "ui/root";
-import { useStyles } from "ui/styles";
-import "data/scripts";
+import React, { useState } from "react";
+
+import { useStyles } from "ui/StyleContext";
+
+import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
+
+import { BannerType, SplitType } from "core/compiler";
+import { useAppExperiment, useAppState } from "core/context";
+import { createLiveSplitFile } from "core/external";
+import { saveAs } from "data/libs";
+import { EmptyObject, WebAppVersion } from "data/util";
 import { DocFrame } from "./DocFrame";
-import { BannerType, SplitType } from "data/assembly";
-import { useEngineService } from "ui/root/EngineService";
 import { MapFrame } from "./MapFrame";
-import React from "react";
-import { createLiveSplitFile } from "data/livesplit";
-import { saveAs } from "data/scripts/external/FileSaver";
-import { EmptyObject } from "data/util";
-import { WebAppVersion } from "data/util/version";
 
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
@@ -25,19 +24,15 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		setTheme,
 		splitSetting,
 		setSplitSetting,
-	} = useAppRoot();
+		metadata,
+		docLines,
+	} = useAppState();
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
-	const downloadSplitsEnabled = useExperiment("ExportSplits");
-	// const computedRoute = compiler.compile(testScript as unknown as RouteScriptSection[]);
-	// console.log(computedRoute);
-	// const computedLines = engine.compute(computedRoute);
-	// const [mapIcons, mapLines] = mapengine.compute(computedLines);
-	// console.log(mapLines);
+	const downloadSplitsEnabled = useAppExperiment("ExportSplits");
    
-	const { metadata, docLines } = useEngineService();
 	let errorCount = 0;
 	docLines.forEach(l=>{
 		if(l.lineType === "DocLineBanner" && l.bannerType === BannerType.Error){

@@ -1,7 +1,7 @@
-import { gameCoordToMapCoord } from "core/map/convert";
-import { Coord } from "data/assembly";
 import L from "leaflet";
 import { useEffect, useState } from "react";
+import { Coord } from "core/compiler";
+import { gameCoordToMapCoord } from "core/map";
 
 export interface MapArrowProps {
     map: L.Map;

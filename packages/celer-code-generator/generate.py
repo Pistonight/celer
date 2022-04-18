@@ -4,6 +4,7 @@
 from os.path import isdir, isfile, join
 import os
 import shutil
+import stat
 import sys
 import toml
 from scripts.common import md5
@@ -144,20 +145,6 @@ def do_build(file_to_build):
             with open(join("build", file_to_build), "w+", encoding="utf-8") as out_file:
                 codegen = CodeGenerator(src_file, out_file)
                 codegen.build()
-                # for line in src_file:
-                #     start = line.find("CODEGEN_START")
-                #     if start != -1:
-                #         end = line.find("CODEGEN_END")
-                #         if end != -1:
-                #             code = line[start+len("CODEGEN_START"):end]
-                #             result = eval_codegen(code, dependencies)
-                #             new_line = line[:start] + result + line[end+len("CODEGEN_END"):]
-                #             out_file.write(new_line)
-                #             continue
-
-                #     out_file.write(line)
-
-
 
 # Copy over files that don't need rebuild
 for file in config:
@@ -186,9 +173,13 @@ with open("build/map.toml", "w+", encoding="utf-8") as new_map_file:
 if len(sys.argv) > 1 and sys.argv[1] == "apply":
     for file, file_config in new_build_map.items():
         if "target" in file_config:
-            APPLY_COUNT+=1
             target = file_config["target"]
+            if os.path.isfile(target):
+                os.chmod(target, stat.S_IWRITE)
+
+            APPLY_COUNT+=1
             shutil.copyfile(join("build", file), target)
+            os.chmod(target, stat.S_IREAD)
             print(f"APPLY {file} => {target}")
 else:
     print("Add \"apply\" in argument to apply the generated files to their targets")

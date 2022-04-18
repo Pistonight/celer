@@ -12,3 +12,7 @@ body {
     monospace;
     font-weight: 700;
 }
+
+#mapframe > div {
+  background-color: #000000 !important;
+}

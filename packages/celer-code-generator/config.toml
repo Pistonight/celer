@@ -41,9 +41,9 @@ target = "../celer-vscode-extension/src/presets/Memory.ts"
 dependencies = ["memories.csv"]
 
 ["Korok.ts"]
-target = "../celer-web-app/src/data/assembly/modules/Korok.ts"
+target = "../celer-web-app/src/core/compiler/modules/Korok.ts"
 dependencies = ["koroks.csv", "korok_movements.csv"]
 
 ["Shrine.ts"]
-target = "../celer-web-app/src/data/assembly/modules/Shrine.ts"
+target = "../celer-web-app/src/core/compiler/modules/Shrine.ts"
 dependencies = ["shrines.csv"]

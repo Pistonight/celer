@@ -1,7 +1,7 @@
 // Shrine::Name
 // 136 shrines 
 import { MapOf } from "data/util";
-import { StringType, TypedString, TypedStringSingle } from "..";
+import { StringType, TypedString, TypedStringSingle } from "../text";
 import { RouteAssembly, SplitType } from "../types";
 import { CompilerPresetModule } from "./Module";
 

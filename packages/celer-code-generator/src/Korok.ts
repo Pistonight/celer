@@ -110,12 +110,10 @@ class KorokModule implements CompilerPresetModule {
 
 	private addMovement(id: string, x: number, z: number): void {
 		const korok = this.map[id]();
-		const movements = korok.movements ?? [];
-		korok.movements = [{
-			to: {x, z},
+		korok.movements?.splice(-1,0,{to: {x, z},
 			isAway: false,
-			isWarp: false,
-		}, ...movements];
+			isWarp: false
+		});
 		this.map[id] = ()=>korok;
 	}
 

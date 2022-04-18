@@ -1,11 +1,12 @@
 import clsx from "clsx";
-import { DocLineText, DocLineTextWithIcon } from "core/route";
-import { useStyles } from "ui/styles";
-import { TypedStringComponent } from "../TypedStringComponent";
-import Icons from "data/image";
+
+import { useStyles } from "ui/StyleContext";
+import { SplitType } from "core/compiler";
+import { useAppState } from "core/context";
+import { DocLineText, DocLineTextWithIcon } from "core/engine";
 import { MapCore } from "core/map";
-import { SplitType } from "data/assembly";
-import { useAppRoot } from "ui/root";
+import Icons from "data/image";
+import { TypedStringComponent } from "../TypedStringComponent";
 
 export interface DocLineTextProps{
     docLine: DocLineText,
@@ -31,7 +32,7 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, mapCore: Ma
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
-	const {mapCore} = useAppRoot();
+	const {mapCore} = useAppState();
 	return (
 		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, mapCore)}>
 			<span className="code">{lineNumber}</span>
@@ -42,7 +43,7 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
-	const {mapCore} = useAppRoot();
+	const {mapCore} = useAppState();
 	return (
 		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, mapCore)}>
 			<span className="code">{lineNumber}</span>

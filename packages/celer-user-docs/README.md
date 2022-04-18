@@ -1,5 +1,5 @@
 # Celer User Documentation
-Version: `1.0.1`
+Version: `2.0.0`
 
 ## Sections
 1. [Introduction](#introduction)
@@ -32,15 +32,19 @@ Essentially, celer allows router maintainer to make route changes without doing 
 
 **NOTE: The newer rust-based CLI is still in development. Please use the python-based bundler at [iTNTPiston/celer-compiler](https://github.com/iTNTPiston/celer-compiler)**
 
+**Note that the instructions in that repo is out-dated. Please refer to this user guide instead.**
+
 ****
 
-## Install Celer VS Code Extension
+## Install/Update Celer VS Code Extension
 
 If you use VS Code, you can install an extension to help with writing the route doc.
 
 1. Download the `.vsix` file from the latest release
 2. Run `code --install-extension <path_to_vsix file>` from command line
    - If you prefer to install from UI, go to the `Extensions` section from side bar within VS Code, Click on the 3 dots near the top of the side panel (`Views and More Actions...`), and choose `Install from VSIX...`
+
+To update, simply install the newer `.vsix` and the old one will be automatically removed by VS Code.
 
 To uninstall, run `code --uninstall-extension itntpiston.celer` or uninstall from within VS Code like you do with other extensions
 
@@ -76,7 +80,7 @@ Route:
   - Section 2:
     - Kill the boss
 ```
-Copy and paste the content into `myroute.yaml`, and then run `gbundle-watch.py myroute.yaml`, you can then use the web app to render the doc [(link)](https://celer.itntpiston.app?DevPort=2222)
+Copy and paste the content into `myroute.yaml`, and then run `gbundle-watch.py myroute.yaml`, you can then use the web app to render the doc [(link)](https://celer.itntpiston.app/#/pydev)
 
 ### Project Section
 Project section is this
@@ -192,7 +196,7 @@ Route: # route object
     - _Equipment::Shield<Pot Lid>:
         comment: DO NOT BREAK
 ```
-The web app has an [internal page](https://celer.itntpiston.app?Internal=Presets) that shows all supported presets
+The web app has a [docs page](https://celer.itntpiston.app/#/docs/presets) that shows all supported presets
 
 ### String Typing
 Most strings in the route engine supports adding a type to the string, which will cause the doc to be rendered using custom color.

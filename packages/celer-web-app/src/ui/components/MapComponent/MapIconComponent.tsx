@@ -1,8 +1,7 @@
-import { gameCoordToMapCoord } from "core/map/convert";
-import { IconSize } from "core/map/type";
-import { Coord } from "data/assembly";
 import L from "leaflet";
 import { useEffect, useState } from "react";
+import { Coord } from "core/compiler";
+import { gameCoordToMapCoord, IconSize } from "core/map";
 
 export interface MapIconProps {
     map: L.Map;

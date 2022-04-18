@@ -1,5 +1,5 @@
-import { DocLine } from "core/route";
-import { Coord, Movement, SplitType } from "data/assembly";
+import { Coord, Movement, SplitType } from "core/compiler";
+import { DocLine } from "core/engine";
 
 // Takes computed lines and emittes icons and lines on the map
 

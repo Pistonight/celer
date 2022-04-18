@@ -5,6 +5,8 @@ ci:
     npm ci
 
 lint:
+    pylint scripts/validateimport.py
+    python3 scripts/validateimport.py src
     npm run lint
 
 build:

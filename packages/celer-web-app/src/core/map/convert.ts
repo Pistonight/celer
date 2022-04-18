@@ -1,4 +1,4 @@
-import { Coord } from "data/assembly";
+import { Coord } from "core/compiler";
 
 const MapXSize = 78.125;
 const MapYSize = 64;

@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { DocLineBanner } from "core/route";
-import { BannerType } from "data/assembly/types";
-import { useStyles } from "ui/styles";
+import { useStyles } from "ui/StyleContext";
+import { BannerType } from "core/compiler";
+import { DocLineBanner } from "core/engine";
 import { TypedStringComponent } from "../TypedStringComponent";
 
 export interface DocLineBannerProps{

@@ -1,11 +1,10 @@
-import { Coord, SplitType } from "data/assembly";
 import L from "leaflet";
-import { gameCoordToMapCoord } from "./convert";
-import { MapIcon, MapLine } from "./MapEngine";
+import { Coord, SplitType } from "core/compiler";
 import Icons from "data/image";
-import { IconSize } from "./type";
 import { Consumer } from "data/util";
-
+import { MapIcon, MapLine } from "./MapEngine";
+import { gameCoordToMapCoord } from "./convert";
+import { IconSize } from "./type";
 // A Wrapper for L.Map
 export class MapCore {
 	private mapInstance?: L.Map;

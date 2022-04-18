@@ -1,6 +1,6 @@
-import { StringType, TypedString } from "data/assembly";
+import { useStyles } from "ui/StyleContext";
+import { StringType, TypedString } from "core/compiler";
 import { MapOf } from "data/util";
-import { useStyles } from "ui/styles";
 
 export interface TypedStringComponentProps {
     content: TypedString;
@@ -9,7 +9,6 @@ export interface TypedStringComponentProps {
 }
 export const TypedStringComponent: React.FC<TypedStringComponentProps> = ({isNotes, content, variables})=>{
 	let i = 0;
-	//console.log(content);
 	return <>
 		{content.map(({content, type})=>
 			<TypeStringRender key={i++} content={content} type={type} variables={variables} isNotes={isNotes}/>

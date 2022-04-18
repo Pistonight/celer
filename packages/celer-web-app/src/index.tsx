@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppFrame } from "ui/frames/AppFrame";
-import { AppRoot } from "ui/root/AppRoot";
-import { Experiments } from "ui/root/Experiments";
+import { AppMain } from "app/AppMain";
+// Clean up when PigeonMap is enabled
+/*import-validation-exempt*/import "data/libs/scripts";
 import "./index.css";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Experiments overrides={{}}>
-			<AppRoot>
-				<AppFrame />
-			</AppRoot>
-		</Experiments>
+		<AppMain />
 	</React.StrictMode>,
 	document.getElementById("root")
 );

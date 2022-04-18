@@ -1,7 +1,8 @@
 
-import { MapDisplayMode, MapDisplayModes } from "data/settings";
+import { MapDisplayMode, MapDisplayModes } from "core/settings";
 import { MapOf } from "data/util";
-import { StyleMap, AppColors, AppSizes, ComputedStyle, ComputeStyle, ComputeStyleInputs, FullRouteSizeThreshold, MediumRouteSizeThreshold, MergedClassNameMapOf, MergedStyleMapOf, RouteDocMode, StyleObject } from "./constants";
+import { FullRouteSizeThreshold, MediumRouteSizeThreshold} from "./constants";
+import { ComputeStyle, StyleMap, MergedClassNameMapOf, AppColors, AppSizes, ComputedStyle, RouteDocMode, ComputeStyleInputs, StyleObject, MergedStyleMapOf } from "./types";
 
 // Object responsible for computing CSS string from input styles
 export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {

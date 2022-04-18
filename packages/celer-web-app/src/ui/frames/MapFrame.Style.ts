@@ -7,6 +7,7 @@ export const MapFrameStyle = ({sizes}: ComputeStyleInputs)=><const>{
 		height: "100vh", 
 		float: "right" ,
 		boxSizing: "border-box",
-		overflow: "hidden"
+		overflow: "hidden",
+		backgroundColor: "#000000"
 	},
 };

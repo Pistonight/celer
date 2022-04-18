@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script type="text/javascript">
+      // Automatically direct to hash router
+      if (!window.location.hash){
+        console.log("Redirecting to hash routes...");
+        window.location.replace(`${window.location.origin}/#/${window.location.search}`);
+      }
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/celer.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,11 +1,12 @@
 import clsx from "clsx";
-import { MapCore } from "core/map";
-import { DocLine, DocLineText, DocLineTextWithIcon } from "core/route";
-import { LocalStorageWrapper } from "data/settings";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useStyles } from "ui/StyleContext";
+
 import { DocLineComponent } from "ui/components";
-import { useAppRoot, useExperiment } from "ui/root";
-import { useStyles } from "ui/styles";
+import { useAppExperiment, useAppState } from "core/context";
+import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
+import { MapCore } from "core/map";
+import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
 	docLines: DocLine[],
@@ -49,10 +50,10 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// const [docLineComponents, setDocLineComponents] = useState<JSX.Element[]>([]);
 	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
 
-	const { mapCore, docScrollToLine , setDocCurrentLine} = useAppRoot();
-	const EnhancedScrollTrackerEnabled = useExperiment("EnhancedScrollTrackerEnabled");
-	const NoTrackDocPos = useExperiment("NoTrackDocPos");
-	const MapSyncToDocScrollEnabled = useExperiment("MapSyncToDocScrollEnabled");
+	const { mapCore, docScrollToLine , setDocCurrentLine} = useAppState();
+	const EnhancedScrollTrackerEnabled = useAppExperiment("EnhancedScrollTrackerEnabled");
+	const NoTrackDocPos = useAppExperiment("NoTrackDocPos");
+	const MapSyncToDocScrollEnabled = useAppExperiment("MapSyncToDocScrollEnabled");
 
 	const docFrameRef = useRef<HTMLDivElement>(null);
 

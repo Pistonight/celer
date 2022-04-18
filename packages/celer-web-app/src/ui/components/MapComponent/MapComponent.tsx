@@ -1,7 +1,7 @@
 import { IconSize, MapIcon, MapLine } from "core/map";
+import Icons from "data/image";
 import { MapArrowComponent } from "./MapArrowComponent";
 import { MapIconComponent } from "./MapIconComponent";
-import Icons from "data/image";
 
 export interface MapProps {
     map?: L.Map;

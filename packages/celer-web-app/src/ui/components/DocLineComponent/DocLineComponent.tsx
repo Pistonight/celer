@@ -1,4 +1,4 @@
-import { DocLine } from "core/route";
+import { DocLine } from "core/engine";
 import { DocLineBannerComponent } from "./DocLineBannerComponent";
 import { DocLineSectionComponent } from "./DocLineSectionComponent";
 import { DocLineTextComponent, DocLineTextWithIconComponent } from "./DocLineTextComponent";

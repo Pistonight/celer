@@ -1,12 +1,12 @@
 {
   "name": "celer-web-app",
   "homepage": "https://celer.itntpiston.app",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -42,6 +42,7 @@
     "leaflet": "^1.7.1",
     "leaflet-arrowheads": "^1.4.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "pigeon-maps": "^0.21.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
@@ -55,6 +56,7 @@
     "react-dom": "^17.0.2",
     "react-leaflet": "^3.2.5",
     "react-refresh": "^0.11.0",
+    "react-router-dom": "^6.3.0",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
     "sass-loader": "^12.3.0",
@@ -67,8 +69,7 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1",
-    "yaml": "2.0.0-10"
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "scripts": {
     "start": "node scripts/start.js",
