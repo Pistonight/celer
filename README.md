@@ -1,5 +1,3 @@
-**We are currently migrating to a monorepo**
-
 # celer
 Celer is an engine for maintaining route documents for *The Legend of Zelda: Breath of the Wild* Speedruns
 

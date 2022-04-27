@@ -35,5 +35,5 @@ if OK:
     print("No problems found")
 else:
     print("Verify failed. \
-    Please run `just code` to make sure the source files are generated properly.")
+    Please run `just buildc` to make sure the source files are generated properly.")
     sys.exit(1)

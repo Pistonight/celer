@@ -23,7 +23,7 @@ export const GitHubService: React.FC<EmptyObject> = ({children}) => {
 
 export const GitHubResolver: React.FC<EmptyObject> = ({children})=>{
 	const {user, repo, branch} = useParams();
-	const url = ` https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
+	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
 	useService(url);
 	return <>{children}</>;
 };

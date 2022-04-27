@@ -1,11 +1,14 @@
 build:
-    just ../../cargo
+    @just ../../buildrs
 
 release:
-    just ../../cargo --release
+    @just ../../buildrs --release
 
-d COMMAND FLAG="": build
+debug COMMAND FLAG="": build
     ../../target/debug/celer-cli {{COMMAND}} {{FLAG}}
 
-s COMMAND FLAG="": release
+ship COMMAND FLAG="": release
     ../../target/release/celer-cli {{COMMAND}} {{FLAG}}
+
+alias d := debug
+alias s := ship
