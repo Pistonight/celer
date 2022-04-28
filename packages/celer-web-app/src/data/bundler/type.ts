@@ -3,17 +3,17 @@ import {TARGET_VERSION} from "./version";
 // Bundled Route script. This is what the engine side receives
 export type RouteScript = {
     compilerVersion: typeof TARGET_VERSION,
-    Project: RouteMetadata,
-    Route: RouteSection[],
+    _project: RouteMetadata,
+    _route: RouteSection[],
 }
 
 // Metadata containing project info
 export type RouteMetadata = {
-    Name: string,
-    Authors: string[],
-    Url: string,
-    Version: string,
-    Description: string,
+    name: string,
+    authors: string[],
+    url: string,
+    version: string,
+    description: string,
 }
 
 export type RouteSection = RouteModule | SingleProperty<RouteModule>

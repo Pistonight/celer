@@ -155,7 +155,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 					}
 					<div className={styles.statusBar}>
 						<div className={styles.statusMessage}>
-							{metadata.Name}
+							{metadata.name}
 						</div>
 						<div className={styles.statusErrorString}>
       

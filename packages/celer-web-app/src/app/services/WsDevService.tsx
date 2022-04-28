@@ -1,24 +1,39 @@
 import { useCallback, useEffect, useState } from "react";
 import { ServiceContext, useAppState } from "core/context";
 import { EmptyObject } from "data/util";
-import { getRouteScriptAsync } from "./service";
+import { RouteScript } from "data/bundler";
 
 
 let ws: WebSocket|null = null;
 export const WsDevService: React.FC<EmptyObject> = ({children}) => {
-	const { setRouteScript, docCurrentLine, setDocScrollToLine} = useAppState();
+	const { setRouteScript } = useAppState();
 
 
 	const serviceFunction = useCallback((path)=>{
 		const load = async () => {
-            if(ws){
-                console.log("Closing ws");
-                ws.close();
-            }
+            ws?.close();
 			console.log("Connecting to local ws dev server "+path); // eslint-disable-line no-console
             const newws = new WebSocket("ws://localhost:"+path);
+			newws.onerror=(e)=>{
+				console.error(e);
+				const errorRouteScript: RouteScript = {
+					_project: {
+						name: "",
+						authors: [],
+						url: "",
+						version: "Unknown",
+						description: ""
+					},
+					compilerVersion: "2.1.0" as const,
+					_route: [
+						"(!=) Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again"
+					]
+				};
+				setRouteScript(errorRouteScript);
+			}
 			newws.onmessage=(e)=>{
-                console.log(e);
+                const data_object = JSON.parse(e.data);
+				setRouteScript(data_object);
             };
             ws = newws;
 		};
@@ -28,10 +43,7 @@ export const WsDevService: React.FC<EmptyObject> = ({children}) => {
 
 		load();
         return ()=>{
-            if(ws){
-                console.log("Closing ws");
-                ws.close();
-            }
+            ws?.close();
         }
     
 	}, []);

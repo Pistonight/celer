@@ -8,15 +8,15 @@ export const getRouteScriptAsync = async (url: string): Promise<RouteScript> => 
 	}catch(e){
 		console.error(e);
 		return {
-			Project: {
-				Name: "",
-				Authors: [],
-				Url: "",
-				Version: "Unknown",
-				Description: ""
+			_project: {
+				name: "",
+				authors: [],
+				url: "",
+				version: "Unknown",
+				description: ""
 			},
 			compilerVersion: TARGET_VERSION,
-			Route: [
+			_route: [
 				"(!=) A network error occured when trying to load the route"
 			]
 		};
