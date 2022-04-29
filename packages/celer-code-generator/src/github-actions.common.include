@@ -14,6 +14,8 @@ write       with:
 write         rust-version: stable
 write     - name: Setup | just
 write       uses: extractions/setup-just@v1
+write       env:
+write         GITHUB_TOKEN: ${{{{ secrets.GITHUB_TOKEN }}}}
 write     - name: Setup | Python 3.10
 write       uses: actions/setup-python@v3.0.0
 write       with:
