@@ -1,4 +1,6 @@
 """In-text code generator"""
+from collections import deque
+from ntpath import join
 import re
 from .common import compact_name
 from .csvutils import read_csv
@@ -68,6 +70,7 @@ class CodeGenerator:
         """Constructor"""
         self.in_file = in_file
         self.out_file = out_file
+        self.line_queue = deque()
         self.functions = {}
         self.indent = -1
 
@@ -77,8 +80,12 @@ class CodeGenerator:
         line_iter = iter(self.in_file)
         while True:
             try:
-                line = next(line_iter)
-                if line.strip().endswith("codegen define begin"):
+                line = self.get_next_line(line_iter)
+                inline_include = line.strip().find("codegen include")
+                if inline_include != -1:
+                    include_path = line.strip()[inline_include+15:]
+                    self.read_include(include_path)
+                elif line.strip().endswith("codegen define begin"):
                     self.indent = line.find("codegen")
                     self.read_define(line_iter)
                 elif line.strip().endswith("codegen csv begin"):
@@ -92,6 +99,19 @@ class CodeGenerator:
             except StopIteration:
                 break
 
+    def get_next_line(self, line_iter):
+        """Get next line, from stack or line_iter if stack is empty"""
+        if len(self.line_queue) == 0:
+            return next(line_iter)
+        else:
+            return self.line_queue.popleft()
+
+    def read_include(self, path):
+        """Read include line and inject file"""
+        with open(join("src", path), "r", encoding="utf-8") as file:
+            for line in file:
+                self.line_queue.append(line)
+
     def read_define(self, line_iter):
         """Read define block and populate self.functions"""
         panic = False
@@ -100,7 +120,7 @@ class CodeGenerator:
         writes = []
         while not panic:
             try:
-                line = next(line_iter)[self.indent:].strip()
+                line = self.get_next_line(line_iter)[self.indent:].strip()
                 if line.startswith("func "):
                     func_name = line[5:]
                 elif line.startswith("input "):
@@ -146,7 +166,7 @@ class CodeGenerator:
         prev_line = None
         while True:
             try:
-                line = next(line_iter)[self.indent:].strip()
+                line = self.get_next_line(line_iter)[self.indent:].strip()
                 if line.startswith("from "):
                     data_name = line[5:]
                 else:
@@ -161,7 +181,7 @@ class CodeGenerator:
         while True:
             try:
                 if prev_line is None:
-                    line = next(line_iter)[self.indent:].strip()
+                    line = self.get_next_line(line_iter)[self.indent:].strip()
                 else:
                     line = prev_line
                     prev_line = None
@@ -172,7 +192,7 @@ class CodeGenerator:
                     map_entries = {}
                     while True:
                         try:
-                            map_line = next(line_iter)[self.indent:].strip()
+                            map_line = self.get_next_line(line_iter)[self.indent:].strip()
                             if map_line.startswith("map entry "):
                                 map_entry_string = map_line[10:].split("=>")
                                 map_entry_key = map_entry_string[0].strip()[1:-1]
@@ -201,7 +221,7 @@ class CodeGenerator:
         while not panic:
             try:
                 if prev_line is None:
-                    line = next(line_iter)[self.indent:].strip()
+                    line = self.get_next_line(line_iter)[self.indent:].strip()
                 else:
                     line = prev_line
                     prev_line = None
@@ -239,7 +259,7 @@ class CodeGenerator:
         """Read gen block and output to self.out_file"""
         while True:
             try:
-                line = next(line_iter)[self.indent:].strip()
+                line = self.get_next_line(line_iter)[self.indent:].strip()
                 if line == "codegen end":
                     break
                 space_index = line.find(" ")

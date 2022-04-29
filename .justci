@@ -1,0 +1,26 @@
+ci-check:
+    @just check
+    @just vsync
+    @just lintpy
+
+ci-rs-lint: 
+    @just lintrs
+
+ci-ts-lint:
+    @just lintts
+
+ci-node:
+    @just packages/celer-vscode-extension/ci
+    @just packages/celer-web-app/ci
+
+ci-cargo:
+    cargo build
+
+ci-cargo-release:
+    cargo build --release
+
+ci-web-build:
+    @just packages/celer-web-app/build
+
+ci-vsce-build:
+    @just packages/celer-vscode-extension/build
