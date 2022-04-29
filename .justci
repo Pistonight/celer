@@ -28,24 +28,24 @@ ci-vsce-build:
 ci-cargo-tar-ubuntu:
     mkdir -p release-ci
     cp -T target/release/celer-cli release-ci/celer
-    tar -cvzf release-ci/celer-devtool-x86_64-linux.tar.gz release-ci/celer
+    cd release-ci && tar -cvzf celer-devtool-x86_64-linux.tar.gz celer
 
 ci-cargo-tar-macos:
     mkdir -p release-ci
     cp target/release/celer-cli release-ci/celer
-    tar -cvzf release-ci/celer-devtool-x86_64-darwin.tar.gz release-ci/celer
+    cd release-ci && tar -cvzf celer-devtool-x86_64-darwin.tar.gz celer
 
 ci-cargo-tar-windows:
     mkdir -p release-ci
     cp -T target/release/celer-cli.exe release-ci/celer.exe
-    tar -cvzf release-ci/celer-devtool-x86_64-windows.tar.gz release-ci/celer.exe
+    cd release-ci && tar -cvzf celer-devtool-x86_64-windows.tar.gz celer.exe
 
 ci-web-tar:
     mkdir -p release-ci
     cp -R -T packages/celer-web-app/build release-ci/celer-web-app
     cp -T packages/celer-user-docs/setup.sh release-ci/celer-web-app/setup.sh
     cp -T packages/celer-user-docs/setup-windows.ps1 release-ci/celer-web-app/setup-windows.ps1
-    tar -cvzf release-ci/celer-web-app.tar.gz release-ci/celer-web-app
+    cd release-ci && tar -cvzf celer-web-app.tar.gz celer-web-app
 
 ci-vsix:
     mkdir -p release-ci
