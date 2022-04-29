@@ -26,6 +26,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		setSplitSetting,
 		metadata,
 		docLines,
+		bundle,
 	} = useAppState();
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
@@ -140,6 +141,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									return name;
 								});
 								saveAs(splitContent, "celer-splits-hundo.lss");
+							} }/>}
+							{bundle && <MenuItem text="Download bundle.json" action={function (): void {
+								saveAs(bundle, "bundle.json");
 							} }/>}
 							{/* <hr />
     <MenuItem style={appStyle} text="Route Detail..." action={function (): void {

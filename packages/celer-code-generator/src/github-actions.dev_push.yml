@@ -30,11 +30,13 @@ codegen end
 
 codegen begin
 DefineJobStart web-build,Build Web,ubuntu-latest
+SetupNode
 SkipJobWIP web-test
 JustCIJob web-build
 codegen end
 
 codegen begin
 DefineJobStart vsce-build,Build VSCE,ubuntu-latest
+SetupNode
 JustCIJob vsce-build
 codegen end

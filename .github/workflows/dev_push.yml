@@ -3,10 +3,10 @@
 # Environment
 env:
   CARGO_TERM_COLOR: always
-name: Pull Request (dev)
+name: Push (dev)
 
 on:
-  pull_request:
+  push:
     branches:
       - dev
 
@@ -122,8 +122,8 @@ jobs:
          pyyaml
          pylint
          pylint-quotes
-   - name: Just cargo
-     run: just -f .justci ci-cargo
+   - name: Just cargo-release
+     run: just -f .justci ci-cargo-release
 
  web-build:
    name: Build Web

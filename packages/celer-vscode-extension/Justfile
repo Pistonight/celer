@@ -18,6 +18,9 @@ release: build
     npm run package
     mv *.vsix ../../release
 
+package:
+    npm run package
+
 dev:
     code .
 

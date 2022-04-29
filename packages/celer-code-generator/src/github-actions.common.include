@@ -42,11 +42,34 @@ write        node-version: '16.14.2'
 write    - name: Setup | Node Install
 write      run: just -f .justci ci-node
 codegen define end
+codegen define begin
 func SkipJobWIP
 input Job
 write    - name: Skip {{Job}} (because WIP)
 write      run: echo "{{Job}} Skipped"
 codegen define end
+codegen define begin
+func UploadArtifact
+input Name Path
+write    - uses: actions/upload-artifact@v3
+write      with:
+write        name: {{Name}}
+write        path: {{Path}}
+codegen define end
+codegen define begin
+func DraftRelease
+input File
+write    - name: Release | Release
+write      if: github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v')
+write      uses: softprops/action-gh-release@v1
+write      with:
+write        draft: true
+write        body_path: release-ci/RELEASE_NOTES.txt
+write        files: |
+write          {{File}}
+codegen define end
+
+
 # Environment
 env:
   CARGO_TERM_COLOR: always

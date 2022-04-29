@@ -5,8 +5,9 @@ import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/doc
 import { EmptyObject } from "data/util";
 
 export const InternalDocumentService: React.FC<EmptyObject> = ({children}) => {
-	const { setRouteScript } = useAppState();
+	const { setBundle, setRouteScript } = useAppState();
 	const serviceFunction = useCallback((path)=>{
+		setBundle(null);
 		switch(path){
 			case "presets":
 				setRouteScript(exampleRouteScriptPresets as unknown as RouteScript);

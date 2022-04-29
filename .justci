@@ -24,3 +24,29 @@ ci-web-build:
 
 ci-vsce-build:
     @just packages/celer-vscode-extension/build
+
+ci-cargo-tar ARCH OS:
+    mkdir -p release-ci
+    cp -T target/release/celer-cli release-ci/celer
+    tar -cvzf release-ci/celer-devtool-{{ARCH}}-{{OS}}.tar.gz release-ci/celer
+
+ci-cargo-tar-windows:
+    mkdir -p release-ci
+    Copy-Item -T target/release/celer-cli.exe release-ci/celer.exe
+    tar -cvzf release-ci/celer-devtool-x86_64-windows.tar.gz release-ci/celer.exe
+
+ci-web-tar:
+    mkdir -p release-ci
+    cp -R -T packages/celer-web-app/build release-ci/celer-web-app
+    cp -T packages/celer-user-docs/install.sh release-ci/celer-web-app/install.sh
+    cp -T packages/celer-user-docs/install-windows.ps1 release-ci/celer-web-app/install-windows.ps1
+    tar -cvzf release-ci/celer-web-app.tar.gz release-ci/celer-web-app
+
+ci-vsix:
+    mkdir -p release-ci
+    @just packages/celer-vscode-extension/package
+    cp -T *.vsix release-ci/celer.vsix
+
+ci-release-notes:
+    mkdir -p release-ci
+    python3 scripts/release.py > release-ci/RELEASE_NOTES.txt

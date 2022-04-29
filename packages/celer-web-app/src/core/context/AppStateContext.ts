@@ -22,6 +22,8 @@ export interface AppState {
     docLines: DocLine[];
     mapIcons: MapIcon[];
     mapLines: MapLine[];
+    // Temporary state to store bundlejson
+    bundle: string | null
 }
 
 interface AppStateContextState extends AppState {
@@ -31,6 +33,7 @@ interface AppStateContextState extends AppState {
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
     setRouteScript:(routeScript: RouteScript)=>void,
+    setBundle:(bundle: string | null) => void,
 }
 
 export const AppStateContext = React.createContext<AppStateContextState>(emptyObject());

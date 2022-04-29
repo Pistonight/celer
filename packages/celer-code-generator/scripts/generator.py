@@ -1,6 +1,6 @@
 """In-text code generator"""
 from collections import deque
-from ntpath import join
+from os.path import join
 import re
 from .common import compact_name
 from .csvutils import read_csv
@@ -81,9 +81,9 @@ class CodeGenerator:
         while True:
             try:
                 line = self.get_next_line(line_iter)
-                inline_include = line.strip().find("codegen include")
+                inline_include = line.strip().find("codegen include ")
                 if inline_include != -1:
-                    include_path = line.strip()[inline_include+15:]
+                    include_path = line.strip()[inline_include+16:]
                     self.read_include(include_path)
                 elif line.strip().endswith("codegen define begin"):
                     self.indent = line.find("codegen")
@@ -103,8 +103,8 @@ class CodeGenerator:
         """Get next line, from stack or line_iter if stack is empty"""
         if len(self.line_queue) == 0:
             return next(line_iter)
-        else:
-            return self.line_queue.popleft()
+
+        return self.line_queue.popleft()
 
     def read_include(self, path):
         """Read include line and inject file"""
@@ -125,6 +125,8 @@ class CodeGenerator:
                     func_name = line[5:]
                 elif line.startswith("input "):
                     input_names = line[6:].split()
+                elif line == "input":
+                    input_names = []
                 elif line.startswith("write "):
                     writes.append(read_format(line[6:]))
                 elif line == "codegen define end":
@@ -264,13 +266,15 @@ class CodeGenerator:
                     break
                 space_index = line.find(" ")
                 if space_index == -1:
-                    self.out_file.write("<codegen error: no function>\n")
-                    continue
-                func_name = line[:space_index]
+                    func_name = line
+                    inputs = []
+                else:
+                    func_name = line[:space_index]
+                    inputs = line[space_index+1:].split(",")
+
                 if func_name not in self.functions:
                     self.out_file.write("<codegen error: unknown function>\n")
                     continue
-                inputs = line[space_index+1:].split(",")
                 self.functions[func_name](inputs)
 
             except StopIteration:

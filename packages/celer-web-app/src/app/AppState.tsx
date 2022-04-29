@@ -27,6 +27,7 @@ const initialState: AppState ={
 		version: "Unknown",
 		description: ""
 	},
+	bundle: null,
 	docLines: [],
 	mapIcons: [],
 	mapLines: []
@@ -132,12 +133,14 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 			]:this.state.docLines,
 			mapIcons: this.state.mapIcons,
 			mapLines: this.state.mapLines,
+			bundle: this.state.bundle,
 			setMapDisplayMode: this.setMapDisplayMode.bind(this),
 			setTheme: this.setTheme.bind(this),
 			setSplitSetting: this.setSplitSetting.bind(this),
 			setDocScrollToLine: (docScrollToLine)=>this.setState({docScrollToLine}),
 			setDocCurrentLine: this.setDocCurrentLine.bind(this),
-			setRouteScript: this.setRouteScript.bind(this)
+			setRouteScript: this.setRouteScript.bind(this),
+			setBundle:(bundle)=>this.setState({bundle})
 		}}>
 			{this.props.children}
 			
