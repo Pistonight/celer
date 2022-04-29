@@ -20,7 +20,8 @@ ignore_exts = [
     ".gif",
     ".vsix",
     ".celer",
-    ".ico"
+    ".ico",
+    ".ps1"
 ]
 
 ROOT = "."

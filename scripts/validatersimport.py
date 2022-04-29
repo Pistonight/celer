@@ -9,9 +9,12 @@ def get_crate_from_line(line):
     """Get crate name from use statements"""
     if not line.startswith("use "):
         return None
+    if line.startswith("use crate"): # will handle this better later
+        return None
     return line[4:-1] # remove \n
 
 def is_std(crate):
+    """Test if an import is from std"""
     return crate.startswith("std::")
 
 def validate_file(file_name):
@@ -22,7 +25,7 @@ def validate_file(file_name):
     last_accepted = None
     with open(file_name, "r", encoding="utf-8") as file:
         for line in file:
-            
+
             crate = get_crate_from_line(line)
             if crate is None:
                 continue
@@ -45,7 +48,7 @@ def validate_file(file_name):
                     errors.append(f"{line}\
       - Imports of the group (std or non-std) needs to be alphabetically sorted. \
 {crate} should be before {last_accepted}")
-                
+
             last_accepted = crate
 
     return errors

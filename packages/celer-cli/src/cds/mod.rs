@@ -1,26 +1,21 @@
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::collections::HashMap;
-use std::thread;
 use std::path::PathBuf;
+use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
+use std::thread;
 use std::time::Duration;
 
-
-
+use celer::{Metadata, SourceObject};
 use chrono::{DateTime, Local};
 use serde_json::{json, Value};
 
-use celer::{Metadata, SourceObject};
-
 use crate::cfio;
-
-
 mod client;
-mod server;
-use server::DevServer;
 mod delay;
-use delay::DelayMgr;
+mod server;
 mod display;
-use display::DevServerDisplay;
+/*import-validate-exempt*/use delay::DelayMgr;
+/*import-validate-exempt*/use display::DevServerDisplay;
+/*import-validate-exempt*/use server::DevServer;
 
 /// Entry point for cds
 pub fn start() {

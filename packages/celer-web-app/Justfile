@@ -9,6 +9,9 @@ lint:
     python3 scripts/validateimport.py src
     npm run lint
 
+lint-fix:
+    npm run lint -- --fix
+
 build:
     npm run build
 

@@ -1,6 +1,6 @@
+use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::collections::HashMap;
 
 pub fn scan_for_celer_files(out_paths: &mut Vec<PathBuf>, out_errors: &mut HashMap<String, Vec<String>>) -> u32 {
     let current_dir = Path::new(".");
@@ -56,7 +56,5 @@ fn scan_file(path: PathBuf, out_paths: &mut Vec<PathBuf>) -> u32 {
         }
     }
     println!("error: cfio: Unable to access file {}", path.display());
-    return 0;
+    0
 }
-
-

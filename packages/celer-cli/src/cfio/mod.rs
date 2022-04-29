@@ -13,7 +13,7 @@ pub fn load_yaml_object(yaml_str: &str) -> Result<serde_json::Value, String> {
             Err(String::from("Yaml must be an object"))
         },
         Err(e) => {
-            Err(String::from(format!("Yaml load error: {}", e)))
+            Err(format!("Yaml load error: {}", e))
         }
     }
 }

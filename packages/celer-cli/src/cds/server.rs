@@ -1,5 +1,5 @@
-use std::net;
 use std::io;
+use std::net;
 
 use super::client::DevClient;
 

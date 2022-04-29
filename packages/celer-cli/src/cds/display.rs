@@ -20,7 +20,7 @@ impl DevServerDisplay {
         new_display.push_str(last_update);
         new_display.push('\n');
 
-        if errors.len() == 0 {
+        if errors.is_empty() {
             new_display.push_str("No issue found\n");
         }else{
             let mut num_errors = 0;

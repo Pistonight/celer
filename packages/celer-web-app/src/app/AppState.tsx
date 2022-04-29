@@ -76,13 +76,13 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 
 	private setRouteScript(routeScript: RouteScript) {
 		const [metadata, metadataDeprecated] = ensureMetadata(routeScript);
-		const routeScriptUnchecked = routeScript as any;
+		const routeScriptUnchecked = routeScript as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 		const routeDeprecated = !routeScript._route && routeScriptUnchecked.Route;
 		let route = routeScript._route || routeScriptUnchecked.Route;
 
 		const useAppExperiment = this.context;
 		const DisableCompilerVersionCheck = useAppExperiment("DisableCompilerVersionCheck");
-		console.log(DisableCompilerVersionCheck);
+
 		if (metadataDeprecated || routeDeprecated){
 			route = addRouteScriptDeprecationMessage(route);
 		}
