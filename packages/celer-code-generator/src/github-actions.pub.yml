@@ -57,12 +57,12 @@ SetupNode
 SkipJobWIP web-test
 JustCIJob web-build
 JustCIJob web-tar
+codegen end
     - name: Deploy Web App
       uses: JamesIves/github-pages-deploy-action@v4.2.5
       with:
         branch: prod
         folder: release-ci/celer-web-app
-codegen end
 
 codegen begin
 DefineJobStart vsce-build,Build VSCE,ubuntu-latest

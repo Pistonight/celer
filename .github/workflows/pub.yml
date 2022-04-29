@@ -255,11 +255,11 @@ jobs:
       run: just -f .justci ci-web-build
     - name: Just web-tar
       run: just -f .justci ci-web-tar
-<codegen error: unknown function>
-<codegen error: unknown function>
-<codegen error: unknown function>
-<codegen error: unknown function>
-<codegen error: unknown function>
+    - name: Deploy Web App
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      with:
+        branch: prod
+        folder: release-ci/celer-web-app
 
   vsce-build:
     name: Build VSCE
