@@ -25,14 +25,19 @@ ci-web-build:
 ci-vsce-build:
     @just packages/celer-vscode-extension/build
 
-ci-cargo-tar ARCH OS:
+ci-cargo-tar-ubuntu:
     mkdir -p release-ci
     cp -T target/release/celer-cli release-ci/celer
-    tar -cvzf release-ci/celer-devtool-{{ARCH}}-{{OS}}.tar.gz release-ci/celer
+    tar -cvzf release-ci/celer-devtool-x86_64-linux.tar.gz release-ci/celer
+
+ci-cargo-tar-macos:
+    mkdir -p release-ci
+    cp target/release/celer-cli release-ci/celer
+    tar -cvzf release-ci/celer-devtool-x86_64-darwin.tar.gz release-ci/celer
 
 ci-cargo-tar-windows:
     mkdir -p release-ci
-    Copy-Item -T target/release/celer-cli.exe release-ci/celer.exe
+    cp -T target/release/celer-cli.exe release-ci/celer.exe
     tar -cvzf release-ci/celer-devtool-x86_64-windows.tar.gz release-ci/celer.exe
 
 ci-web-tar:
@@ -45,7 +50,7 @@ ci-web-tar:
 ci-vsix:
     mkdir -p release-ci
     @just packages/celer-vscode-extension/package
-    cp -T *.vsix release-ci/celer.vsix
+    cp -T packages/celer-vscode-extension/*.vsix release-ci/celer.vsix
 
 ci-release-notes:
     mkdir -p release-ci

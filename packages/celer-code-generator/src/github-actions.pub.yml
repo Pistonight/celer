@@ -27,7 +27,7 @@ codegen end
 codegen begin
 DefineJobStart cargo-build-ubuntu,Build Devtool (Ubuntu),ubuntu-latest,#
 JustCIJob cargo-release
-JustCIJob cargo-tar x86_64 linux
+JustCIJob cargo-tar-ubuntu
 JustCIJob release-notes
 DraftRelease release-ci/celer-devtool-x86_64-linux.tar.gz
 codegen end
@@ -35,7 +35,7 @@ codegen end
 codegen begin
 DefineJobStart cargo-build-macos,Build Devtool (Mac OS),macos-latest,#
 JustCIJob cargo-release
-JustCIJob cargo-tar x86_64 darwin
+JustCIJob cargo-tar-macos
 JustCIJob release-notes
 DraftRelease release-ci/celer-devtool-x86_64-darwin.tar.gz
 codegen end

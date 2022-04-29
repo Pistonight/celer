@@ -137,8 +137,8 @@ jobs:
           pylint-quotes
     - name: Just cargo-release
       run: just -f .justci ci-cargo-release
-    - name: Just cargo-tar x86_64 linux
-      run: just -f .justci ci-cargo-tar x86_64 linux
+    - name: Just cargo-tar-ubuntu
+      run: just -f .justci ci-cargo-tar-ubuntu
     - name: Just release-notes
       run: just -f .justci ci-release-notes
     - name: Release | Release
@@ -179,8 +179,8 @@ jobs:
           pylint-quotes
     - name: Just cargo-release
       run: just -f .justci ci-cargo-release
-    - name: Just cargo-tar x86_64 darwin
-      run: just -f .justci ci-cargo-tar x86_64 darwin
+    - name: Just cargo-tar-macos
+      run: just -f .justci ci-cargo-tar-macos
     - name: Just release-notes
       run: just -f .justci ci-release-notes
     - name: Release | Release

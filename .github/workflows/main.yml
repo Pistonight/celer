@@ -74,8 +74,8 @@ jobs:
           pylint-quotes
     - name: Just cargo-release
       run: just -f .justci ci-cargo-release
-    - name: Just cargo-tar x86_64 linux
-      run: just -f .justci ci-cargo-tar x86_64 linux
+    - name: Just cargo-tar-ubuntu
+      run: just -f .justci ci-cargo-tar-ubuntu
     - uses: actions/upload-artifact@v3
       with:
         name: cdt-ubuntu
@@ -110,8 +110,8 @@ jobs:
           pylint-quotes
     - name: Just cargo-release
       run: just -f .justci ci-cargo-release
-    - name: Just cargo-tar x86_64 darwin
-      run: just -f .justci ci-cargo-tar x86_64 darwin
+    - name: Just cargo-tar-macos
+      run: just -f .justci ci-cargo-tar-macos
     - uses: actions/upload-artifact@v3
       with:
         name: cdt-macos
