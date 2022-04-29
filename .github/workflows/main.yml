@@ -1,0 +1,228 @@
+
+
+# Environment
+env:
+  CARGO_TERM_COLOR: always
+name: Forward to Main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Health Check
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just check
+      run: just -f .justci ci-check
+# Skip linting RS and TS
+
+  cargo-build-ubuntu:
+    name: Build Devtool (Ubuntu)
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just cargo-release
+      run: just -f .justci ci-cargo-release
+    - name: Just cargo-tar x86_64 linux
+      run: just -f .justci ci-cargo-tar x86_64 linux
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cdt-ubuntu release-ci/celer-devtool-x86_64-linux.tar.gz
+        path: 
+
+  cargo-build-macos:
+    name: Build Devtool (Mac OS)
+    #
+    runs-on: macos-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just cargo-release
+      run: just -f .justci ci-cargo-release
+    - name: Just cargo-tar x86_64 darwin
+      run: just -f .justci ci-cargo-tar x86_64 darwin
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cdt-macos release-ci/celer-devtool-x86_64-darwin.tar.gz
+        path: 
+
+  cargo-build-windows:
+    name: Build Devtool (Windows)
+    #
+    runs-on: windows-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just cargo-release
+      run: just -f .justci ci-cargo-release
+    - name: Just cargo-tar-windows
+      run: just -f .justci ci-cargo-tar-windows
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cdt-windows release-ci/celer-devtool-x86_64-windows.tar.gz
+        path: 
+
+  web-build:
+    name: Build Web
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Setup | Node 16.14.2
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: '16.14.2'
+    - name: Setup | Node Install
+      run: just -f .justci ci-node
+    - name: Skip web-test (because WIP)
+      run: echo "web-test Skipped"
+    - name: Just web-build
+      run: just -f .justci ci-web-build
+    - name: Just web-tar
+      run: just -f .justci ci-web-tar
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cwa release-ci/celer-web-app.tar.gz
+        path: 
+
+  vsce-build:
+    name: Build VSCE
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Setup | Node 16.14.2
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: '16.14.2'
+    - name: Setup | Node Install
+      run: just -f .justci ci-node
+    - name: Just vsce-build
+      run: just -f .justci ci-vsce-build
+    - name: Just vsix
+      run: just -f .justci ci-vsix
+    - uses: actions/upload-artifact@v3
+      with:
+        name: vsix release-ci/celer.vsix
+        path: 

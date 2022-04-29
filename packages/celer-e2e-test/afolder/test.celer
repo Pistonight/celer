@@ -1,6 +1,6 @@
 #change 
 Test: 
-  - section level text step2
+  - section level text step
   - "_Equipment<section level text step as preset>"
   - _Equipment<section level preset extend>: 
       comment: hello

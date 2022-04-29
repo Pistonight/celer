@@ -1,0 +1,42 @@
+# codegen include github-actions.common.include
+name: Push (dev)
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+codegen begin
+DefineJobStart check,Health Check,ubuntu-latest,#
+JustCIJob check
+codegen end
+
+codegen begin
+DefineJobStart rs-lint,Lint RS,ubuntu-latest,#
+JustCIJob rs-lint
+codegen end
+
+codegen begin
+DefineJobStart ts-lint,Lint TS,ubuntu-latest,#
+SetupNode
+JustCIJob ts-lint
+codegen end
+
+codegen begin
+DefineJobStart cargo-build,Build Devtool,${{ matrix.os }},strategy: { matrix: { os: [ ubuntu-latest\, macos-latest\, windows-latest ] } }
+JustCIJob cargo-release
+codegen end
+
+codegen begin
+DefineJobStart web-build,Build Web,ubuntu-latest,#
+SetupNode
+SkipJobWIP web-test
+JustCIJob web-build
+codegen end
+
+codegen begin
+DefineJobStart vsce-build,Build VSCE,ubuntu-latest,#
+SetupNode
+JustCIJob vsce-build
+codegen end

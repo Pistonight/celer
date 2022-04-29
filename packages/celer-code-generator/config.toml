@@ -47,3 +47,19 @@ dependencies = ["koroks.csv", "korok_movements.csv"]
 ["Shrine.ts"]
 target = "../celer-web-app/src/core/compiler/modules/Shrine.ts"
 dependencies = ["shrines.csv"]
+
+["github-actions.dev_pr.yml"]
+target = "../../.github/workflows/dev_pr.yml"
+dependencies = []
+
+["github-actions.dev_push.yml"]
+target = "../../.github/workflows/dev_push.yml"
+dependencies = []
+
+["github-actions.main.yml"]
+target = "../../.github/workflows/main.yml"
+dependencies = []
+
+["github-actions.pub.yml"]
+target = "../../.github/workflows/pub.yml"
+dependencies = []

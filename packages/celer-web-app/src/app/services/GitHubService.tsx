@@ -5,9 +5,10 @@ import { EmptyObject } from "data/util";
 import { getRouteScriptAsync } from "./service";
 
 export const GitHubService: React.FC<EmptyObject> = ({children}) => {
-	const { setRouteScript } = useAppState();
+	const { setBundle, setRouteScript } = useAppState();
 	const serviceFunction = useCallback((path)=>{
 		const load = async () => {
+			setBundle(null);
 			const routescript = await getRouteScriptAsync(path);
 			setRouteScript(routescript);
 		};

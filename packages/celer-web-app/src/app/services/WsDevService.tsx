@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { ServiceContext, useAppState } from "core/context";
-import { RouteScript } from "data/bundler";
+import { bundleRouteScript, RouteScript } from "data/bundler";
 import { EmptyObject } from "data/util";
 
 let ws: WebSocket|null = null;
 export const WsDevService: React.FC<EmptyObject> = ({children}) => {
-	const { setRouteScript } = useAppState();
+	const { setBundle, setRouteScript } = useAppState();
 
 	const serviceFunction = useCallback((path)=>{
 		const load = async () => {
@@ -31,7 +31,11 @@ export const WsDevService: React.FC<EmptyObject> = ({children}) => {
 			};
 			newws.onmessage=(e)=>{
 				const dataObject = JSON.parse(e.data);
-				setRouteScript(dataObject);
+				const routeScript = bundleRouteScript(dataObject);
+				const bundle: any = {...routeScript}; // eslint-disable-line @typescript-eslint/no-explicit-any
+				delete bundle.compilerVersion;
+				setRouteScript(routeScript);
+				setBundle(JSON.stringify(bundle));
 			};
 			ws = newws;
 		};

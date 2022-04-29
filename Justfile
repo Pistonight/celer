@@ -7,11 +7,6 @@ install:
     just packages/celer-vscode-extension/install
     just packages/celer-web-app/install
 
-# Install node packages in ci
-ci:
-    just packages/celer-vscode-extension/ci
-    just packages/celer-web-app/ci
-
 # Check generated code are update to date
 check:
     just packages/celer-code-generator/verify
@@ -34,11 +29,15 @@ lintrs:
     python3 scripts/validatersimport.py packages/celer-cli/src packages/celer-lib/src
     cargo clippy -- -D clippy::all -D warnings
 
-# Lint everything. Run this before push/PR
-lint VERBOSE="": check vsync
+# Lint PY code
+lintpy VERBOSE="":
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     @just packages/celer-code-generator/lint
+
+# Lint everything. Run this before push/PR
+lint: check vsync
+    @just lintpy
     @just lintts
     @just lintrs
 

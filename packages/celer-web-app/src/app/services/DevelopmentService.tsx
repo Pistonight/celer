@@ -5,7 +5,7 @@ import { getRouteScriptAsync } from "./service";
 
 export const DevelopmentService: React.FC<EmptyObject> = ({children}) => {
 	const [reloadHandle, setReloadHandle] = useState<NodeJS.Timer | null>(null);
-	const { setRouteScript, docCurrentLine, setDocScrollToLine} = useAppState();
+	const { setBundle, setRouteScript, docCurrentLine, setDocScrollToLine} = useAppState();
 
 	useEffect(()=>{
 		return ()=>{
@@ -16,6 +16,7 @@ export const DevelopmentService: React.FC<EmptyObject> = ({children}) => {
 	}, [reloadHandle]);
 	const serviceFunction = useCallback((path)=>{
 		const load = async () => {
+			setBundle(null);
 			console.log("Loading from local dev server "+path); // eslint-disable-line no-console
 			const routescript = await getRouteScriptAsync("http://localhost:"+path);
 			setRouteScript(routescript);
