@@ -10,9 +10,6 @@ on:
     tags:
       - "v*.*.*"
       - "webv*.*.*" # web only release
-  pull_request:
-    branches:
-      - main
 
 jobs:
   check:
