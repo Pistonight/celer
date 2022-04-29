@@ -14,6 +14,7 @@ VALID_CSV = [
     "shrines",
     "towers"
 ]
+# pylint: disable-next=too-many-branches
 def read_format(format_string):
     """Return a function that can be used to format the format string passed in"""
     # Tokenize
@@ -49,6 +50,7 @@ def read_format(format_string):
                     i = i+5
                     continue
         if i+8 < len(tokens):
+            # pylint: disable-next=too-many-boolean-expressions
             if tokens[i] == "{" and \
                tokens[i+1] == "{" and \
                tokens[i+2] == "{" and \
