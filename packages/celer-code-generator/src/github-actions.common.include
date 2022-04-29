@@ -1,8 +1,9 @@
 codegen define begin
 func DefineJobStart
-input Key Name Os
+input Key Name Os Extra
 write   {{Key}}:
 write     name: {{Name}}
+write     {{Extra}}
 write     runs-on: {{Os}}
 write     steps:
 write     - name: Setup | Checkout

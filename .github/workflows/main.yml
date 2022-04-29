@@ -16,6 +16,7 @@ on:
 jobs:
   check:
     name: Health Check
+    #
     runs-on: ubuntu-latest
     steps:
     - name: Setup | Checkout
@@ -44,6 +45,7 @@ jobs:
 
   cargo-build-ubuntu:
     name: Build Devtool (Ubuntu)
+    #
     runs-on: ubuntu-latest
     steps:
     - name: Setup | Checkout
@@ -77,6 +79,7 @@ jobs:
 
   cargo-build-macos:
     name: Build Devtool (Mac OS)
+    #
     runs-on: macos-latest
     steps:
     - name: Setup | Checkout
@@ -110,6 +113,7 @@ jobs:
 
   cargo-build-windows:
     name: Build Devtool (Windows)
+    #
     runs-on: windows-latest
     steps:
     - name: Setup | Checkout
@@ -143,6 +147,7 @@ jobs:
 
   web-build:
     name: Build Web
+    #
     runs-on: ubuntu-latest
     steps:
     - name: Setup | Checkout
@@ -184,6 +189,7 @@ jobs:
 
   vsce-build:
     name: Build VSCE
+    #
     runs-on: ubuntu-latest
     steps:
     - name: Setup | Checkout
