@@ -27,6 +27,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
@@ -56,6 +58,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
@@ -90,6 +94,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
@@ -124,6 +130,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
@@ -158,6 +166,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
@@ -200,6 +210,8 @@ jobs:
         rust-version: stable
     - name: Setup | just
       uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup | Python 3.10
       uses: actions/setup-python@v3.0.0
       with:
