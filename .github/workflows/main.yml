@@ -78,8 +78,8 @@ jobs:
       run: just -f .justci ci-cargo-tar x86_64 linux
     - uses: actions/upload-artifact@v3
       with:
-        name: cdt-ubuntu release-ci/celer-devtool-x86_64-linux.tar.gz
-        path: 
+        name: cdt-ubuntu
+        path: release-ci/celer-devtool-x86_64-linux.tar.gz
 
   cargo-build-macos:
     name: Build Devtool (Mac OS)
@@ -114,8 +114,8 @@ jobs:
       run: just -f .justci ci-cargo-tar x86_64 darwin
     - uses: actions/upload-artifact@v3
       with:
-        name: cdt-macos release-ci/celer-devtool-x86_64-darwin.tar.gz
-        path: 
+        name: cdt-macos
+        path: release-ci/celer-devtool-x86_64-darwin.tar.gz
 
   cargo-build-windows:
     name: Build Devtool (Windows)
@@ -150,8 +150,8 @@ jobs:
       run: just -f .justci ci-cargo-tar-windows
     - uses: actions/upload-artifact@v3
       with:
-        name: cdt-windows release-ci/celer-devtool-x86_64-windows.tar.gz
-        path: 
+        name: cdt-windows
+        path: release-ci/celer-devtool-x86_64-windows.tar.gz
 
   web-build:
     name: Build Web
@@ -194,8 +194,8 @@ jobs:
       run: just -f .justci ci-web-tar
     - uses: actions/upload-artifact@v3
       with:
-        name: cwa release-ci/celer-web-app.tar.gz
-        path: 
+        name: cwa
+        path: release-ci/celer-web-app.tar.gz
 
   vsce-build:
     name: Build VSCE
@@ -236,5 +236,5 @@ jobs:
       run: just -f .justci ci-vsix
     - uses: actions/upload-artifact@v3
       with:
-        name: vsix release-ci/celer.vsix
-        path: 
+        name: vsix
+        path: release-ci/celer.vsix
