@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `3.0.0` - `04-20-2022` `LATEST`
+## `3.1.0` - `04-28-2022` `LATEST`
+- Add dev server service #/dev
+
+## `3.0.0` - `04-20-2022`
 - Fix korok and warp bugs
 - Implement new hash routes. There will be a deprecation warning if you use the old query parameters.
 

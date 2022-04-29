@@ -1,4 +1,4 @@
-pub const VERSION: &str = "1.0.0";
+pub const VERSION: &str = "1.1.0";
 use std::env;
 use std::process;
 
