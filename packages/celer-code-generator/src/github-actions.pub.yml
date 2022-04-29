@@ -28,7 +28,7 @@ JustCIJob ts-lint
 codegen end
 
 codegen begin
-DefineJobStart cargo-build,Build Devtool (Ubuntu),ubuntu-latest
+DefineJobStart cargo-build-ubuntu,Build Devtool (Ubuntu),ubuntu-latest
 JustCIJob cargo-release
 JustCIJob cargo-tar x86_64 linux
 JustCIJob release-notes
@@ -36,7 +36,7 @@ DraftRelease release-ci/celer-devtool-x86_64-linux.tar.gz
 codegen end
 
 codegen begin
-DefineJobStart cargo-build,Build Devtool (Mac OS),macos-latest
+DefineJobStart cargo-build-macos,Build Devtool (Mac OS),macos-latest
 JustCIJob cargo-release
 JustCIJob cargo-tar x86_64 darwin
 JustCIJob release-notes
@@ -44,7 +44,7 @@ DraftRelease release-ci/celer-devtool-x86_64-darwin.tar.gz
 codegen end
 
 codegen begin
-DefineJobStart cargo-build,Build Devtool (Windows),windows-latest
+DefineJobStart cargo-build-windows,Build Devtool (Windows),windows-latest
 JustCIJob cargo-release
 JustCIJob cargo-tar-windows
 JustCIJob release-notes
