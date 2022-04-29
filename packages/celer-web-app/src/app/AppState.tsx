@@ -1,10 +1,10 @@
 import React from "react";
 import { BannerType, Compiler, SplitType, StringParser } from "core/compiler";
-import { AppState, AppStateContext } from "core/context";
+import { AppExperimentsContext, AppState, AppStateContext } from "core/context";
 import { DocLine, RouteEngine } from "core/engine";
 import { MapCore, MapEngine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
-import { RouteScript } from "data/bundler";
+import { RouteScript, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage } from "data/bundler";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 
@@ -21,11 +21,11 @@ const initialState: AppState ={
 	mapCenterGameY: 0,
 	mapZoom: 3,
 	metadata: {
-		Name: "",
-		Authors: [],
-		Url: "",
-		Version: "Unknown",
-		Description: ""
+		name: "",
+		authors: [],
+		url: "",
+		version: "Unknown",
+		description: ""
 	},
 	docLines: [],
 	mapIcons: [],
@@ -75,11 +75,22 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 	}
 
 	private setRouteScript(routeScript: RouteScript) {
-		const metadata = routeScript.Project;
-		this.setDocLines(routeEngine.compute(compiler.compile(routeScript.compilerVersion, routeScript.Route)), metadata);
+		const [metadata, metadataDeprecated] = ensureMetadata(routeScript);
+		const routeScriptUnchecked = routeScript as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+		const routeDeprecated = !routeScript._route && routeScriptUnchecked.Route;
+		let route = routeScript._route || routeScriptUnchecked.Route;
+
+		const useAppExperiment = this.context;
+		const DisableCompilerVersionCheck = useAppExperiment("DisableCompilerVersionCheck");
+
+		if (metadataDeprecated || routeDeprecated){
+			route = addRouteScriptDeprecationMessage(route);
+		}
+
+		this.setDocLines(routeEngine.compute(compiler.compile(DisableCompilerVersionCheck, routeScript.compilerVersion, route)), metadata);
 	}
 
-	private setDocLines(docLines: DocLine[], metadata: RouteScript["Project"]): void {
+	private setDocLines(docLines: DocLine[], metadata: RouteMetadata): void {
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
 		this.setState({
 			metadata,
@@ -87,8 +98,8 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 			mapIcons,
 			mapLines
 		});
-		if(metadata.Name){
-			document.title = `${metadata.Name} - Celer`;
+		if(metadata.name){
+			document.title = `${metadata.name} - Celer`;
 		}
 		this.state.mapCore.setIcons(mapIcons);
 		this.state.mapCore.setLines(mapLines);
@@ -133,3 +144,4 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 		</AppStateContext.Provider>;
 	}
 }
+AppStateProvider.contextType = AppExperimentsContext;

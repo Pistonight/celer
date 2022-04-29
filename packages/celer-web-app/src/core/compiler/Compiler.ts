@@ -7,19 +7,22 @@ import { BannerType, RouteAssembly, RouteAssemblySection, RouteCommand, Movement
 export class Compiler {
 	private modules: CompilerPresetModule[] = getModules();
 
-	public compile(version: string, sections: RouteSection[]): RouteAssemblySection[] {
+	public compile(disableVersionCheck: boolean,version: string, sections: RouteSection[]): RouteAssemblySection[] {
 		try{
 			const compiled = this.compileSections(sections);
-			if(version !== TARGET_VERSION){
-				compiled.splice(0, 0, {
-					route: [{
-						text: StringParser.parseStringBlockSimple("Compiler Version Mismatch Warning: The compiler version is "+TARGET_VERSION+", but the loaded route was compiled under version "+version+". Please consider upgrading to the latest compiler at https://github.com/iTNTPiston/celer-compiler if you see any unexpected issues."),
-						bannerTriangle: false,
-						bannerType: BannerType.Warning ,
-						splitType: SplitType.None
-					}]
-				});
+			if(!disableVersionCheck){
+				if(version !== TARGET_VERSION){
+					compiled.splice(0, 0, {
+						route: [{
+							text: StringParser.parseStringBlockSimple("Compiler Version Mismatch Warning: The compiler version is "+TARGET_VERSION+", but the loaded route was compiled under version "+version+". Please consider upgrading to the latest compiler at https://github.com/iTNTPiston/celer-compiler if you see any unexpected issues."),
+							bannerTriangle: false,
+							bannerType: BannerType.Warning ,
+							splitType: SplitType.None
+						}]
+					});
+				}
 			}
+			
 			//put 20 empty lines at the end
 			const emptyLines = [];
 			for(let i = 0; i<20;i++){

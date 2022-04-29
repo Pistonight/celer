@@ -1,12 +1,15 @@
-pub const VERSION: &str = "1.0.0";
+pub const VERSION: &str = "1.1.0";
 use std::env;
 use std::process;
+
 // Celer Command Module
-pub mod ccmd;
+mod ccmd;
+// Celer Dev Server
+mod cds;
 // Celer File IO
-pub mod cfio;
-pub mod commands;
-pub mod loader;
+mod cfio;
+mod commands;
+
 
 #[cfg(not(debug_assertions))]
 fn ship_panic(panic_info: &std::panic::PanicInfo) {
@@ -38,7 +41,10 @@ fn main() {
     let command = &args[1];
     match command.as_str() {
         "new" => ccmd::new(),
-        "build" => commands::build(),
+        "build" => {
+            println!("This feature is still being developed. To access bundle.json, please run dev server, and download bundle.json from the web app (Options > Download bundle.json)");
+        },
+        "dev" => cds::start(),
         "version" => println!("{}", VERSION),
         _ => print_help(),
     }
@@ -49,12 +55,15 @@ fn main() {
 }
 
 fn print_help() {
-    println!("Celer CLI v{}", VERSION);
+    println!("Celer Dev Tool v{}", VERSION);
     println!();
-    println!("Usage: celer <command> <flags>");
+    println!("Usage: celer[EXE] <command>");
     println!();
     println!("Commands:");
-    println!("build     WIP");
+    println!("new       Make a new project in the current directory");
+    println!("build     [WIP] Build the route and emit bundle.json");
+    println!("dev       Start dev server");
+    //println!("spec      Display .celer file specification");
     println!("version   Display version");
     println!("help      Display this");
 }

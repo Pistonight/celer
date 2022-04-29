@@ -3,5 +3,6 @@
     "MapSyncToDocScrollEnabled": false,
     "ExportSplits": false,
     "NoTrackDocPos": true,
-    "PigeonMap": false
+    "PigeonMap": false,
+    "DisableCompilerVersionCheck": true
 }

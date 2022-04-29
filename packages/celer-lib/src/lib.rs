@@ -1,11 +1,5 @@
 mod api; 
-pub mod core;
+mod core;
+pub use crate::core::Metadata;
+pub use crate::core::SourceObject;
  
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}

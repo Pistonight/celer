@@ -3,7 +3,6 @@
 
 import sys
 
-
 OK = True
 def get_version(verion_map, file, line_number, position, end):
     """Get version string and populate in map"""
@@ -71,6 +70,11 @@ check_package("celer-cli", "packages/celer-cli/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
     ("src/main.rs", 1, 27, "\"")
+])
+
+check_package("celer-lib", "packages/celer-lib/", [
+    ("CHANGELOG.md", 4, 4, "`"),
+    ("Cargo.toml", 3, 11, "\""),
 ])
 
 if not OK:

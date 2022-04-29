@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-user-docs
 
-## `2.0.0` - `04-20-2022` `LATEST`
+## `3.0.0` - `04-28-2022` `LATEST`
+- Update install instructions
+
+## `2.0.0` - `04-20-2022`
 - Update web app urls to use hash routes
 
 ## `1.0.1` - `03-28-2022`

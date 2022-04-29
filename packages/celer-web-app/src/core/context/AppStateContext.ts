@@ -3,7 +3,7 @@ import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
 import { MapCore, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
-import { RouteScript } from "data/bundler";
+import { RouteMetadata, RouteScript } from "data/bundler";
 import { Consumer, emptyObject } from "data/util";
 
 export interface AppState {
@@ -18,7 +18,7 @@ export interface AppState {
     mapCenterGameX: number,
     mapCenterGameY: number,
     mapZoom: number,
-    metadata: RouteScript["Project"];
+    metadata: RouteMetadata;
     docLines: DocLine[];
     mapIcons: MapIcon[];
     mapLines: MapLine[];

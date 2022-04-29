@@ -6,7 +6,7 @@ import { EmptyObject } from "data/util";
 import { AppExperimentsProvider } from "./AppExperiments";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
-import { DevelopmentService, InternalDocumentService, GitHubResolver, GitHubService } from "./services";
+import { DevelopmentService, InternalDocumentService, GitHubResolver, GitHubService, WsDevService } from "./services";
 
 const REDIRECT_MESSAGE_KEY = "Celer.RedirectMessage";
 const REDIRECT_QUERY = "Redirect";
@@ -32,11 +32,13 @@ const Redirector:React.FC<EmptyObject> = () => {
 		}else{
 			sessionStorage.removeItem(REDIRECT_MESSAGE_KEY);
 		}
+
+		const deprecationMessage = "The old url will no longer work after May 5, 2022";
         
 		// Deprecated Service=Internal
 		if(query.Service === "Internal"){
 			const reference = (`${query.Id}` || "presets").toLowerCase();
-			const message = `The URL you are visiting uses a deprecated query parameter (Service=Internal). Please visit this page using .link(https://celer.itntpiston.app/#/docs/${reference}) in the future.`;
+			const message = `The URL you are visiting uses a deprecated query parameter (Service=Internal). Please visit this page using .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
 			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
 			delete query.Service;
 			delete query.Id;
@@ -46,7 +48,7 @@ const Redirector:React.FC<EmptyObject> = () => {
 		}
 		if(query.Internal){
 			const reference = (`${query.Internal}` || "presets").toLowerCase();
-			const message = `The URL you are visiting uses a deprecated query parameter (Internal). Please visit this page using: .link(https://celer.itntpiston.app/#/docs/${reference}) in the future.`;
+			const message = `The URL you are visiting uses a deprecated query parameter (Internal). Please visit this page using: .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
 			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
 			delete query.Internal;
 
@@ -69,7 +71,7 @@ const Redirector:React.FC<EmptyObject> = () => {
 			if(refParts.length>2 && refParts[2]!=="main"){
 				ghPath+="/"+refParts[2];
 			}
-			const message = `The URL you are visiting uses a deprecated query parameter (Service=gh). If you are the author of this document, share your document with .link(https://celer.itntpiston.app/#/gh/${ghPath}) instead. We now only support loading bundle.json from the root of the repo (in any branch).`;
+			const message = `The URL you are visiting uses a deprecated query parameter (Service=gh). If you are the author of this document, share your document with .link(https://celer.itntpiston.app/#/gh/${ghPath}) instead. We now only support loading bundle.json from the root of the repo (in any branch). ${deprecationMessage}`;
 			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
 			delete query.Service;
 			delete query.Id;
@@ -112,6 +114,9 @@ export const AppRouter: React.FC<EmptyObject> = ({children}) => {
                             If you are using the python dev server, click <a href="#/pydev">here</a>
 						</p>
 						<p>
+                            If you are using the new celer dev server, click <a href="#/dev">here</a>
+						</p>
+						<p>
                                 If you are trying to view the route, open the route URL directly.
 						</p>
 					</div>} />
@@ -121,7 +126,10 @@ export const AppRouter: React.FC<EmptyObject> = ({children}) => {
 					<Route path="pydev" element={<DevelopmentService><Outlet /></DevelopmentService>}>
 						<Route index element={<DefaultRefResolver reference="2222">{children}</DefaultRefResolver>}/>
 						<Route path=":reference" element={<RefResolver>{children}</RefResolver>}/>
-
+					</Route>
+					<Route path="dev" element={<WsDevService><Outlet /></WsDevService>}>
+						<Route index element={<DefaultRefResolver reference="2222">{children}</DefaultRefResolver>}/>
+						<Route path=":reference" element={<RefResolver>{children}</RefResolver>}/>
 					</Route>
 					<Route path="gh" element={<GitHubService><Outlet/></GitHubService>}>
 						<Route path=":user/:repo" element={<GitHubResolver>{children}</GitHubResolver>}/>
