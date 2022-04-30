@@ -56,12 +56,12 @@ then
   echo "Extracting"
   tar -xzf temp.tar.gz
   rm temp.tar.gz
-  echo "Moving files"
+  echo "Moving binary"
   mv celer $INSTALL_PATH
   echo "Done"
 
 else
-  echo "Deleting $BIN"
+  echo "Removing binary at $BIN"
   rm $BIN
   echo "Done"
 fi
