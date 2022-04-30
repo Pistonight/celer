@@ -1,7 +1,7 @@
 # Change Log
 This is the change log for celer-user-docs
 
-## `3.0.0` - `04-28-2022` `LATEST`
+## `3.0.1` - `04-29-2022` `LATEST`
 - Update install instructions
 
 ## `2.0.0` - `04-20-2022`

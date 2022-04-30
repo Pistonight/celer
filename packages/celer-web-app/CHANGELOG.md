@@ -1,8 +1,9 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `3.1.1` - `04-29-2022` `LATEST`
+## `3.1.2` - `04-29-2022` `LATEST`
 - Add export bundle.json option
+- Setup scripts (through static hosting)
 
 ## `3.1.0` - `04-28-2022`
 - Add dev server service #/dev
