@@ -1,9 +1,11 @@
 # Celer User Documentation
-Version: `3.0.0`
+Version: `3.0.1`
+
+**Note: we are moving the documentation to the [github wiki!](https://github.com/iTNTPiston/celer/wiki)**
 
 ## Sections
 1. [Introduction](#introduction)
-2. [Install Celer CLI (WIP)](#install-celer-cli)
+2. [Install Celer Devtool](#install-celer-devtool)
 3. [Install VS Code Extension](#install-celer-vs-code-extension)
 4. [Writing Routes](#writing-routes)
     1. [Getting Started](#getting-started)
@@ -14,7 +16,7 @@ Version: `3.0.0`
     6. [Presets](#presets)
     7. [String Typing](#string-typing)
     8. [Modular Route](#modular-route)
-****
+
 ## Introduction
 Celer is a route engine for BOTW with features designed to make it easier to maintain the route.
 
@@ -28,11 +30,9 @@ The features include
 
 Essentially, celer allows router maintainer to make route changes without doing the boring book-keeping. If you are tired of updating hundreds of korok numbers when making changes, celer is for you.
 ****
-## Install Celer CLI
+## Install Celer Devtool
 
-**NOTE: The newer rust-based CLI is still in development. Please use the python-based bundler at [iTNTPiston/celer-compiler](https://github.com/iTNTPiston/celer-compiler)**
-
-**Note that the instructions in that repo is out-dated. Please refer to this user guide instead.**
+See [wiki page](https://github.com/iTNTPiston/celer/wiki/Install-Celer-Devtool)
 
 ****
 
