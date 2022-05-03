@@ -115,7 +115,7 @@ export class ShrinePreset implements CelerPreset {
 		register("ShaiYota", "(blessing) Shai Yota Shrine");
 		register("SharoLun", "(DLC) Sharo Lun Shrine");
 		register("SheeVaneer", "Shee Vaneer Shrine");
-		register("SheeVaneth", "Shee Vaneth Shrine");
+		register("SheeVenath", "Shee Venath Shrine");
 		register("SheemDagoze", "Sheem Dagoze Shrine");
 		register("ShehRata", "Sheh Rata Shrine");
 		register("ShiraGomar", "(DLC) Shira Gomar Shrine");

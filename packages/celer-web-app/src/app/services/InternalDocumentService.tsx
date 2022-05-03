@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAppState, ServiceContext } from "core/context";
-import { RouteScript } from "data/bundler";
+import { SourceBundle } from "data/bundler";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { EmptyObject } from "data/util";
 
@@ -10,10 +10,10 @@ export const InternalDocumentService: React.FC<EmptyObject> = ({children}) => {
 		setBundle(null);
 		switch(path){
 			case "presets":
-				setRouteScript(exampleRouteScriptPresets as unknown as RouteScript);
+				setRouteScript(exampleRouteScriptPresets as unknown as SourceBundle);
 				break;
 			case "functions":
-				setRouteScript(exampleRouteScriptFunctions as unknown as RouteScript);
+				setRouteScript(exampleRouteScriptFunctions as unknown as SourceBundle);
 				break;
 		}
 	}, []);

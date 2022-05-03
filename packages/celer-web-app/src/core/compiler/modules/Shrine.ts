@@ -116,7 +116,7 @@ class ShrineModule implements CompilerPresetModule {
 		this.addBlessing("Shai Yota", [4245.54, 110.92, 252.95]);
 		this.addDLC("Sharo Lun", [2932.71, 630.51, -2418.10]);
 		this.addShrine("Shee Vaneer", [1265.27, 525.87, 1938.70]);
-		this.addShrine("Shee Vaneth", [1244.13, 443.37, 1850.30]);
+		this.addShrine("Shee Venath", [1244.13, 443.37, 1850.30]);
 		this.addShrine("Sheem Dagoze", [-1893.30, 212.40, 91.50]);
 		this.addShrine("Sheh Rata", [1510.45, 128.41, -376.96]);
 		this.addDLC("Shira Gomar", [-2376.74, 264.97, -1382.98]);

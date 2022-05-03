@@ -33,52 +33,52 @@ const Redirector:React.FC<EmptyObject> = () => {
 			sessionStorage.removeItem(REDIRECT_MESSAGE_KEY);
 		}
 
-		const deprecationMessage = "The old url will no longer work after May 5, 2022";
+		//const deprecationMessage = "The old url will no longer work after May 5, 2022";
         
 		// Deprecated Service=Internal
-		if(query.Service === "Internal"){
-			const reference = (`${query.Id}` || "presets").toLowerCase();
-			const message = `The URL you are visiting uses a deprecated query parameter (Service=Internal). Please visit this page using .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
-			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
-			delete query.Service;
-			delete query.Id;
-			query[REDIRECT_QUERY]="true";
-			navigate(`/docs/${reference}?${queryString.stringify(query)}`);
-			return;
-		}
-		if(query.Internal){
-			const reference = (`${query.Internal}` || "presets").toLowerCase();
-			const message = `The URL you are visiting uses a deprecated query parameter (Internal). Please visit this page using: .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
-			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
-			delete query.Internal;
+		// if(query.Service === "Internal"){
+		// 	const reference = (`${query.Id}` || "presets").toLowerCase();
+		// 	const message = `The URL you are visiting uses a deprecated query parameter (Service=Internal). Please visit this page using .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
+		// 	sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
+		// 	delete query.Service;
+		// 	delete query.Id;
+		// 	query[REDIRECT_QUERY]="true";
+		// 	navigate(`/docs/${reference}?${queryString.stringify(query)}`);
+		// 	return;
+		// }
+		// if(query.Internal){
+		// 	const reference = (`${query.Internal}` || "presets").toLowerCase();
+		// 	const message = `The URL you are visiting uses a deprecated query parameter (Internal). Please visit this page using: .link(https://celer.itntpiston.app/#/docs/${reference}) in the future. ${deprecationMessage}`;
+		// 	sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
+		// 	delete query.Internal;
 
-			query[REDIRECT_QUERY]="true";
-			navigate(`/docs/${reference}?${queryString.stringify(query)}`);
-			return;
-		}
+		// 	query[REDIRECT_QUERY]="true";
+		// 	navigate(`/docs/${reference}?${queryString.stringify(query)}`);
+		// 	return;
+		// }
 		if(query.DevPort){
 			const reference = `${query.DevPort}`;
 			navigate(`/pydev/${reference}`);
 			return;
 		}
-		if(query.Service === "gh"){
-			const reference = `${query.Id}`;
-			const refParts = reference.split("/").filter((s)=>s);
-			while(refParts.length<2){
-				refParts.push("unknown");
-			}
-			let ghPath = refParts[0]+"/"+refParts[1];
-			if(refParts.length>2 && refParts[2]!=="main"){
-				ghPath+="/"+refParts[2];
-			}
-			const message = `The URL you are visiting uses a deprecated query parameter (Service=gh). If you are the author of this document, share your document with .link(https://celer.itntpiston.app/#/gh/${ghPath}) instead. We now only support loading bundle.json from the root of the repo (in any branch). ${deprecationMessage}`;
-			sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
-			delete query.Service;
-			delete query.Id;
-			query[REDIRECT_QUERY]="true";
-			navigate(`/gh/${ghPath}?${queryString.stringify(query)}`);
-			return;
-		}
+		// if(query.Service === "gh"){
+		// 	const reference = `${query.Id}`;
+		// 	const refParts = reference.split("/").filter((s)=>s);
+		// 	while(refParts.length<2){
+		// 		refParts.push("unknown");
+		// 	}
+		// 	let ghPath = refParts[0]+"/"+refParts[1];
+		// 	if(refParts.length>2 && refParts[2]!=="main"){
+		// 		ghPath+="/"+refParts[2];
+		// 	}
+		// 	const message = `The URL you are visiting uses a deprecated query parameter (Service=gh). If you are the author of this document, share your document with .link(https://celer.itntpiston.app/#/gh/${ghPath}) instead. We now only support loading bundle.json from the root of the repo (in any branch). ${deprecationMessage}`;
+		// 	sessionStorage.setItem(REDIRECT_MESSAGE_KEY, message);
+		// 	delete query.Service;
+		// 	delete query.Id;
+		// 	query[REDIRECT_QUERY]="true";
+		// 	navigate(`/gh/${ghPath}?${queryString.stringify(query)}`);
+		// 	return;
+		// }
         
 	}, [pathname, search]);
 

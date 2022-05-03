@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-vscode-extension
 
-## `2.0.0` - `04-16-2022` `LATEST`
+## `3.0.0` - `05-04-2022` `LATEST`
+- Fix spelling: `Shee Venath` was misspelled. The old spelling will no longer work.
+
+## `2.0.0` - `04-16-2022`
 - Fix spelling: `Kema Kosassa`, `Tahno Oah` and `Dako Tah` were misspelled. The old spelling will no longer work.
 
 ## `1.0.2` - `03-28-2022`

@@ -1,6 +1,7 @@
 import { nonnull } from "data/util";
 import { BannerType } from "../types";
 import { TypedString, StringType, TypedStringBlock, TypedStringSingle  } from "./TypedString";
+import { tokenize } from "./tokenize";
 
 const FuncMap = {
 	"item": StringType.Item,
@@ -87,22 +88,7 @@ class StringParser {
 		// NormalText => <identifier>
 
 		// Tokenize first
-		const tokens: string[] = [];
-		const regex = /[.()]/;
-		let j = str.search(regex);
-		while(j !== -1){
-			if(j!==0){
-				//Prevent empty tokens
-				tokens.push(str.substring(0, j));
-			}
-            
-			tokens.push(str[j]);
-			str = str.substring(j+1);
-			j = str.search(regex);
-		}
-		if(str !== ""){
-			tokens.push(str);
-		}
+		const tokens = tokenize(str, /[.()]/);
 
 		const typeStack: StringType[] = [];
 		const blocks: TypedStringSingle[] = [];

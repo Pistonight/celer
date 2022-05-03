@@ -1,10 +1,10 @@
 # codegen include github-actions.common.include
-name: Push (dev)
+name: Push
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
 codegen begin
@@ -24,8 +24,24 @@ JustCIJob ts-lint
 codegen end
 
 codegen begin
-DefineJobStart cargo-build,Build Devtool,${{ matrix.os }},strategy: { matrix: { os: [ ubuntu-latest\, macos-latest\, windows-latest ] } }
+DefineJobStart cargo-build-ubuntu,Build Devtool (Ubuntu),ubuntu-latest,#
 JustCIJob cargo-release
+JustCIJob cargo-tar-ubuntu
+UploadArtifact cdt-ubuntu,release-ci/celer-devtool-x86_64-linux.tar.gz
+codegen end
+
+codegen begin
+DefineJobStart cargo-build-macos,Build Devtool (Mac OS),macos-latest,#
+JustCIJob cargo-release
+JustCIJob cargo-tar-macos
+UploadArtifact cdt-macos,release-ci/celer-devtool-x86_64-darwin.tar.gz
+codegen end
+
+codegen begin
+DefineJobStart cargo-build-windows,Build Devtool (Windows),windows-latest,#
+JustCIJob cargo-release
+JustCIJob cargo-tar-windows
+UploadArtifact cdt-windows,release-ci/celer-devtool-x86_64-windows.tar.gz
 codegen end
 
 codegen begin
@@ -33,10 +49,14 @@ DefineJobStart web-build,Build Web,ubuntu-latest,#
 SetupNode
 SkipJobWIP web-test
 JustCIJob web-build
+JustCIJob web-tar
+UploadArtifact cwa,release-ci/celer-web-app.tar.gz
 codegen end
 
 codegen begin
 DefineJobStart vsce-build,Build VSCE,ubuntu-latest,#
 SetupNode
 JustCIJob vsce-build
+JustCIJob vsix
+UploadArtifact vsix,release-ci/celer.vsix 
 codegen end

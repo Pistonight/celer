@@ -1,4 +1,4 @@
-import { RouteScriptExtend, RouteSection, RouteStep, switchModule, switchSection, switchStep, TARGET_VERSION} from "data/bundler";
+import { RouteScriptExtend, RouteSection, RouteStep, switchModule, switchSection, switchStep} from "data/bundler";
 import { MapOf } from "data/util";
 import { getModules,CompilerPresetModule } from "./modules";
 import { StringParser } from "./text";
@@ -7,21 +7,9 @@ import { BannerType, RouteAssembly, RouteAssemblySection, RouteCommand, Movement
 export class Compiler {
 	private modules: CompilerPresetModule[] = getModules();
 
-	public compile(disableVersionCheck: boolean,version: string, sections: RouteSection[]): RouteAssemblySection[] {
+	public compile(sections: RouteSection[]): RouteAssemblySection[] {
 		try{
 			const compiled = this.compileSections(sections);
-			if(!disableVersionCheck){
-				if(version !== TARGET_VERSION){
-					compiled.splice(0, 0, {
-						route: [{
-							text: StringParser.parseStringBlockSimple("Compiler Version Mismatch Warning: The compiler version is "+TARGET_VERSION+", but the loaded route was compiled under version "+version+". Please consider upgrading to the latest compiler at https://github.com/iTNTPiston/celer-compiler if you see any unexpected issues."),
-							bannerTriangle: false,
-							bannerType: BannerType.Warning ,
-							splitType: SplitType.None
-						}]
-					});
-				}
-			}
 			
 			//put 20 empty lines at the end
 			const emptyLines = [];
@@ -66,24 +54,26 @@ export class Compiler {
 					(stringModule)=>{
 						return {
 							name,
-							route: [this.compileStep(stringModule)]
+							route: this.compileStep(stringModule)
 						};
 					}, (preset, extend)=>{
 						return {
 							name,
-							route: [this.compileStep({[preset]: extend})]
+							route: this.compileStep({[preset]: extend})
 						};
 					}, (arrayModule)=>{
+						const route: RouteAssembly[] = [];
+						arrayModule.forEach(m=>route.push(...this.compileStep(m)));
 						return {
 							name,
-							route: arrayModule.map(m=>this.compileStep(m))
+							route
 						};
 					},sectionErrorHandler);
 			},sectionErrorHandler);
 	}
 
-	private compileStep(step: RouteStep): RouteAssembly{
-		return switchStep(step, 
+	private compileStep(step: RouteStep): RouteAssembly[]{
+		return switchStep<RouteAssembly[]>(step, 
 			(stringStep)=>{
 				if(stringStep.startsWith("_")){
 					const stepAssembly = this.compilePresetExtend(stringStep, {});
@@ -91,15 +81,15 @@ export class Compiler {
 						return stepAssembly;
 					}
 				}
-				return this.compileStepString(stringStep.trim());
+				return [this.compileStepString(stringStep.trim())];
 			},(preset, extend)=>{
 				const stepAssembly = this.compilePresetExtend(preset, extend);
 				if(stepAssembly) {
 					return stepAssembly;
 				}
-				return this.makeCompilerError("Unknown step preset: " + JSON.stringify(preset));
+				return [this.makeCompilerError("Unknown step preset: " + JSON.stringify(preset))];
 			},(errorString)=>{
-				return this.makeCompilerError("Error when compiling step, caused by " + errorString);
+				return [this.makeCompilerError("Error when compiling step, caused by " + errorString)];
 			});
 	}
 
@@ -129,7 +119,7 @@ export class Compiler {
 		return this.makeCompilerError("Unexpected Error Compiler.compileStepString. This is likely a bug in the compiler");
 	}
 
-	private compilePresetExtend(preset:string, extend: RouteScriptExtend): RouteAssembly | undefined{
+	private compilePresetExtend(preset:string, extend: RouteScriptExtend): RouteAssembly[] | undefined{
 		const { header, typedString } = StringParser.parseStringBlock(preset);
 		for(let i = 0;i<this.modules.length;i++){
 			const stepAssembly = this.modules[i].compile(typedString);
@@ -138,10 +128,17 @@ export class Compiler {
 				if(header.isStep){
 					stepAssembly.isStep = true;
 				}
-				return stepAssembly;
+				// Check for icon on splits
+				if(stepAssembly.splitType !== SplitType.None && !stepAssembly.icon) {
+					return [
+						stepAssembly,
+						this.makeCompilerWarningWithTriangle("The above step has a split type, but has no icon. A split must have an icon, or it will be ignored when exporting splits")
+					];
+				}
+				return [stepAssembly];
 			}
 		}
-		return this.makeCompilerError("Unexpected Error Compiler.compilePresetExtend. This is likely a bug in the compiler");
+		return [this.makeCompilerError("Unexpected Error Compiler.compilePresetExtend. This is likely a bug in the compiler")];
 	}
 
 	private applyExtend(data: RouteAssembly, extend: RouteScriptExtend): void {
@@ -246,6 +243,15 @@ export class Compiler {
 			text: StringParser.convertToTypedString("Compile Error: "+error),
 			bannerTriangle: false,
 			bannerType: BannerType.Error,
+			splitType: SplitType.None
+		};
+	}
+
+	private makeCompilerWarningWithTriangle(error: string): RouteAssembly {
+		return  {
+			text: StringParser.convertToTypedString("Compile Warning: "+error),
+			bannerTriangle: true,
+			bannerType: BannerType.Warning,
 			splitType: SplitType.None
 		};
 	}

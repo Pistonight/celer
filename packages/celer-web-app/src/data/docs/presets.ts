@@ -1,5 +1,3 @@
-import { TARGET_VERSION } from "data/bundler";
-
 const example = (str:string) => {
 	return {
 		[str]: {
@@ -9,15 +7,14 @@ const example = (str:string) => {
 };
 
 export const exampleRouteScriptPresets = {
-	compilerVersion: TARGET_VERSION,
-	Project: {
-		Name: "Preset Examples",
-		Authors: ["iTNTPiston"],
-		Url: "https://celer.itntpiston.app/#/docs/presets",
-		Version: "1.0.0",
-		Description: "Examples of presets"
+	_project: {
+		name: "Preset Examples",
+		authors: ["iTNTPiston"],
+		url: "https://celer.itntpiston.app/#/docs/presets",
+		version: "1.0.0",
+		description: "Examples of presets"
 	},
-	Route: [
+	_route: [
 		{
 			"Example Presets":[
 				"(==) This page is a catalog of the presets you can use in celer. The notes section shows the syntax",
