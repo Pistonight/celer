@@ -1,3 +1,4 @@
+
 Write-Output "=== Celer Devtool Setup Script ==="
 $ARCH = "x86_64"
 $OS = "windows"
@@ -23,7 +24,7 @@ if ($CelerDNEError) {
 
 if ($OPTION_NUM -eq "1"){
   if ($BIN_DIR -eq $null) {
-    $DEFAULT_INSTALL_PATH="$HOME\.celer"
+    $DEFAULT_INSTALL_PATH="~/.celer"
   }else{
     $DEFAULT_INSTALL_PATH=$BIN_DIR
   }
@@ -67,3 +68,20 @@ if ($OPTION_NUM -eq "1"){
   Set-Content -Path $PSHOME\Profile.ps1 -Value (Get-Content -Path $PSHOME\Profile.ps1 | Select-String -Pattern '# Add Celer to Path$' -NotMatch)
   Write-Output "Done"
 }
+
+
+
+
+
+# else
+
+
+# # uninstall
+# # which celer (sh) or Get-Command celer to find out install path
+# # (windows) read powershell $PSHOME
+# # (windows) Get-Content/Set-Content for ps to remove path
+# # delete CELER_PATH/celer 
+#   echo "Deleting $BIN"
+#   rm $BIN
+#   echo "Done"
+# fi
