@@ -1,7 +1,7 @@
 import axios from "axios";
-import { RouteScript, TARGET_VERSION } from "data/bundler";
+import { SourceBundle } from "data/bundler";
 
-export const getRouteScriptAsync = async (url: string): Promise<RouteScript> => {
+export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> => {
 	try{
 		const response = await axios.get(url);
 		return response.data;
@@ -15,10 +15,10 @@ export const getRouteScriptAsync = async (url: string): Promise<RouteScript> => 
 				version: "Unknown",
 				description: ""
 			},
-			compilerVersion: TARGET_VERSION,
 			_route: [
 				"(!=) A network error occured when trying to load the route"
-			]
+			],
+			_config: {}
 		};
 	}
 

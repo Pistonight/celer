@@ -265,8 +265,19 @@ export class RouteEngine{
 					break;
 			}
 
-			common.variables.SRN = this.shrineCount;
-			common.variables.KRK = this.korokCount;
+			// Legacy 3 letter variables
+			common.variables = {
+				...common.variables,
+				SRN: this.shrineCount,
+				KRK: this.korokCount,
+				Shrine: this.shrineCount,
+				Korok: this.korokCount,
+				Tower: this.towerCount,
+				Warp: this.warpCount,
+				Talus: this.talusCount,
+				Hinox: this.hinoxCount,
+				Molduga: this.moldugaCount
+			};
 
 			output.push({
 				...common,

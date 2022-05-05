@@ -55,10 +55,12 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {counterValue, splitType} = docLine;
 	const styles = useStyles();
+	const {splitSetting} = useAppState();
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
+		const showSplit = splitType === SplitType.UserDefined && splitSetting[SplitType.UserDefined];
 		return (
 			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)}>
-				<span className="code">{splitType === SplitType.None ? "." : "SPLT" }</span>
+				<span className="code">{showSplit ? "SPLT" : "." }</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>
 		);

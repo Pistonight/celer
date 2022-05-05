@@ -3,13 +3,10 @@
 # Environment
 env:
   CARGO_TERM_COLOR: always
-name: Forward to Main
+name: Push
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -43,7 +40,72 @@ jobs:
           pylint-quotes
     - name: Just check
       run: just -f .justci ci-check
-# Skip linting RS and TS
+
+  rs-lint:
+    name: Lint RS
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just rs-lint
+      run: just -f .justci ci-rs-lint
+
+  ts-lint:
+    name: Lint TS
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Setup | Node 16.14.2
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: '16.14.2'
+    - name: Setup | Node Install
+      run: just -f .justci ci-node
+    - name: Just ts-lint
+      run: just -f .justci ci-ts-lint
 
   cargo-build-ubuntu:
     name: Build Devtool (Ubuntu)

@@ -1,7 +1,13 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `3.1.2` - `04-29-2022` `LATEST`
+## `4.0.0` - `05-04-2022` `LATEST`
+- Export splits, subsplits, and split format feature
+- Remove support for deprecated url parameters
+- Fix shrine spelling issue
+- Fix font issue resulting in white borders between lines
+
+## `3.1.2` - `04-29-2022`
 - Add export bundle.json option
 - Setup scripts (through static hosting)
 

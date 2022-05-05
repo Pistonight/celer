@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { ServiceContext, useAppState } from "core/context";
-import { bundleRouteScript, RouteScript } from "data/bundler";
+import { bundleRouteScript, SourceBundle } from "data/bundler";
 import { EmptyObject } from "data/util";
 
 let ws: WebSocket|null = null;
@@ -14,7 +14,7 @@ export const WsDevService: React.FC<EmptyObject> = ({children}) => {
 			const newws = new WebSocket("ws://localhost:"+path);
 			newws.onerror=(e)=>{
 				console.error(e);
-				const errorRouteScript: RouteScript = {
+				const errorRouteScript: SourceBundle = {
 					_project: {
 						name: "",
 						authors: [],
@@ -22,10 +22,10 @@ export const WsDevService: React.FC<EmptyObject> = ({children}) => {
 						version: "Unknown",
 						description: ""
 					},
-					compilerVersion: "2.1.0" as const,
 					_route: [
 						"(!=) Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again"
-					]
+					],
+					_config: {}
 				};
 				setRouteScript(errorRouteScript);
 			};

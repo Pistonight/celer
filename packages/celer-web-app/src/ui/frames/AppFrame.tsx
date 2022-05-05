@@ -4,11 +4,12 @@ import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
-import { BannerType, SplitType } from "core/compiler";
+import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
 import { useAppExperiment, useAppState } from "core/context";
 import { createLiveSplitFile } from "core/external";
+import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
 import { saveAs } from "data/libs";
-import { EmptyObject, WebAppVersion } from "data/util";
+import { EmptyObject, MapOf, WebAppVersion } from "data/util";
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
 
@@ -24,7 +25,10 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		setTheme,
 		splitSetting,
 		setSplitSetting,
+		enableSubsplits,
+		setEnableSubsplits,
 		metadata,
+		config,
 		docLines,
 		bundle,
 	} = useAppState();
@@ -33,6 +37,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
 	const downloadSplitsEnabled = useAppExperiment("ExportSplits");
+	const downloadCustomSplitsEnabled = useAppExperiment("ExportCustomSplits");
    
 	let errorCount = 0;
 	docLines.forEach(l=>{
@@ -79,7 +84,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.UserDefined])} action={function (): void {
 								setSplitSetting(!splitSetting[SplitType.UserDefined], SplitType.UserDefined);
 							} } text={"Other: "} />
-         
+							<MenuItemWithValue value={enableSubsplits?"On": "Off"} action={function (): void {
+								setEnableSubsplits(!enableSubsplits);
+							} } text={"Subsplits: "} />
 						</div>}
       
 						<div className={styles.menu}>
@@ -107,10 +114,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							<hr />
 							<MenuItemSubmenu selected={splitSettingsMenuItemRef === contextMenuRef} text="Split Settings..." hover={function (): void {
 								setContextMenuRef(splitSettingsMenuItemRef);
-								//console.log(splitSettingsMenuItemRef.current?.getBoundingClientRect());
 							} } ref={splitSettingsMenuItemRef}/>
-							{downloadSplitsEnabled && <MenuItem text="Download AS Splits" action={function (): void {
-								const splitContent = createLiveSplitFile(docLines, (variables, splitType, lineText)=>{
+							{downloadSplitsEnabled && <MenuItem text="(Deprecated) Download AS Splits" action={function (): void {
+								const splitContent = createLiveSplitFile(docLines, false, (variables, splitType, lineText)=>{
 									const prefixnumber = (i: number):string => {
 										if (i >= 100) {return String(i);}
 										if(i>=10) {return "0"+String(i);}
@@ -128,8 +134,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								});
 								saveAs(splitContent, "celer-splits.lss");
 							} }/>}
-							{downloadSplitsEnabled && <MenuItem text="Download Hundo Splits" action={function (): void {
-								const splitContent = createLiveSplitFile(docLines, (variables, splitType, lineText)=>{
+							{downloadSplitsEnabled && <MenuItem text="(Deprecated) Download Hundo Splits" action={function (): void {
+								const splitContent = createLiveSplitFile(docLines, false, (variables, splitType, lineText)=>{
 									let name: string | undefined = undefined;
 									if(splitType === SplitType.Shrine){
 										name = String(variables.KRK) + " - " + lineText;
@@ -142,6 +148,37 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								});
 								saveAs(splitContent, "celer-splits-hundo.lss");
 							} }/>}
+							{downloadCustomSplitsEnabled && <MenuItem text="Download Splits (.lss)" action={ () => {
+								const interpolationFunctions: SplitTypeConfig<(variables: MapOf<number|string>)=>string> = {};
+								if(config["split-format"]){
+									for (const key in config["split-format"]){
+										const format = config["split-format"][key as SplitTypeKeys];
+										if(format){
+											interpolationFunctions[key as SplitTypeKeys] = getInterpolationFunction(format);
+										}
+									}
+								}
+								const splitContent = createLiveSplitFile(docLines, enableSubsplits, (variables, splitType, lineText)=>{
+									if(!splitSetting[splitType]){
+										return undefined; // Split on this type is disabled
+									}
+									const splitTypeString = SplitType[splitType] as SplitTypeKeys;
+									const interpolationFunction = interpolationFunctions[splitTypeString];
+									if(interpolationFunction){
+										const processed = interpolationFunction({
+											...variables,
+											"_": lineText
+										});
+										// console.log({
+										// 	processed,
+										// 	lineText
+										// });
+										return processed;
+									}
+									return lineText;
+								});
+								saveAs(splitContent, (metadata.name || "celer-splits").replaceAll(" ", "-")+".lss");
+							} }/>}
 							{bundle && <MenuItem text="Download bundle.json" action={function (): void {
 								saveAs(bundle, "bundle.json");
 							} }/>}
@@ -153,7 +190,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Route Custom Theme: "} /> */}
 
-							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>v{WebAppVersion} (lib none)</div></div>
+							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>v{WebAppVersion} (lib none) | <a href="
+							https://github.com/iTNTPiston/celer/wiki">wiki</a></div></div>
 						</div>
 					</>
 					}

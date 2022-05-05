@@ -3,7 +3,7 @@ import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
 import { MapCore, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
-import { RouteMetadata, RouteScript } from "data/bundler";
+import { RouteConfig, RouteMetadata, SourceBundle } from "data/bundler";
 import { Consumer, emptyObject } from "data/util";
 
 export interface AppState {
@@ -11,6 +11,7 @@ export interface AppState {
     theme: Theme,
     mapCore: MapCore,
     splitSetting: SplitTypeSetting<boolean>,
+    enableSubsplits: boolean,
     // Updating this value will cause DocFrame to scroll to that line
     docScrollToLine: number,
     // Current line doc is on
@@ -19,6 +20,7 @@ export interface AppState {
     mapCenterGameY: number,
     mapZoom: number,
     metadata: RouteMetadata;
+    config: RouteConfig;
     docLines: DocLine[];
     mapIcons: MapIcon[];
     mapLines: MapLine[];
@@ -30,9 +32,10 @@ interface AppStateContextState extends AppState {
     setMapDisplayMode: Consumer<MapDisplayMode>,
     setTheme: Consumer<Theme>,
     setSplitSetting: (value: boolean, ...splitType: SplitType[])=>void,
+    setEnableSubsplits: Consumer<boolean>,
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
-    setRouteScript:(routeScript: RouteScript)=>void,
+    setRouteScript:(routeScript: SourceBundle)=>void,
     setBundle:(bundle: string | null) => void,
 }
 

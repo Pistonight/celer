@@ -1,46 +1,24 @@
 # Celer User Documentation
-Version: `3.0.1`
+Version: `4.0.0`
 
 **Note: we are moving the documentation to the [github wiki!](https://github.com/iTNTPiston/celer/wiki)**
 
 ## Sections
-1. [Introduction](#introduction)
-2. [Install Celer Devtool](#install-celer-devtool)
-3. [Install VS Code Extension](#install-celer-vs-code-extension)
-4. [Writing Routes](#writing-routes)
-    1. [Getting Started](#getting-started)
-    2. [Project Section](#project-section)
-    3. [Route Section](#route-section)
-    4. [Step Customization](#step-customization)
-    5. [Movements](#movements)
-    6. [Presets](#presets)
-    7. [String Typing](#string-typing)
-    8. [Modular Route](#modular-route)
-
-## Introduction
-Celer is a route engine for BOTW with features designed to make it easier to maintain the route.
-
-The features include
-- Automatically count Koroks, Shrines, etc.
-- Internal variable management, such as counting rushrooms or tails
-- Champion ability validation, such as checking if the ability has recharged
-- Generating `.lss` split file for livesplit
-- Viewing the route doc side-by-side with a map
-- Generating objmap file
-
-Essentially, celer allows router maintainer to make route changes without doing the boring book-keeping. If you are tired of updating hundreds of korok numbers when making changes, celer is for you.
-****
-## Install Celer Devtool
-
-See [wiki page](https://github.com/iTNTPiston/celer/wiki/Install-Celer-Devtool)
-
-****
+1. [Install VS Code Extension](#install-celer-vs-code-extension)
+2. [Writing Routes](#writing-routes)
+    1. [Project Section](#project-section)
+    2. [Route Section](#route-section)
+    3. [Step Customization](#step-customization)
+    4. [Movements](#movements)
+    5. [Presets](#presets)
+    6. [String Typing](#string-typing)
+    7. [Modular Route](#modular-route)
 
 ## Install/Update Celer VS Code Extension
 
 If you use VS Code, you can install an extension to help with writing the route doc.
 
-1. Download the `.vsix` file from the latest release
+1. Download `celer.vsix` from the latest release
 2. Run `code --install-extension <path_to_vsix file>` from command line
    - If you prefer to install from UI, go to the `Extensions` section from side bar within VS Code, Click on the 3 dots near the top of the side panel (`Views and More Actions...`), and choose `Install from VSIX...`
 
@@ -53,26 +31,17 @@ Celer routes are files that end with `.celer` extension. These files are text fi
 
 **Note that yaml format is indentation sentitive. Make sure your scripts are indented correctly if you see any parse errors**
 
-1. [Getting Started](#getting-started)
-2. [Project Section](#project-section)
-3. [Route Section](#route-section)
-4. [Step Customization](#step-customization)
-5. [Movements](#movements)
-6. [Presets](#presets)
-7. [String Typing](#string-typing)
-8. [Modular Route](#modular-route)
-
 ### Getting Started
 The basic format of the route script is like this:
 ```yaml
-Project: 
-  Name: My Project
-  Authors: [Your Name]
-  Version: "1.2.3"
-  Description: An example project
-  Url: something.something.else
+_project: 
+  name: My Project
+  authors: [Your Name]
+  version: "1.2.3"
+  description: An example project
+  url: something.something.else
 
-Route:
+_route:
   - Section 1:
     - Get the sword
     - Get the shield
@@ -80,24 +49,24 @@ Route:
   - Section 2:
     - Kill the boss
 ```
-Copy and paste the content into `myroute.yaml`, and then run `gbundle-watch.py myroute.yaml`, you can then use the web app to render the doc [(link)](https://celer.itntpiston.app/#/pydev)
+An example like this will be generated in `main.celer` when you run `celer new`. To see the rendered doc, run `celer dev` to start the dev server, then go to https://celer.itntpiston.app/#/dev as instructed
 
 ### Project Section
 Project section is this
 ```yaml
-Project: 
-  Name: My Project
-  Authors: [Your Name]
-  Version: "1.2.3"
-  Description: An example project
-  Url: something.something.else
+_project: 
+  name: My Project
+  authors: [Your Name]
+  version: "1.2.3"
+  description: An example project
+  url: something.something.else
 ```
 This section defines the metadata of the route and is required
 
 ### Route Section
 The Route section defines the route itself. The route is an array of sections, and each section is a section name and an array of steps
 ```yaml
-Route: # route object
+_route: # route object
   # array of sections
   - Section 1: # section name
     # array of steps
@@ -110,7 +79,7 @@ Route: # route object
 
 Steps can also exist outside of sections
 ```yaml
-Route: # route object
+_route: # route object
   - some steps
   - outside
   - section
@@ -121,7 +90,7 @@ Route: # route object
 ### Step Customization
 Each step can be customized with various properties
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1:
     - normal step
     - customized step:
@@ -153,7 +122,7 @@ You can set up complex movements on the map within one step.
 
 The `movements` property is an array of objects with 3 properties: `to`, `warp`, `away`. `to` is the coordinate and is required, the other two are flags that are not required and are both default to `false`. The coordinate can be either `[x, z]` or `[x, y, z]`
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1:
     - a lot of movements:
         movements:
@@ -183,7 +152,7 @@ There are presets supported by the engine so you don't have to define each step 
 
 If the text of a step matches a preset, the preset will be applied
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1:
     - normal step
     - _Chest<My Precious> # Get item from a chest
@@ -204,7 +173,7 @@ To add a type to a string `abc`, surround it with parentheses and prefix it with
 
 Full example:
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1:
     - normal step
     - .item(I am an item)
@@ -239,7 +208,7 @@ If your route gets large, you may want to split it to multiple sections, or even
 
 You can use the `__use__` directive to do that
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1: __use__ MySection
 
 MySection:
@@ -257,7 +226,7 @@ Route: # route object
 ```
 You can also have multiple nested modules
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1: 
     - __use__ split 1
     - __use__ split 2
@@ -273,7 +242,7 @@ split 2:
 # ...
 # The bundler will bundle it into:
 
-Route: # route object
+_route: # route object
   - Section 1: 
     - do this
     - do that
@@ -285,7 +254,7 @@ Route: # route object
 #### Reusing Modules
 This also supports reusing modules
 ```yaml
-Route: # route object
+_route: # route object
   - Section 1: 
     - __use__ Monument
     - do something else
@@ -299,7 +268,7 @@ Monument:
 # ...
 # The bundler will bundle it into:
 
-Route: # route object
+_route: # route object
   - Section 1: 
     - .loc(Monument):
         notes: ONLY MASH B
@@ -315,7 +284,7 @@ Passing parameters to a module is not supported. There's no current plan to supp
 You can also split up the route into multiple files.
 ```yaml
 # file: main.yaml
-Route: # route object
+_route: # route object
   - Section 1: 
     - __use__ split 1
     - __use__ split 2
@@ -339,7 +308,7 @@ The bundler will recursively load all `.yaml` files in the directory. Note that 
 #### Circular Dependency
 The bundler does have circular dependency protection
 ```yaml
-Route:
+_route:
   - Section 1: 
     - __use__ A
     # ...
@@ -350,7 +319,7 @@ B: __use__ A # Error! Circular Dependency: Route -> A -> B -> A
 ```
 The bundler will still generate a bundle, which contains the error message instead of the route
 ```yaml
-Route:
+_route:
   - Bundler Error! Circular Dependency Detected ...
 ```
 You will see the message when loading the bundle using the engine. The error message will contain the dependency chain for you to debug

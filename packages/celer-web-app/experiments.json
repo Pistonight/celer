@@ -2,7 +2,7 @@
     "EnhancedScrollTrackerEnabled": false,
     "MapSyncToDocScrollEnabled": false,
     "ExportSplits": false,
+    "ExportCustomSplits": true,
     "NoTrackDocPos": true,
-    "PigeonMap": false,
-    "DisableCompilerVersionCheck": true
+    "PigeonMap": false
 }

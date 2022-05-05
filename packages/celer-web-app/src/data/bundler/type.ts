@@ -1,10 +1,13 @@
-import {TARGET_VERSION} from "./version";
 
-// Bundled Route script. This is what the engine side receives
-export type RouteScript = {
-    compilerVersion: typeof TARGET_VERSION,
+// Bundled Route script.
+export type SourceBundle = {
     _project: RouteMetadata,
     _route: RouteSection[],
+    _config: RouteConfig
+}
+
+export type RouteConfig = {
+    "split-format"?: SplitTypeConfig<string>
 }
 
 // Metadata containing project info
@@ -43,3 +46,19 @@ export type RouteScriptExtend = {
 export type SingleProperty<T> = {
     [key: string]: T
 } 
+
+export type SplitTypeKeys = 
+    "None"|
+    "Shrine"| //1 - 120
+    "Tower"| //I - XV
+    "Warp"| // 1-??
+    "Memory"| // I - XIII
+    "Korok"| //1 - 900
+    "Hinox"| //1-40
+    "Talus"| //1-40
+    "Molduga"| //1-4
+    "UserDefined";
+
+export type SplitTypeConfig<T> = {
+    [t in SplitTypeKeys]?: T
+};

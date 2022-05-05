@@ -1,19 +1,26 @@
 import React from "react";
-import { BannerType, Compiler, SplitType, StringParser } from "core/compiler";
-import { AppExperimentsContext, AppState, AppStateContext } from "core/context";
-import { DocLine, RouteEngine } from "core/engine";
+import { BannerType, Compiler, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
+import { AppExperimentsContext, AppState as ContextState, AppStateContext } from "core/context";
+import { RouteEngine } from "core/engine";
 import { MapCore, MapEngine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
-import { RouteScript, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage } from "data/bundler";
+import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 
 const DOC_LINE_POS_KEY="DocLinePos";
 
+const ENABLE_SUBSPLITS_KEY="EnableSubsplits";
+
+type AppState = ContextState & {
+	routeAssembly: RouteAssemblySection[]
+}
+
 const initialState: AppState ={
 	mapDisplayMode: MapDisplayModeStorage.load(),
 	theme: ThemeStorage.load(),
 	splitSetting: SplitSettingStorage.load(),
+	enableSubsplits: LocalStorageWrapper.load(ENABLE_SUBSPLITS_KEY, false),
 	mapCore: new MapCore(),
 	docScrollToLine: LocalStorageWrapper.load(DOC_LINE_POS_KEY, 0),
 	docCurrentLine: 0,
@@ -27,7 +34,9 @@ const initialState: AppState ={
 		version: "Unknown",
 		description: ""
 	},
+	config: {},
 	bundle: null,
+	routeAssembly: [],
 	docLines: [],
 	mapIcons: [],
 	mapLines: []
@@ -66,6 +75,15 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 		this.setState({
 			splitSetting: newSetting
 		});
+		routeEngine.setSplitSetting(newSetting);
+		this.setRouteAssembly(this.state.routeAssembly, this.state.metadata, this.state.config);
+	}
+
+	private setEnableSubsplits(enableSubsplits: boolean) {
+		LocalStorageWrapper.store(ENABLE_SUBSPLITS_KEY, enableSubsplits);
+		this.setState({
+			enableSubsplits
+		});
 	}
 
 	private setDocCurrentLine(docCurrentLine: number): void {
@@ -75,29 +93,30 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 		});
 	}
 
-	private setRouteScript(routeScript: RouteScript) {
-		const [metadata, metadataDeprecated] = ensureMetadata(routeScript);
-		const routeScriptUnchecked = routeScript as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-		const routeDeprecated = !routeScript._route && routeScriptUnchecked.Route;
-		let route = routeScript._route || routeScriptUnchecked.Route;
-
-		const useAppExperiment = this.context;
-		const DisableCompilerVersionCheck = useAppExperiment("DisableCompilerVersionCheck");
+	private setRouteScript(sourceBundle: SourceBundle) {
+		const [metadata, metadataDeprecated] = ensureMetadata(sourceBundle);
+		const config = ensureConfig(sourceBundle);
+		const routeScriptUnchecked = sourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+		const routeDeprecated = !sourceBundle._route && routeScriptUnchecked.Route;
+		let route = sourceBundle._route || routeScriptUnchecked.Route;
 
 		if (metadataDeprecated || routeDeprecated){
 			route = addRouteScriptDeprecationMessage(route);
 		}
-
-		this.setDocLines(routeEngine.compute(compiler.compile(DisableCompilerVersionCheck, routeScript.compilerVersion, route)), metadata);
+		this.setRouteAssembly(compiler.compile(route), metadata, config);
 	}
 
-	private setDocLines(docLines: DocLine[], metadata: RouteMetadata): void {
+	private setRouteAssembly(routeAssembly: RouteAssemblySection[], metadata: RouteMetadata, config: RouteConfig): void {
+		const docLines = routeEngine.compute(routeAssembly);
+
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
 		this.setState({
+			routeAssembly,
 			metadata,
 			docLines,
 			mapIcons,
-			mapLines
+			mapLines,
+			config
 		});
 		if(metadata.name){
 			document.title = `${metadata.name} - Celer`;
@@ -115,13 +134,14 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 			mapCore: this.state.mapCore,
 			theme: this.state.theme,
 			splitSetting: this.state.splitSetting,
-            
+			enableSubsplits: this.state.enableSubsplits,
 			docScrollToLine: this.state.docScrollToLine,
 			docCurrentLine: this.state.docCurrentLine,
 			mapCenterGameX: this.state.mapCenterGameX,
 			mapCenterGameY: this.state.mapCenterGameY,
 			mapZoom: this.state.mapZoom,
 			metadata: this.state.metadata,
+			config: this.state.config,
 			docLines: redirectMessage ? [
 				{
 					lineType: "DocLineBanner" as const,
@@ -137,6 +157,7 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 			setMapDisplayMode: this.setMapDisplayMode.bind(this),
 			setTheme: this.setTheme.bind(this),
 			setSplitSetting: this.setSplitSetting.bind(this),
+			setEnableSubsplits: this.setEnableSubsplits.bind(this),
 			setDocScrollToLine: (docScrollToLine)=>this.setState({docScrollToLine}),
 			setDocCurrentLine: this.setDocCurrentLine.bind(this),
 			setRouteScript: this.setRouteScript.bind(this),

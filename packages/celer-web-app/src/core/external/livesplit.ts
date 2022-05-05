@@ -34,27 +34,48 @@ export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
 	return cDataString;
 };
 
-export const createLiveSplitFile = (lines: DocLine[], formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
+export const createLiveSplitFile = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
 	const header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Run version=\"1.7.0\"><GameIcon/><GameName/><CategoryName/><LayoutPath/><Metadata><Run id=\"\"/><Platform usesEmulator=\"False\"/><Region/><Variables /></Metadata><Offset>00:00:00</Offset><AttemptCount>0</AttemptCount><AttemptHistory/><Segments>";
 	const footer = "</Segments><AutoSplitterSettings/></Run>";
-	return `${header}${createSegmentTags(lines, formatter)}${footer}`;
+	return `${header}${createSegmentTags(lines, enableSubsplits, formatter)}${footer}`;
 };
 
-const createSegmentTags = (lines: DocLine[], formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
+const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
 	const splitNames: string[] = [];
 	const splitIcons: string[] = [];
+	let sectionName = "";
+	let isLastSectionEmpty = true;
 	lines.forEach((line)=>{
-		if(line.lineType === "DocLineTextWithIcon"){
-			const name = formatter(line.variables, line.splitType, line.text.toString());
-
+		
+		if(line.lineType === "DocLineSection") {
+			if(enableSubsplits) {
+				if(splitNames.length > 0 && sectionName && !isLastSectionEmpty){
+					splitNames[splitNames.length-1] = `{${sectionName}}${splitNames[splitNames.length-1].substring(1)/* remove "-"" */}`;
+				}
+				sectionName = line.sectionName;
+				isLastSectionEmpty = true;
+			}
+		}else if(line.lineType === "DocLineTextWithIcon" && line.splitType !== SplitType.None){
+			let name = formatter(line.variables, line.splitType, line.text.toString());
+			if(enableSubsplits && sectionName && name){
+				name = "-" + name;
+			}
 			if(name){
 				splitNames.push(name);
 				splitIcons.push(Icons[line.icon || ""]);
+				isLastSectionEmpty = false;
 			}
 
 		}
 
 	});
+
+	if(enableSubsplits && !isLastSectionEmpty) {
+		if(splitNames.length > 0 && sectionName){
+			splitNames[splitNames.length-1] = `{${sectionName}}${splitNames[splitNames.length-1].substring(1)/* remove "-"" */}`;
+		}
+	}
+
 	return splitNames.map((name, i)=>createSegmentTag(name, splitIcons[i])).join("");
 };
 

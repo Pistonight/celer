@@ -1,34 +1,33 @@
 /* eslint-disable */
 import { switchModule, switchSection, switchStep } from "./switch";
-import { RouteScript, RouteModule, RouteSection, RouteScriptExtend, RouteStep, RouteMetadata } from "./type";
-import { TARGET_VERSION } from "./version";
+import { SourceBundle, RouteModule, RouteSection, RouteScriptExtend, RouteStep, RouteMetadata, RouteConfig } from "./type";
 
 // Unbundled route script is what the bundler receives
 // The bundler processes __use__ directives and remove unused modules
 const __use__ = "__use__";
-type UnbundledRouteScript = Omit<RouteScript, "compilerVersion"> & {
+type MergedSource = SourceBundle & {
     [key: string]: RouteModule
 };
 
 export const addRouteScriptDeprecationMessage = (route: RouteSection[]):RouteSection[] => {
 	return [
-		"(?=) Deprecation Warning: You are using a legacy version of the route script that will not be supported in the future. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Migrate-from-legacy-route-script-.((celer-compiler)..)) here",
+		"(?=) Deprecation Warning: You are using a legacy version of the route script that will not be supported in the future. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Misc:-Migrate-from-Legacy-Route-Script) here.",
 		...route
 	];
 }
 
-export const bundleRouteScript = (script: UnbundledRouteScript): RouteScript => {
-	const [ metadata, metadataDeprecated ] = ensureMetadata(script);
+export const bundleRouteScript = (mergedSource: MergedSource): SourceBundle => {
+	const [ metadata, metadataDeprecated ] = ensureMetadata(mergedSource);
 	
-	const routeDeprecated = !script._route && script.Route;
-	const route = script._route || script.Route;
+	const routeDeprecated = !mergedSource._route && mergedSource.Route;
+	const route = mergedSource._route || mergedSource.Route;
 	
 	return {
-		compilerVersion: TARGET_VERSION,
 		_project: metadata,
 		_route: (metadataDeprecated || routeDeprecated) 
-		  ? addRouteScriptDeprecationMessage(bundleRoute(script, route))
-		  : bundleRoute(script, route)
+		  ? addRouteScriptDeprecationMessage(bundleRoute(mergedSource, route))
+		  : bundleRoute(mergedSource, route),
+		_config: ensureConfig(mergedSource)
 	};
 }
 export const ensureMetadata = (script: any): [RouteMetadata, boolean] => {
@@ -57,7 +56,6 @@ export const ensureMetadata = (script: any): [RouteMetadata, boolean] => {
 			Description: string,
 		}
 
-		// Spread expression is not parsable in dukpy so here's the workaround
 		if(deprecatedMetadata.Name){
 			metadata.name = deprecatedMetadata.Name;
 		}
@@ -79,7 +77,11 @@ export const ensureMetadata = (script: any): [RouteMetadata, boolean] => {
 	return [{...project}, false];
 }
 
-const bundleRoute = (script: UnbundledRouteScript, route: RouteSection[]): RouteSection[] => {
+export const ensureConfig = (mergedSource: any): RouteConfig => {
+	return mergedSource._config || {};
+}
+
+const bundleRoute = (script: MergedSource, route: RouteSection[]): RouteSection[] => {
 	// Make sure route is actually an array
 	if(!Array.isArray(route)){
 		return ["(!=) Bundler Error: Route property must be an array"];
@@ -166,7 +168,7 @@ const ensureNoCircularDependency = (dependency: {[name: string]: string[]}, name
 	}
 	return undefined;
 }
-const bundleSections = (script: UnbundledRouteScript, sections: RouteSection[], cache: {[key: string]: RouteModule}): RouteSection[] => {
+const bundleSections = (script: MergedSource, sections: RouteSection[], cache: {[key: string]: RouteModule}): RouteSection[] => {
 	const returnArray: RouteSection[] = [];
 	sections.forEach(section=>{
 		switchSection(section,
@@ -204,7 +206,7 @@ const bundleSections = (script: UnbundledRouteScript, sections: RouteSection[], 
 	
 }
 
-const bundleModule = (script: UnbundledRouteScript, name: string|undefined, cache: {[key: string]: RouteModule}, unbundledModule?: RouteModule):RouteModule => {
+const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key: string]: RouteModule}, unbundledModule?: RouteModule):RouteModule => {
 	if(name && cache[name]){
 		//Cache hit, return cached module
 		return cache[name];
