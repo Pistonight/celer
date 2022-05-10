@@ -75,9 +75,9 @@ codegen define begin
 func SetupWasmPack
 input
 write     - name: Setup | wasm-pack
-write         uses: jetli/wasm-pack-action@v0.3.0
-write         with:
-write           version: 'latest'
+write       uses: jetli/wasm-pack-action@v0.3.0
+write       with:
+write         version: 'latest'
 codegen define end
 
 

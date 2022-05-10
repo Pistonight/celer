@@ -249,9 +249,9 @@ jobs:
     - name: Setup | Node Install
       run: just -f .justci ci-node
     - name: Setup | wasm-pack
-        uses: jetli/wasm-pack-action@v0.3.0
-        with:
-          version: 'latest'
+      uses: jetli/wasm-pack-action@v0.3.0
+      with:
+        version: 'latest'
     - name: Skip web-test (because WIP)
       run: echo "web-test Skipped"
     - name: Just web-build
