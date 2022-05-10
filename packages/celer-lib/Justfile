@@ -1,0 +1,11 @@
+# Build WASM
+build:
+    wasm-pack build
+
+clean:
+    rm -rf pkg
+
+# Copy files to web app directory
+apply: build
+    mkdir -p ../celer-web-app/src/data/wasmlib
+    cp -R -T pkg ../celer-web-app/src/data/wasmlib

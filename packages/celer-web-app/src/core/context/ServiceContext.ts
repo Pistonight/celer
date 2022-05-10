@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { emptyFunction } from "data/util";
 
-type ServiceFunction = (reference?: string) => (()=>void) | void;
+type ServiceFunction = () => (()=>void) | void;
 
 export const ServiceContext = React.createContext<ServiceFunction>(emptyFunction());
 
 ServiceContext.displayName = "ServiceContext";
 
-export const useService = (name?: string)=>{
+export const useService = ()=>{
 	const serviceFunction = useContext(ServiceContext);
 	useEffect(()=>{
-		const cleanup = serviceFunction(name);
+		const cleanup = serviceFunction();
 		if(cleanup){
 			return cleanup;
 		}
-	}, [serviceFunction, name]);
+	}, [serviceFunction]);
 };

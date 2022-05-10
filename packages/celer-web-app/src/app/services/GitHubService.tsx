@@ -1,20 +1,14 @@
-import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { useAppState,ServiceContext, useService } from "core/context";
+import { ServiceContext } from "core/context";
 import { EmptyObject } from "data/util";
-import { getRouteScriptAsync } from "./service";
+import { useLoadRouteAsync } from "./service";
 
 export const GitHubService: React.FC<EmptyObject> = ({children}) => {
-	const { setBundle, setRouteScript } = useAppState();
-	const serviceFunction = useCallback((path)=>{
-		const load = async () => {
-			setBundle(null);
-			const routescript = await getRouteScriptAsync(path);
-			setRouteScript(routescript);
-		};
-       
-		load();
-	}, []);
+
+	const {user, repo, branch} = useParams();
+	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
+
+	const serviceFunction = useLoadRouteAsync(url);
 	return (
 		<ServiceContext.Provider value={serviceFunction}>
 			{children}
@@ -22,9 +16,9 @@ export const GitHubService: React.FC<EmptyObject> = ({children}) => {
 	);
 };
 
-export const GitHubResolver: React.FC<EmptyObject> = ({children})=>{
-	const {user, repo, branch} = useParams();
-	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
-	useService(url);
-	return <>{children}</>;
-};
+// export const GitHubResolver: React.FC<EmptyObject> = ({children})=>{
+// 	const {user, repo, branch} = useParams();
+// 	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
+// 	useService(url);
+// 	return <>{children}</>;
+// };

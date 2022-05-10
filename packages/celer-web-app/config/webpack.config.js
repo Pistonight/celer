@@ -554,7 +554,8 @@ module.exports = function (webpackEnv) {
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              // Also exclude wasm files
+              exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/],
               type: 'asset/resource',
             },
             // ** STOP ** Are you adding a new loader?
@@ -757,5 +758,11 @@ module.exports = function (webpackEnv) {
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
     performance: false,
+
+    //WASM experiemnts
+    experiments: {
+      asyncWebAssembly: true,
+      syncWebAssembly: true
+    }
   };
 };

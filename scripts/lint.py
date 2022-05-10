@@ -12,7 +12,10 @@ ignore = [
     ".git",
     "__pycache__",
     ".vscode",
-    "target"
+    "target",
+    "binaryen-version_105",
+    "pkg",
+    "wasmlib"
 ]
 
 ignore_exts = [
@@ -21,7 +24,9 @@ ignore_exts = [
     ".vsix",
     ".celer",
     ".ico",
-    ".ps1"
+    ".ps1",
+    ".wasm",
+    ".tar.gz",
 ]
 
 ROOT = "."

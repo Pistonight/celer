@@ -75,6 +75,7 @@ check_package("celer-cli", "packages/celer-cli/", [
 check_package("celer-lib", "packages/celer-lib/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
+    ("src/lib.rs", 1, 27, "\"")
 ])
 
 if not OK:
