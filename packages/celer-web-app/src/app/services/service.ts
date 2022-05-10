@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useCallback } from "react";
+import { useAppState } from "core/context";
 import { SourceBundle } from "data/bundler";
 
 export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> => {
@@ -22,4 +24,17 @@ export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> =>
 		};
 	}
 
+};
+
+export const useLoadRouteAsync = (url: string) => {
+	const { setBundle, setRouteScript } = useAppState();
+	return useCallback(()=>{
+		const load = async () => {
+			setBundle(null);
+			const routescript = await getRouteScriptAsync(url);
+			setRouteScript(routescript);
+		};
+       
+		load();
+	}, [url]);
 };

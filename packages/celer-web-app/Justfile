@@ -13,6 +13,13 @@ lint-fix:
     npm run lint -- --fix
 
 build:
+    rm -rf src/data/wasmlib
+    @just ../celer-lib/apply
+    wget -q -O binaryen.tar.gz https://github.com/WebAssembly/binaryen/releases/download/version_105/binaryen-version_105-x86_64-linux.tar.gz
+    mkdir -p bin
+    tar -xzvf binaryen.tar.gz -C bin
+    mv -f -T src/data/wasmlib/celer_bg.wasm src/data/wasmlib/celer_bg_unoptimized.wasm
+    ./bin/binaryen-version_105/bin/wasm-opt src/data/wasmlib/celer_bg_unoptimized.wasm -O3 -o src/data/wasmlib/celer_bg.wasm
     npm run build
 
 watch:
@@ -24,6 +31,7 @@ release: build
 
 clean:
     rm -rf build
+    rm -rf src/data/wasmlib
 
 nuke: clean
     rm -rf node_modules

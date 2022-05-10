@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `4.0.0` - `05-04-2022` `LATEST`
+## `4.1.0` - `05-09-2022` `LATEST`
+- Add experimental `u` routes for loading url
+
+## `4.0.0` - `05-04-2022`
 - Export splits, subsplits, and split format feature
 - Remove support for deprecated url parameters
 - Fix shrine spelling issue

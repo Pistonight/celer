@@ -31,3 +31,7 @@ bundle.json
 bundle.src.celer
 bundle.asm.json
 bundle.obj.json
+
+# Binary files
+*.tar.gz
+bin

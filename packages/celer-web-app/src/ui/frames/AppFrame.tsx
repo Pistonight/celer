@@ -5,11 +5,13 @@ import { useStyles } from "ui/StyleContext";
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
-import { useAppExperiment, useAppState } from "core/context";
+import { useAppExperiment, useAppState, useService } from "core/context";
 import { createLiveSplitFile } from "core/external";
 import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
 import { saveAs } from "data/libs";
 import { EmptyObject, MapOf, WebAppVersion } from "data/util";
+import { wasmLibVersion } from "data/wasmlib";
+
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
 
@@ -17,6 +19,8 @@ const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
 const splitSettingsMenuItemRef = React.createRef<HTMLDivElement>();
 export const AppFrame: React.FC<EmptyObject> = ()=>{
+	// This hook loads the route
+	useService();
 	const {
 		mapCore, 
 		mapDisplayMode, 
@@ -190,7 +194,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Route Custom Theme: "} /> */}
 
-							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>v{WebAppVersion} (lib none) | <a href="
+							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>v{WebAppVersion} (lib v{wasmLibVersion()}) | <a href="
 							https://github.com/iTNTPiston/celer/wiki">wiki</a></div></div>
 						</div>
 					</>
