@@ -31,6 +31,7 @@ codegen end
 codegen begin
 DefineJobStart web-build,Build Web,ubuntu-latest,#
 SetupNode
+SetupWasmPack
 SkipJobWIP web-test
 JustCIJob web-build
 codegen end
