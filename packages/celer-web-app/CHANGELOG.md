@@ -1,7 +1,12 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `4.1.0` - `05-09-2022` `LATEST`
+## `4.1.1` - `05-11-2022` `LATEST`
+- `u` routes are disabled
+- Add copy-paste and local file loading from home page
+- Home page link in menu
+
+## `4.1.0` - `05-09-2022`
 - Add experimental `u` routes for loading url
 
 ## `4.0.0` - `05-04-2022`

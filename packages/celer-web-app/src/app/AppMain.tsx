@@ -1,12 +1,13 @@
 import queryString from "query-string";
 import { useEffect } from "react";
 import { HashRouter, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { AppFrame } from "ui/frames";
+import { AppFrame, Home } from "ui/frames";
 import { EmptyObject } from "data/util";
 import { AppExperimentsProvider } from "./AppExperiments";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
-import { DevelopmentService, InternalDocumentService, GitHubService, WsDevService, UrlService } from "./services";
+import { DevelopmentService, InternalDocumentService, GitHubService, WsDevService } from "./services";
+import { LocalService } from "./services/LocalService";
 
 const REDIRECT_MESSAGE_KEY = "Celer.RedirectMessage";
 const REDIRECT_QUERY = "Redirect";
@@ -59,20 +60,7 @@ export const AppMain: React.FC<EmptyObject> = () => {
 						</AppStateProvider>
 					</AppExperimentsProvider>
 				}>
-					<Route index element={<div>
-						<h1>
-                            Home page is working in progress.
-						</h1> 
-						<p>
-                            If you are using the python dev server, click <a href="#/pydev">here</a>
-						</p>
-						<p>
-                            If you are using the new celer dev server, click <a href="#/dev">here</a>
-						</p>
-						<p>
-                            If you are trying to view the route, open the route URL directly.
-						</p>
-					</div>} />
+					<Route index element={<Home />} />
 					<Route path="docs" element={<InternalDocumentService><Outlet /></InternalDocumentService>}>
 						<Route path=":reference" element={<AppFrame />}/>
 					</Route>
@@ -88,9 +76,12 @@ export const AppMain: React.FC<EmptyObject> = () => {
 						<Route path=":user/:repo" element={<AppFrame />}/>
 						<Route path=":user/:repo/:branch" element={<AppFrame />}/>
 					</Route>
-					<Route path="u" element={<UrlService><Outlet /></UrlService>}>
+					<Route path="local" element={<LocalService><Outlet /></LocalService>}>
 						<Route index element={<AppFrame />}/>
 					</Route>
+					{/* Disabled for security reasons <Route path="u" element={<UrlService><Outlet /></UrlService>}>
+						<Route index element={<AppFrame />}/>
+					</Route> */}
 					<Route path="*" element={<div>Nothing here</div>} />
 
 				</Route>
@@ -98,14 +89,3 @@ export const AppMain: React.FC<EmptyObject> = () => {
 		</HashRouter>
 	);
 };
-
-// const RefResolver: React.FC<EmptyObject> = ({children})=>{
-// 	const {reference} = useParams();
-// 	useService(reference);
-// 	return <>{children}</>;
-// };
-
-// const DefaultRefResolver: React.FC<{reference: string}> = ({reference, children})=>{
-// 	useService(reference);
-// 	return <>{children}</>;
-// };

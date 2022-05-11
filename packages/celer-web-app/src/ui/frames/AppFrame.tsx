@@ -194,8 +194,13 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Route Custom Theme: "} /> */}
 
-							<div className={styles.contribution}>&nbsp;<div className={styles.menuItemValue}>v{WebAppVersion} (lib v{wasmLibVersion()}) | <a href="
-							https://github.com/iTNTPiston/celer/wiki">wiki</a></div></div>
+							<div className={styles.contribution}>
+								&nbsp;
+								<div className={styles.menuItemValue}>
+									v{WebAppVersion} (lib v{wasmLibVersion()}) | <a href="#/">home</a> | <a href="
+							https://github.com/iTNTPiston/celer/wiki">wiki</a>
+								</div>
+							</div>
 						</div>
 					</>
 					}
