@@ -7,6 +7,11 @@ pub fn lib_version() -> String {
     String::from(crate::VERSION)
 }
 
+// pub fn add_image(name: String, base64_str: String) {
+
+// }
+
+// pub fn get_image_livesplit_cdata_str
 // pub fn some_function() {}
 
 // (preprocess) convert + bundle to source object: Source Object -> export as json
