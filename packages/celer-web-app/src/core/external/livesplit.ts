@@ -34,13 +34,13 @@ export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
 	return cDataString;
 };
 
-export const createLiveSplitFile = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
+export const createLiveSplitFile = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined, cleanInput: boolean): string => {
 	const header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Run version=\"1.7.0\"><GameIcon/><GameName/><CategoryName/><LayoutPath/><Metadata><Run id=\"\"/><Platform usesEmulator=\"False\"/><Region/><Variables /></Metadata><Offset>00:00:00</Offset><AttemptCount>0</AttemptCount><AttemptHistory/><Segments>";
 	const footer = "</Segments><AutoSplitterSettings/></Run>";
-	return `${header}${createSegmentTags(lines, enableSubsplits, formatter)}${footer}`;
+	return `${header}${createSegmentTags(lines, enableSubsplits, formatter, cleanInput)}${footer}`;
 };
 
-const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined): string => {
+const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter: (variables: MapOf<number>, splitType: SplitType, lineText: string)=>string|undefined, cleanInput: boolean): string => {
 	const splitNames: string[] = [];
 	const splitIcons: string[] = [];
 	let sectionName = "";
@@ -76,10 +76,15 @@ const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter
 		}
 	}
 
-	return splitNames.map((name, i)=>createSegmentTag(name, splitIcons[i])).join("");
+	return splitNames.map((name, i)=>createSegmentTag(name, splitIcons[i], cleanInput)).join("");
 };
 
-const createSegmentTag = (splitName: string, icon: string): string =>{
+const createSegmentTag = (splitName: string, icon: string, cleanInput: boolean): string =>{
 	const cData = toLiveSplitEncodedImage(icon);
-	return `<Segment><Name>${splitName}</Name><Icon>${cData}</Icon><SplitTimes><SplitTime name="Personal Best" /></SplitTimes><BestSegmentTime /><SegmentHistory /></Segment>`;
+	
+	return `<Segment><Name>${cleanInput ? cleanString(splitName) : splitName}</Name><Icon>${cData}</Icon><SplitTimes><SplitTime name="Personal Best" /></SplitTimes><BestSegmentTime /><SegmentHistory /></Segment>`;
+};
+
+const cleanString = (input: string): string => {
+	return input.replaceAll("&", "&amp;").replaceAll("\"", "&quot;").replaceAll("'", "&apos;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 };

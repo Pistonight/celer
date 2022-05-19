@@ -1,8 +1,8 @@
 {
     "EnhancedScrollTrackerEnabled": false,
     "MapSyncToDocScrollEnabled": false,
-    "ExportSplits": false,
     "ExportCustomSplits": true,
+    "CleanSplitNames": true,
     "NoTrackDocPos": true,
     "PigeonMap": false
 }
