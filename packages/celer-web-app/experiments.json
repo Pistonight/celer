@@ -4,5 +4,6 @@
     "ExportCustomSplits": true,
     "CleanSplitNames": true,
     "NoTrackDocPos": true,
+    "WarnNegativeVar": false,
     "PigeonMap": false
 }
