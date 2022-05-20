@@ -107,6 +107,7 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 	}
 
 	private setRouteAssembly(routeAssembly: RouteAssemblySection[], metadata: RouteMetadata, config: RouteConfig): void {
+		routeEngine.warnNegativeNumberEnable = this.context("WarnNegativeVar");
 		const docLines = routeEngine.compute(routeAssembly);
 
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);

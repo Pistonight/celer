@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `4.1.1` - `05-11-2022` `LATEST`
+## `4.1.2` - `05-19-2022` `LATEST`
+- Bug fix: Clean split names before writing them to XML
+
+## `4.1.1` - `05-11-2022`
 - `u` routes are disabled
 - Add copy-paste and local file loading from home page
 - Home page link in menu

@@ -40,6 +40,7 @@ const ROMAN_NUMERAL = ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI
 export class RouteEngine{
 	// Engine configuration
 	private splitSetting: SplitTypeSetting<boolean> =defaultSplitSetting;
+	public warnNegativeNumberEnable = false;
 
 	private sectionNumber = 0;
 	private lineNumber = 0;
@@ -170,6 +171,7 @@ export class RouteEngine{
 	private computeNonBannerStep(data: RouteAssembly, output: DocLine[]): void {
 		let step: string | undefined = undefined;
 		const error = new Set<string>();
+		const warning: string[] = [];
 
 		let galeText = "?";
 		if(data.gale){
@@ -186,6 +188,14 @@ export class RouteEngine{
 		if(data.isStep){
 			step = this.step;
 			this.incStep();
+		}
+		if(this.warnNegativeNumberEnable && data.variableChange){
+			for (const key in data.variableChange){
+				if(this.variables[key] < 0){
+					warning.push(`Variable "${key}" has a negative value`);
+				}
+			}
+			
 		}
 		
 		const common = {
@@ -298,6 +308,15 @@ export class RouteEngine{
 			output.push({
 				lineType: "DocLineBanner",
 				bannerType: BannerType.Error,
+				showTriangle: true,
+				text: new TypedStringSingle({content: e, type: StringType.Normal})
+			});
+		});
+
+		warning.forEach(e=>{
+			output.push({
+				lineType: "DocLineBanner",
+				bannerType: BannerType.Warning,
 				showTriangle: true,
 				text: new TypedStringSingle({content: e, type: StringType.Normal})
 			});

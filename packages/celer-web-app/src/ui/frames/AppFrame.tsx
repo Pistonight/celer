@@ -40,8 +40,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
-	const downloadSplitsEnabled = useAppExperiment("ExportSplits");
 	const downloadCustomSplitsEnabled = useAppExperiment("ExportCustomSplits");
+	const cleanSplitNamesEnabled = useAppExperiment("CleanSplitNames");
    
 	let errorCount = 0;
 	docLines.forEach(l=>{
@@ -119,39 +119,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							<MenuItemSubmenu selected={splitSettingsMenuItemRef === contextMenuRef} text="Split Settings..." hover={function (): void {
 								setContextMenuRef(splitSettingsMenuItemRef);
 							} } ref={splitSettingsMenuItemRef}/>
-							{downloadSplitsEnabled && <MenuItem text="(Deprecated) Download AS Splits" action={function (): void {
-								const splitContent = createLiveSplitFile(docLines, false, (variables, splitType, lineText)=>{
-									const prefixnumber = (i: number):string => {
-										if (i >= 100) {return String(i);}
-										if(i>=10) {return "0"+String(i);}
-										return "00"+String(i);
-									};
-									let name: string | undefined = undefined;
-									if(splitType === SplitType.Shrine){
-										name = "[" + prefixnumber(variables.SRN) + "] " + lineText;
-									}else if (splitType === SplitType.Warp){
-										name = lineText + " Again";
-									}else if (splitType !== SplitType.None){
-										name = lineText;
-									}
-									return name;
-								});
-								saveAs(splitContent, "celer-splits.lss");
-							} }/>}
-							{downloadSplitsEnabled && <MenuItem text="(Deprecated) Download Hundo Splits" action={function (): void {
-								const splitContent = createLiveSplitFile(docLines, false, (variables, splitType, lineText)=>{
-									let name: string | undefined = undefined;
-									if(splitType === SplitType.Shrine){
-										name = String(variables.KRK) + " - " + lineText;
-									}else if (splitType === SplitType.Warp){
-										name = lineText + " Again";
-									}else if (splitType === SplitType.Tower || splitType === SplitType.UserDefined){
-										name = lineText;
-									}
-									return name;
-								});
-								saveAs(splitContent, "celer-splits-hundo.lss");
-							} }/>}
 							{downloadCustomSplitsEnabled && <MenuItem text="Download Splits (.lss)" action={ () => {
 								const interpolationFunctions: SplitTypeConfig<(variables: MapOf<number|string>)=>string> = {};
 								if(config["split-format"]){
@@ -180,7 +147,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 										return processed;
 									}
 									return lineText;
-								});
+								}, cleanSplitNamesEnabled);
 								saveAs(splitContent, (metadata.name || "celer-splits").replaceAll(" ", "-")+".lss");
 							} }/>}
 							{bundle && <MenuItem text="Download bundle.json" action={function (): void {
