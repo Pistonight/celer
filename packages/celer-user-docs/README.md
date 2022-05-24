@@ -1,30 +1,17 @@
 # Celer User Documentation
-Version: `4.0.0`
+Version: `4.0.1`
 
 **Note: we are moving the documentation to the [github wiki!](https://github.com/iTNTPiston/celer/wiki)**
 
 ## Sections
-1. [Install VS Code Extension](#install-celer-vs-code-extension)
-2. [Writing Routes](#writing-routes)
-    1. [Project Section](#project-section)
-    2. [Route Section](#route-section)
-    3. [Step Customization](#step-customization)
-    4. [Movements](#movements)
-    5. [Presets](#presets)
-    6. [String Typing](#string-typing)
-    7. [Modular Route](#modular-route)
 
-## Install/Update Celer VS Code Extension
-
-If you use VS Code, you can install an extension to help with writing the route doc.
-
-1. Download `celer.vsix` from the latest release
-2. Run `code --install-extension <path_to_vsix file>` from command line
-   - If you prefer to install from UI, go to the `Extensions` section from side bar within VS Code, Click on the 3 dots near the top of the side panel (`Views and More Actions...`), and choose `Install from VSIX...`
-
-To update, simply install the newer `.vsix` and the old one will be automatically removed by VS Code.
-
-To uninstall, run `code --uninstall-extension itntpiston.celer` or uninstall from within VS Code like you do with other extensions
+1. [Project Section](#project-section)
+2. [Route Section](#route-section)
+3. [Step Customization](#step-customization)
+4. [Movements](#movements)
+5. [Presets](#presets)
+6. [String Typing](#string-typing)
+7. [Modular Route](#modular-route)
 
 ## Writing Routes
 Celer routes are files that end with `.celer` extension. These files are text files in YAML format
