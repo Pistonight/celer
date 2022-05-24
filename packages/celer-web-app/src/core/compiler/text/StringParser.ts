@@ -80,12 +80,6 @@ class StringParser {
 		if(str === ""){
 			return this.convertToTypedString("");
 		}
-		// Text => NormalText TextStar
-		// Text => FunctionText TextStar
-		// TextStar => NormalText TextStar | epsilon
-		// TextStar => FunctionText TextStar
-		// FunctionText = . <identifier> ( TextStar )
-		// NormalText => <identifier>
 
 		// Tokenize first
 		const tokens = tokenize(str, /[.()]/);

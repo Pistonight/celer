@@ -14,6 +14,9 @@ node_modules/
 # Python
 __pycache__
 
+# VS Code
+.vscode
+
 # misc
 .DS_Store
 .env.local
