@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-user-docs
 
-## `4.0.0` - `05-04-2022` `LATEST`
+## `4.0.2` - `06-03-2022` `LATEST`
+- Move more sections to wiki
+
+## `4.0.0` - `05-04-2022`
 - Move more sections to wiki
 - Update to the newer route script format
 
