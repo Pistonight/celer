@@ -1,12 +1,14 @@
 import L, { LatLngBounds } from "leaflet";
-import { GeoJsonFeature, Map, MinMaxBounds, Overlay, TileComponent } from "pigeon-maps";
-import { useState } from "react";
+import { GeoJson, GeoJsonFeature, Map, MinMaxBounds, Overlay, TileComponent } from "pigeon-maps";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useStyles } from "ui/StyleContext";
 import { useAppExperiment, useAppState } from "core/context";
 import { EmptyObject } from "data/util";
 
 /*import-validation-exempt*/import SampleImage from "data/image/shrine.png";
+
+import TestSvg from "./Test.svg";
 type MapFrameProps = EmptyObject
 
 const DEFAULT_ZOOM = 3;
@@ -36,36 +38,21 @@ class ModifiedMap extends Map {
 export const MapFrame: React.FC<MapFrameProps> = ()=>{
 	const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
 	const [center, setCenter] = useState<[number, number]>(xzToLatLng(0,0));
+	useEffect(()=>{
+		console.log(zoom);
+	}, [zoom]);
+
 	//const [bounds, setBounds] = useState<ViewportXZ>({minX: -5000, maxX:5000, minZ: -4000, maxZ: 4000});
 	// console.log(center);
 	const { mapCore } = useAppState();
 	const styles = useStyles();
-	const PigeonMapEnabled = useAppExperiment("PigeonMap");
+	const PigeonMapEnabled = useAppExperiment("BetterMap");
 	if(PigeonMapEnabled){
 		return (
 			<div id="mapframe" className={styles.mapFrame}>
 				<ModifiedMap provider={(x,y,z)=>{
-					if (z>7){
-						z=7;
-					}
-					const data = {
-						2: [2, 2],
-						3: [5, 4],
-						4: [11, 9],
-						5: [23, 19],
-						6: [46, 39], 
-						7: [93, 78]
-					};
-					if (!(z in data)){
-						return "blank_tile.png";
-					}
-					if (x<0 || y<0){
-						return "blank_tile.png";
-					}
-					if (x>data[z as keyof typeof data][0] || y>data[z as keyof typeof data][1]){
-						return "blank_tile.png";
-					}
-					return `https://objmap.zeldamods.org/game_files/maptex/${z}/${x}/${y}.png`;
+					return xyzToUrl(x,y,z);
+					
 				}}
 				tileComponent={Tile}
 				zoom={zoom}
@@ -86,6 +73,10 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
 				maxZoom={8}
 				defaultZoom={DEFAULT_ZOOM}
 				>
+					<Overlay anchor={xzToLatLng(0,0)} offset={[0,0]}>
+					<img src={TestSvg} />
+      </Overlay>
+					
 					{/* <GeoJson
       svgAttributes={{
         
@@ -95,10 +86,10 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
       }}
     >
       {
-	lineToGeoJsonFeatures(randomLine, bounds)
+	_linesForRandomLines
 	}
-    </GeoJson> */}
-					{/* <GeoJson
+    </GeoJson>
+					<GeoJson
       svgAttributes={{
         fill: "white",
         strokeWidth: "2",
@@ -107,12 +98,12 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
       }}
     >
       {
-		arrowsForRandomLines
+		_arrowsForRandomLines
 	}
     </GeoJson> */}
-					{
+					{/* {
 						randomMarkers
-					}
+					} */}
 					
 				</ModifiedMap>
 			</div>
@@ -145,9 +136,70 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
 };
 // Experiment Code
 const Tile: TileComponent = ({tile, tileLoaded}) => {
-	return <img
-		src={tile.url}
-		srcSet={tile.srcSet}
+	let [x,y,z] = urlToXyz(tile.url);
+	let url = "";
+	url = `https://objmap.zeldamods.org/game_files/maptex/${z}/${x}/${y}.png`;
+
+	// if (z==8){
+	// 	//z=7;
+	// 	//x=Math.floor(x/2);
+	// 	y//=Math.floor(y/2);
+	// }
+	const data = {
+		2: [2, 2],
+		3: [5, 4],
+		4: [11, 9],
+		5: [23, 19],
+		6: [46, 39], 
+		7: [93, 78]
+	};
+	if (!(z in data)){
+		url = "blank_tile.png";
+	}else if (x<0 || y<0){
+		//console.log({x,y});
+		url = "blank_tile.png";
+	}else if (x>data[z as keyof typeof data][0] || y>data[z as keyof typeof data][1]){
+		//console.log({x,y});
+		url = "blank_tile.png";
+	}
+
+
+	if (z===8){
+		url = `https://objmap.zeldamods.org/game_files/maptex/7/${Math.floor(x/2)}/${Math.floor(y/2)}.png`;
+		let clipTop = y%2===0 ? 0 : tile.height;
+		let clipRight = x%2===0 ? tile.width : 0;
+		let clipBottom = y%2===0 ? tile.height : 0;
+		let clipLeft = x%2===0 ? 0 : tile.width;
+		let left = x%2===0 ? tile.left: tile.left - tile.width;
+		let top = y%2===0 ? tile.top : tile.top - tile.height; 
+		return <>
+		<img
+		src={url}
+		//srcSet={tile.srcSet}
+		loading='lazy'
+		onLoad={tileLoaded}
+		width={(tile.width*2)+1}
+		height={(tile.height*2)+1}
+		style={{
+			position: "absolute",
+			left: left,
+			top: top,
+			willChange: "transform",
+			transformOrigin: "top left",
+			opacity: 1,
+			clipPath: `inset(${clipTop} ${clipRight} ${clipBottom} ${clipLeft})`
+		}}
+	/>
+	{/* <div style={{left: tile.left, top: tile.top, position: "absolute", transformOrigin: "top left"}}>
+		({x}, {y}, {z})
+	</div> */}
+		</>;
+	}
+	//console.log({x,y,z});
+	return <>
+	<img
+		src={url}
+		//srcSet={tile.srcSet}
 		loading='lazy'
 		onLoad={tileLoaded}
 		width={tile.width+1}
@@ -161,6 +213,10 @@ const Tile: TileComponent = ({tile, tileLoaded}) => {
 			opacity: 1,
 		}}
 	/>;
+	{/* <div style={{left: tile.left, top: tile.top, position: "absolute", transformOrigin: "top left"}}>
+		({x}, {y}, {z})
+	</div> */}
+	</>
 };
 
 const latLngToLngLat = (latLng: [number, number]): [number, number] => {
@@ -346,3 +402,15 @@ const _lineToGeoJsonFeatures = (lngLatArray: [number, number][])=>{
 };
 
 const _arrowsForRandomLines = lineToGeoJsonArrows(randomLine);
+const _linesForRandomLines = _lineToGeoJsonFeatures(randomLine);
+
+const xyzToUrl = (x: number, y: number, z: number): string => {
+	return `tile://${x}/${y}/${z}`;
+}
+
+const urlToXyz = (url: string): [number, number, number] => {
+	if (!url.startsWith("tile://")){
+		return [NaN, NaN, NaN];
+	}
+	return url.substring(7).split("/").map((x)=>parseInt(x)) as [number, number, number];
+}
