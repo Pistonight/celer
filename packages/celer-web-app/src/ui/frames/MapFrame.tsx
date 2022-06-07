@@ -77,37 +77,37 @@ class ModifiedMap extends Map {
 		return (this.props as any)[name];
 	}
 
-	render(): JSX.Element {
-		const { touchEvents, twoFingerDrag } = this.props
-		const { width, height } = this.state
+	// render(): JSX.Element {
+	// 	const { touchEvents, twoFingerDrag } = this.props
+	// 	const { width, height } = this.state
 	
-		const containerStyle: React.CSSProperties = {
-		  width: this.props.width ? width : '100%',
-		  height: this.props.height ? height : '100%',
-		  position: 'relative',
-		  display: 'inline-block',
-		  overflow: 'hidden',
-		  background: '#dddddd',
-		  touchAction: touchEvents ? (twoFingerDrag ? 'pan-x pan-y' : 'none') : 'auto',
-		}
+	// 	const containerStyle: React.CSSProperties = {
+	// 	  width: this.props.width ? width : '100%',
+	// 	  height: this.props.height ? height : '100%',
+	// 	  position: 'relative',
+	// 	  display: 'inline-block',
+	// 	  overflow: 'hidden',
+	// 	  background: '#dddddd',
+	// 	  touchAction: touchEvents ? (twoFingerDrag ? 'pan-x pan-y' : 'none') : 'auto',
+	// 	}
 	
-		const hasSize = !!(width && height)
+	// 	const hasSize = !!(width && height)
 
-		const canvas = this.extendedProps("canvas");
+	// 	const canvas = this.extendedProps("canvas");
 	
-		return (
-		  <div style={containerStyle} ref={this.setRef}>
-			{hasSize && this.renderTiles()}
-			{hasSize && this.renderOverlays()}
-			{hasSize && this.renderAttribution()}
-			{hasSize && this.renderWarning()}
-			{hasSize && canvas}
-		  </div>
-		)
-	  }
+	// 	return (
+	// 	  <div style={containerStyle} ref={this.setRef}>
+	// 		{hasSize && this.renderTiles()}
+	// 		{hasSize && this.renderOverlays()}
+	// 		{hasSize && this.renderAttribution()}
+	// 		{hasSize && this.renderWarning()}
+	// 		{/* {hasSize && canvas} */}
+	// 	  </div>
+	// 	)
+	//   }
 }
 
-let lastDrawAnimationZoom = 999;
+let lastAnimationZoom = -1;
 
 export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 
@@ -139,29 +139,45 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 	useEffect(()=>{
 		
 		const canvas = canvasRef.current;
+		
+		// if(animating && zoom === lastZoom){
+		// 	return;
+		// }
+		// lastZoom = zoom;
 		//console.log(canvas);
-		const realZoom = animating ? animationZoom : zoom;
+		//const realZoom = animating ? animationZoom : zoom;
 		// if(animating && Math.abs(z-lastDrawAnimationZoom) < 0.2){
 		// 	console.log("skip draw");
 		// 	return;
 		// }
 		//lastDrawAnimationZoom = z;
 		if(canvas){
-			if(!animating){
-				canvas.width = 12000*zoomToSvgScale(realZoom);
-				canvas.height = 10000*zoomToSvgScale(realZoom);
-			}
+			// if(!animating){
+			// 	canvas.width = 12000*zoomToSvgScale(realZoom);
+			// 	canvas.height = 10000*zoomToSvgScale(realZoom);
+			// }
 			
 			const context = canvas.getContext("2d");
 			if(context){
 				context.setTransform(1,0,0,1,0,0); // Reset transformation
 				context.clearRect(0,0,canvas.width,canvas.height);
-
-				const scale = Math.pow(2, realZoom-zoom);
-				context.scale(scale,scale);
-				console.log(scale);
-				context.strokeStyle='red';
-				context.strokeRect(0,0,canvas.width,canvas.height);
+				//if(animationZoom===lastAnimationZoom){
+					context.strokeStyle='red';
+					context.strokeRect(0,0,canvas.width,canvas.height);
+										const icon = new Image();
+						icon.src = SampleImage;
+						
+						randomMarkers.forEach(igc=>{
+							const {x,z} = inGameToSvgCoord(igc,zoom);
+							context.drawImage(icon,x-12,z-12,24,24);
+						});
+				//}else{
+					lastAnimationZoom = animationZoom;
+				//}
+				//const scale = Math.pow(2, realZoom-zoom);
+				//context.scale(scale,scale);
+				//console.log(scale);
+				
 			}
 			// if(animating){
 			// 	//scale the graphics without resizing canvas
@@ -207,7 +223,7 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 				
 			
 		}
-	}, [canvasRef.current, zoom, animating, animationZoom]);
+	}, [canvasRef, canvasRef.current, zoom]);
 	// useEffect(()=>{
 	// 	console.log(zoom);
 	// }, [zoom]);
@@ -232,9 +248,55 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 							return xyzToUrl(x,y,z);
 							
 						},
-						onAnimationZoomCallback:(z: number)=>{setAnimating(true);setAnimationZoom(z)},
+						onAnimationZoomCallback:(aZoom: number)=>{
+							setAnimating(true);
+							setAnimationZoom(aZoom);
+							const canvas = canvasRef.current;
+		
+							// if(animating && zoom === lastZoom){
+							// 	return;
+							// }
+							// lastZoom = zoom;
+							//console.log(canvas);
+							//const realZoom = animating ? animationZoom : zoom;
+							// if(animating && Math.abs(z-lastDrawAnimationZoom) < 0.2){
+							// 	console.log("skip draw");
+							// 	return;
+							// }
+							//lastDrawAnimationZoom = z;
+							if(canvas){
+								// if(!animating){
+									canvas.width = 12000*zoomToSvgScale(aZoom);
+									canvas.height = 10000*zoomToSvgScale(aZoom);
+								// }
+								
+								const context = canvas.getContext("2d");
+								
+								if(context){
+									context.setTransform(1,0,0,1,0,0); // Reset transformation
+									context.clearRect(0,0,canvas.width,canvas.height);
+									//if(animationZoom===lastAnimationZoom){
+										context.strokeStyle='red';
+										context.strokeRect(0,0,canvas.width,canvas.height);
+															const icon = new Image();
+											icon.src = SampleImage;
+											
+											randomMarkers.forEach(igc=>{
+												const {x,z} = inGameToSvgCoord(igc,aZoom);
+												context.drawImage(icon,x-12,z-12,24,24);
+											});
+									//}else{
+										//lastAnimationZoom = animationZoom;
+									//}
+									//const scale = Math.pow(2, realZoom-zoom);
+									//context.scale(scale,scale);
+									//console.log(scale);
+									
+								}
+							}
+						},
 						tileComponent:Tile,
-						zoom,
+						//zoom,
 						center: manualCenterLatLng,
 						onBoundsChanged:({center,zoom}: {center: [number, number] /* lat, lng */, zoom: number})=>{
 							//console.log(zoom);
@@ -247,15 +309,15 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 							setZoom(zoom);
 							setAnimating(false);
 							setCenter(geoCoord(center[0], center[1]));
-							console.log({center});
+							//console.log({center});
 							//setBounds(vp);
 							
 						},
 						minZoom: 2,
 						maxZoom: 8,
 						defaultZoom: DEFAULT_ZOOM,
-						canvas: <canvas ref={canvasRef} style={{zIndex:200}}/>
-					} as const,
+						
+					},
 						
 							<Overlay  anchor={xzToLatLng(4737.48, 3772.09)} offset={[12, 12]}>
 				<img src={SampleImage} width={24} height={24} alt='' />
@@ -272,7 +334,7 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
       </Overlay>,
 	  <Overlay anchor={xzToLatLng(-6000,-5000)} offset={[0,0]}>
 					
-					
+					<canvas ref={canvasRef} width={`${12000*zoomToSvgScale(zoom)}px`} height={`${10000*zoomToSvgScale(zoom)}px`}/>
 	  
 	  
 		  
@@ -283,41 +345,6 @@ export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
 						
 					)
 				}
-				
-				
-				
-				{/* <ModifiedMap }
-				
-				> */}
-	  
-					
-					{/* <GeoJson
-      svgAttributes={{
-        
-        strokeWidth: "2",
-        stroke: "white",
-        
-      }}
-    >
-      {
-	_linesForRandomLines
-	}
-    </GeoJson>
-					<GeoJson
-      svgAttributes={{
-        fill: "white",
-        strokeWidth: "2",
-        stroke: "white",
-        
-      }}
-    >
-      {
-		_arrowsForRandomLines
-	}
-    </GeoJson> */}
-					
-					
-				
 			</div>
 		);
 	}

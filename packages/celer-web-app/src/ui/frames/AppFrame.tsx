@@ -116,6 +116,19 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								mapCore.invalidateSize();
 							} } text={"Map Size: "} />
 							<hr />
+							<MenuItemWithValue value={""} action={function (): void {
+								console.log("test");
+							} } text={"Zoom Levels..."} />
+							<MenuItemWithValue value={""} action={function (): void {
+								console.log("test");
+							} } text={"Zoom Thresholds..."} />
+							<MenuItemWithValue value={""} action={function (): void {
+								console.log("test");
+							} } text={"Icon Sizes..."} />
+							<MenuItemWithValue value={"Fancy"} action={function (): void {
+								console.log("test");
+							} } text={"Performance:"} />
+							<hr />
 							<MenuItemSubmenu selected={splitSettingsMenuItemRef === contextMenuRef} text="Split Settings..." hover={function (): void {
 								setContextMenuRef(splitSettingsMenuItemRef);
 							} } ref={splitSettingsMenuItemRef}/>
