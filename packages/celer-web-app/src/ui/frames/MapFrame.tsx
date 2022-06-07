@@ -1,6 +1,6 @@
 import L, { LatLngBounds } from "leaflet";
-import { GeoJson, GeoJsonFeature, Map, MinMaxBounds, Overlay, TileComponent } from "pigeon-maps";
-import { useEffect, useState } from "react";
+import { GeoJson, Point, GeoJsonFeature, Map, MinMaxBounds, Overlay, TileComponent, MapProps } from "pigeon-maps";
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useStyles } from "ui/StyleContext";
 import { useAppExperiment, useAppState } from "core/context";
@@ -9,7 +9,12 @@ import { EmptyObject } from "data/util";
 /*import-validation-exempt*/import SampleImage from "data/image/shrine.png";
 
 import TestSvg from "./Test.svg";
-type MapFrameProps = EmptyObject
+import React from "react";
+import { geoCoord, GeoCoordinates, geoToInGameCoord, inGameCoord, InGameCoordinates, inGameToCanvasCoord, inGameToGeoCoord, inGameToSvgCoord, svgCoord, SvgPolygon, zoomToSvgScale } from "core/map";
+import {MapSvg} from "ui/components";
+type MapFrameProps = {
+	setSetCenterListener: (listener: (center: InGameCoordinates)=>void)=>void
+}
 
 const DEFAULT_ZOOM = 3;
 const minX = -5000;//left most
@@ -25,6 +30,18 @@ const minLat = -74.65;
 const maxLatTile= maxLat / LatScale+0.5;
 const minLatTile = minLat / LatScale+0.5;
 
+
+const testCoords = [
+	[inGameCoord(0,0),
+	inGameCoord(4737.48, 3772.09),
+	inGameCoord(5000,-4000)
+	],
+	[
+		inGameCoord(-5000,4000),
+		inGameCoord(-5000,-4000),
+	]
+]
+
 // There are some properties that are not yet customizable in pigeon map
 // so we override those here
 class ModifiedMap extends Map {
@@ -33,49 +50,246 @@ class ModifiedMap extends Map {
 		// console.log(zToLat(-4000));
 		return [zToLat(4000), zToLat(-4000), minLng, maxLng];
 	};
+	oldSetCenterZoom = this.setCenterZoom;
+	setCenterZoom = (center?: Point | null, zoom?: number | null, animationEnded = false): void => {
+		
+	
+		this.oldSetCenterZoom(center,zoom,animationEnded);
+		const onAnimationZoomCallback = this.extendedProps<(zoom: number)=>void>("onAnimationZoomCallback");
+		if(zoom && onAnimationZoomCallback){
+			onAnimationZoomCallback(this.zoomPlusDelta());
+		}
+	};
+
+	// oldSetCenterZoomTarget = this.setCenterZoomTarget;
+	// setCenterZoomTarget = (
+	// 	center: Point | null,
+	// 	zoom: number,
+	// 	fromProps = false,
+	// 	zoomAround: Point | null = null,
+	// 	animationDuration = 300
+	//   ) => {
+	// 	this.oldSetCenterZoomTarget(center,zoom,fromProps,zoomAround,animationDuration);
+	// 	console.log(center);
+	//   }
+
+	extendedProps<T>(name: string): T|undefined {
+		return (this.props as any)[name];
+	}
+
+	render(): JSX.Element {
+		const { touchEvents, twoFingerDrag } = this.props
+		const { width, height } = this.state
+	
+		const containerStyle: React.CSSProperties = {
+		  width: this.props.width ? width : '100%',
+		  height: this.props.height ? height : '100%',
+		  position: 'relative',
+		  display: 'inline-block',
+		  overflow: 'hidden',
+		  background: '#dddddd',
+		  touchAction: touchEvents ? (twoFingerDrag ? 'pan-x pan-y' : 'none') : 'auto',
+		}
+	
+		const hasSize = !!(width && height)
+
+		const canvas = this.extendedProps("canvas");
+	
+		return (
+		  <div style={containerStyle} ref={this.setRef}>
+			{hasSize && this.renderTiles()}
+			{hasSize && this.renderOverlays()}
+			{hasSize && this.renderAttribution()}
+			{hasSize && this.renderWarning()}
+			{hasSize && canvas}
+		  </div>
+		)
+	  }
 }
 
-export const MapFrame: React.FC<MapFrameProps> = ()=>{
+let lastDrawAnimationZoom = 999;
+
+export const MapFrame: React.FC<MapFrameProps> = ({setSetCenterListener})=>{
+
+
 	const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
-	const [center, setCenter] = useState<[number, number]>(xzToLatLng(0,0));
+	const [animating, setAnimating] = useState<boolean>(false);
+	const [animationZoom, setAnimationZoom] = useState<number>(DEFAULT_ZOOM);
+	const [center, setCenter] = useState<GeoCoordinates>(geoCoord(0,0));
+	const [manualSetCenter, setManualSetCenter] = useState<InGameCoordinates|undefined>(undefined);
+	//console.log(zoom);
 	useEffect(()=>{
-		console.log(zoom);
-	}, [zoom]);
+		setSetCenterListener(c=>{
+			setManualSetCenter(c);
+		})
+	}, [setSetCenterListener]);
+	useEffect(()=>{
+		if(!manualSetCenter){
+			return;
+		}
+		const centerInGameCoord = geoToInGameCoord(center);
+		const THRESHOLD = 5;
+		if(Math.abs(centerInGameCoord.x-manualSetCenter.x)<THRESHOLD && Math.abs(centerInGameCoord.z-manualSetCenter.z)<THRESHOLD){
+			setManualSetCenter(undefined);
+		}
+	}, [center, manualSetCenter]);
+
+	const canvasRef = useRef<HTMLCanvasElement>(null);
+	//console.log(canvasRef.current);
+	useEffect(()=>{
+		
+		const canvas = canvasRef.current;
+		//console.log(canvas);
+		const realZoom = animating ? animationZoom : zoom;
+		// if(animating && Math.abs(z-lastDrawAnimationZoom) < 0.2){
+		// 	console.log("skip draw");
+		// 	return;
+		// }
+		//lastDrawAnimationZoom = z;
+		if(canvas){
+			if(!animating){
+				canvas.width = 12000*zoomToSvgScale(realZoom);
+				canvas.height = 10000*zoomToSvgScale(realZoom);
+			}
+			
+			const context = canvas.getContext("2d");
+			if(context){
+				context.setTransform(1,0,0,1,0,0); // Reset transformation
+				context.clearRect(0,0,canvas.width,canvas.height);
+
+				const scale = Math.pow(2, realZoom-zoom);
+				context.scale(scale,scale);
+				console.log(scale);
+				context.strokeStyle='red';
+				context.strokeRect(0,0,canvas.width,canvas.height);
+			}
+			// if(animating){
+			// 	//scale the graphics without resizing canvas
+			// 	const supposedWidth = zoomToSvgScale(realZoom);
+			// 	const graphicsWidth = zoomToSvgScale(zoom);
+			// 	//const supposedHeight = zoomToSvgScale(z);
+			// 	//const graphicsHeight = zoomToSvgScale(zoom);
+			// 	const context = canvas.getContext("2d");
+			// 	const scale = Math.pow(2, realZoom-zoom);
+			// 	//console.log(scale);
+			// 	if(context){
+			// 		context.setTransform(1,0,0,1,0,0); // Reset transformation
+			// 		context.clearRect(0,0,canvas.width,canvas.height);
+			// 		context.translate(canvas.width/4,canvas.height/4);
+			// 		context.scale(scale, scale);
+					
+			// 		const icon = new Image();
+			// 		icon.src = SampleImage;
+					
+			// 		randomMarkers.forEach(igc=>{
+			// 			const {x,z} = inGameToCanvasCoord(igc,zoom);
+			// 			context.drawImage(icon,x-12,z-12,24,24);
+			// 		})
+			// 	}
+			// }else{
+			// 	canvas.width = 12000*zoomToSvgScale(realZoom)*2;
+			// 	canvas.height = 10000*zoomToSvgScale(realZoom)*2;
+			// 	const context = canvas.getContext("2d");
+			// 	if(context){
+			// 		context.setTransform(1,0,0,1,0,0); // Reset transformation
+			// 		context.clearRect(0,0,canvas.width,canvas.height);
+			// 		context.translate(6000*zoomToSvgScale(realZoom),5000*zoomToSvgScale(realZoom));
+			// 		const icon = new Image();
+			// 		icon.src = SampleImage;
+					
+			// 		randomMarkers.forEach(igc=>{
+			// 			const {x,z} = inGameToCanvasCoord(igc,zoom);
+			// 			context.drawImage(icon,x-12,z-12,24,24);
+			// 		})
+			// 	}
+			// }
+
+				
+			
+		}
+	}, [canvasRef.current, zoom, animating, animationZoom]);
+	// useEffect(()=>{
+	// 	console.log(zoom);
+	// }, [zoom]);
+
+	
 
 	//const [bounds, setBounds] = useState<ViewportXZ>({minX: -5000, maxX:5000, minZ: -4000, maxZ: 4000});
 	// console.log(center);
 	const { mapCore } = useAppState();
 	const styles = useStyles();
 	const PigeonMapEnabled = useAppExperiment("BetterMap");
+
+	const manualCenterGeo = manualSetCenter === undefined ? undefined : inGameToGeoCoord(manualSetCenter);
+	const manualCenterLatLng = manualCenterGeo === undefined ? undefined : [manualCenterGeo.lat, manualCenterGeo.lng];
 	if(PigeonMapEnabled){
 		return (
 			<div id="mapframe" className={styles.mapFrame}>
-				<ModifiedMap provider={(x,y,z)=>{
-					return xyzToUrl(x,y,z);
+				
+				{
+					React.createElement(ModifiedMap as any, {
+						provider: (x: number,y: number,z: number)=>{
+							return xyzToUrl(x,y,z);
+							
+						},
+						onAnimationZoomCallback:(z: number)=>{setAnimating(true);setAnimationZoom(z)},
+						tileComponent:Tile,
+						zoom,
+						center: manualCenterLatLng,
+						onBoundsChanged:({center,zoom}: {center: [number, number] /* lat, lng */, zoom: number})=>{
+							//console.log(zoom);
+							// const vp = {
+							// 	minX: lngToX(bounds.sw[1]),
+							// 	maxX: lngToX(bounds.ne[1]),
+							// 	minZ: latToZ(bounds.ne[0]),
+							// 	maxZ: latToZ(bounds.sw[0]),
+							// }
+							setZoom(zoom);
+							setAnimating(false);
+							setCenter(geoCoord(center[0], center[1]));
+							console.log({center});
+							//setBounds(vp);
+							
+						},
+						minZoom: 2,
+						maxZoom: 8,
+						defaultZoom: DEFAULT_ZOOM,
+						canvas: <canvas ref={canvasRef} style={{zIndex:200}}/>
+					} as const,
+						
+							<Overlay  anchor={xzToLatLng(4737.48, 3772.09)} offset={[12, 12]}>
+				<img src={SampleImage} width={24} height={24} alt='' />
+			</Overlay>,
+
+					<Overlay anchor={xzToLatLng(0,0)} offset={!animating ? [6000*zoomToSvgScale(zoom),5000*zoomToSvgScale(zoom)] : [6000*zoomToSvgScale(animationZoom),5000*zoomToSvgScale(animationZoom)]}>
 					
-				}}
-				tileComponent={Tile}
-				zoom={zoom}
-				center={center}
-				onBoundsChanged={({center,zoom})=>{
-					// const vp = {
-					// 	minX: lngToX(bounds.sw[1]),
-					// 	maxX: lngToX(bounds.ne[1]),
-					// 	minZ: latToZ(bounds.ne[0]),
-					// 	maxZ: latToZ(bounds.sw[0]),
-					// }
-					setZoom(zoom);
-					setCenter(center);
-					//setBounds(vp);
 					
-				}}
-				minZoom={2}
-				maxZoom={8}
-				defaultZoom={DEFAULT_ZOOM}
-				>
-					<Overlay anchor={xzToLatLng(0,0)} offset={[0,0]}>
-					<img src={TestSvg} />
-      </Overlay>
+					<MapSvg zoom={animating? animationZoom : zoom} segs={randomLine}/>
+					
+						
+						
+						
+      </Overlay>,
+	  <Overlay anchor={xzToLatLng(-6000,-5000)} offset={[0,0]}>
+					
+					
+	  
+	  
+		  
+		  
+		  
+</Overlay>
+	  
+						
+					)
+				}
+				
+				
+				
+				{/* <ModifiedMap }
+				
+				> */}
+	  
 					
 					{/* <GeoJson
       svgAttributes={{
@@ -101,11 +315,9 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
 		_arrowsForRandomLines
 	}
     </GeoJson> */}
-					{/* {
-						randomMarkers
-					} */}
 					
-				</ModifiedMap>
+					
+				
 			</div>
 		);
 	}
@@ -134,6 +346,36 @@ export const MapFrame: React.FC<MapFrameProps> = ()=>{
 		</div>
 	);
 };
+
+// const zoomToScale = (zoom: number): number => {
+// 	//console.log(1<<(zoom-2));
+// 	//if(zoom===2)
+// 	//return 0.0625 * (1<<(zoom-2));
+// 	if(zoom === Math.floor(zoom)){
+// 		return 0.0625 * (1<<(zoom-2));
+// 	}
+// 	const smallZoom = Math.floor(zoom);
+// 	const s = 0.0625 * Math.pow(2, smallZoom-2);
+// 	//const s2 = s*2;
+// 	console.log({
+// 		s,
+// 		scale: s+(zoom-smallZoom)*s,
+// 		zoom
+// 	});
+// 	return s+(zoom-smallZoom)*s;
+	
+// 	return s;
+// 	//return 0.125;
+// }
+
+// const transformX = (x: number, zoom: number): number => {
+// 	return (x+5000)*zoomToScale(zoom);
+// }
+
+// const transformZ = (z: number, zoom: number): number => {
+// 	return (z+4000)*zoomToScale(zoom);
+// }
+
 // Experiment Code
 const Tile: TileComponent = ({tile, tileLoaded}) => {
 	let [x,y,z] = urlToXyz(tile.url);
@@ -263,8 +505,8 @@ const tile2lat=(perLat: number): number => {
 };
 
 // Testing performance
-const randomMarkers: JSX.Element[] = [];
-const count = 1000;
+const randomMarkers: InGameCoordinates[] = [];
+const count = 500;
 // for(let x=-5000;x<=5000;x+=1000){
 // 	for(let z=-4000;z<=4000;z+=1000){
 // 		const [lat, lng] = xzToLatLng(x, z);
@@ -276,15 +518,13 @@ const count = 1000;
 for(let i=0;i<count;i++){
 	const z = Math.random()*8000-4000;
 	const x = Math.random()*10000-5000;
-	const [lat, lng] = xzToLatLng(x, z);
+	
 	//randomMarkers.push(<Marker key={`${x}_${z}`} width={20} anchor={[lat, lng]}/>);
-	randomMarkers.push(<Overlay key={`${x}_${z}`} anchor={[lat,lng]} offset={[12, 12]}>
-		<img src={SampleImage} width={24} height={24} alt='' />
-	</Overlay>);
+	randomMarkers.push(inGameCoord(x,z));
 }
 
-const randomLine: [number, number][] = [];
-const count2 = 2000;
+const randomLine: InGameCoordinates[][] = [[]];
+const count2 = 5000;
 // for(let x=-5000;x<=5000;x+=1000){
 // 	for(let z=-4000;z<=4000;z+=1000){
 // 		const [lat, lng] = xzToLatLng(x, z);
@@ -295,28 +535,17 @@ let lastZ = 0;
 let lastX = 0;
 //let moveX = false
 for(let i=0;i<count2;i++){
+	if(randomLine[randomLine.length-1].length !== 0 && Math.random()<0.05) {
+		randomLine.push([]);
+	}
 	if(Math.random()<0.005){
 		const nextZ = Math.floor(Math.random()*8000-4000);
 		const nextX = Math.floor(Math.random()*10000-5000);
 		
-		// console.log({
-		// 	x, z
-		// });
-		const [lat, lng] = xzToLatLng(nextX, nextZ);
 		lastX = nextX;
 		lastZ = nextZ;
-		randomLine.push([lng, lat]);
-		// const z = Math.floor(Math.random()*500-250);
-		// const x = 0;//Math.floor(Math.random()*500-250);
-		// const nextX = lastX+x;
-		// const nextZ = lastZ+z;
-		// // console.log({
-		// // 	x, z
-		// // });
-		// const [lat, lng] = xzToLatLng(nextX, nextZ);
-		// lastX = nextX;
-		// lastZ = nextZ;
-		// randomLine.push([lng, lat]);
+		randomLine[randomLine.length-1].push(inGameCoord(nextX, nextZ));
+
 	}else{
 		const z = Math.floor(Math.random()*500-250);
 		const x = Math.floor(Math.random()*500-250);
@@ -325,70 +554,14 @@ for(let i=0;i<count2;i++){
 		// console.log({
 		// 	x, z
 		// });
-		const [lat, lng] = xzToLatLng(nextX, nextZ);
 		lastX = nextX;
 		lastZ = nextZ;
-		randomLine.push([lng, lat]);
+		randomLine[randomLine.length-1].push(inGameCoord(nextX, nextZ));
 	}
 	//moveX = !moveX;
 }
 
-const lineToGeoJsonArrows = (lngLatArray: [number, number][])=>{
-	if(lngLatArray.length === 0){
-		return [];
-	}
 
-	let lastX = NaN;
-	let lastZ = NaN;
-
-	const trianglexzs: [[number,number],[number,number],[number,number]][] = [];
-	const size = 5;
-	lngLatArray.forEach((point,i)=>{
-		const [lng, lat] = point;
-		const x = lngToX(lng);
-		const z = latToZ(lat);
-		if (i===0){
-			lastX = x;
-			lastZ = z;
-			return;
-		}
-		const centerX = (x+lastX)/2;
-		const centerZ = (z+lastZ)/2;
-		//vector to end
-		const veSquared = (x-lastX)*(x-lastX) + (z-lastZ)*(z-lastZ);
-		const ve = Math.sqrt(veSquared);
-		const veX = (x-lastX)/ve*size; // = cos(t)
-		const veZ = (z-lastZ)/ve*size; // = sin(t)
-		//convert to polar
-		const veAngle = Math.atan2(veZ,veX);
-		const a1 = veAngle + Math.PI*2/3;
-		const a2 = a1 + Math.PI*2/3;
-		trianglexzs.push([
-			[centerX+veX, centerZ+veZ],
-			[centerX+size*Math.cos(a1), centerZ+size*Math.sin(a1)],
-			[centerX+size*Math.cos(a2), centerZ+size*Math.sin(a2)]
-		]);
-
-		lastX = x;
-		lastZ = z;
-	});
-	const polygons = trianglexzs.map((triangle)=>{
-		const [p1,p2, p3] = triangle;
-		const first = latLngToLngLat(xzToLatLng(...p1));
-		return [[
-			first,
-			latLngToLngLat(xzToLatLng(...p2)),
-			latLngToLngLat(xzToLatLng(...p3)),
-			first
-		]];
-	});
-	//console.log(polygons);
-	const arrowFeature = <GeoJsonFeature feature={{
-		type: "Feature",
-		geometry: { type: "MultiPolygon", coordinates: polygons },
-	}} />;
-	return arrowFeature;
-};
 
 const _lineToGeoJsonFeatures = (lngLatArray: [number, number][])=>{
 	if(lngLatArray.length === 0){
@@ -401,8 +574,8 @@ const _lineToGeoJsonFeatures = (lngLatArray: [number, number][])=>{
 	return lineFeature;
 };
 
-const _arrowsForRandomLines = lineToGeoJsonArrows(randomLine);
-const _linesForRandomLines = _lineToGeoJsonFeatures(randomLine);
+// const _arrowsForRandomLines = lineToGeoJsonArrows(randomLine);
+// const _linesForRandomLines = _lineToGeoJsonFeatures(randomLine);
 
 const xyzToUrl = (x: number, y: number, z: number): string => {
 	return `tile://${x}/${y}/${z}`;

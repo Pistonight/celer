@@ -188,7 +188,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 				</div>
 			</div>
 
-			<MapFrame />
+			<MapFrame setSetCenterListener={(listener)=>{
+				(window as any).debugSetCenter=listener;
+			}}/>
       
 			{/* <div style={{position: "fixed", backgroundColor: "rgba(0,0,0,0.5)", width: "100vw", height: "100vh", zIndex:99999}}>
       <div style={{margin: "calc( ( 100vw - 30em ) / 2 )", height: "100%"}}>
