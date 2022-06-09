@@ -5,5 +5,5 @@
     "CleanSplitNames": true,
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
-    "PigeonMap": false
+    "BetterMap": false
 }

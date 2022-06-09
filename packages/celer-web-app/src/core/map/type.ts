@@ -19,3 +19,36 @@ export enum MapZoomViewLevel {
     Region = 4, // 4-5
     Detail = 6, // Looking at a detailed area, such as village or town (6-8)
 }
+
+export type GeoCoordinates = {
+    lat: number,
+    lng: number,
+}
+
+export const geoCoord = (lat: number, lng: number):GeoCoordinates => ({lat, lng});
+
+export type InGameCoordinates = {
+    ix: number,
+    iz: number,
+}
+
+export const inGameCoord = (ix: number, iz: number):InGameCoordinates => ({ix, iz});
+
+export type SvgCoordinates = {
+    sx: number,
+    sz: number,
+}
+
+export const svgCoord = (sx: number, sz: number):SvgCoordinates => ({sx, sz});
+
+export type SvgPolygon = SvgCoordinates[];
+
+export type NewMapIcon = {
+    iconName: string,
+    coord: InGameCoordinates,
+}
+
+export type NewMapLine = {
+    color: string,
+    vertices: InGameCoordinates[]
+}

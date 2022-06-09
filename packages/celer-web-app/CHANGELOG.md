@@ -1,6 +1,13 @@
 # Change Log
 This is the change log for celer-web-app
 
+## `4.2.0` - `06-08-2022`
+- Map Update: 
+  - Experiment to use a new map framework [pigeon-maps](https://github.com/mariusandra/pigeon-maps). Use `?Exp.BetterMap` to enable this experimental feature
+  - Performance improvements
+  - Use map tiles from [objmap](https://objmap.zeldamods.org)
+  - Extend zoom levels by 1 in each direction (was 3 to 7, now 2 to 8)
+
 ## `4.1.2` - `05-19-2022` `LATEST`
 - Bug fix: Clean split names before writing them to XML
 

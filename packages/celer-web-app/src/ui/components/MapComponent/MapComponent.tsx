@@ -3,7 +3,7 @@ import Icons from "data/image";
 import { MapArrowComponent } from "./MapArrowComponent";
 import { MapIconComponent } from "./MapIconComponent";
 
-export interface MapProps {
+interface MapProps {
     map?: L.Map;
     icons: MapIcon[];
     lines: MapLine[];

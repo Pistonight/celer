@@ -44,10 +44,13 @@ export class MapCore {
 		return zoom >= 6;
 	}
 
-	private retryIfMapNotLoaded(action: Consumer<L.Map>): void {
+	private retryIfMapNotLoaded(action: Consumer<L.Map>, retryTimes?: number): void {
 		if(!this.mapInstance){
+			if(retryTimes && retryTimes > 5){
+				return;
+			}
 			setTimeout(() => {
-				this.retryIfMapNotLoaded(action);
+				this.retryIfMapNotLoaded(action, (retryTimes||0)+1);
 			}, 200);
 			return;
 		}
