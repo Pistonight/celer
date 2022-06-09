@@ -21,27 +21,34 @@ export enum MapZoomViewLevel {
 }
 
 export type GeoCoordinates = {
-    type: "G" /*Geo*/,
     lat: number,
     lng: number,
 }
 
-export const geoCoord = (lat: number, lng: number):GeoCoordinates => ({type: "G", lat, lng});
+export const geoCoord = (lat: number, lng: number):GeoCoordinates => ({lat, lng});
 
 export type InGameCoordinates = {
-    type: "I",
-    x: number,
-    z: number,
+    ix: number,
+    iz: number,
 }
 
-export const inGameCoord = (x: number, z: number):InGameCoordinates => ({type: "I", x, z});
+export const inGameCoord = (ix: number, iz: number):InGameCoordinates => ({ix, iz});
 
 export type SvgCoordinates = {
-    type: "S",
-    x: number,
-    z: number,
+    sx: number,
+    sz: number,
 }
 
-export const svgCoord = (x: number, z: number):SvgCoordinates => ({type: "S", x, z});
+export const svgCoord = (sx: number, sz: number):SvgCoordinates => ({sx, sz});
 
 export type SvgPolygon = SvgCoordinates[];
+
+export type NewMapIcon = {
+    iconName: string,
+    coord: InGameCoordinates,
+}
+
+export type NewMapLine = {
+    color: string,
+    vertices: InGameCoordinates[]
+}

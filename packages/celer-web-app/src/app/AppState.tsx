@@ -122,8 +122,11 @@ export class AppStateProvider extends React.Component<EmptyObject, AppState> {
 		if(metadata.name){
 			document.title = `${metadata.name} - Celer`;
 		}
-		this.state.mapCore.setIcons(mapIcons);
-		this.state.mapCore.setLines(mapLines);
+		const PigeonMapEnabled = this.context("BetterMap");
+		if(!PigeonMapEnabled){
+			this.state.mapCore.setIcons(mapIcons);
+			this.state.mapCore.setLines(mapLines);
+		}
 	}
 
 	public render(): JSX.Element {

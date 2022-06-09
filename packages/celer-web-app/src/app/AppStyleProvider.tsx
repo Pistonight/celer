@@ -8,7 +8,7 @@ const styleEngine = new StyleEngine(AllStyles);
 
 export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 	const { mapDisplayMode, theme } = useAppState();
-	const appColors = ThemeColorMap[theme.name] ?? DefaultColors;
+	const appColors = (theme && ThemeColorMap[theme.name]) ?? DefaultColors;
 
 	const [styles, setStyles] = useState<StyleContextType>(styleEngine.compute(Sizes, appColors, mapDisplayMode).styles);
 
