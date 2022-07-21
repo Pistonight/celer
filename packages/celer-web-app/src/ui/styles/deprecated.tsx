@@ -11,12 +11,7 @@ export const deprecatedStyles = ({sizes, colors}: ComputeStyleInputs) => {
 			width: `calc( 100vw - ${sizes.map} )`, 
 			height: "100vh"
 		},
-		menuOverlayFrame:{
-			position: "fixed", 
-			bottom: "0", 
-			right: `${sizes.map}`, 
-			width: `calc( 100vw - ${sizes.map} )`,
-		},
+		
 		statusBar: {
 			position: "fixed", 
 			bottom: "0", 
@@ -50,29 +45,43 @@ export const deprecatedStyles = ({sizes, colors}: ComputeStyleInputs) => {
 			//marginBottom:`calc( 4px + ${sizes.statusBar} )`
 		},
 
-		contribution: {
-			padding: "5px", 
-			fontSize: "10pt",
-			color: colors.subText
-		},
+		
 		menuAnchor: {
 			cursor: "pointer",
-			position: "absolute",
 			boxSizing:"border-box", 
-			right: "0px",
-			textAlign: 
-             "right", width: sizes.menuAnchor, padding: "5px", backgroundColor: colors.statusBar,
+			textAlign: "left", 
+			width: sizes.menuAnchor, 
+			overflow: "hidden", 
+			textOverflow: "ellipsis",
+			whiteSpace: "nowrap", 
+			padding: "5px", 
+			display: "inline-block",
+			backgroundColor: colors.statusBar,
 			hover:{
 				backgroundColor: colors.menuAnchorHover
 			}
 		},
 		statusMessage: {
 			width: `calc( 100% - ${sizes.menuErrorString} - ${sizes.menuAnchor} )`, 
-			boxSizing:"border-box", float: "left", overflow: "hidden", textOverflow: "ellipsis",
-			whiteSpace: "nowrap", padding: "5px", backgroundColor: colors.statusBar
+			boxSizing: "border-box", 
+			display: "inline-block",
+			overflow: "hidden", 
+			textOverflow: "ellipsis",
+			whiteSpace: "nowrap", 
+			textAlign: "center", 
+			padding: "5px", 
+			backgroundColor: colors.statusBar
 		},
 		statusErrorString: {
-			position: "absolute",boxSizing:"border-box", right: sizes.menuAnchor, textAlign: "right", width: sizes.menuErrorString, padding: "5px", backgroundColor: colors.statusBar
+			boxSizing:"border-box", 
+			display: "inline-block",
+			textAlign: "right", 
+			overflow: "hidden", 
+			textOverflow: "ellipsis",
+			whiteSpace: "nowrap", 
+			width: sizes.menuErrorString, 
+			padding: "5px", 
+			backgroundColor: colors.statusBar
 		}
 	} as const;
 };
