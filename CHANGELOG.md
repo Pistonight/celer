@@ -11,7 +11,7 @@ celer-user-docs
 
 ## `3.0.0`
 celer-web-app
-celer-cli
+celer-devtool
 celer-user-docs
 
 ## `2.0.1`

@@ -2,5 +2,5 @@
 
 members = [
     "packages/celer-lib",
-    "packages/celer-cli"
+    "packages/celer-devtool"
 ]
