@@ -36,7 +36,7 @@ impl DevServerDisplay {
                     new_display.push('\n');
                 }
             }
-            write!(new_display, "{} error(s)\n", num_errors).unwrap();
+            writeln!(new_display, "{} error(s)", num_errors).unwrap();
         }
         new_display.push('\n');
         new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");

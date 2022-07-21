@@ -5,10 +5,10 @@ release:
     @just ../../buildrs --release
 
 debug COMMAND FLAG="": build
-    ../../target/debug/celer-cli {{COMMAND}} {{FLAG}}
+    ../../target/debug/celer-devtool {{COMMAND}} {{FLAG}}
 
 ship COMMAND FLAG="": release
-    ../../target/release/celer-cli {{COMMAND}} {{FLAG}}
+    ../../target/release/celer-devtool {{COMMAND}} {{FLAG}}
 
 alias d := debug
 alias s := ship

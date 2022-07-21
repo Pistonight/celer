@@ -66,7 +66,7 @@ check_package("celer-vscode-extension", "packages/celer-vscode-extension/", [
     ("CHANGELOG.md", 4, 4, "`")
 ])
 
-check_package("celer-cli", "packages/celer-cli/", [
+check_package("celer-devtool", "packages/celer-devtool/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
     ("src/main.rs", 1, 27, "\"")

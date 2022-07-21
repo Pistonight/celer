@@ -1,5 +1,5 @@
 # Change Log
-This is the change log for celer-cli
+This is the change log for celer-devtool
 
 ## `1.1.0` - `04-28-2022` `LATEST`
 - Add `new` and `dev` command

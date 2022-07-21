@@ -1,4 +1,4 @@
-"""Validation Imports for celer-cli and celer-lib"""
+"""Validation Imports for celer-devtool and celer-lib"""
 # imports must be sorted and std imports must preceed others
 
 from os.path import isdir, isfile, join
