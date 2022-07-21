@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::Write;
 
 pub struct DevServerDisplay {
     current_display: String
@@ -35,7 +36,7 @@ impl DevServerDisplay {
                     new_display.push('\n');
                 }
             }
-            new_display.push_str(&format!("{} error(s)\n", num_errors));
+            write!(new_display, "{} error(s)\n", num_errors).unwrap();
         }
         new_display.push('\n');
         new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");
