@@ -50,7 +50,7 @@ export const exampleRouteScriptPresets = {
 				example("_Boss::Talus::Stone"),
 				"(^=) Talus. .code(Stone) can be Luminous, Rare, Igneo or Frost",
 				example("_Boss::Hinox::Red"),
-				"(^=) Talus. .code(Red) can be Blue, Black or Stal",
+				"(^=) Hinox. .code(Red) can be Blue, Black or Stal",
 				example("_Boss::Molduga"),
 				"(^=) Molduga.",
 				"(?=) The engine doesn't have predefined coordinates for bosses. You need to manually set the coordinate for the boss",
