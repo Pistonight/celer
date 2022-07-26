@@ -6,7 +6,7 @@ import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
-import { inGameCoord, InGameCoordinates } from "core/map";
+import { InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
@@ -36,10 +36,9 @@ const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: 
 };
 
 const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
-	const movements = docLine.movements;
-	if(movements.length > 0){
-		const coord = movements[0].to;
-		setMapCenter(inGameCoord(coord.x, coord.z));
+	const centerCoord = docLine.centerCoord;
+	if(centerCoord){
+		setMapCenter(centerCoord);
 	}
 	
 };

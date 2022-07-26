@@ -1,5 +1,6 @@
 
 import { BannerType, Movement, SplitType, TypedString } from "core/compiler";
+import { InGameCoordinates } from "core/map";
 import { MapOf } from "data/util";
 
 export type DocLine = 
@@ -31,6 +32,7 @@ export interface DocLineText {
     text: TypedString,
     notes?: TypedString,
 
+    centerCoord?: InGameCoordinates;
     movements: Movement[];
     mapLineColor?: string;
 

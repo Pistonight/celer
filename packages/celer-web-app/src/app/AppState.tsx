@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BannerType, Compiler, Coord, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
 import { AppExperimentsContext, AppState as ContextState, AppStateContext } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap } from "core/experiments";
+import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap, useExpInferCoord } from "core/experiments";
 import { InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
 import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
@@ -56,7 +56,12 @@ class DummyMapCore implements MapCore {
 const dummyMapCore = new DummyMapCore();
 
 export const AppStateProviderFC: React.FC = ({children})=>{
-	routeEngine.warnNegativeNumberEnable = useExpWarnNegativeVar();
+	const warnNegativeVar = useExpWarnNegativeVar();
+	const enableInferCoord = useExpInferCoord();
+	useEffect(()=>{
+		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
+		routeEngine.inferCoord = enableInferCoord;
+	}, [warnNegativeVar, enableInferCoord]);
 	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
 	const enablePigeonMap = useExpBetterMap();
 	// set up AppState
