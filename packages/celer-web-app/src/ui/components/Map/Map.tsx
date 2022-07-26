@@ -37,14 +37,10 @@ const mapCanvas = new MapCanvas();
 const IconSize = 32;
 const IconSizeSmall = 24;
 
-export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
-	const InGameOriginGeoCoord = useMemo(()=>{
-		return inGameToGeoCoord(inGameCoord(0,0));
-	}, []);
-	const DynamicCanvasAnchorGeoCoord = useMemo(()=>{
-		return inGameToGeoCoord(inGameCoord(-DynamicCanvasSizeX,-DynamicCanvasSizeZ));
-	}, []);
+const InGameOriginGeoCoord = inGameToGeoCoord(inGameCoord(0,0));
+const DynamicCanvasAnchorGeoCoord = inGameToGeoCoord(inGameCoord(-DynamicCanvasSizeX,-DynamicCanvasSizeZ));
 
+export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 	const [zoom, setZoom] = useState<number>(DefaultZoom);
 	const [animating, setAnimating] = useState<boolean>(false);
 	const [animationZoom, setAnimationZoom] = useState<number>(DefaultZoom);
@@ -62,17 +58,21 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 		return [anchorGeo.lat, anchorGeo.lng];
 	}, [realZoom, center]);
 
-	const mapCenter = useMemo(()=>{
+	// If this is not undefined, the map will be force centered here
+	const manualCenterLatLng = useMemo(()=>{
 		if(!manualCenter){
 			return undefined;
 		}
 		const centerInGameCoord = geoToInGameCoord(center);
-		const THRESHOLD = 5;
+		const THRESHOLD = 0.5;
 		if(Math.abs(centerInGameCoord.ix-manualCenter.ix)<THRESHOLD && Math.abs(centerInGameCoord.iz-manualCenter.iz)<THRESHOLD){
 			return undefined;
 		}
-		return manualCenter;
-	}, [center, manualCenter]);
+
+		const manualCenterGeo = manualCenter === undefined ? undefined : inGameToGeoCoord(manualCenter);
+		const manualCenterLatLng = manualCenterGeo === undefined ? undefined : [manualCenterGeo.lat, manualCenterGeo.lng];
+		return manualCenterLatLng;
+	}, [manualCenter]); // Only update this when manualCenter is changed by parent
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -105,12 +105,7 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 				mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
 			});
 		});
-		//mapCanvas.initDynamicCoordinateSystem(center, zoom);
-
 	}, [canvasRef, canvasRef.current, icons, zoom, center]);
-
-	const manualCenterGeo = mapCenter === undefined ? undefined : inGameToGeoCoord(mapCenter);
-	const manualCenterLatLng = manualCenterGeo === undefined ? undefined : [manualCenterGeo.lat, manualCenterGeo.lng];
 
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean)=>{
 		setAnimating(true);
@@ -180,7 +175,6 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 			>
 				{dynamicCanvasMode ?
 					<canvas ref={canvasRef} width={DynamicCanvasSizeX} height={DynamicCanvasSizeZ}/>
-
 					:
 					<canvas ref={canvasRef} width={`${Math.floor(SvgSizeX*zoomToSvgScale(zoom))}`} height={`${Math.floor(SvgSizeZ*zoomToSvgScale(zoom))}`}/>
 				}

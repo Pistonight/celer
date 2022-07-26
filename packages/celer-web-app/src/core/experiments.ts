@@ -24,3 +24,5 @@ export const useExpBetterMap = ():boolean => useAppExperiment("BetterMap", true)
 export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format
 export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", true);
+// Enable engine to infer coordinates for lines without coordinates
+export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);

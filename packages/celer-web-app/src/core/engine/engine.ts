@@ -18,6 +18,7 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
+import { inGameCoord, InGameCoordinates } from "core/map";
 import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
 import { MapOf } from "data/util";
 
@@ -135,7 +136,7 @@ export class RouteEngine{
 			});
 		}
 		
-		return lines;
+		return this.postProcess(lines);
 	}
 
 	private computeSection(section: RouteAssemblySection, output: DocLine[]): void {
@@ -731,4 +732,40 @@ export class RouteEngine{
 		}
 		return new TypedStringBlock(newBlocks);
 	}
+
+	private postProcess(lines: DocLine[]): DocLine[] {
+		// add centerCoord to every text line
+		// if the line has an icon but no movement, the coord should follow the previous line since that's where the icon is shown
+		// otherwise if the line has no icon and no movement, follow the next line since that's where you want to go
+
+		const sorCoord = inGameCoord(-1132.61, 1917.72);
+		let center = sorCoord; // default to SOR
+		for(let i=lines.length-1;i>=0;i--){
+			const line = lines[i];
+			if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
+				if(line.movements.length > 0){
+					const {x,z} = line.movements[0].to;
+					center = inGameCoord(x,z);
+				}
+				if(line.lineType === "DocLineText"){
+					line.centerCoord = center;
+				}
+			}
+		}
+		center = sorCoord; // default to SOR
+		for(let i=0;i<lines.length;i++){
+			const line = lines[i];
+			if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
+				if(line.movements.length > 0){
+					const {x,z} = line.movements[0].to;
+					center = inGameCoord(x,z);
+				}
+				if(line.lineType === "DocLineTextWithIcon"){
+					line.centerCoord = center;
+				}
+			}
+		}
+		return lines;
+	}
+
 }
