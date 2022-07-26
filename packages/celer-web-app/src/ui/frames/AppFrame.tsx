@@ -15,6 +15,7 @@ import { wasmLibVersion } from "data/wasmlib";
 
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
+import { useExpCleanSplitNames, useExpExportCustomSplits } from "core/experiments";
 
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
@@ -36,13 +37,14 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		config,
 		docLines,
 		bundle,
+		mapCenter,
 	} = useAppState();
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
-	const downloadCustomSplitsEnabled = useAppExperiment("ExportCustomSplits");
-	const cleanSplitNamesEnabled = useAppExperiment("CleanSplitNames");
+	const downloadCustomSplitsEnabled = useExpExportCustomSplits();
+	const cleanSplitNamesEnabled = useExpCleanSplitNames();
    
 	let errorCount = 0;
 	docLines.forEach(l=>{
@@ -50,11 +52,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 			errorCount++;
 		}
 	});
-
-	const setCenterListener = useCallback((listener: (center: InGameCoordinates)=>void)=>{
-		const w = window as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-		w.debugSetCenter=listener;
-	}, []);
   
 	return (
 		<div className={styles.appFrame}>
@@ -207,7 +204,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 				</div>
 			</div>
 
-			<MapFrame setSetCenterListener={setCenterListener}/>
+			<MapFrame manualCenter={mapCenter}/>
       
 			{/* <div style={{position: "fixed", backgroundColor: "rgba(0,0,0,0.5)", width: "100vw", height: "100vh", zIndex:99999}}>
       <div style={{margin: "calc( ( 100vw - 30em ) / 2 )", height: "100%"}}>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
-import { MapCore, MapIcon, MapLine } from "core/map";
+import { InGameCoordinates, MapCore, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
 import { RouteConfig, RouteMetadata, SourceBundle } from "data/bundler";
 import { Consumer, emptyObject } from "data/util";
@@ -16,14 +16,13 @@ export interface AppState {
     docScrollToLine: number,
     // Current line doc is on
     docCurrentLine: number,
-    mapCenterGameX: number,
-    mapCenterGameY: number,
-    mapZoom: number,
-    metadata: RouteMetadata;
-    config: RouteConfig;
-    docLines: DocLine[];
-    mapIcons: MapIcon[];
-    mapLines: MapLine[];
+    // Updating this value will cause MapFrame to center to the new location
+    mapCenter: InGameCoordinates|undefined,
+    metadata: RouteMetadata;//derived
+    config: RouteConfig;//derived
+    docLines: DocLine[];//derived
+    mapIcons: MapIcon[];//derived
+    mapLines: MapLine[];//derived
     // Temporary state to store bundlejson
     bundle: string | null
 }
@@ -37,6 +36,7 @@ interface AppStateContextState extends AppState {
     setDocCurrentLine: Consumer<number>,
     setRouteScript:(routeScript: SourceBundle)=>void,
     setBundle:(bundle: string | null) => void,
+    setMapCenter: (igc: InGameCoordinates) => void,
 }
 
 export const AppStateContext = React.createContext<AppStateContextState>(emptyObject());

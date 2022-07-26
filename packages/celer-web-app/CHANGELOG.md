@@ -1,6 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
+## `4.2.1` - `07-25-2022` `LATEST`
+- Typo fix by Makonede
+- Pigeon map now also supports click line number to center map
+
 ## `4.2.0` - `06-08-2022`
 - Map Update: 
   - Experiment to use a new map framework [pigeon-maps](https://github.com/mariusandra/pigeon-maps). Use `?Exp.BetterMap` to enable this experimental feature
@@ -8,7 +12,7 @@ This is the change log for celer-web-app
   - Use map tiles from [objmap](https://objmap.zeldamods.org)
   - Extend zoom levels by 1 in each direction (was 3 to 7, now 2 to 8)
 
-## `4.1.2` - `05-19-2022` `LATEST`
+## `4.1.2` - `05-19-2022`
 - Bug fix: Clean split names before writing them to XML
 
 ## `4.1.1` - `05-11-2022`

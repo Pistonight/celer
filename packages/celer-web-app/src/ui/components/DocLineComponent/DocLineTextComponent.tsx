@@ -4,7 +4,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { MapCore } from "core/map";
+import { inGameCoord, InGameCoordinates, MapCore } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
 
@@ -20,21 +20,21 @@ export interface DocLineTextWithIconProps{
     altNotesColor?: boolean,
 }
 
-const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, mapCore: MapCore): void => {
+const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
 	const movements = docLine.movements;
 	if(movements.length > 0){
 		const coord = movements[0].to;
-		mapCore.centerMap(coord);
+		setMapCenter(inGameCoord(coord.x, coord.z));
 	}
-    
+	
 };
 
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
-	const {mapCore} = useAppState();
+	const {setMapCenter} = useAppState();
 	return (
-		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, mapCore)}>
+		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
 		</div>
 	);
@@ -43,9 +43,9 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
-	const {mapCore} = useAppState();
+	const {setMapCenter} = useAppState();
 	return (
-		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, mapCore)}>
+		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>

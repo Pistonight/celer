@@ -6,7 +6,14 @@ import { MapIcon, MapLine } from "./MapEngine";
 import { gameCoordToMapCoord } from "./convert";
 import { IconSize } from "./type";
 // A Wrapper for L.Map
-export class MapCore {
+export interface MapCore {
+	setMap(map: L.Map): void,
+	setIcons(icons: MapIcon[]): void,
+	setLines(lines: MapLine[]): void,
+	centerMap(coord: Coord): void,
+	invalidateSize(): void,
+}
+export class MapCoreLeaflet implements MapCore {
 	private mapInstance?: L.Map;
 	private coreIcons?: L.FeatureGroup;
 	private otherIcons?: L.FeatureGroup;
@@ -46,7 +53,7 @@ export class MapCore {
 
 	private retryIfMapNotLoaded(action: Consumer<L.Map>, retryTimes?: number): void {
 		if(!this.mapInstance){
-			if(retryTimes && retryTimes > 5){
+			if(retryTimes && retryTimes > 3){
 				return;
 			}
 			setTimeout(() => {
