@@ -4,10 +4,10 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
+import { useExpInferCoord } from "core/experiments";
 import { inGameCoord, InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
-import { useExpInferCoord } from "core/experiments";
 
 export interface DocLineTextProps{
     docLine: DocLineText,

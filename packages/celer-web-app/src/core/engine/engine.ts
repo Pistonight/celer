@@ -1,11 +1,3 @@
-//import { addKorok, getMissingKoroks, hasKorok, KorokData, newData } from "./korok";
-// import { instructionLikeToInstructionPacket, stringToText, textLikeToTextBlock } from "./convert";
-// import { EngineError, EngineErrorStrings } from "./error";
-// import { txt, lcn, npc} from "./strings";
-// import { InstructionData, InstructionLike,TextBlock, Text, InstructionPacket, AbilityUsage, TextLike, RouteAssemblySection, RouteAssembly } from "../../data/assembly/types";
-// import { Koroks } from "./library";
-// import { EngineCommand, EngineCommands } from "./command";
-// import { InstructionPacketWithExtend } from "./creator";
 import { 
 	BannerType, 
 	RouteAssembly, 
@@ -18,7 +10,7 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
-import { inGameCoord, InGameCoordinates } from "core/map";
+import { inGameCoord } from "core/map";
 import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
 import { MapOf } from "data/util";
 

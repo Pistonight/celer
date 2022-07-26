@@ -6,7 +6,7 @@ import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
-import { inGameCoord, InGameCoordinates } from "core/map";
+import { InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
