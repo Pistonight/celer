@@ -6,6 +6,6 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "BetterMap": true,
-    "UseNewASP": true,
+    "NewASP": true,
     "EnableDeprecatedRouteBundle": true
 }
