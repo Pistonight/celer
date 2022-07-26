@@ -19,6 +19,7 @@ ignore = [
 ]
 
 ignore_exts = [
+    "CNAME",
     ".png",
     ".gif",
     ".vsix",

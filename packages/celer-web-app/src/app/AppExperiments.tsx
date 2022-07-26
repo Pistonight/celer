@@ -5,11 +5,12 @@ import { useLocation } from "react-router-dom";
 import { AppExperimentsContext } from "core/context";
 import { EmptyObject, MapOf } from "data/util";
 
-const CONFIG_URL = "https://raw.githubusercontent.com/iTNTPiston/celer/main/packages/celer-web-app/experiments.json";
+const CONFIG_URL = "https://celer.itntpiston.app/experiments.json";
 
 export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
-	const [liveExperiments, setLiveExperiments] = useState<MapOf<boolean>>({});
-	const [overrides, setOverrides] = useState<MapOf<boolean>>({});
+	const [liveExpError, setLiveExpError] = useState(false);
+	const [liveExperiments, setLiveExperiments] = useState<MapOf<boolean>|null>(null);
+	const [overrides, setOverrides] = useState<MapOf<boolean>|null>(null);
 	const {search} = useLocation();
 	const mountedRef = useRef(true);
 	useEffect(()=>{
@@ -24,7 +25,8 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 				}
 			}catch(e){
 				console.error(e);
-				console.error("Fail to load live experiments");
+				console.error("Fail to load live experiments. Will use app defaults.");
+				setLiveExpError(true);
 			}
 		};
 		loadLiveExperiments();
@@ -44,15 +46,28 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 		}
 		setOverrides(overrides);
 	}, [search]);
-	const isExperimentEnabled = useCallback((name)=>{
+
+	const ready = overrides !== null && (liveExpError || liveExperiments !== null);
+
+	const isExperimentEnabled = useCallback((name: string, defaultValue: boolean)=>{
+		if(!ready){
+			throw new Error("Cannot useAppExperiment before experiments are loaded");
+		}
 		if(name in overrides){
 			return overrides[name] === true;
+		}
+		if(!liveExperiments){
+			return defaultValue;
 		}
 		if(name in liveExperiments){
 			return liveExperiments[name] === true;
 		}
-		return false;
-	}, [liveExperiments, overrides]);
+		return defaultValue;
+	}, [liveExperiments, overrides, ready, liveExpError]);
+
+	if(!ready){
+		return <div>Loading Experiments...</div>; // temporary
+	}
 	return (
 		<AppExperimentsContext.Provider value={isExperimentEnabled}>
 			{children}

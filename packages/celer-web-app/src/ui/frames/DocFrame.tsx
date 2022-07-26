@@ -3,9 +3,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useStyles } from "ui/StyleContext";
 
 import { DocLineComponent } from "ui/components";
-import { useAppExperiment, useAppState } from "core/context";
+import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { MapCore } from "core/map";
+import { useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
+import { inGameCoord, InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
@@ -34,11 +35,11 @@ const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: 
 	return lo;
 };
 
-const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, mapCore: MapCore): void => {
+const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
 	const movements = docLine.movements;
 	if(movements.length > 0){
 		const coord = movements[0].to;
-		mapCore.centerMap(coord);
+		setMapCenter(inGameCoord(coord.x, coord.z));
 	}
 	
 };
@@ -50,10 +51,10 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// const [docLineComponents, setDocLineComponents] = useState<JSX.Element[]>([]);
 	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
 
-	const { mapCore, docScrollToLine , setDocCurrentLine} = useAppState();
-	const EnhancedScrollTrackerEnabled = useAppExperiment("EnhancedScrollTrackerEnabled");
-	const NoTrackDocPos = useAppExperiment("NoTrackDocPos");
-	const MapSyncToDocScrollEnabled = useAppExperiment("MapSyncToDocScrollEnabled");
+	const { docScrollToLine , setDocCurrentLine, setMapCenter} = useAppState();
+	const EnhancedScrollTrackerEnabled = useExpEnhancedScrollTrackerEnabled();
+	const NoTrackDocPos = useExpNoTrackDocPos();
+	const MapSyncToDocScrollEnabled = useExpMapSyncToDocScrollEnabled();
 
 	const docFrameRef = useRef<HTMLDivElement>(null);
 
@@ -138,7 +139,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 				const docLine = docLines[i];
 				if(docLine.lineType === "DocLineText" || docLine.lineType === "DocLineTextWithIcon"){
 					if(MapSyncToDocScrollEnabled){
-						centerMapToLine(docLine, mapCore);
+						centerMapToLine(docLine, setMapCenter);
 					}
 				}
 			}}>

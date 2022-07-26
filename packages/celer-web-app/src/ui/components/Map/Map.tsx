@@ -25,7 +25,7 @@ import { MapTile } from "./MapTile";
 export interface MapProps {
     icons: NewMapIcon[];
     lines: NewMapLine[];
-    setSetCenterListener: (listener: (center: InGameCoordinates)=>void)=>void;
+	manualCenter: InGameCoordinates|undefined;
 }
 
 const DefaultZoom = 3;
@@ -37,7 +37,7 @@ const mapCanvas = new MapCanvas();
 const IconSize = 32;
 const IconSizeSmall = 24;
 
-export const Map: React.FC<MapProps> = ({icons, lines, setSetCenterListener}) => {
+export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 	const InGameOriginGeoCoord = useMemo(()=>{
 		return inGameToGeoCoord(inGameCoord(0,0));
 	}, []);
@@ -49,7 +49,6 @@ export const Map: React.FC<MapProps> = ({icons, lines, setSetCenterListener}) =>
 	const [animating, setAnimating] = useState<boolean>(false);
 	const [animationZoom, setAnimationZoom] = useState<number>(DefaultZoom);
 	const [center, setCenter] = useState<GeoCoordinates>(geoCoord(0,0));
-	const [manualSetCenter, setManualSetCenter] = useState<InGameCoordinates|undefined>(undefined);
 
 	const realZoom = animating ? animationZoom : zoom;
 	// For zoom <= 6, a single canvas that covers the entire map is used, and it's not redrawn when dragging
@@ -63,21 +62,17 @@ export const Map: React.FC<MapProps> = ({icons, lines, setSetCenterListener}) =>
 		return [anchorGeo.lat, anchorGeo.lng];
 	}, [realZoom, center]);
 
-	useEffect(()=>{
-		setSetCenterListener(c=>{
-			setManualSetCenter(c);
-		});
-	}, [setSetCenterListener]);
-	useEffect(()=>{
-		if(!manualSetCenter){
-			return;
+	const mapCenter = useMemo(()=>{
+		if(!manualCenter){
+			return undefined;
 		}
 		const centerInGameCoord = geoToInGameCoord(center);
 		const THRESHOLD = 5;
-		if(Math.abs(centerInGameCoord.ix-manualSetCenter.ix)<THRESHOLD && Math.abs(centerInGameCoord.iz-manualSetCenter.iz)<THRESHOLD){
-			setManualSetCenter(undefined);
+		if(Math.abs(centerInGameCoord.ix-manualCenter.ix)<THRESHOLD && Math.abs(centerInGameCoord.iz-manualCenter.iz)<THRESHOLD){
+			return undefined;
 		}
-	}, [center, manualSetCenter]);
+		return manualCenter;
+	}, [center, manualCenter]);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -114,7 +109,7 @@ export const Map: React.FC<MapProps> = ({icons, lines, setSetCenterListener}) =>
 
 	}, [canvasRef, canvasRef.current, icons, zoom, center]);
 
-	const manualCenterGeo = manualSetCenter === undefined ? undefined : inGameToGeoCoord(manualSetCenter);
+	const manualCenterGeo = mapCenter === undefined ? undefined : inGameToGeoCoord(mapCenter);
 	const manualCenterLatLng = manualCenterGeo === undefined ? undefined : [manualCenterGeo.lat, manualCenterGeo.lng];
 
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean)=>{

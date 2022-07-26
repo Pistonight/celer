@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
-import { useAppExperiment, useAppState, useService } from "core/context";
+import { useAppState, useService } from "core/context";
+import { useExpCleanSplitNames, useExpExportCustomSplits } from "core/experiments";
 import { createLiveSplitFile } from "core/external";
-import { InGameCoordinates } from "core/map";
 import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
 import { saveAs } from "data/libs";
 import { EmptyObject, MapOf, WebAppVersion } from "data/util";
@@ -36,13 +36,14 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		config,
 		docLines,
 		bundle,
+		mapCenter,
 	} = useAppState();
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
-	const downloadCustomSplitsEnabled = useAppExperiment("ExportCustomSplits");
-	const cleanSplitNamesEnabled = useAppExperiment("CleanSplitNames");
+	const downloadCustomSplitsEnabled = useExpExportCustomSplits();
+	const cleanSplitNamesEnabled = useExpCleanSplitNames();
    
 	let errorCount = 0;
 	docLines.forEach(l=>{
@@ -50,11 +51,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 			errorCount++;
 		}
 	});
-
-	const setCenterListener = useCallback((listener: (center: InGameCoordinates)=>void)=>{
-		const w = window as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-		w.debugSetCenter=listener;
-	}, []);
   
 	return (
 		<div className={styles.appFrame}>
@@ -207,7 +203,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 				</div>
 			</div>
 
-			<MapFrame setSetCenterListener={setCenterListener}/>
+			<MapFrame manualCenter={mapCenter}/>
       
 			{/* <div style={{position: "fixed", backgroundColor: "rgba(0,0,0,0.5)", width: "100vw", height: "100vh", zIndex:99999}}>
       <div style={{margin: "calc( ( 100vw - 30em ) / 2 )", height: "100%"}}>
