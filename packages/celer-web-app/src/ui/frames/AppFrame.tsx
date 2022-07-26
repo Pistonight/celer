@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
-import { useAppExperiment, useAppState, useService } from "core/context";
+import { useAppState, useService } from "core/context";
+import { useExpCleanSplitNames, useExpExportCustomSplits } from "core/experiments";
 import { createLiveSplitFile } from "core/external";
-import { InGameCoordinates } from "core/map";
 import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
 import { saveAs } from "data/libs";
 import { EmptyObject, MapOf, WebAppVersion } from "data/util";
@@ -15,7 +15,6 @@ import { wasmLibVersion } from "data/wasmlib";
 
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
-import { useExpCleanSplitNames, useExpExportCustomSplits } from "core/experiments";
 
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 

@@ -3,11 +3,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useStyles } from "ui/StyleContext";
 
 import { DocLineComponent } from "ui/components";
-import { useAppExperiment, useAppState } from "core/context";
+import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { inGameCoord, InGameCoordinates, MapCore } from "core/map";
-import { LocalStorageWrapper } from "data/storage";
 import { useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
+import { inGameCoord, InGameCoordinates } from "core/map";
+import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
 	docLines: DocLine[],

@@ -1,14 +1,14 @@
+import { Map } from "leaflet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BannerType, Compiler, Coord, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
-import { AppExperimentsContext, AppState as ContextState, AppStateContext, useAppExperiment } from "core/context";
+import { AppExperimentsContext, AppState as ContextState, AppStateContext } from "core/context";
 import { RouteEngine } from "core/engine";
-import { inGameCoord, InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
+import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap } from "core/experiments";
+import { InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
 import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
-import { Map } from "leaflet";
-import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap } from "core/experiments";
 
 const DOC_LINE_POS_KEY="DocLinePos";
 
@@ -32,7 +32,7 @@ export const AppStateProvider: React.FC = ({children})=>{
 		return <AppStateProviderFC>{children}</AppStateProviderFC>;
 	}
 	return <AppStateProviderOld>{children}</AppStateProviderOld>;
-}
+};
 
 // empty impl for pigeon map
 class DummyMapCore implements MapCore {
@@ -198,8 +198,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 			
 		</AppStateContext.Provider>
 	);
-}
-
+};
 
 export class AppStateProviderOld extends React.Component<EmptyObject, AppState> {
 	constructor(props: EmptyObject){

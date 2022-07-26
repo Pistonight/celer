@@ -4,9 +4,9 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { useStyles } from "ui/StyleContext";
 import { Map } from "ui/components";
 import { Coord } from "core/compiler";
-import { useAppExperiment, useAppState } from "core/context";
-import { inGameCoord, InGameCoordinates, MapIcon, MapLine, NewMapIcon, NewMapLine } from "core/map";
+import { useAppState } from "core/context";
 import { useExpBetterMap } from "core/experiments";
+import { inGameCoord, InGameCoordinates, MapIcon, MapLine, NewMapIcon, NewMapLine } from "core/map";
 
 type MapFrameProps = {
 	manualCenter: InGameCoordinates|undefined;
