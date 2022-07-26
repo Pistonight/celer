@@ -7,6 +7,7 @@ import { DocLineText, DocLineTextWithIcon } from "core/engine";
 import { inGameCoord, InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
+import { useExpInferCoord } from "core/experiments";
 
 export interface DocLineTextProps{
     docLine: DocLineText,
@@ -20,10 +21,18 @@ export interface DocLineTextWithIconProps{
     altNotesColor?: boolean,
 }
 
-const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
-	const centerCoord = docLine.centerCoord;
-	if(centerCoord){
-		setMapCenter(centerCoord);
+const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void, inferCoord: boolean): void => {
+	if(inferCoord){
+		const centerCoord = docLine.centerCoord;
+		if(centerCoord){
+			setMapCenter(centerCoord);
+		}
+	}else{
+		const movements = docLine.movements;
+		if(movements.length > 0){
+			const {x,z} = movements[0].to;
+			setMapCenter(inGameCoord(x,z));
+		}
 	}
 	
 };
@@ -32,8 +41,9 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
+	const inferCoord = useExpInferCoord();
 	return (
-		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter, inferCoord)}>
 			<span className="code">{lineNumber}</span>
 		</div>
 	);
@@ -43,8 +53,10 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
+	const inferCoord = useExpInferCoord();
+
 	return (
-		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter, inferCoord)}>
 			<span className="code">{lineNumber}</span>
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>

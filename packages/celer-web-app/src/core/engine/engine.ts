@@ -42,6 +42,7 @@ export class RouteEngine{
 	// Engine configuration
 	private splitSetting: SplitTypeSetting<boolean> =defaultSplitSetting;
 	public warnNegativeNumberEnable = false;
+	public inferCoord = false;
 
 	private sectionNumber = 0;
 	private lineNumber = 0;
@@ -734,38 +735,41 @@ export class RouteEngine{
 	}
 
 	private postProcess(lines: DocLine[]): DocLine[] {
-		// add centerCoord to every text line
-		// if the line has an icon but no movement, the coord should follow the previous line since that's where the icon is shown
-		// otherwise if the line has no icon and no movement, follow the next line since that's where you want to go
+		if(this.inferCoord){
+			// add centerCoord to every text line
+			// if the line has an icon but no movement, the coord should follow the previous line since that's where the icon is shown
+			// otherwise if the line has no icon and no movement, follow the next line since that's where you want to go
 
-		const sorCoord = inGameCoord(-1132.61, 1917.72);
-		let center = sorCoord; // default to SOR
-		for(let i=lines.length-1;i>=0;i--){
-			const line = lines[i];
-			if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
-				if(line.movements.length > 0){
-					const {x,z} = line.movements[0].to;
-					center = inGameCoord(x,z);
-				}
-				if(line.lineType === "DocLineText"){
-					line.centerCoord = center;
+			const sorCoord = inGameCoord(-1132.61, 1917.72);
+			let center = sorCoord; // default to SOR
+			for(let i=lines.length-1;i>=0;i--){
+				const line = lines[i];
+				if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
+					if(line.movements.length > 0){
+						const {x,z} = line.movements[0].to;
+						center = inGameCoord(x,z);
+					}
+					if(line.lineType === "DocLineText"){
+						line.centerCoord = center;
+					}
 				}
 			}
-		}
-		center = sorCoord; // default to SOR
-		for(let i=0;i<lines.length;i++){
-			const line = lines[i];
-			if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
-				if(line.movements.length > 0){
-					const {x,z} = line.movements[0].to;
-					center = inGameCoord(x,z);
-				}
-				if(line.lineType === "DocLineTextWithIcon"){
-					line.centerCoord = center;
+			center = sorCoord; // default to SOR
+			for(let i=0;i<lines.length;i++){
+				const line = lines[i];
+				if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon"){
+					if(line.movements.length > 0){
+						const {x,z} = line.movements[0].to;
+						center = inGameCoord(x,z);
+					}
+					if(line.lineType === "DocLineTextWithIcon"){
+						line.centerCoord = center;
+					}
 				}
 			}
 		}
 		return lines;
+
 	}
 
 }
