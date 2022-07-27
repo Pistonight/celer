@@ -10,17 +10,13 @@ import { useAppExperiment } from "./context";
 export const useExpEnhancedScrollTrackerEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
 // Sync map when scrolling, currently have performance issue
 export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
-// Enable export custom splits, this can be cleaned up
-export const useExpExportCustomSplits = ():boolean => useAppExperiment("ExportCustomSplits", true);
-// Enable clean split names, this can be cleaned up
-export const useExpCleanSplitNames = ():boolean => useAppExperiment("CleanSplitNames", true);
 // Disable scroll tracking. scroll tracking currently have performance issue
 export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
 // Pigeon Map
 export const useExpBetterMap = ():boolean => useAppExperiment("BetterMap", true);
-// Use FC AppStateProvider
+// [07-26] Use FC AppStateProvider
 export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format
 export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", true);
