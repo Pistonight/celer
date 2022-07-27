@@ -6,7 +6,6 @@ import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
 import { useAppState, useService } from "core/context";
-import { useExpCleanSplitNames, useExpExportCustomSplits } from "core/experiments";
 import { createLiveSplitFile } from "core/external";
 import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
 import { saveAs } from "data/libs";
@@ -41,9 +40,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
-
-	const downloadCustomSplitsEnabled = useExpExportCustomSplits();
-	const cleanSplitNamesEnabled = useExpCleanSplitNames();
    
 	let errorCount = 0;
 	docLines.forEach(l=>{
@@ -134,7 +130,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							<MenuItemSubmenu selected={splitSettingsMenuItemRef === contextMenuRef} text="Split Settings..." hover={function (): void {
 								setContextMenuRef(splitSettingsMenuItemRef);
 							} } ref={splitSettingsMenuItemRef}/>
-							{downloadCustomSplitsEnabled && <MenuItem text="Download Splits (.lss)" action={ () => {
+							<MenuItem text="Download Splits (.lss)" action={ () => {
 								const interpolationFunctions: SplitTypeConfig<(variables: MapOf<number|string>)=>string> = {};
 								if(config["split-format"]){
 									for (const key in config["split-format"]){
@@ -162,9 +158,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 										return processed;
 									}
 									return lineText;
-								}, cleanSplitNamesEnabled);
+								});
 								saveAs(splitContent, (metadata.name || "celer-splits").replaceAll(" ", "-")+".lss");
-							} }/>}
+							} }/>
 							{bundle && <MenuItem text="Download bundle.json" action={function (): void {
 								saveAs(bundle, "bundle.json");
 							} }/>}
