@@ -22,3 +22,5 @@ export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", true);
 // Enable engine to infer coordinates for lines without coordinates (so that every line can be clicked)
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
+// [07-28 Added] Use New DocumentContext and not use old ServiceContext
+export const useExpNewDP = ():boolean => useAppExperiment("NewDP", true);

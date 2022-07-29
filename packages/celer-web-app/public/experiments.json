@@ -6,5 +6,6 @@
     "BetterMap": true,
     "NewASP": true,
     "EnableDeprecatedRouteBundle": true,
-    "InferCoord": true
+    "InferCoord": true,
+    "NewDP": true
 }

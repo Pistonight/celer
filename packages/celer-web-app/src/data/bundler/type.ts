@@ -3,7 +3,8 @@
 export type SourceBundle = {
     _project: RouteMetadata,
     _route: RouteSection[],
-    _config: RouteConfig
+    _config: RouteConfig,
+    _globalError?: string,
 }
 
 export type RouteConfig = {

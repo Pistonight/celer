@@ -1,139 +1,74 @@
+mod structs;
+use structs::{Config, Metadata, SourceSection};
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub struct Metadata {
-    pub name: String,
-    pub version: String,
-    pub authors: Vec<String>,
-    pub url: String,
-    pub description: String
-}
-
-#[derive(Debug)]
-pub struct Config {
-    pub split_format: SplitTypeConfig
-}
-
-#[derive(Debug)]
-pub struct SplitTypeConfig {
-    pub config_type: ConfigType,
-    pub none: Option<String>,
-    pub shrine: Option<String>,
-    pub tower: Option<String>,
-    pub warp: Option<String>,
-    pub memory: Option<String>,
-    pub korok: Option<String>,
-    pub hinox: Option<String>,
-    pub talus: Option<String>,
-    pub molduga: Option<String>,
-    pub user_defined: Option<String>
-}
-
+mod bundler;
+use bundler::Bundler;
 use std::collections::HashMap;
-// data structure that represents the source files.
+
+/// data structure that represents the bundled source files.
 #[derive(Debug)]
 pub struct SourceObject {
+    /// Metadata
     pub project: Metadata,
+    /// Configuration
+    pub config: Config,
+    /// Bundled Route
     pub route: Vec<SourceSection>,
-    pub config: Config
+    /// Global error. 
+    /// If this is not None, there is some serious error that causes the bundler to fail
+    /// e.g. Circular dependency, _route not present, etc
+    pub global_error: Option<String>
 }
 
 impl SourceObject {
-    pub fn new() -> SourceObject {
-        SourceObject {
-            project: Metadata {
-                name: String::new(),
-                version: String::new(),
-                authors: Vec::new(),
-                url: String::new(),
-                description: String::new()
-            },
-            route: Vec::new(),
-            config: Config {
-                split_format: SplitTypeConfig {
-                    config_type: ConfigType::Str,
-                    none: Option::None,
-                    shrine: Option::None,
-                    tower: Option::None,
-                    warp: Option::None,
-                    memory: Option::None,
-                    korok: Option::None,
-                    hinox: Option::None,
-                    talus: Option::None,
-                    molduga: Option::None,
-                    user_defined: Option::None,
-                }
+    /// Convert and bundle json source into SourceObject
+    pub fn from(value: &serde_json::Value) -> SourceObject{
+        if !value.is_object() {
+            return SourceObject {
+                project: Metadata::new(),
+                config: Config::new(),
+                route: Vec::new(),
+                global_error: Some(String::from("Input is not an object (mapping)"))
+            };
+        }
+        let metadata = Metadata::from(&value["_project"]);
+        let config = Config::from(&value["_config"]);
+        let route = value["_route"];
+        if let Some(obj_route) = route.as_array() {
+            let mut modules = HashMap::new();
+            for (k,v) in value.as_object().unwrap() {
+                modules.insert(String::from(k), v.clone());
             }
+            let sections = obj_route.iter().map(|x|SourceSection::from(x)).collect();
+            return match Bundler::bundle(&sections, modules) {
+                Ok(bundled_sections) => SourceObject {
+                    project: metadata,
+                    config: config,
+                    route: bundled_sections,
+                    global_error: None
+                },
+                Err(message) => SourceObject {
+                    project: metadata,
+                    config: config,
+                    route: Vec::new(),
+                    global_error: Some(message)
+                }
+            };
+        }
+
+        SourceObject {
+            project: metadata,
+            config: config,
+            route: Vec::new(),
+            global_error: Some(String::from("Missing _route property or _route is not an array"))
         }
     }
 }
 
-#[derive(Debug)]
-pub enum SourceSection {
-    Unnamed(SourceModule),
-    Named(String, SourceModule)
-}
 
-#[derive(Debug)]
-pub enum SourceModule {
-    SingleStep(SourceStep),
-    MultiStep(Vec<SourceStep>)
-}
 
-#[derive(Debug)]
-pub enum SourceStep {
-    Simple(String),
-    Extended(String, SourceStepCustomization)
-}
 
-#[derive(Debug)]
-pub struct SourceStepCustomization {
-    text: Option<String>,
-    icon: Option<String>,
-    comment: Option<String>,
-    notes: Option<String>,
-    line_color: Option<String>,
-    hide_icon_on_map: bool,
-    split_type: Option<String>,
-    var_change: HashMap<String, i32>,
-    time_override: i32,
-    commands: Option<Vec<String>>,
-    coord: Option<Vec<i32>>,
-    movements: Option<Vec<Movement>>,
-    fury: Option<i32>,
-    gale: Option<i32>
 
-}
-
-#[derive(Debug)]
-pub struct Movement {
-    to: Vec<f32>,
-    away: MovementFlag,
-}
-
-#[derive(Debug)]
-pub enum MovementFlag {
-    Normal,
-    Away,
-    Warp
-}
-
-#[derive(Debug)]
-pub enum ConfigType {
-    Str,
-    Num,
-    Bool
-}
-
-fn bundle_route_script(source: SourceObject, sections: HashMap<String, SourceModule>) -> SourceObject {
-    // scan dependency
-    // make sure no circular dependency
-    // bundle each section
-
-}
-
-fn bundle_sections(sections: Vec<SourceSection>, cache: HashMap<String, SourceModule>, unbundledSections: HashMap<String, SourceModule>) -> Vec<SourceSection> {
-    
-}
 
 // // Intermediate step. Strings and presets parsed and processed. Data is standardized to make the job of the route engine easier
 // pub struct RouteAssembly {
