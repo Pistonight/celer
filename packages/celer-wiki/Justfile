@@ -1,0 +1,11 @@
+lint:
+    pylint scripts
+
+build:
+    python3 scripts/build.py
+
+release:
+    python3 scripts/build.py release
+
+clean:
+    rm -rf build release

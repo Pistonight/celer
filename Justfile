@@ -37,6 +37,7 @@ lintpy VERBOSE="":
     pylint scripts
     @just packages/celer-code-generator/lint
     @just packages/celer-e2e-test/lint
+    @just packages/celer-wiki/lint
 
 # Lint everything. Run this before push/PR
 lint: check vsync
@@ -72,6 +73,7 @@ buildrs RELEASE="":
 build: buildc buildrs
     @just packages/celer-vscode-extension/build
     @just packages/celer-web-app/build
+    @just packages/celer-wiki/build
 
 # Produce release artifacts and binaries
 release: buildc
@@ -79,6 +81,7 @@ release: buildc
     cargo build --release 
     @just packages/celer-vscode-extension/release
     @just packages/celer-web-app/release
+    @just packages/celer-wiki/release
     
     python3 scripts/release.py > release/RELEASE_NOTES.txt
 
