@@ -1,7 +1,13 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `4.2.1` - `07-25-2022` `LATEST`
+## `5.0.0` - `-2022` `LATEST`
+- Loading screen for better experience
+- Optimized route and theme loading (`Exp.UseDP`)
+- WASM based bundler (`Exp.WASMBundler`)
+- Cleaned up old experiments
+
+## `4.2.1` - `07-25-2022`
 - Typo fix by Makonede
 - Pigeon map now also supports click line number to center map
 

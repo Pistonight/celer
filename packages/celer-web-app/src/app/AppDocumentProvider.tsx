@@ -1,7 +1,7 @@
 import { Compiler } from "core/compiler"
 import { DocumentContext } from "core/context/DocumentContext"
 import { RouteEngine } from "core/engine"
-import { useExpBetterMap, useExpEnableDeprecatedRouteBundle, useExpNewDP } from "core/experiments"
+import { useExpBetterMap, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments"
 import { MapEngine } from "core/map"
 import { addRouteScriptDeprecationMessage, ensureConfig, ensureMetadata, SourceBundle } from "data/bundler"
 import { setegid } from "process"
@@ -21,7 +21,14 @@ const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle, children}) => {
-    const enableDocumentProvider = useExpNewDP();
+    const warnNegativeVar = useExpWarnNegativeVar();
+	const enableInferCoord = useExpInferCoord();
+	const enableDocumentProvider = useExpNewDP();
+
+	useEffect(()=>{
+		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
+		routeEngine.inferCoord = enableInferCoord;
+	}, [warnNegativeVar, enableInferCoord]);
     const enableDeprecated = useExpEnableDeprecatedRouteBundle();
     
     const params = useParams();

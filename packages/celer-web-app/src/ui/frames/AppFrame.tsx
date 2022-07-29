@@ -19,7 +19,7 @@ const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
 const splitSettingsMenuItemRef = React.createRef<HTMLDivElement>();
 export const AppFrame: React.FC<EmptyObject> = ()=>{
-	// This hook loads the route
+	// This hook loads the route (using old ServiceContext)
 	useService();
 	const {
 		mapCore, 
@@ -31,7 +31,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		setSplitSetting,
 		enableSubsplits,
 		setEnableSubsplits,
-		metadata,
+		metadata,// clean up these once new DP rolls out
 		config,
 		docLines,
 		bundle,

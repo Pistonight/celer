@@ -28,7 +28,7 @@ export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 	}, [cssString]);
 
 	if(!ready){
-		return <LoadingFrame>Loading Theme</LoadingFrame>
+		return <LoadingFrame>Rendering</LoadingFrame>
 	}
 
 	return <StyleContext.Provider value={styles}>
