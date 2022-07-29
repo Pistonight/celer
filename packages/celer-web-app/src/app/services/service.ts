@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCallback } from "react";
 import { useAppState } from "core/context";
 import { SourceBundle } from "data/bundler";
+import { useExpNewDP } from "core/experiments";
 
 export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> => {
 	try{
@@ -27,8 +28,12 @@ export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> =>
 };
 
 export const useLoadRouteAsync = (url: string) => {
+	const enableDocumentProvider = useExpNewDP();
 	const { setBundle, setRouteScript } = useAppState();
 	return useCallback(()=>{
+		if(enableDocumentProvider){
+			return;
+		}
 		const load = async () => {
 			setBundle(null);
 			const routescript = await getRouteScriptAsync(url);

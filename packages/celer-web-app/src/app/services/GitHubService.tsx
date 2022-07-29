@@ -2,8 +2,10 @@ import { useParams } from "react-router-dom";
 import { ServiceContext } from "core/context";
 import { EmptyObject } from "data/util";
 import { useLoadRouteAsync } from "./service";
+import { ServiceCreator } from "./type";
+import { UrlService } from "./UrlService";
 
-export const GitHubService: React.FC<EmptyObject> = ({children}) => {
+export const GitHubServiceOld: React.FC<EmptyObject> = ({children}) => {
 
 	const {user, repo, branch} = useParams();
 	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
@@ -16,9 +18,6 @@ export const GitHubService: React.FC<EmptyObject> = ({children}) => {
 	);
 };
 
-// export const GitHubResolver: React.FC<EmptyObject> = ({children})=>{
-// 	const {user, repo, branch} = useParams();
-// 	const url = `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`;
-// 	useService(url);
-// 	return <>{children}</>;
-// };
+export const createGitHubService: ServiceCreator = ({user, repo, branch}) => {
+	return new UrlService(`https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`);
+}

@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { AppExperimentsContext } from "core/context";
 import { EmptyObject, MapOf } from "data/util";
+import { LoadingFrame } from "ui/frames/LoadingFrame";
 
 const CONFIG_URLS = [
 	// Loading directly from repo for immediate mitigation
@@ -75,7 +76,7 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	}, [liveExperiments, overrides, ready, liveExpError]);
 
 	if(!ready){
-		return <div>Loading Experiments...</div>; // temporary
+		return <LoadingFrame>Loading Experiments</LoadingFrame>; 
 	}
 	return (
 		<AppExperimentsContext.Provider value={isExperimentEnabled}>

@@ -6,83 +6,100 @@ import { EmptyObject } from "data/util";
 import { AppExperimentsProvider } from "./AppExperiments";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
-import { DevelopmentService, InternalDocumentService, GitHubService, WsDevService } from "./services";
-import { LocalService } from "./services/LocalService";
+import { InternalDocumentServiceOld, GitHubServiceOld, WsDevServiceOld, MockErrorService, createInternalDocumentService, createGitHubService, createWebSocketDevService } from "./services";
+import { createLocalService, LocalServiceOld } from "./services/LocalService";
+import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
+import { LoadingFrame } from "ui/frames/LoadingFrame";
 
-const REDIRECT_MESSAGE_KEY = "Celer.RedirectMessage";
-const REDIRECT_QUERY = "Redirect";
+// const REDIRECT_MESSAGE_KEY = "Celer.RedirectMessage";
+// const REDIRECT_QUERY = "Redirect";
 
-const Redirector:React.FC<EmptyObject> = () => {
-	const {pathname, search} = useLocation();
-	const navigate = useNavigate();
-	useEffect(()=>{
+// const Redirector:React.FC<EmptyObject> = () => {
+// 	const {pathname, search} = useLocation();
+// 	const navigate = useNavigate();
+// 	useEffect(()=>{
         
-		if (!pathname.startsWith("/")){
-			navigate(`/${pathname}${search}`);
-			return;
-		}
-		const query = queryString.parse(search);
-		// Validate redirect message
-		if(REDIRECT_QUERY in query){
-			if(!sessionStorage.getItem(REDIRECT_MESSAGE_KEY)){
-				console.warn("Invalid redirect message. The query parameter will be removed"); // eslint-disable-line no-console
-				delete query[REDIRECT_QUERY];
-				navigate(`${pathname}?${queryString.stringify(query)}`);
-				return;
-			}
-		}else{
-			sessionStorage.removeItem(REDIRECT_MESSAGE_KEY);
-		}
+// 		if (!pathname.startsWith("/")){
+// 			navigate(`/${pathname}${search}`);
+// 			return;
+// 		}
+// 		const query = queryString.parse(search);
+// 		// Validate redirect message
+// 		if(REDIRECT_QUERY in query){
+// 			if(!sessionStorage.getItem(REDIRECT_MESSAGE_KEY)){
+// 				console.warn("Invalid redirect message. The query parameter will be removed"); // eslint-disable-line no-console
+// 				delete query[REDIRECT_QUERY];
+// 				navigate(`${pathname}?${queryString.stringify(query)}`);
+// 				return;
+// 			}
+// 		}else{
+// 			sessionStorage.removeItem(REDIRECT_MESSAGE_KEY);
+// 		}
 
-		if(query.DevPort){
-			const reference = `${query.DevPort}`;
-			navigate(`/pydev/${reference}`);
-			return;
-		}
+// 		if(query.DevPort){
+// 			const reference = `${query.DevPort}`;
+// 			navigate(`/pydev/${reference}`);
+// 			return;
+// 		}
         
-	}, [pathname, search]);
+// 	}, [pathname, search]);
 
-	return null;
-};
+// 	return null;
+// };
+
+// const s = ()=>new MockErrorService();
+
+const RootLayer: React.FC = ()=>(
+	<AppExperimentsProvider>
+		<Outlet />
+	</AppExperimentsProvider>
+) 
+
+const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle})=>(
+	<AppDocumentProvider serviceCreator={serviceCreator} shouldSetBundle={shouldSetBundle}>
+		<AppStateProvider>
+			<AppStyleProvider>
+				<Outlet />
+			</AppStyleProvider>
+		</AppStateProvider>
+	</AppDocumentProvider>
+);
+
+// const DocumentLayerOld: React.FC = ()=>(
+// 	<AppStateProvider>
+// 		<AppStyleProvider>
+// 			<Outlet />
+// 		</AppStyleProvider>
+// 	</AppStateProvider>
+// );
 
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {
 	return (
 		<HashRouter>
-			<Redirector />
+			{/* <Redirector /> */}
 			<Routes>
-				<Route path="/" element={
-					<AppExperimentsProvider>
-						<AppStateProvider>
-							<AppStyleProvider>
-								<Outlet />
-							</AppStyleProvider>
-						</AppStateProvider>
-					</AppExperimentsProvider>
-				}>
+				<Route path="/" element={<RootLayer />}>
 					<Route index element={<Home />} />
-					<Route path="docs" element={<InternalDocumentService><Outlet /></InternalDocumentService>}>
-						<Route path=":reference" element={<AppFrame />}/>
+					<Route path="docs" element={<DocumentLayer serviceCreator={createInternalDocumentService} shouldSetBundle={false}/>}>
+						<Route path=":reference" element={<InternalDocumentServiceOld><AppFrame /></InternalDocumentServiceOld>}/>
 					</Route>
-					<Route path="pydev" element={<DevelopmentService><Outlet /></DevelopmentService>}>
+					{/* <Route path="pydev" element={<DevelopmentService><Outlet /></DevelopmentService>}>
 						<Route index element={<AppFrame />}/>
 						<Route path=":port" element={<AppFrame />}/>
-					</Route>
-					<Route path="dev" element={<WsDevService><Outlet /></WsDevService>}>
-						<Route index element={<AppFrame />}/>
-						<Route path=":port" element={<AppFrame />}/>
-					</Route>
-					<Route path="gh" element={<GitHubService><Outlet /></GitHubService>}>
-						<Route path=":user/:repo" element={<AppFrame />}/>
-						<Route path=":user/:repo/:branch" element={<AppFrame />}/>
-					</Route>
-					<Route path="local" element={<LocalService><Outlet /></LocalService>}>
-						<Route index element={<AppFrame />}/>
-					</Route>
-					{/* Disabled for security reasons <Route path="u" element={<UrlService><Outlet /></UrlService>}>
-						<Route index element={<AppFrame />}/>
 					</Route> */}
-					<Route path="*" element={<div>Nothing here</div>} />
+					<Route path="dev" element={<DocumentLayer serviceCreator={createWebSocketDevService} shouldSetBundle={false}/>}>
+						<Route index element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
+						<Route path=":port" element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
+					</Route>
+					<Route path="gh" element={<DocumentLayer serviceCreator={createGitHubService} shouldSetBundle={false}/>}>
+						<Route path=":user/:repo" element={<GitHubServiceOld><AppFrame /></GitHubServiceOld>}/>
+						<Route path=":user/:repo/:branch" element={<GitHubServiceOld><AppFrame /></GitHubServiceOld>}/>
+					</Route>
+					<Route path="local" element={<DocumentLayer serviceCreator={createLocalService} shouldSetBundle={true}/>}>
+						<Route index element={<LocalServiceOld><AppFrame /></LocalServiceOld>}/>
+					</Route>
+					<Route path="*" element={<LoadingFrame error>Not Found</LoadingFrame>} />
 
 				</Route>
 			</Routes>
