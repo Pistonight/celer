@@ -1,6 +1,8 @@
 mod structs;
 use structs::{Config, Metadata, SourceSection};
 
+use serde_json::json;
+
 mod bundler;
 use bundler::Bundler;
 use std::collections::HashMap;
@@ -63,22 +65,22 @@ impl SourceObject {
             global_error: Some(String::from("Missing _route property or _route is not an array"))
         }
     }
+
+    pub fn to_json(&self) -> serde_json::Value {
+        let route_obj: Vec<serde_json::Value> = self.route.iter().map(|x|x.to_json()).collect();
+        let obj = json!({
+            "_project": self.project,
+            "_config": self.config.to_json(),
+            "_route": route_obj,
+        });
+        if let Some(global_error) = self.global_error {
+            obj["_globalError"] = json!(global_error);
+        }
+        obj
+    }
 }
 
 
-
-
-
-
-// // Intermediate step. Strings and presets parsed and processed. Data is standardized to make the job of the route engine easier
-// pub struct RouteAssembly {
-
-// }
-
-// // Processed Route Assembly ready to be consumed by the render engine
-// pub enum RouteObject {
-
-// }
 
 // bundle workflow: arbitrary files > attempt to parse yaml > attempt to convert untyped json to rust objects > run bundle > bundled object (> bundle.json)
 // compile workflow: unsafe bundle.json > attempt to parse bundle.json > bundled object > run compile > compiled object

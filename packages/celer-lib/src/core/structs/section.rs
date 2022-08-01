@@ -1,5 +1,6 @@
 use super::module::SourceModule;
 use super::step::SourceStep;
+use serde_json::json;
 
 /// Struct to represent a section
 #[derive(Debug)]
@@ -22,5 +23,16 @@ impl SourceSection {
         }
         
         return SourceSection::Unnamed(SourceModule::from(value));
+    }
+
+    pub fn to_json(&self) -> serde_json::Value {
+        match self {
+            SourceSection::Unnamed(module) => module.to_json(),
+            SourceSection::Named(name, module) => {
+                json!({
+                    name: module.to_json()
+                })
+            }
+        }
     }
 }

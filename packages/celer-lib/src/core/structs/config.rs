@@ -1,4 +1,5 @@
 use crate::data;
+use serde_json::json;
 
 use std::collections::HashMap;
 #[derive(Debug)]
@@ -24,6 +25,13 @@ impl Config {
 
         return config;
     }
+    pub fn to_json(&self) -> serde_json::Value {
+        let mut obj = json!({});
+        if let Some(split_format) = self.split_format {
+            obj["split-format"] = split_format.to_json();
+        }
+        obj
+    }
 }
 
 #[derive(Debug)]
@@ -45,5 +53,13 @@ impl ConfigMap<String> {
         ConfigMap {
             underlying_map: map
         }
+    }
+
+    pub fn to_json(&self) -> serde_json::Value {
+        let mut obj = json!({});
+        for (k,v) in self.underlying_map {
+            obj[k] = json!(v);
+        }
+        obj
     }
 }

@@ -1,4 +1,5 @@
 use super::step::SourceStep;
+use serde_json::json;
 
 /// Struct representing a module, which can either be a single step or an array of steps
 #[derive(Debug)]
@@ -21,6 +22,15 @@ impl SourceModule {
             SourceModule::MultiStep(steps) => {
                 let mut new_steps = steps.iter().map(|s|s.deep_clone()).collect();
                 SourceModule::MultiStep(new_steps)
+            }
+        }
+    }
+    pub fn to_json(&self) -> serde_json::Value {
+        match self {
+            SourceModule::SingleStep(step) => step.to_json(),
+            SourceModule::MultiStep(steps) => {
+                let new_steps: Vec<serde_json::Value> = steps.iter().map(|s|s.to_json()).collect();
+                json!(new_steps)
             }
         }
     }
