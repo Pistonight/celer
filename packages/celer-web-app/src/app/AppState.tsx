@@ -169,7 +169,6 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 	const redirectMessage = sessionStorage.getItem("Celer.RedirectMessage");
 
 	const [mapCenter, setMapCenter] = useState<InGameCoordinates | undefined>(undefined);
-	console.log(mapCenter);
 
 	const newDPDocument = useDocument();
 

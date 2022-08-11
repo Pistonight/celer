@@ -103,9 +103,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			}
 		}
 		const routeAssembly = compiler.compile(route);
-		if(metadata.name){
-			document.title = `${metadata.name} - Celer`;
-		}
+		
 		return {
 			metadata,
 			config,
@@ -123,6 +121,14 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			mapLines
 		};
 	}, [routeAssembly]);
+
+    useEffect(()=>{
+        if(metadata.name){
+			document.title = `${metadata.name} - Celer`;
+		}else{
+            document.title = "Celer";
+        }
+    }, [metadata]);
 
 
     if(!enableDocumentProvider){

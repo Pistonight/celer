@@ -4,7 +4,7 @@ use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
 
-use celer::{Metadata, SourceObject};
+use celer::core::structs::{Metadata, SourceObject};
 use chrono::{DateTime, Local};
 use serde_json::{json, Value};
 

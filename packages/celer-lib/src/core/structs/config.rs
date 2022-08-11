@@ -27,7 +27,7 @@ impl Config {
     }
     pub fn to_json(&self) -> serde_json::Value {
         let mut obj = json!({});
-        if let Some(split_format) = self.split_format {
+        if let Some(split_format) = &self.split_format {
             obj["split-format"] = split_format.to_json();
         }
         obj
@@ -57,7 +57,7 @@ impl ConfigMap<String> {
 
     pub fn to_json(&self) -> serde_json::Value {
         let mut obj = json!({});
-        for (k,v) in self.underlying_map {
+        for (k,v) in &self.underlying_map {
             obj[k] = json!(v);
         }
         obj

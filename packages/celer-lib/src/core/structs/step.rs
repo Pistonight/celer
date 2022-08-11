@@ -121,13 +121,15 @@ impl SourceStepCustomization {
             out_errors.push(String::from("Step customization cannot be null. Did you put an extra \":\" there?"));
             return None;
         }
-        let mut obj_value = match value.as_object_mut() {
+        let obj_value_immut = match value.as_object() {
             Some(v) => v,
             None => {
                 out_errors.push(String::from("Step customization must be an object."));
                 return None;
             }
         };
+
+        let mut obj_value = obj_value_immut.clone();
 
         let mut customization = SourceStepCustomization::new();
         // Validate each attribute
@@ -285,19 +287,19 @@ impl SourceStepCustomization {
 
     pub fn to_json(&self) -> serde_json::Value {
         let mut obj = json!({});
-        if let Some(text) = self.text {
+        if let Some(text) = &self.text {
             obj["text"] = json!(text);
         }
-        if let Some(icon) = self.icon {
+        if let Some(icon) = &self.icon {
             obj["icon"] = json!(icon);
         }
-        if let Some(comment) = self.comment {
+        if let Some(comment) = &self.comment {
             obj["comment"] = json!(comment);
         }
-        if let Some(notes) = self.notes {
+        if let Some(notes) = &self.notes {
             obj["notes"] = json!(notes);
         }
-        if let Some(line_color) = self.line_color {
+        if let Some(line_color) = &self.line_color {
             obj["line-color"] = json!(line_color);
         }
         if let Some(hide_icon_on_map) = self.hide_icon_on_map {
@@ -305,11 +307,11 @@ impl SourceStepCustomization {
                 obj["hide-icon-on-map"] = json!(true);
             }
         }
-        if let Some(split_type) = self.split_type {
+        if let Some(split_type) = &self.split_type {
             obj["split-type"] = json!(split_type);
         }
-        if let Some(var_change) = self.var_change {
-            let var_change_obj = json!({});
+        if let Some(var_change) = &self.var_change {
+            let mut var_change_obj = json!({});
             for (k,v) in var_change {
                 var_change_obj[k] = json!(v);
             }
@@ -318,13 +320,13 @@ impl SourceStepCustomization {
         if let Some(time_override) = self.time_override {
             obj["time-override"] = json!(time_override);
         }
-        if let Some(commands) = self.commands {
+        if let Some(commands) = &self.commands {
             obj["commands"] = json!(commands);
         }
-        if let Some(coord) = self.coord {
+        if let Some(coord) = &self.coord {
             obj["coord"] = json!(coord);
         }
-        if let Some(movements) = self.movements {
+        if let Some(movements) = &self.movements {
             let mut vec = Vec::new();
             for m in movements {
                 vec.push(m.to_json());

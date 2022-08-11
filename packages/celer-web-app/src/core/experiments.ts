@@ -16,11 +16,11 @@ export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
 // Pigeon Map
 export const useExpBetterMap = ():boolean => useAppExperiment("BetterMap", true);
-// [07-26] Use FC AppStateProvider
+// [08-11] Use FC AppStateProvider
 export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format
-export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", true);
+export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", false);
 // Enable engine to infer coordinates for lines without coordinates (so that every line can be clicked)
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
-// [07-28 Added] Use New DocumentContext and not use old ServiceContext. New DocumentContext will not work with leaflet map
+// [08-11 Added] Use New DocumentContext and not use old ServiceContext. New DocumentContext will not work with leaflet map
 export const useExpNewDP = ():boolean => useAppExperiment("NewDP", true);

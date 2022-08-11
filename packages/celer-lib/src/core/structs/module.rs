@@ -20,7 +20,7 @@ impl SourceModule {
         match self {
             SourceModule::SingleStep(step) => SourceModule::SingleStep(step.deep_clone()),
             SourceModule::MultiStep(steps) => {
-                let mut new_steps = steps.iter().map(|s|s.deep_clone()).collect();
+                let new_steps = steps.iter().map(|s|s.deep_clone()).collect();
                 SourceModule::MultiStep(new_steps)
             }
         }

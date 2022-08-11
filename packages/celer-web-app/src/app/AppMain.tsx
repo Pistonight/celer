@@ -11,44 +11,6 @@ import { createLocalService, LocalServiceOld } from "./services/LocalService";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { LoadingFrame } from "ui/frames/LoadingFrame";
 
-// const REDIRECT_MESSAGE_KEY = "Celer.RedirectMessage";
-// const REDIRECT_QUERY = "Redirect";
-
-// const Redirector:React.FC<EmptyObject> = () => {
-// 	const {pathname, search} = useLocation();
-// 	const navigate = useNavigate();
-// 	useEffect(()=>{
-        
-// 		if (!pathname.startsWith("/")){
-// 			navigate(`/${pathname}${search}`);
-// 			return;
-// 		}
-// 		const query = queryString.parse(search);
-// 		// Validate redirect message
-// 		if(REDIRECT_QUERY in query){
-// 			if(!sessionStorage.getItem(REDIRECT_MESSAGE_KEY)){
-// 				console.warn("Invalid redirect message. The query parameter will be removed"); // eslint-disable-line no-console
-// 				delete query[REDIRECT_QUERY];
-// 				navigate(`${pathname}?${queryString.stringify(query)}`);
-// 				return;
-// 			}
-// 		}else{
-// 			sessionStorage.removeItem(REDIRECT_MESSAGE_KEY);
-// 		}
-
-// 		if(query.DevPort){
-// 			const reference = `${query.DevPort}`;
-// 			navigate(`/pydev/${reference}`);
-// 			return;
-// 		}
-        
-// 	}, [pathname, search]);
-
-// 	return null;
-// };
-
-// const s = ()=>new MockErrorService();
-
 const RootLayer: React.FC = ()=>(
 	<AppExperimentsProvider>
 		<Outlet />

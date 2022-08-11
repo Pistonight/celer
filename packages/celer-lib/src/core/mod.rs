@@ -1,4 +1,4 @@
-mod structs;
+pub mod structs;
 use structs::{Config, Metadata, SourceSection};
 
 use serde_json::json;
@@ -35,7 +35,7 @@ impl SourceObject {
         }
         let metadata = Metadata::from(&value["_project"]);
         let config = Config::from(&value["_config"]);
-        let route = value["_route"];
+        let route = &value["_route"];
         if let Some(obj_route) = route.as_array() {
             let mut modules = HashMap::new();
             for (k,v) in value.as_object().unwrap() {
@@ -68,12 +68,12 @@ impl SourceObject {
 
     pub fn to_json(&self) -> serde_json::Value {
         let route_obj: Vec<serde_json::Value> = self.route.iter().map(|x|x.to_json()).collect();
-        let obj = json!({
+        let mut obj = json!({
             "_project": self.project,
             "_config": self.config.to_json(),
             "_route": route_obj,
         });
-        if let Some(global_error) = self.global_error {
+        if let Some(global_error) = &self.global_error {
             obj["_globalError"] = json!(global_error);
         }
         obj
