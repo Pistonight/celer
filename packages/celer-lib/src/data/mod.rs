@@ -70,4 +70,3 @@ pub fn cast_to_bool(value: &serde_json::Value) -> bool {
 
     return false;
 }
-
