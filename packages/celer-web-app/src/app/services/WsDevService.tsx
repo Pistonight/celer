@@ -80,7 +80,7 @@ class WebSocketDevService implements DocumentService {
 		};
 		newws.onopen = ()=>{
 			callback(null, null, "Waiting for data");
-		}
+		};
 		this.ws = newws;
 		callback(null, null, "Connecting to dev server");
 	}

@@ -2,16 +2,16 @@ import axios from "axios";
 import queryString from "query-string";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { LoadingFrame } from "ui/frames";
 import { AppExperimentsContext } from "core/context";
 import { EmptyObject, MapOf } from "data/util";
-import { LoadingFrame } from "ui/frames/LoadingFrame";
 
 const CONFIG_URLS = [
 	// Loading directly from repo for immediate mitigation
 	"https://raw.githubusercontent.com/iTNTPiston/celer/prod/experiments.json",
 	// Fallback to hosted if above fails
 	"https://celer.itntpiston.app/experiments.json"
-]
+];
 
 export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	const [liveExpError, setLiveExpError] = useState(false);

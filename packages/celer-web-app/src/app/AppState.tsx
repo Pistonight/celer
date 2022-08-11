@@ -184,7 +184,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 			mapCenter,
 			metadata:enableDocumentProvider?newDPDocument.metadata:metadata,
 			config:enableDocumentProvider?newDPDocument.config:config,
-			docLines:enableDocumentProvider?newDPDocument.docLines:(redirectMessage ? [
+			docLines:enableDocumentProvider?newDPDocument.docLines:redirectMessage ? [
 				{
 					lineType: "DocLineBanner" as const,
 					bannerType: BannerType.Error,
@@ -192,7 +192,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 					showTriangle: false
 				},
 				...docLines
-			]:docLines),
+			]:docLines,
 			mapIcons:enableDocumentProvider?newDPDocument.mapIcons:mapIcons,
 			mapLines:enableDocumentProvider?newDPDocument.mapLines:mapLines,
 			bundle:enableDocumentProvider?newDPDocument.bundle:bundle,

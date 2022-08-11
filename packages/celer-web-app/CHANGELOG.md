@@ -1,11 +1,11 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.0` - `-2022` `LATEST`
+## `5.0.0` - `08-11-2022` `LATEST`
 - Loading screen for better experience
-- Optimized route and theme loading (`Exp.UseDP`)
-- WASM based bundler (`Exp.WASMBundler`)
+- Optimized route and theme loading (`Exp.NewDP`, `Exp.NewASP`)
 - Cleaned up old experiments
+- Deprecated pydev and old route bundle format no longer supported
 
 ## `4.2.1` - `07-25-2022`
 - Typo fix by Makonede

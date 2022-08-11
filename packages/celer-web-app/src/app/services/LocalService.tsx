@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useAppState, ServiceContext } from "core/context";
+import { SourceBundle } from "data/bundler";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 import { DocumentService } from "./type";
-import { SourceBundle } from "data/bundler";
 
 const KEY = "TmpBundleString";
 

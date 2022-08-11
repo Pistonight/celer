@@ -1,5 +1,5 @@
-import { SourceBundle } from "data/bundler";
 import { Params } from "react-router-dom";
+import { SourceBundle } from "data/bundler";
 
 export type ServiceCreator = (params: Params<string>) => DocumentService;
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { AllStyles, StyleContext, StyleContextType } from "ui/StyleContext";
+import { AllStyles, StyleContext } from "ui/StyleContext";
+import { LoadingFrame } from "ui/frames";
 import { DefaultColors, Sizes, StyleEngine, ThemeColorMap } from "ui/styles";
 import { useAppState } from "core/context";
 import { EmptyObject } from "data/util";
-import { LoadingFrame } from "ui/frames/LoadingFrame";
 
 const styleEngine = new StyleEngine(AllStyles);
 
@@ -28,7 +28,7 @@ export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 	}, [cssString]);
 
 	if(!ready){
-		return <LoadingFrame>Rendering</LoadingFrame>
+		return <LoadingFrame>Rendering</LoadingFrame>;
 	}
 
 	return <StyleContext.Provider value={styles}>

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useCallback } from "react";
 import { useAppState } from "core/context";
-import { SourceBundle } from "data/bundler";
 import { useExpNewDP } from "core/experiments";
+import { SourceBundle } from "data/bundler";
 
 export const getRouteScriptAsync = async (url: string): Promise<SourceBundle> => {
 	try{

@@ -34,7 +34,6 @@ class InternalDocumentService implements DocumentService {
 	}
 	start(callback: (doc: SourceBundle | null, error: string | null, status: string | null) => void): void {
 		if(this.doc){
-			console.log(this.doc);
 			callback(this.doc, null, null);
 		}else{
 			callback(null, "The URL you entered is not a valid internal document", null);
@@ -55,4 +54,4 @@ export const createInternalDocumentService = ({reference}: Params<string>)=>{
 	}
 	return new InternalDocumentService();
 	
-}
+};

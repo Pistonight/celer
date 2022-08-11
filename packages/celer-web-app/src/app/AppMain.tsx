@@ -1,23 +1,27 @@
-import queryString from "query-string";
-import { useEffect } from "react";
-import { HashRouter, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { AppFrame, Home } from "ui/frames";
+import { HashRouter, Outlet, Route, Routes, } from "react-router-dom";
+import { AppFrame, Home, LoadingFrame } from "ui/frames";
 import { EmptyObject } from "data/util";
+import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
-import { InternalDocumentServiceOld, GitHubServiceOld, WsDevServiceOld, MockErrorService, createInternalDocumentService, createGitHubService, createWebSocketDevService } from "./services";
-import { createLocalService, LocalServiceOld } from "./services/LocalService";
-import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
-import { LoadingFrame } from "ui/frames/LoadingFrame";
+import { 
+	InternalDocumentServiceOld, 
+	GitHubServiceOld, 
+	WsDevServiceOld, 
+	LocalServiceOld,
+	createInternalDocumentService, 
+	createLocalService,
+	createGitHubService, 
+	createWebSocketDevService 
+} from "./services";
 
-const RootLayer: React.FC = ()=>(
+const RootLayer: React.FC = ()=>
 	<AppExperimentsProvider>
 		<Outlet />
-	</AppExperimentsProvider>
-) 
+	</AppExperimentsProvider>;
 
-const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle})=>(
+const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle})=>
 	<AppDocumentProvider serviceCreator={serviceCreator} shouldSetBundle={shouldSetBundle}>
 		<AppStateProvider>
 			<AppStyleProvider>
@@ -25,7 +29,7 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shou
 			</AppStyleProvider>
 		</AppStateProvider>
 	</AppDocumentProvider>
-);
+;
 
 // const DocumentLayerOld: React.FC = ()=>(
 // 	<AppStateProvider>

@@ -4,3 +4,4 @@ export * from "./AppFrame";
 export * from "./MapFrame";
 export * from "./MapFrame.Style";
 export * from "./Home";
+export * from "./LoadingFrame";

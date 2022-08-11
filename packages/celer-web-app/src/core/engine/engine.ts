@@ -732,7 +732,6 @@ export class RouteEngine{
 			// add centerCoord to every text line
 			// if the line has an icon but no movement, the coord should follow the previous line since that's where the icon is shown
 			// otherwise if the line has no icon and no movement, follow the next line since that's where you want to go
-
 			
 			let center = sorCoord; // default to SOR
 			for(let i=lines.length-1;i>=0;i--){

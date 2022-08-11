@@ -1,14 +1,13 @@
-import { Compiler } from "core/compiler"
-import { DocumentContext } from "core/context/DocumentContext"
-import { RouteEngine } from "core/engine"
-import { useExpBetterMap, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments"
-import { MapEngine } from "core/map"
-import { addRouteScriptDeprecationMessage, ensureConfig, ensureMetadata, SourceBundle } from "data/bundler"
-import { setegid } from "process"
-import { useEffect, useMemo, useState } from "react"
-import { useParams } from "react-router-dom"
-import { LoadingFrame } from "ui/frames/LoadingFrame"
-import { DocumentService, ServiceCreator } from "./services"
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { LoadingFrame } from "ui/frames";
+import { Compiler } from "core/compiler";
+import { DocumentContext } from "core/context";
+import { RouteEngine } from "core/engine";
+import { useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
+import { MapEngine } from "core/map";
+import { addRouteScriptDeprecationMessage, ensureConfig, ensureMetadata, SourceBundle } from "data/bundler";
+import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
     serviceCreator: ServiceCreator,
@@ -21,7 +20,7 @@ const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle, children}) => {
-    const warnNegativeVar = useExpWarnNegativeVar();
+	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableDocumentProvider = useExpNewDP();
 
@@ -29,51 +28,51 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
-    const enableDeprecated = useExpEnableDeprecatedRouteBundle();
+	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
     
-    const params = useParams();
-    const [status, setStatus] = useState<string|null>(null);
-    const [error, setError] = useState<string|null>(null);
-    const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
-    const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
+	const params = useParams();
+	const [status, setStatus] = useState<string|null>(null);
+	const [error, setError] = useState<string|null>(null);
+	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
+	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
 
-    useEffect(()=>{
-        if(!enableDocumentProvider){
-            return;
-        }
+	useEffect(()=>{
+		if(!enableDocumentProvider){
+			return;
+		}
 
-        const service = serviceCreator(params);
-        service.start((doc, error, status)=>{
-            if(doc){
-                if(doc._globalError){
-                    setError(doc._globalError);
-                    setStatus(null);
-                    setRouteSourceBundle(null);
-                }else{
-                    setError(null);
-                    setStatus(null);
-                    setRouteSourceBundle(doc);
-                }
-            }else{
-                setError(error);
-                setStatus(status);
-                setRouteSourceBundle(null);
-            }
-        });
+		const service = serviceCreator(params);
+		service.start((doc, error, status)=>{
+			if(doc){
+				if(doc._globalError){
+					setError(doc._globalError);
+					setStatus(null);
+					setRouteSourceBundle(null);
+				}else{
+					setError(null);
+					setStatus(null);
+					setRouteSourceBundle(doc);
+				}
+			}else{
+				setError(error);
+				setStatus(status);
+				setRouteSourceBundle(null);
+			}
+		});
 
-        return ()=>{
-            service.release();
-        }
+		return ()=>{
+			service.release();
+		};
 
-    }, [serviceCreator, params]);
-    	
-    useEffect(()=>{
-        if(!shouldSetBundle || routeSourceBundle === null){
-            setRouteSourceBundleString(null);
-        }else{
-            setRouteSourceBundleString(JSON.stringify(routeSourceBundle))
-        }
-    }, [routeSourceBundle, shouldSetBundle]);
+	}, [serviceCreator, params]);
+
+	useEffect(()=>{
+		if(!shouldSetBundle || routeSourceBundle === null){
+			setRouteSourceBundleString(null);
+		}else{
+			setRouteSourceBundleString(JSON.stringify(routeSourceBundle));
+		}
+	}, [routeSourceBundle, shouldSetBundle]);
 
 	const {metadata, config, routeAssembly} = useMemo(()=>{
 		if (routeSourceBundle === null){
@@ -122,37 +121,35 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		};
 	}, [routeAssembly]);
 
-    useEffect(()=>{
-        if(metadata.name){
+	useEffect(()=>{
+		if(metadata.name){
 			document.title = `${metadata.name} - Celer`;
 		}else{
-            document.title = "Celer";
-        }
-    }, [metadata]);
+			document.title = "Celer";
+		}
+	}, [metadata]);
 
+	if(!enableDocumentProvider){
+		return <>{children}</>;
+	}
 
-    if(!enableDocumentProvider){
-        return <>{children}</>;
-    }
+	if(error){
+		return <LoadingFrame error>{error}</LoadingFrame>;
+	}
+	if(!routeSourceBundle){
+		return <LoadingFrame>{status || "Loading Document"}</LoadingFrame>;
+	}
+	return (
+		<DocumentContext.Provider value={{
+			metadata,
+			config,
+			docLines,
+			mapIcons,
+			mapLines,
+			bundle: routeSourceBundleString
+		}}> 
+			{children}
+		</DocumentContext.Provider>
+	);
 
-    if(error){
-        return <LoadingFrame error>{error}</LoadingFrame>;
-    }
-    if(!routeSourceBundle){
-        return <LoadingFrame>{status || "Loading Document"}</LoadingFrame>;
-    }
-    return (
-        <DocumentContext.Provider value={{
-            metadata,
-            config,
-            docLines,
-            mapIcons,
-            mapLines,
-            bundle: routeSourceBundleString
-        }}> 
-            {children}
-        </DocumentContext.Provider>
-    )
-    
-
-}
+};
