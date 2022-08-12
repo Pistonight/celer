@@ -4,3 +4,6 @@ export * from "./InternalDocumentService";
 export * from "./WsDevService";
 export * from "./UrlService";
 export * from "./service";
+export * from "./type";
+export * from "./MockErrorService";
+export * from "./LocalService";

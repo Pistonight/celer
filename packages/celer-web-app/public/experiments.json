@@ -5,6 +5,7 @@
     "WarnNegativeVar": false,
     "BetterMap": true,
     "NewASP": true,
-    "EnableDeprecatedRouteBundle": true,
-    "InferCoord": true
+    "EnableDeprecatedRouteBundle": false,
+    "InferCoord": true,
+    "NewDP": true
 }

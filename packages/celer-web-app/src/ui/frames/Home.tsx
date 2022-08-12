@@ -11,10 +11,7 @@ export const Home: React.FC<EmptyObject> = () => {
                             Home page is working in progress.
 			</h1> 
 			<p>
-                            If you are using the python dev server, click <a href="#/pydev">here</a>
-			</p>
-			<p>
-                            If you are using the new celer dev server, click <a href="#/dev">here</a>
+                            If you are using the celer dev server, click <a href="#/dev">here</a>
 			</p>
 			<p>
                             If you are trying to view the route, open the route URL directly. Currently only routes on github are supported. use #/gh/:user/:repo or #/gh/:user/:repo/:branch

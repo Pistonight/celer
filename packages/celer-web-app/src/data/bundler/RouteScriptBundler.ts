@@ -11,7 +11,7 @@ type MergedSource = SourceBundle & {
 
 export const addRouteScriptDeprecationMessage = (route: RouteSection[]):RouteSection[] => {
 	return [
-		"(?=) Deprecation Warning: You are using a legacy version of the route script that will not be supported in the future. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Misc:-Migrate-from-Legacy-Route-Script) here.",
+		"(?=) Deprecation Warning: You are using a legacy version of the route script that is no longer supported. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Misc:-Migrate-from-Legacy-Route-Script) here.",
 		...route
 	];
 }

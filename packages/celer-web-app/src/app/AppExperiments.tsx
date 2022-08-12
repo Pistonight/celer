@@ -2,10 +2,16 @@ import axios from "axios";
 import queryString from "query-string";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { LoadingFrame } from "ui/frames";
 import { AppExperimentsContext } from "core/context";
 import { EmptyObject, MapOf } from "data/util";
 
-const CONFIG_URL = "https://celer.itntpiston.app/experiments.json";
+const CONFIG_URLS = [
+	// Loading directly from repo for immediate mitigation
+	"https://raw.githubusercontent.com/iTNTPiston/celer/prod/experiments.json",
+	// Fallback to hosted if above fails
+	"https://celer.itntpiston.app/experiments.json"
+];
 
 export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	const [liveExpError, setLiveExpError] = useState(false);
@@ -14,9 +20,14 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	const {search} = useLocation();
 	const mountedRef = useRef(true);
 	useEffect(()=>{
-		const loadLiveExperiments = async () => {
+		const loadLiveExperiments = async (i: number) => {
+			if(i >= CONFIG_URLS.length){
+				console.error("Fail to load live experiments. Will use app defaults.");
+				setLiveExpError(true);
+				return;
+			}
 			try{
-				const { data } = await axios.get(CONFIG_URL);
+				const { data } = await axios.get(CONFIG_URLS[i]);
 				if(mountedRef.current){
 					setLiveExperiments(data);
 					console.log("Live experiments loaded"); // eslint-disable-line no-console
@@ -25,11 +36,10 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 				}
 			}catch(e){
 				console.error(e);
-				console.error("Fail to load live experiments. Will use app defaults.");
-				setLiveExpError(true);
+				loadLiveExperiments(i+1);
 			}
 		};
-		loadLiveExperiments();
+		loadLiveExperiments(0);
 		return ()=>{
 			mountedRef.current = false;
 		};
@@ -66,7 +76,7 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	}, [liveExperiments, overrides, ready, liveExpError]);
 
 	if(!ready){
-		return <div>Loading Experiments...</div>; // temporary
+		return <LoadingFrame>Loading Experiments</LoadingFrame>; 
 	}
 	return (
 		<AppExperimentsContext.Provider value={isExperimentEnabled}>

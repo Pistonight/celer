@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { AllStyles, StyleContext, StyleContextType } from "ui/StyleContext";
+import React, { useEffect, useMemo, useState } from "react";
+import { AllStyles, StyleContext } from "ui/StyleContext";
+import { LoadingFrame } from "ui/frames";
 import { DefaultColors, Sizes, StyleEngine, ThemeColorMap } from "ui/styles";
 import { useAppState } from "core/context";
 import { EmptyObject } from "data/util";
@@ -10,10 +11,12 @@ export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 	const { mapDisplayMode, theme } = useAppState();
 	const appColors = (theme && ThemeColorMap[theme.name]) ?? DefaultColors;
 
-	const [styles, setStyles] = useState<StyleContextType>(styleEngine.compute(Sizes, appColors, mapDisplayMode).styles);
+	const [ready, setReady] = useState(false);
+	const {cssString, styles} = useMemo(()=>{
+		return styleEngine.compute(Sizes, appColors, mapDisplayMode);
+	}, [mapDisplayMode, appColors]);
 
 	useEffect(()=>{
-		const { cssString, styles } = styleEngine.compute(Sizes, appColors, mapDisplayMode);
 		//Find element
 		const tag = document.querySelector("[data-style-engine='true'");
 		if(!tag){
@@ -21,8 +24,12 @@ export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 			return;
 		}
 		tag.textContent=cssString;
-		setStyles(styles);
-	}, [mapDisplayMode, appColors]);
+		setReady(true);
+	}, [cssString]);
+
+	if(!ready){
+		return <LoadingFrame>Rendering</LoadingFrame>;
+	}
 
 	return <StyleContext.Provider value={styles}>
 		{children}

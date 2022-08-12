@@ -1,9 +1,9 @@
 import { Map } from "leaflet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BannerType, Compiler, Coord, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
-import { AppExperimentsContext, AppState as ContextState, AppStateContext } from "core/context";
+import { AppExperimentsContext, AppState as ContextState, AppStateContext, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap, useExpInferCoord } from "core/experiments";
+import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap, useExpInferCoord, useExpNewDP } from "core/experiments";
 import { InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
 import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
@@ -58,6 +58,8 @@ const dummyMapCore = new DummyMapCore();
 export const AppStateProviderFC: React.FC = ({children})=>{
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
+	const enableDocumentProvider = useExpNewDP();
+
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
@@ -107,8 +109,11 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 
 	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
 	const {metadata, config, routeAssembly} = useMemo(()=>{
-		if (routeSourceBundle === null){
-			document.title = "Celer";
+		// Return dummy data if NewDP is on
+		if (routeSourceBundle === null || enableDocumentProvider){
+			if(routeSourceBundle === null){
+				document.title = "Celer";
+			}
 			return {
 				metadata: {
 					name: "",
@@ -165,6 +170,8 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 
 	const [mapCenter, setMapCenter] = useState<InGameCoordinates | undefined>(undefined);
 
+	const newDPDocument = useDocument();
+
 	return (
 		<AppStateContext.Provider value={{
 			mapDisplayMode,
@@ -175,9 +182,9 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 			docScrollToLine,
 			docCurrentLine,
 			mapCenter,
-			metadata,
-			config,
-			docLines: redirectMessage ? [
+			metadata:enableDocumentProvider?newDPDocument.metadata:metadata,
+			config:enableDocumentProvider?newDPDocument.config:config,
+			docLines:enableDocumentProvider?newDPDocument.docLines:redirectMessage ? [
 				{
 					lineType: "DocLineBanner" as const,
 					bannerType: BannerType.Error,
@@ -186,9 +193,9 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 				},
 				...docLines
 			]:docLines,
-			mapIcons,
-			mapLines,
-			bundle,
+			mapIcons:enableDocumentProvider?newDPDocument.mapIcons:mapIcons,
+			mapLines:enableDocumentProvider?newDPDocument.mapLines:mapLines,
+			bundle:enableDocumentProvider?newDPDocument.bundle:bundle,
 			setMapDisplayMode,
 			setTheme,
 			setSplitSetting: setSplitSettingWithTypes,
@@ -197,7 +204,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 			setDocCurrentLine,
 			setRouteScript: setRouteSourceBundle,
 			setBundle,
-			setMapCenter
+			setMapCenter,
 		}}>
 			{children}
 			

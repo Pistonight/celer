@@ -18,11 +18,13 @@ export interface AppState {
     docCurrentLine: number,
     // Updating this value will cause MapFrame to center to the new location
     mapCenter: InGameCoordinates|undefined,
-    metadata: RouteMetadata;//derived
-    config: RouteConfig;//derived
-    docLines: DocLine[];//derived
-    mapIcons: MapIcon[];//derived
-    mapLines: MapLine[];//derived
+
+    // these are used when NewDP is off
+    metadata: RouteMetadata;
+    config: RouteConfig;
+    docLines: DocLine[];
+    mapIcons: MapIcon[];
+    mapLines: MapLine[];
     // Temporary state to store bundlejson
     bundle: string | null
 }
