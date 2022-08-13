@@ -4,8 +4,8 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "BetterMap": true,
-    "NewASP": true,
+    "NewASP": false,
     "EnableDeprecatedRouteBundle": false,
     "InferCoord": true,
-    "NewDP": true
+    "NewDP": false
 }
