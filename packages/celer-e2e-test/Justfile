@@ -1,14 +1,13 @@
-build:
-    @just ../../buildrs
+lint:
+    pylint scripts
 
-release:
+build:
     @just ../../buildrs --release
 
-debug COMMAND FLAG="": build
-    ../../target/debug/celer-devtool {{COMMAND}} {{FLAG}}
+test:
+    @just run-test test_new
 
-ship COMMAND FLAG="": release
-    ../../target/release/celer-devtool {{COMMAND}} {{FLAG}}
+run-test TEST:
+    python3 scripts/run_test.py ../../target/release/celer-devtool {{TEST}}
 
-alias d := debug
-alias s := ship
+alias r:=run_test

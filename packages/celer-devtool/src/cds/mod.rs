@@ -4,7 +4,7 @@ use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
 
-use celer::core::structs::{Metadata, SourceObject};
+use celer::core;
 use chrono::{DateTime, Local};
 use serde_json::{json, Value};
 
@@ -96,7 +96,7 @@ fn set_interrupt(running: Arc<AtomicBool>) {
     }
 }
 
-fn load_bundle() -> (String, celer::Metadata, HashMap<String, Vec<String>>) {
+fn load_bundle() -> (String, core::Metadata, HashMap<String, Vec<String>>) {
     let mut paths: Vec<PathBuf> = Vec::new();
     let mut errors: HashMap<String, Vec<String>> = HashMap::new();
 
@@ -125,23 +125,28 @@ fn load_bundle() -> (String, celer::Metadata, HashMap<String, Vec<String>>) {
     
 
     let json = serde_json::to_string(&combined_json).unwrap();
-    //println!("{}", json);
-    
-    let source_object: SourceObject = match serde_json::from_value(combined_json) {
-        Err(_) => {
-            SourceObject {
-                project: Metadata {
-                    authors: vec![],
-                    name: String::from("unknown"),
-                    url: String::new(),
-                    description: String::new(),
-                    version: String::new()
-                }
-            }
-        },
-        Ok(v) => v
-    };
 
-    (json, source_object.project, errors)
+    let source_metadata = match combined_json.get("_project") {
+        Some(metadata_value) => core::Metadata::from(metadata_value),
+        None => core::Metadata::new()
+    };
+   
+    
+    // let source_object: SourceObject = match serde_json::from_value(combined_json) {
+    //     Err(_) => {
+    //         SourceObject {
+    //             project: Metadata {
+    //                 authors: vec![],
+    //                 name: String::from("unknown"),
+    //                 url: String::new(),
+    //                 description: String::new(),
+    //                 version: String::new()
+    //             }
+    //         }
+    //     },
+    //     Ok(v) => v
+    // };
+
+    (json, source_metadata, errors)
 
 }

@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{self, Write};
 use std::path::Path;
 
-use celer::{Metadata, SourceObject};
+use celer::{api, core};
 use serde_json::json;
 
 
@@ -31,24 +31,17 @@ pub fn new() {
 
 
     let authors_vec: Vec<String> = authors.as_str().split(',').map(|x| String::from(x.trim().trim_end())).collect();
-    let source_object = SourceObject {
-        project: Metadata {
-            name: String::from(project_name.trim().trim_end()),
-            description: String::from(description.trim().trim_end()),
-            authors: authors_vec,
-            url: String::from(url.trim().trim_end()),
-            version: String::from("0.1.0")
-        }
-    };
-    // We will inject the _route property ourselves since celer-lib isn't ready
-    let mut source_object_json = serde_json::to_value(source_object).unwrap();
-    source_object_json["_route"] = json!([
-        "(==) Welcome to celer!",
-        {
-            "Hello World": ["My first line"]
-        }
-    ]);
-    let source_object_str = serde_yaml::to_string(&source_object_json).unwrap();
+    let source_metadata_json = json!({
+        "name": String::from(project_name.trim().trim_end()),
+        "description": String::from(description.trim().trim_end()),
+        "authors": authors_vec,
+        "url": String::from(url.trim().trim_end()),
+        "version": String::from("0.1.0")
+    });
+    let source_metadata = core::Metadata::from(&source_metadata_json);
+    let source_object = api::new_route(source_metadata);
+    
+    let source_object_str = serde_yaml::to_string(&source_object.to_json()).unwrap();
 
     let path = Path::new("main.celer");
     let display = path.display();

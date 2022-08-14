@@ -49,11 +49,6 @@ def check_package(package, root_path, configs):
         get_version(versions, root_path + path, line, col, end)
     check_package_versions(package, versions)
 
-check_package("celer-user-docs", "packages/celer-user-docs/", [
-    ("CHANGELOG.md", 4, 4, "`"),
-    ("README.md", 2, 10, "`")
-])
-
 check_package("celer-web-app", "packages/celer-web-app/", [
     ("package.json", 4, 14, "\""),
     ("CHANGELOG.md", 4, 4, "`"),

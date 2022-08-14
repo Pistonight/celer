@@ -57,7 +57,6 @@ release: buildc
     cargo build --release 
     @just packages/celer-vscode-extension/release
     @just packages/celer-web-app/release
-    @just packages/celer-user-docs/release
     
     python3 scripts/release.py > release/RELEASE_NOTES.txt
 

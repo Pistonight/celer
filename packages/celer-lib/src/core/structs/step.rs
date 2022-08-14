@@ -11,7 +11,7 @@ pub enum SourceStep {
     /// Enum for step with raw-value customization 
     Extended(String, serde_json::Value),
     /// Enum for step with typed customization, after validation during bundling
-    ExtendedSafe(String, SourceStepCustomization)
+    ExtendedSafe(String, Box<SourceStepCustomization>)
 }
 
 impl SourceStep {
@@ -50,7 +50,7 @@ impl SourceStep {
                 SourceStep::Extended(String::from(step_string), customization.clone())
             },
             SourceStep::ExtendedSafe(step_string, customization) => {
-                SourceStep::ExtendedSafe(String::from(step_string), customization.deep_clone())
+                SourceStep::ExtendedSafe(String::from(step_string), Box::new(customization.deep_clone()))
             }
         }
     }

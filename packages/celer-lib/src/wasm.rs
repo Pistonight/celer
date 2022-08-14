@@ -4,5 +4,5 @@ use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen(js_name="wasmLibVersion")]
 pub fn lib_version() -> String {
-    String::from(crate::VERSION)
+    super::api::lib_version()
 }

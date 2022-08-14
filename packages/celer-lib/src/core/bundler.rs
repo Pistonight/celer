@@ -181,7 +181,7 @@ impl Bundler {
             SourceStep::Extended(step_string, customization) => {
                 let mut errors = Vec::new();
                 if let Some(valid_customization) = SourceStepCustomization::from(customization, &mut errors) {
-                    out_arr.push(SourceStep::ExtendedSafe(String::from(step_string), valid_customization));
+                    out_arr.push(SourceStep::ExtendedSafe(String::from(step_string), Box::new(valid_customization)));
                     for e in errors {
                         let error = self.make_attached_warning(parent_name, &e);
                         out_arr.push(SourceStep::Simple(error));
