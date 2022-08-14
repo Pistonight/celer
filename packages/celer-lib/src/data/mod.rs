@@ -1,34 +1,34 @@
 
-pub struct Icon {
-    data: Vec<u8>
-}
+// pub struct Icon {
+//     data: Vec<u8>
+// }
 
-impl Icon {
-    pub fn from_bytes(bytes: Vec<u8>) -> Self {
-        Icon {
-            data: bytes
-        }
-    }
+// impl Icon {
+//     pub fn from_bytes(bytes: Vec<u8>) -> Self {
+//         Icon {
+//             data: bytes
+//         }
+//     }
 
-    pub fn from_base64(base64_str: String) -> Option<Self> {
-        match base64::decode(base64_str) {
-            Ok(bytes) => Some(Icon::from_bytes(bytes)),
-            _ => None
-        }
-    }
+//     pub fn from_base64(base64_str: String) -> Option<Self> {
+//         match base64::decode(base64_str) {
+//             Ok(bytes) => Some(Icon::from_bytes(bytes)),
+//             _ => None
+//         }
+//     }
 
-    pub fn bytes(&self) -> &Vec<u8> {
-        &self.data
-    }
+//     pub fn bytes(&self) -> &Vec<u8> {
+//         &self.data
+//     }
 
-    pub fn livesplit_cdata_str(&self) -> String {
-        String::from("No Impl")
-    }
+//     pub fn livesplit_cdata_str(&self) -> String {
+//         String::from("No Impl")
+//     }
 
-    pub fn web_base64_str(&self) -> String {
-        String::from("No Impl")
-    }
-}
+//     pub fn web_base64_str(&self) -> String {
+//         String::from("No Impl")
+//     }
+// }
 
 // Convert json value to string in a JS-like manner
 pub fn cast_to_str(value: &serde_json::Value) -> Option<String> {
@@ -47,7 +47,7 @@ pub fn cast_to_str(value: &serde_json::Value) -> Option<String> {
     if let Some(str_value) = value.as_str() {
         return Some(String::from(str_value));
     }
-    return None;
+    None
 }
 
 // Convert json value to bool in a JS-like manner
@@ -68,5 +68,5 @@ pub fn cast_to_bool(value: &serde_json::Value) -> bool {
         return str_value.eq("");
     }
 
-    return false;
+    false
 }

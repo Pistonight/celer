@@ -1,11 +1,11 @@
-pub mod structs;
-use structs::{Config, Metadata, SourceSection};
-
-use serde_json::json;
+use std::collections::HashMap;
 
 mod bundler;
+pub mod structs;
+
 use bundler::Bundler;
-use std::collections::HashMap;
+use serde_json::json;
+use structs::{Config, Metadata, SourceSection};
 
 /// data structure that represents the bundled source files.
 #[derive(Debug)]
@@ -41,17 +41,17 @@ impl SourceObject {
             for (k,v) in value.as_object().unwrap() {
                 modules.insert(String::from(k), v.clone());
             }
-            let sections = obj_route.iter().map(|x|SourceSection::from(x)).collect();
+            let sections: Vec<SourceSection> = obj_route.iter().map(SourceSection::from).collect();
             return match Bundler::bundle(&sections, modules) {
                 Ok(bundled_sections) => SourceObject {
                     project: metadata,
-                    config: config,
+                    config,
                     route: bundled_sections,
                     global_error: None
                 },
                 Err(message) => SourceObject {
                     project: metadata,
-                    config: config,
+                    config,
                     route: Vec::new(),
                     global_error: Some(message)
                 }
@@ -60,7 +60,7 @@ impl SourceObject {
 
         SourceObject {
             project: metadata,
-            config: config,
+            config,
             route: Vec::new(),
             global_error: Some(String::from("Missing _route property or _route is not an array"))
         }

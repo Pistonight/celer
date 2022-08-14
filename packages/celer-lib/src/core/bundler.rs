@@ -13,7 +13,7 @@ pub struct BundlerException {
 }
 
 impl Bundler {
-    pub fn bundle(route: &Vec<SourceSection>, modules: HashMap<String, serde_json::Value>) -> Result<Vec<SourceSection>, String> {
+    pub fn bundle(route: &[SourceSection], modules: HashMap<String, serde_json::Value>) -> Result<Vec<SourceSection>, String> {
         let mut bundler = Bundler {
             module_sources: modules,
             module_cache: HashMap::new(),
@@ -39,11 +39,11 @@ impl Bundler {
             module: String::from(module),
             message: message_string.clone()
         });
-        return message_string;
+        message_string
     }
 
-    fn bundle_route(&mut self, route: &Vec<SourceSection>) -> Result<Vec<SourceSection>, String> {
-        route.iter().map(|x|self.bundle_section(&x)).collect()
+    fn bundle_route(&mut self, route: &[SourceSection]) -> Result<Vec<SourceSection>, String> {
+        route.iter().map(|x|self.bundle_section(x)).collect()
     }
 
     fn bundle_section(&mut self, section: &SourceSection) -> Result<SourceSection, String> {
@@ -145,12 +145,12 @@ impl Bundler {
         match step {
             SourceStep::Error(message, source) => {
                 out_arr.push(SourceStep::Simple(String::from(source)));
-                let error = self.make_attached_error(parent_name, &message);
+                let error = self.make_attached_error(parent_name, message);
                 out_arr.push(SourceStep::Simple(error));
                 Ok(())
             },
             SourceStep::Simple(step_string) => {
-                if let Some(module_name) = try_get_use_name_from_step(&step_string) {
+                if let Some(module_name) = try_get_use_name_from_step(step_string) {
                     if let Some(source) = self.module_sources.get(&module_name) {
                         let unbundled_module = SourceModule::from(source);
                         return match self.bundle_module(&module_name, &unbundled_module, dfs_parents) {
@@ -208,10 +208,10 @@ impl Bundler {
 /// Get the module name from __use__ steps.
 /// 
 /// Returns None if the step does not start with __use__
-fn try_get_use_name_from_step(step: &String) -> Option<String> {
+fn try_get_use_name_from_step(step: &str) -> Option<String> {
     if let Some(module_name) = step.strip_prefix("__use__") {
         return Some(String::from(module_name.trim()));
     }
 
-    return None;
+    None
 }

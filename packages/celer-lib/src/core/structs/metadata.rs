@@ -38,13 +38,13 @@ impl Metadata {
 
         if let Some(value_name) = value.get("name") {
             if let Some(str_value) = data::cast_to_str(value_name) {
-                meta.name = String::from(str_value);
+                meta.name = str_value;
             }
         }
 
         if let Some(value_version) = value.get("version") {
             if let Some(str_value) = data::cast_to_str(value_version) {
-                meta.version = String::from(str_value);
+                meta.version = str_value;
             }
         }
 
@@ -52,7 +52,7 @@ impl Metadata {
             if let Some(vec_value) = value_authors.as_array() {
                 for author_value in vec_value {
                     if let Some(str_value) = data::cast_to_str(author_value){
-                        meta.authors.push(String::from(str_value));
+                        meta.authors.push(str_value);
                     }
                 }
             }
@@ -60,16 +60,22 @@ impl Metadata {
 
         if let Some(value_url) = value.get("url") {
             if let Some(str_value) = data::cast_to_str(value_url) {
-                meta.url = String::from(str_value);
+                meta.url = str_value;
             }
         }
 
         if let Some(value_description) = value.get("description") {
             if let Some(str_value) = data::cast_to_str(value_description) {
-                meta.description = String::from(str_value);
+                meta.description = str_value;
             }
         }
 
-        return meta;
+        meta
+    }
+}
+
+impl Default for Metadata {
+    fn default() -> Self {
+        Self::new()
     }
 }
