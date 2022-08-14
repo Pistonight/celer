@@ -18,16 +18,16 @@ impl SourceStep {
     /// Parse from json. Result can be Error, Simple, Extended
     pub fn from(value: &serde_json::Value) -> Self {
         if let Some(str_value) = data::cast_to_str(value) {
-            return SourceStep::Simple(String::from(str_value));
+            return SourceStep::Simple(str_value);
         }
         if let Some(obj_value) = value.as_object() {
             if obj_value.len() != 1 {
                 return SourceStep::Error(
-                    format!("Customized step must only have 1 key. Did you indent correctly?"),
+                    "Customized step must only have 1 key. Did you indent correctly?".to_string(),
                     value.to_string()
                 );
             }
-            for (k,v) in obj_value {
+            if let Some((k,v)) = obj_value.into_iter().next() {
                 // There's only one key
                 return SourceStep::Extended(String::from(k), v.clone());
             }
@@ -35,11 +35,11 @@ impl SourceStep {
         // error cases
         if value.is_null() {
             return SourceStep::Error(
-                format!("Step is null. Did you forget to type the step after \"-\"?"),
+                "Step is null. Did you forget to type the step after \"-\"?".to_string(),
                 value.to_string()
             );
         }
-        return SourceStep::Error(String::from("Can't recognize"), value.to_string());
+        SourceStep::Error(String::from("Can't recognize"), value.to_string())
     }
     /// Make a copy of self
     pub fn deep_clone(&self) -> Self {
@@ -90,7 +90,11 @@ pub struct SourceStepCustomization {
     fury: Option<i64>,
     gale: Option<i64>
 }
-
+impl Default for SourceStepCustomization {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 impl SourceStepCustomization {
     pub fn new() -> Self {
         SourceStepCustomization {
@@ -135,42 +139,42 @@ impl SourceStepCustomization {
         // Validate each attribute
         if let Some(value_text) = obj_value.remove("text") {
             if let Some(str_value) = data::cast_to_str(&value_text) {
-                customization.text = Some(String::from(str_value));
+                customization.text = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "text");
             }
         }
         if let Some(value_comment) = obj_value.remove("comment") {
             if let Some(str_value) = data::cast_to_str(&value_comment) {
-                customization.comment = Some(String::from(str_value));
+                customization.comment = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "comment");
             }
         }
         if let Some(value_notes) = obj_value.remove("notes") {
             if let Some(str_value) = data::cast_to_str(&value_notes) {
-                customization.notes = Some(String::from(str_value));
+                customization.notes = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "notes");
             }
         }
         if let Some(value_line_color) = obj_value.remove("line-color") {
             if let Some(str_value) = data::cast_to_str(&value_line_color) {
-                customization.line_color = Some(String::from(str_value));
+                customization.line_color = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "line-color");
             }
         }
         if let Some(value_split_type) = obj_value.remove("split-type") {
             if let Some(str_value) = data::cast_to_str(&value_split_type) {
-                customization.split_type = Some(String::from(str_value));
+                customization.split_type = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "split-type");
             }
         }
         if let Some(value_icon) = obj_value.remove("icon") {
             if let Some(str_value) = data::cast_to_str(&value_icon) {
-                customization.icon = Some(String::from(str_value));
+                customization.icon = Some(str_value);
             }else{
                 SourceStepCustomization::add_str_error(out_errors, "icon");
             }
@@ -229,7 +233,7 @@ impl SourceStepCustomization {
                 let mut vec_commands = Vec::new();
                 for v in vec_value {
                     if let Some(str_value) = data::cast_to_str(v) {
-                        vec_commands.push(String::from(str_value));
+                        vec_commands.push(str_value);
                     }else{
                         out_errors.push(format!("{:?} is not a valid command", v));
                     }
@@ -239,7 +243,7 @@ impl SourceStepCustomization {
                 SourceStepCustomization::add_arr_error(out_errors, "commands");
             }
         }
-        return Some(customization);
+        Some(customization)
     }
 
     fn validate_var_change(inmap: &serde_json::Map<String, serde_json::Value>, outmap: &mut HashMap<String, i64>, out_errors: &mut Vec<String>) {
@@ -260,15 +264,15 @@ impl SourceStepCustomization {
                     if let Some(f64_value) = v.as_f64() {
                         vec_new.push(f64_value);
                     }else{
-                        out_errors.push(format!("Invalid coordinate value."));
+                        out_errors.push("Invalid coordinate value.".to_string());
                         return None;
                     }
                 }
-                Some(vec_new);
+                return Some(vec_new);
             }
         }
 
-        out_errors.push(format!("Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates"));
+        out_errors.push("Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates".to_string());
         None
     }
 
@@ -384,7 +388,7 @@ impl Movement {
             movement.away = MovementFlag::Warp;
         }
 
-        return Some(movement);
+        Some(movement)
     }
 
     pub fn to_json(&self) -> serde_json::Value {

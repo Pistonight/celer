@@ -11,10 +11,10 @@ pub enum SourceModule {
 impl SourceModule {
     pub fn from(value: &serde_json::Value) -> Self {
         if let Some(arr_value) = value.as_array() {
-            let vec = arr_value.iter().map(|x|SourceStep::from(x)).collect();
+            let vec = arr_value.iter().map(SourceStep::from).collect();
             return SourceModule::MultiStep(vec);
         }
-        return SourceModule::SingleStep(SourceStep::from(value));
+        SourceModule::SingleStep(SourceStep::from(value))
     }
     pub fn deep_clone(&self) -> Self {
         match self {

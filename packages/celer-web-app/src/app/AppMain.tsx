@@ -31,30 +31,17 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shou
 	</AppDocumentProvider>
 ;
 
-// const DocumentLayerOld: React.FC = ()=>(
-// 	<AppStateProvider>
-// 		<AppStyleProvider>
-// 			<Outlet />
-// 		</AppStyleProvider>
-// 	</AppStateProvider>
-// );
-
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {
 	return (
 		<HashRouter>
-			{/* <Redirector /> */}
 			<Routes>
 				<Route path="/" element={<RootLayer />}>
 					<Route index element={<Home />} />
 					<Route path="docs" element={<DocumentLayer serviceCreator={createInternalDocumentService} shouldSetBundle={false}/>}>
 						<Route path=":reference" element={<InternalDocumentServiceOld><AppFrame /></InternalDocumentServiceOld>}/>
 					</Route>
-					{/* <Route path="pydev" element={<DevelopmentService><Outlet /></DevelopmentService>}>
-						<Route index element={<AppFrame />}/>
-						<Route path=":port" element={<AppFrame />}/>
-					</Route> */}
-					<Route path="dev" element={<DocumentLayer serviceCreator={createWebSocketDevService} shouldSetBundle={false}/>}>
+					<Route path="dev" element={<DocumentLayer serviceCreator={createWebSocketDevService} shouldSetBundle={true}/>}>
 						<Route index element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
 						<Route path=":port" element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
 					</Route>
@@ -66,7 +53,6 @@ export const AppMain: React.FC<EmptyObject> = () => {
 						<Route index element={<LocalServiceOld><AppFrame /></LocalServiceOld>}/>
 					</Route>
 					<Route path="*" element={<LoadingFrame error>Not Found</LoadingFrame>} />
-
 				</Route>
 			</Routes>
 		</HashRouter>

@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.0` - `08-11-2022` `LATEST`
+## `5.0.1` - `08-13-2022` `LATEST`
+- Fix new DP not setting shouldSetBundle correctly for ws dev
+
+## `5.0.0` - `08-11-2022` 
 - Loading screen for better experience
 - Optimized route and theme loading (`Exp.NewDP`, `Exp.NewASP`)
 - Cleaned up old experiments

@@ -1,7 +1,8 @@
+use std::collections::HashMap;
 use crate::data;
 use serde_json::json;
 
-use std::collections::HashMap;
+
 #[derive(Debug)]
 pub struct Config {
     pub split_format: Option<ConfigMap<String>>
@@ -23,7 +24,7 @@ impl Config {
             config.split_format = Some(ConfigMap::from(value_split_format));
         }
 
-        return config;
+        config
     }
     pub fn to_json(&self) -> serde_json::Value {
         let mut obj = json!({});
@@ -31,6 +32,12 @@ impl Config {
             obj["split-format"] = split_format.to_json();
         }
         obj
+    }
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -45,7 +52,7 @@ impl ConfigMap<String> {
         if let Some(map_value) = value.as_object() {
             for (key, value) in map_value {
                 if let Some(str_value) = data::cast_to_str(value) {
-                    map.insert(String::from(key), String::from(str_value));
+                    map.insert(String::from(key), str_value);
                 }
             }
         }
