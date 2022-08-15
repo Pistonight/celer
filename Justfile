@@ -34,6 +34,7 @@ lintpy VERBOSE="":
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     @just packages/celer-code-generator/lint
+    @just packages/celer-e2e-test/lint
 
 # Lint everything. Run this before push/PR
 lint: check vsync
@@ -41,10 +42,23 @@ lint: check vsync
     @just lintts
     @just lintrs
 
+# Test everything
+test: check
+    @just testrs
+    @just teste2e
+    
+
+# Test rust code
+testrs:
+    cargo test
+
+# (Devtool) Integration tests
+teste2e:
+    @just packages/celer-e2e-test/test
+
 # Only build RS. Pass in --release for ship builds
 buildrs RELEASE="":
     cargo build {{RELEASE}}
-# wasm
 
 # Build everything
 build: buildc buildrs
@@ -68,6 +82,7 @@ clean:
     @just packages/celer-code-generator/clean
     @just packages/celer-vscode-extension/clean
     @just packages/celer-web-app/clean
+    @just packages/celer-e2e-test/clean
 
 # Clean everything, including node modules
 nuke: clean

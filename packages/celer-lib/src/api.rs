@@ -20,3 +20,8 @@ pub fn new_route(metadata: core::Metadata) -> core::SourceObject {
     ];
     core::SourceObject::new(metadata, route)
 }
+
+/// Bundle the unbundled json
+pub fn bundle(source: &serde_json::Value) -> core::SourceObject {
+    core::SourceObject::from(source)
+}

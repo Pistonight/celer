@@ -4,10 +4,13 @@ lint:
 build:
     @just ../../buildrs --release
 
-test:
-    @just run-test test_new
+test FAILONLY="": build
+    python3 scripts/e2e.py test ../../../../../target/release/celer-devtool {{FAILONLY}}
 
-run-test TEST:
-    python3 scripts/run_test.py ../../target/release/celer-devtool {{TEST}}
+run-test TEST: build
+    python3 scripts/e2e.py test ../../../../../target/release/celer-devtool -t {{TEST}}
 
-alias r:=run_test
+clean:
+    python3 scripts/e2e.py clean
+
+alias r:=run-test

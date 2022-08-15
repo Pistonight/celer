@@ -24,6 +24,11 @@ JustCIJob ts-lint
 codegen end
 
 codegen begin
+DefineJobStart run-test,Test,ubuntu-latest,#
+JustCIJob test
+codegen end
+
+codegen begin
 DefineJobStart cargo-build,Build Devtool,${{ matrix.os }},strategy: { matrix: { os: [ ubuntu-latest\, macos-latest\, windows-latest ] } }
 JustCIJob cargo
 codegen end
@@ -32,7 +37,6 @@ codegen begin
 DefineJobStart web-build,Build Web,ubuntu-latest,#
 SetupNode
 SetupWasmPack
-SkipJobWIP web-test
 JustCIJob web-build
 codegen end
 

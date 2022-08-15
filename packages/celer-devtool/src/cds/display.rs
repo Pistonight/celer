@@ -11,15 +11,15 @@ impl DevServerDisplay {
             current_display: String::new()
         }
     }
-    pub fn update(&mut self, project: &str, last_update: &str, errors: &HashMap<String, Vec<String>>) {
+    pub fn update(&mut self, port: u16, project: &str, last_update: &str, errors: &HashMap<String, Vec<String>>) {
         let mut new_display = String::new();
         new_display.push_str("======== Celer Dev Server ========\n");
-        new_display.push_str("Watching project ");
-        new_display.push_str(project);
-        new_display.push('\n');
-        new_display.push_str("Last update: ");
-        new_display.push_str(last_update);
-        new_display.push('\n');
+        if port != super::DEFAULT_PORT {
+            writeln!(new_display, "Port: {}", port).unwrap();
+        }
+        
+        writeln!(new_display, "Watching project {}", project).unwrap();
+        writeln!(new_display, "Last update: {}", last_update).unwrap();
 
         if errors.is_empty() {
             new_display.push_str("No issue found\n");
@@ -27,19 +27,19 @@ impl DevServerDisplay {
             let mut num_errors = 0;
             for (path, path_errors) in errors {
                 num_errors += path_errors.len();
-                new_display.push_str("Error(s) in ");
-                new_display.push_str(path);
-                new_display.push_str(":\n");
+                writeln!(new_display, "Error(s) in {}:", path).unwrap();
                 for e in path_errors {
-                    new_display.push_str("    ");
-                    new_display.push_str(e);
-                    new_display.push('\n');
+                    writeln!(new_display, "    {}", e).unwrap();
                 }
             }
             writeln!(new_display, "{} error(s)", num_errors).unwrap();
         }
         new_display.push('\n');
-        new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");
+        if port != super::DEFAULT_PORT {
+            writeln!(new_display, "Open https://celer.itntpiston.app/#/dev/{port} in your browser").unwrap();
+        }else{
+            new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");
+        }        
         
         if !self.current_display.eq(&new_display) {
             self.current_display = new_display;

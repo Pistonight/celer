@@ -7,7 +7,12 @@ pub use metadata::Metadata;
 
 mod step;
 pub use step::SourceStep;
-pub use step::SourceStepCustomization;
+
+mod step_customization;
+pub use step_customization::SourceStepCustomization;
+
+mod step_movement;
+pub use step_movement::Movement;
 
 mod module;
 pub use module::SourceModule;

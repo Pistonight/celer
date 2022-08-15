@@ -14,3 +14,5 @@ linked-hash-map = "0.5.4"
 tungstenite = "0.17.2"
 ctrlc = "3.2.2"
 chrono = "0.4.19"
+clap = { version = "3.2.17", features = ["derive"] }
+panic-message = "0.3.0"

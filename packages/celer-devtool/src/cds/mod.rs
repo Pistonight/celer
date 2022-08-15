@@ -1,12 +1,9 @@
-use std::collections::HashMap;
-use std::path::PathBuf;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
 
-use celer::core;
 use chrono::{DateTime, Local};
-use serde_json::{json, Value};
+use celer::core;
 
 use crate::cfio;
 mod client;
@@ -17,32 +14,41 @@ mod display;
 /*import-validate-exempt*/use display::DevServerDisplay;
 /*import-validate-exempt*/use server::DevServer;
 
+pub const DEFAULT_PORT: u16 = 2222;
+
 /// Entry point for cds
-pub fn start() {
-    match DevServer::new(2222) {
+pub fn start(port: u16, emit_bundle: bool) {
+    println!("Starting dev server...");
+    match DevServer::new(port) {
         Err(e) => panic!("error: cds: Error starting dev server: {}", e),
-        Ok(mut server) => run(&mut server)
+        Ok(mut server) => run(&mut server, emit_bundle)
     }
 
     println!("Dev server stopped");
 }
 
-fn run(server: &mut DevServer) {
+fn run(server: &mut DevServer, emit_bundle: bool) {
     let running = Arc::new(AtomicBool::new(true));
 
     set_interrupt(running.clone());
     // start dev server
-    let mut last_update: Option<DateTime<Local>> = Option::None;
+    let mut last_update: Option<DateTime<Local>> = None;
     //let mut update_success_count = 0;
 
     let mut delay_mgr = DelayMgr::new();
     let mut display = DevServerDisplay::new();
 
-    let (mut bundle, mut metadata, mut errors) = load_bundle();
+    println!("Initializing route...");
+    let (mut bundle, mut metadata, mut errors) = cfio::load_unbundled_route();
+    // write bundle.json if needed
+    if emit_bundle{ 
+        let source_object = core::SourceObject::from(&bundle);
+        cfio::write_bundle_json(&source_object, &mut errors);
+    }
     loop {
         let new_clients = server.query_clients();
 
-        let (new_bundle, new_metadata, new_errors) = load_bundle();
+        let (new_bundle, new_metadata, new_errors) = cfio::load_unbundled_route();
         let bundle_changed = !new_bundle.eq(&bundle);
         if bundle_changed {
             bundle = new_bundle;
@@ -52,9 +58,16 @@ fn run(server: &mut DevServer) {
         // if clients changed, then update regardless of file change    
         if bundle_changed || new_clients {
             // send update
-            let new_update_count = server.send(&bundle);
+            let bundle_str = serde_json::to_string(&bundle).unwrap();
+            let new_update_count = server.send(&bundle_str);
             if new_update_count > 0 {
                 last_update = Option::Some(Local::now());
+            }
+
+            // write bundle.json if needed
+            if emit_bundle{ 
+                let source_object = core::SourceObject::from(&bundle);
+                cfio::write_bundle_json(&source_object, &mut errors);
             }
 
             delay_mgr.reset();
@@ -69,7 +82,7 @@ fn run(server: &mut DevServer) {
             None => String::from("never"),
         };
         
-        display.update(project, &last_update_str, &errors);
+        display.update(server.port, project, &last_update_str, &errors);
         
         for _ in 0..delay_mgr.get_delay() {
             if !running.load(Ordering::SeqCst) {
@@ -85,6 +98,7 @@ fn run(server: &mut DevServer) {
 
     server.stop();
 }
+
 fn set_interrupt(running: Arc<AtomicBool>) {
     if let Err(e) = ctrlc::set_handler(move || {
         println!("Shutting down dev server");
@@ -96,57 +110,4 @@ fn set_interrupt(running: Arc<AtomicBool>) {
     }
 }
 
-fn load_bundle() -> (String, core::Metadata, HashMap<String, Vec<String>>) {
-    let mut paths: Vec<PathBuf> = Vec::new();
-    let mut errors: HashMap<String, Vec<String>> = HashMap::new();
 
-    cfio::scan_for_celer_files(&mut paths, &mut errors);
-
-    let mut combined_json = json!({});
-    for p in paths {
-        let file_content = match std::fs::read_to_string(&p) {
-            Ok(v) => v,
-            Err(e) => {
-                cfio::add_error(format!("{}", p.display()), format!("Cannot read file: {}", e), &mut errors);
-                continue
-            }
-        };
-        let file_json: Value = match cfio::load_yaml_object(&file_content) {
-            Ok(file_json) => file_json,
-            Err(e) => {
-                cfio::add_error(format!("{}", p.display()), format!("Error loading object: {}", e), &mut errors);
-                continue
-            }
-        };
-        for (k, v) in file_json.as_object().unwrap() {
-            combined_json[k.to_string()] = v.clone();
-        }
-    }
-    
-
-    let json = serde_json::to_string(&combined_json).unwrap();
-
-    let source_metadata = match combined_json.get("_project") {
-        Some(metadata_value) => core::Metadata::from(metadata_value),
-        None => core::Metadata::new()
-    };
-   
-    
-    // let source_object: SourceObject = match serde_json::from_value(combined_json) {
-    //     Err(_) => {
-    //         SourceObject {
-    //             project: Metadata {
-    //                 authors: vec![],
-    //                 name: String::from("unknown"),
-    //                 url: String::new(),
-    //                 description: String::new(),
-    //                 version: String::new()
-    //             }
-    //         }
-    //     },
-    //     Ok(v) => v
-    // };
-
-    (json, source_metadata, errors)
-
-}

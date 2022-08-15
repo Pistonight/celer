@@ -4,7 +4,37 @@ use std::path::{Path, PathBuf};
 
 pub fn scan_for_celer_files(out_paths: &mut Vec<PathBuf>, out_errors: &mut HashMap<String, Vec<String>>) -> u32 {
     let current_dir = Path::new(".");
-    scan_dir(current_dir.to_path_buf(), out_paths, out_errors)
+    if find_main(&current_dir.to_path_buf(), out_errors){
+        scan_dir(current_dir.to_path_buf(), out_paths, out_errors)
+    }else{
+        0
+    }
+}
+
+fn find_main(path: &PathBuf, out_errors: &mut HashMap<String, Vec<String>>) -> bool {
+    let entries = match fs::read_dir(&path) {
+        Ok(entries) => entries,
+        Err(e) => {
+            super::add_error(format!("{}", path.display()), format!("Unable to read directory: {}", e), out_errors);
+            return false;
+        }
+    };
+
+    for entry in entries {
+        let entry = match entry {
+            Ok(entry) => entry,
+            Err(e) => {
+                super::add_error(format!("{}", path.display()), format!("Unable to read directory entry: {}", e), out_errors);
+                continue;
+            }
+        };
+        if entry.file_name().eq("main.celer") {
+            return true;
+        }
+    }
+
+    super::add_error(format!("{}", path.display()), "Cannot find main.celer".to_string(), out_errors);
+    false
 }
 
 fn scan_dir(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut HashMap<String, Vec<String>>) -> u32 {

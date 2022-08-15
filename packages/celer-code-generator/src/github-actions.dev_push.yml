@@ -24,6 +24,11 @@ JustCIJob ts-lint
 codegen end
 
 codegen begin
+DefineJobStart run-test,Test,ubuntu-latest,#
+JustCIJob test
+codegen end
+
+codegen begin
 DefineJobStart cargo-build-ubuntu,Build Devtool (Ubuntu),ubuntu-latest,#
 JustCIJob cargo-release
 JustCIJob cargo-tar-ubuntu

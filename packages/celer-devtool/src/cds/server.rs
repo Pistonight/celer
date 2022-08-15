@@ -4,6 +4,7 @@ use std::net;
 use super::client::DevClient;
 
 pub struct DevServer {
+    pub port: u16,
     tcp_listener: net::TcpListener,
     clients: Vec<DevClient>,
 }
@@ -16,6 +17,7 @@ impl DevServer {
         tcp_listener.set_nonblocking(true)?;
 
         let server = DevServer {
+            port,
             tcp_listener,
             clients: vec![]
         };
@@ -75,8 +77,4 @@ impl DevServer {
         send_count
     }
 
-    // /// Get number of clients currently alive
-    // pub fn num_clients(&self) -> usize {
-    //     self.clients.len()
-    // }
 }
