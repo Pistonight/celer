@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
@@ -5,100 +6,33 @@ use std::time::Duration;
 use chrono::{DateTime, Local};
 use celer::core;
 
-use crate::cfio;
+use crate::cio;
 mod client;
 mod delay;
 mod server;
 mod display;
-/*import-validate-exempt*/use delay::DelayMgr;
-/*import-validate-exempt*/use display::DevServerDisplay;
-/*import-validate-exempt*/use server::DevServer;
-
-pub const DEFAULT_PORT: u16 = 2222;
+mod config;
+pub use config::{Config, get_subcommand};
+use delay::DelayMgr;
+use display::DevServerDisplay;
+use server::DevServer;
+use serde_json::json;
 
 /// Entry point for cds
-pub fn start(port: u16, emit_bundle: bool) {
+pub fn start(config: Config) {
     println!("Starting dev server...");
-    match DevServer::new(port) {
-        Err(e) => panic!("error: cds: Error starting dev server: {}", e),
-        Ok(mut server) => run(&mut server, emit_bundle)
-    }
+    let mut thread = DevServerThread::new(config);
+    println!("Loading route for the first time...");
+    thread.load_files();
+
+    while thread.main_loop() {}
+
+    thread.stop();
 
     println!("Dev server stopped");
 }
 
-fn run(server: &mut DevServer, emit_bundle: bool) {
-    let running = Arc::new(AtomicBool::new(true));
-
-    set_interrupt(running.clone());
-    // start dev server
-    let mut last_update: Option<DateTime<Local>> = None;
-    //let mut update_success_count = 0;
-
-    let mut delay_mgr = DelayMgr::new();
-    let mut display = DevServerDisplay::new();
-
-    println!("Initializing route...");
-    let (mut bundle, mut metadata, mut errors) = cfio::load_unbundled_route();
-    // write bundle.json if needed
-    if emit_bundle{ 
-        let source_object = core::SourceObject::from(&bundle);
-        cfio::write_bundle_json(&source_object, &mut errors);
-    }
-    loop {
-        let new_clients = server.query_clients();
-
-        let (new_bundle, new_metadata, new_errors) = cfio::load_unbundled_route();
-        let bundle_changed = !new_bundle.eq(&bundle);
-        if bundle_changed {
-            bundle = new_bundle;
-            metadata = new_metadata;
-            errors = new_errors;
-        }
-        // if clients changed, then update regardless of file change    
-        if bundle_changed || new_clients {
-            // send update
-            let bundle_str = serde_json::to_string(&bundle).unwrap();
-            let new_update_count = server.send(&bundle_str);
-            if new_update_count > 0 {
-                last_update = Option::Some(Local::now());
-            }
-
-            // write bundle.json if needed
-            if emit_bundle{ 
-                let source_object = core::SourceObject::from(&bundle);
-                cfio::write_bundle_json(&source_object, &mut errors);
-            }
-
-            delay_mgr.reset();
-        }else{
-            delay_mgr.slack();
-        }
-
-        let project = &metadata.name;
-
-        let last_update_str = match last_update {
-            Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
-            None => String::from("never"),
-        };
-        
-        display.update(server.port, project, &last_update_str, &errors);
-        
-        for _ in 0..delay_mgr.get_delay() {
-            if !running.load(Ordering::SeqCst) {
-                break;
-            }
-            thread::sleep(Duration::from_secs(1));
-        }
-        if !running.load(Ordering::SeqCst) {
-            break;
-        }
-        
-    }
-
-    server.stop();
-}
-
+/// Set Ctrl C interrupt handler for stopping
 fn set_interrupt(running: Arc<AtomicBool>) {
     if let Err(e) = ctrlc::set_handler(move || {
         println!("Shutting down dev server");
@@ -110,4 +44,108 @@ fn set_interrupt(running: Arc<AtomicBool>) {
     }
 }
 
+struct DevServerThread {
+    /// Underlying wrapper for TcpListener, for communicating with clients
+    server: DevServer,
 
+    config: Config,
+    running: Arc<AtomicBool>,
+    delay_mgr: DelayMgr,
+    display: DevServerDisplay,
+
+    last_update: Option<DateTime<Local>>,
+    unbundled_route: serde_json::Value,
+    metadata: core::Metadata,
+    errors: HashMap<String, Vec<String>>
+
+}
+
+impl DevServerThread {
+    /// Create and bind to port
+    pub fn new(config: Config) -> Self {
+        let server = match DevServer::new(config.port) {
+            Err(e) => panic!("error: cds: Error starting dev server: {}", e),
+            Ok(server) => server
+        };
+        
+        let running = Arc::new(AtomicBool::new(true));
+
+        set_interrupt(running.clone());
+
+        Self {
+            server,
+            config,
+            running,
+            delay_mgr: DelayMgr::new(),
+            display: DevServerDisplay::new(),
+            last_update: None,
+            unbundled_route: json!({}),
+            metadata: core::Metadata::new(),
+            errors: HashMap::new(),
+        }
+        
+    }
+
+    pub fn stop(&mut self) {
+        self.server.stop();
+    }
+
+    /// Main loop
+    /// Returns true if loop should continue
+    pub fn main_loop(&mut self) -> bool{
+        let new_clients = self.server.query_clients();
+
+        let changed = self.load_files();
+        // if clients changed, then update regardless of file change    
+        if changed || new_clients {
+            // send update
+            let bundle_str = serde_json::to_string(&self.unbundled_route).unwrap();
+            let new_update_count = self.server.send(&bundle_str);
+            if new_update_count > 0 {
+                self.last_update = Option::Some(Local::now());
+            }
+
+            self.delay_mgr.reset();
+        }else{
+            // If no change, let the server update less often
+            self.delay_mgr.slack();
+        }
+
+        let project = &self.metadata.name;
+
+        let last_update_str = match self.last_update {
+            Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
+            None => String::from("never"),
+        };
+        
+        self.display.update(self.config.port, project, &last_update_str, &self.errors);
+        
+        for _ in 0..self.delay_mgr.get_delay() {
+            if !self.running.load(Ordering::SeqCst) {
+                return false
+            }
+            thread::sleep(Duration::from_secs(1));
+        }
+        
+        self.running.load(Ordering::SeqCst)
+    }
+
+    /// Reload route files. 
+    /// Returns if the unbundled source has changed
+    /// Emits bundle.json if emit_bundle is set to true in Config
+    fn load_files(&mut self) -> bool {
+        self.errors.clear();
+        let (unbundled_route, metadata) = cio::load_unbundled_route(&mut self.errors);
+        let changed = !self.unbundled_route.eq(&unbundled_route);
+        if changed {
+            if self.config.emit_bundle{ 
+                let source_object = core::SourceObject::from(&unbundled_route);
+                cio::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
+            }
+            self.unbundled_route = unbundled_route;
+            self.metadata = metadata;
+        }
+
+        changed
+    }
+}

@@ -14,7 +14,7 @@ impl DevServerDisplay {
     pub fn update(&mut self, port: u16, project: &str, last_update: &str, errors: &HashMap<String, Vec<String>>) {
         let mut new_display = String::new();
         new_display.push_str("======== Celer Dev Server ========\n");
-        if port != super::DEFAULT_PORT {
+        if port != super::config::DEFAULT_PORT {
             writeln!(new_display, "Port: {}", port).unwrap();
         }
         
@@ -35,7 +35,7 @@ impl DevServerDisplay {
             writeln!(new_display, "{} error(s)", num_errors).unwrap();
         }
         new_display.push('\n');
-        if port != super::DEFAULT_PORT {
+        if port != super::config::DEFAULT_PORT {
             writeln!(new_display, "Open https://celer.itntpiston.app/#/dev/{port} in your browser").unwrap();
         }else{
             new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");

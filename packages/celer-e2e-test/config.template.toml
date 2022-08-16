@@ -1,0 +1,7 @@
+# args: command line arguments
+# stdin: file name for inputs from stdin
+# stdout: (optional) file name for expected output from stdout. omit if not comparing
+# expected: (optional) directory name for expected directory result. omit if not comparing
+# error: (optional) set to true to expect non-empty stderr, or set to a file for comparison
+
+# input directory state should be in a directory called "input", and is shared among tests

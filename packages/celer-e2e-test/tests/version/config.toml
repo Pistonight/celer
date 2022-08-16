@@ -1,0 +1,14 @@
+[[test]]
+args = ["version"]
+stdout = "stdout.expected.txt"
+expected = "expected"
+
+[[test]]
+args = ["--version"]
+stdout = "stdout.expected.txt"
+expected = "expected"
+
+[[test]]
+args = ["-v"]
+stdout = "stdout.expected.txt"
+expected = "expected"
