@@ -16,7 +16,8 @@ ignore = [
     "binaryen-version_105",
     "pkg",
     "wasmlib",
-    ".cargo"
+    ".cargo",
+    "test_output"
 ]
 
 ignore_exts = [

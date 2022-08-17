@@ -83,6 +83,7 @@ def dir_match(path1, path2):
         return False
     return len(result.same_files) == len(result.common_files)
 
+# pylint: disable-next=too-many-arguments, too-many-locals
 def verify_test(test_path, return_code, stdout, stderr, config, index):
     """Verify test result. Returns a string"""
     if config_check_output(config):
