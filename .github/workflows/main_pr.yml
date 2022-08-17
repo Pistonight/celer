@@ -202,10 +202,6 @@ jobs:
     #
     runs-on: windows-latest
     steps:
-    - name: Setup | Windows Line End (CRLF)
-      run: |
-        git config --global core.autocrlf false
-        git config --global core.eol crlf
     - name: Setup | Checkout
       uses: actions/checkout@v2
     - name: Setup | Rust
