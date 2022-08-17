@@ -16,7 +16,7 @@ impl DevClient {
         
         match tungstenite::accept(stream) {
             Err(e) => {
-                return Err(format!("{}", e));
+                Err(format!("{}", e))
             },
             Ok(ws) => Ok(DevClient {
                 ws,

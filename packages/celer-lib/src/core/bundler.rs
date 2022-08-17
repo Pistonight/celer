@@ -194,7 +194,7 @@ impl Bundler {
     /// If the step is extended, it is processed accordingly and error messages might be added.
     /// The original step will only be added if no error is generated
     fn bundle_step(&mut self, step: &SourceStep, out_arr: &mut Vec<SourceStep>, dfs_parents: &mut Vec<String>) -> Result<(), String> {
-        let parent_name = dfs_parents.get(dfs_parents.len()-1).unwrap();
+        let parent_name = dfs_parents.last().unwrap();
 
         match step {
             SourceStep::Error(message, source) => {

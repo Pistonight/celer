@@ -2,8 +2,9 @@
 list:
     @just -l
 
-# Install node packages
+# Install or update tools
 install:
+    rustup update
     just packages/celer-vscode-extension/install
     just packages/celer-web-app/install
 
