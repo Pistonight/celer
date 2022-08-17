@@ -60,7 +60,7 @@ impl SourceStepCustomization {
         let obj_value_immut = match value.as_object() {
             Some(v) => v,
             None => {
-                out_errors.push(String::from("Step customization must be an object."));
+                out_errors.push(format!("Step customization must be an object, but received: {value}"));
                 return None;
             }
         };
@@ -173,6 +173,17 @@ impl SourceStepCustomization {
                 customization.commands = Some(vec_commands);
             }else{
                 SourceStepCustomization::add_arr_error(out_errors, "commands");
+            }
+        }
+
+        // invalid attributes
+        for k in obj_value.keys() {
+            if k.eq("notes") {
+                out_errors.push("Invalid attribute \"notes\", did you mean \"note\"?".to_string());
+            }else if k.eq("movement") {
+                out_errors.push("Invalid attribute \"movement\", did you mean \"movements\"?".to_string());
+            }else{
+                out_errors.push(format!("Invalid attribute \"{k}\""))
             }
         }
         Some(customization)

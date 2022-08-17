@@ -1,0 +1,59 @@
+Lurelin: # Start: Mezza Lo
+- .dir(S) Turn + .dir(S) + .dir(<S) Turn
+- _Shrine::DowNaeh
+
+- .dir(<N) + .dir(S>):
+    coord: [2642,1187.0932957332761]
+- _Shrine::KamUrog:
+    var-change:
+      Arrow: -1
+
+- .dir(<S) + .dir(E) + BLSS:
+    notes: BLSS off an ore deposit
+- _Shrine::MyahmAgana
+
+- Cut tree wb:
+    var-change:
+      EOD: -2
+      Wood: 2
+    notes: If you get any extra wood from any of the 3 trees cut, no need to pick up extra wood
+- .dir(N.) + .dir(N) super + .dir(N) (super)
+- .dir(N>) Turn
+- _Shrine::TahnoOah:
+    var-change:
+      Hammer: -1
+- +.dir(N) + .dir(N) midair:
+    coord: [4187,1377.9397836456137]
+- +.dir(N) + .dir(W) + .dir(<W):
+    movements: 
+    - to: [4179,1267.8962060207286]
+    - to: [4049,1275.8993753025388]
+    - to: [3948,1343.9263141979218]
+- _Shrine::JitanSami
+
+- Infinity SCW:
+    notes: Fire -> Shock. Land in shallow water and use cryo block
+- _Shrine::KorguChideh:
+    var-change:
+      FireArrow: -1
+- Run + Glide off:
+    movements:
+    - to: [4772,3884.3993295080363]
+    - to: [3679,3330.1481639246085]
+      warp: true
+
+- _Shrine::MuwoJeem
+- Shield surf buffered scw
+- _Shrine::KahYah
+- .dir(S>>) + .dir(W>) Turn super
+- _Shrine::YahRin
+- BLSS:
+   movements:
+   - to: [3289,3538.288804115233]
+   - to: [3667,3342.21353070222]
+- _Shrine::ChaasQeta  
+- __use__ CheckResources
+- ""
+
+
+

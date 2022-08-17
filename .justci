@@ -19,8 +19,14 @@ ci-cargo:
 ci-cargo-release:
     cargo build --release
 
-ci-test:
-    @just test
+ci-unit-test:
+    @just testu
+
+ci-e2e-test:
+    @just teste2e
+
+ci-e2e-test-windows:
+    @just teste2e-windows
 
 ci-web-build:
     @just packages/celer-web-app/build

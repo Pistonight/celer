@@ -24,8 +24,18 @@ JustCIJob ts-lint
 codegen end
 
 codegen begin
-DefineJobStart run-test,Test,ubuntu-latest,#
-JustCIJob test
+DefineJobStart run-unit-test,Unit Test,ubuntu-latest,#
+JustCIJob unit-test
+codegen end
+
+codegen begin
+DefineJobStart e2e-test,Devtool E2E Test,${{ matrix.os }},strategy: { matrix: { os: [ ubuntu-latest\, macos-latest ] } }
+JustCIJob e2e-test
+codegen end
+
+codegen begin
+DefineJobStart e2e-test-windows,Devtool E2E Test for Windows,windows-latest,#
+JustCIJob e2e-test-windows
 codegen end
 
 codegen begin

@@ -5,6 +5,7 @@ mod bundler;
 mod structs;
 
 use bundler::Bundler;
+pub use bundler::BundlerError;
 pub use structs::{Config, Metadata, SourceSection, SourceModule, SourceStep};
 
 /// data structure that represents the bundled source files.
@@ -33,7 +34,7 @@ impl SourceObject {
         }
     }
     /// Convert and bundle json source into SourceObject
-    pub fn from(value: &serde_json::Value) -> Self{
+    pub fn from(value: &serde_json::Value, out_bundler_errors: &mut Vec<BundlerError>) -> Self {
         if !value.is_object() {
             return Self {
                 metadata: Metadata::new(),
@@ -51,7 +52,7 @@ impl SourceObject {
                 modules.insert(String::from(k), v.clone());
             }
             let sections: Vec<SourceSection> = obj_route.iter().map(SourceSection::from).collect();
-            return match Bundler::bundle(&sections, modules) {
+            return match Bundler::bundle(&sections, modules, out_bundler_errors) {
                 Ok(bundled_sections) => SourceObject {
                     metadata,
                     config,

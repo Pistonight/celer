@@ -1,11 +1,11 @@
-use std::collections::HashMap;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
 use chrono::{DateTime, Local};
 use serde_json::json;
-use celer::core;
+use celer::{api, core};
 use crate::cio::bundle;
+use crate::cio::ErrorState;
 mod client;
 mod config;
 mod delay;
@@ -54,7 +54,7 @@ struct DevServerThread {
     last_update: Option<DateTime<Local>>,
     unbundled_route: serde_json::Value,
     metadata: core::Metadata,
-    errors: HashMap<String, Vec<String>>
+    errors: ErrorState
 
 }
 
@@ -79,7 +79,7 @@ impl DevServerThread {
             last_update: None,
             unbundled_route: json!({}),
             metadata: core::Metadata::new(),
-            errors: HashMap::new(),
+            errors: ErrorState::new(),
         }
         
     }
@@ -137,7 +137,11 @@ impl DevServerThread {
         let changed = !self.unbundled_route.eq(&unbundled_route);
         if changed {
             if self.config.emit_bundle{ 
-                let source_object = core::SourceObject::from(&unbundled_route);
+                let mut bundler_errors = Vec::new();
+                let source_object = api::bundle(&unbundled_route, &mut bundler_errors);
+
+                bundle::add_bundle_errors(&bundler_errors, &mut self.errors);
+
                 bundle::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
             }
             self.unbundled_route = unbundled_route;

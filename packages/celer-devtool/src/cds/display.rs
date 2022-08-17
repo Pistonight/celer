@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use std::fmt::Write;
+use crate::cio::ErrorState;
 
 pub struct DevServerDisplay {
     current_display: String
@@ -11,7 +11,7 @@ impl DevServerDisplay {
             current_display: String::new()
         }
     }
-    pub fn update(&mut self, port: u16, project: &str, last_update: &str, errors: &HashMap<String, Vec<String>>) {
+    pub fn update(&mut self, port: u16, project: &str, last_update: &str, errors: &ErrorState) {
         let mut new_display = String::new();
         new_display.push_str("======== Celer Dev Server ========\n");
         if port != super::config::DEFAULT_PORT {
@@ -24,15 +24,7 @@ impl DevServerDisplay {
         if errors.is_empty() {
             new_display.push_str("No issue found\n");
         }else{
-            let mut num_errors = 0;
-            for (path, path_errors) in errors {
-                num_errors += path_errors.len();
-                writeln!(new_display, "Error(s) in {}:", path).unwrap();
-                for e in path_errors {
-                    writeln!(new_display, "    {}", e).unwrap();
-                }
-            }
-            writeln!(new_display, "{} error(s)", num_errors).unwrap();
+            new_display.push_str(&errors.report());
         }
         new_display.push('\n');
         if port != super::config::DEFAULT_PORT {

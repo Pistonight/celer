@@ -34,8 +34,8 @@ impl Movement {
             return None;
         }
 
-        let away = data::cast_to_bool(&obj_value["away"]);
-        let warp = data::cast_to_bool(&obj_value["warp"]);
+        let away = data::cast_to_bool(&value["away"]);
+        let warp = data::cast_to_bool(&value["warp"]);
         if away {
             movement.away = MovementFlag::Away;
         } else if warp {
@@ -69,7 +69,7 @@ pub fn validate_coord_array(value: &serde_json::Value, out_errors: &mut Vec<Stri
                 if let Some(f64_value) = v.as_f64() {
                     vec_new.push(f64_value);
                 }else{
-                    out_errors.push("Invalid coordinate value.".to_string());
+                    out_errors.push(format!("Invalid coordinate value: {v}"));
                     return None;
                 }
             }

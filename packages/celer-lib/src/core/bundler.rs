@@ -4,76 +4,130 @@ use super::structs::{SourceStep, SourceStepCustomization, SourceModule, SourceSe
 pub struct Bundler {
     module_sources: HashMap<String, serde_json::Value>,
     module_cache: HashMap<String, SourceModule>,
-    errors: Vec<BundlerException>,
+    errors: Vec<BundlerError>,
 }
 
-pub struct BundlerException {
-    pub module: String,
-    pub message: String
+#[derive(serde::Serialize)]
+pub struct BundlerError {
+    location: String,
+    message: String
+}
+
+impl BundlerError {
+    pub fn root_location() -> String { String::from("_route") }
+    pub fn section_location(section: &str) -> String { format!("_section_{}", section) }
+    pub fn location_type(&self) -> &'static str {
+        if self.location.eq("_route") {
+            "route root"
+        }else if self.location.starts_with("_section_") {
+            "section"
+        }else{
+            "module"
+        }
+    }
+    pub fn location_name(&self) -> &str {
+        if self.location.eq("_route") {
+            "(_route)"
+        }else if self.location.starts_with("_section_") {
+            &self.location[9/* len("_section_") */..]
+        }else{
+            &self.location
+        }
+    }
+    pub fn message(&self) -> &str {
+        &self.message
+    }
 }
 
 impl Bundler {
-    pub fn bundle(route: &[SourceSection], modules: HashMap<String, serde_json::Value>) -> Result<Vec<SourceSection>, String> {
+    pub fn bundle(route: &[SourceSection], modules: HashMap<String, serde_json::Value>, out_bundler_errors: &mut Vec<BundlerError>) -> Result<Vec<SourceSection>, String> {
         let mut bundler = Bundler {
             module_sources: modules,
             module_cache: HashMap::new(),
             errors: Vec::new()
         };
-        bundler.bundle_route(route)
+        let result = bundler.bundle_route(route);
+        for error in bundler.errors {
+            out_bundler_errors.push(error)
+        }
+
+        result
     }
 
-    fn make_attached_error(&mut self, module: &String, message: &str) -> String {
+    fn make_attached_error(&mut self, module: &str, message: &str) -> String {
         self.make_exception(module, message, "(^!) Bundler Error")
     }
 
-    fn make_attached_warning(&mut self, module: &String, message: &str) -> String {
+    fn make_attached_warning(&mut self, module: &str, message: &str) -> String {
         self.make_exception(module, message, "(^?) Bundler Warning")
     }
 
     // fn make_unattached_error(&self, module: &String, message: &str) -> String {
     //     self.make_exception(module, message, "(^=) Bundler Error")
     // }
-    fn make_exception(&mut self, module: &String, message: &str, head: &str) -> String {
+    fn make_exception(&mut self, module: &str, message: &str, head: &str) -> String {
         let message_string = format!("{}: {}", head, message);
-        self.errors.push(BundlerException {
-            module: String::from(module),
+        self.errors.push(BundlerError {
+            location: String::from(module),
             message: message_string.clone()
         });
         message_string
     }
 
     fn bundle_route(&mut self, route: &[SourceSection]) -> Result<Vec<SourceSection>, String> {
-        route.iter().map(|x|self.bundle_section(x)).collect()
+        let mut sections = Vec::new();
+        for unbundled_section in route {
+            if let Err(why) = self.bundle_section(unbundled_section, &mut sections) {
+                return Err(why);
+            }
+        }
+        
+        Ok(sections)
     }
 
-    fn bundle_section(&mut self, section: &SourceSection) -> Result<SourceSection, String> {
+    fn bundle_section(&mut self, section: &SourceSection, out_sections: &mut Vec<SourceSection>) -> Result<(), String> {
         match section {
             SourceSection::Named(name, unbundled_module) => {
-                let mut dfs = vec![String::from("_route"), format!("_section_{}", name)];
+                let mut dfs = vec![BundlerError::root_location(), BundlerError::section_location(name)];
                 let result = self.bundle_unnamed_module(unbundled_module, &mut dfs);
                 match result {
-                    Ok(bundled) => Ok(SourceSection::Named(String::from(name), bundled)),
+                    Ok(bundled) => {
+                        out_sections.push(SourceSection::Named(String::from(name), bundled));
+                        Ok(())
+                    },
                     Err(message) => Err(message)
                 }
             },
             SourceSection::Unnamed(unbundled_module) => {
-                let mut dfs = vec![String::from("_route")];
+                let mut dfs = vec![BundlerError::root_location()];
                 let result = self.bundle_unnamed_module(unbundled_module, &mut dfs);
                 match result {
-                    Ok(bundled) => Ok(SourceSection::Unnamed(bundled)),
+                    Ok(bundled) => {
+                        match bundled {
+                            // Unnamed multistep must be expanded
+                            SourceModule::MultiStep(bundled_steps) => {
+                                for step in bundled_steps {
+                                    out_sections.push(SourceSection::Unnamed(SourceModule::SingleStep(step)))
+                                }
+                            },
+                            single_step_module => {
+                                out_sections.push(SourceSection::Unnamed(single_step_module))
+                            }
+                        }
+                        Ok(())
+                    },
                     Err(message) => Err(message)
                 }
             }
         }
     }
     
-    fn bundle_module(&mut self, name: &String, unbundled_module: &SourceModule, dfs_parents: &mut Vec<String>) -> 
-        Result<SourceModule, String> {
-            // Check if module name is already cached
-            if let Some(cached_module) = self.module_cache.get_mut(name) {
-                return Ok(cached_module.deep_clone());
-            }
-
+    fn bundle_module(&mut self, name: &str, unbundled_module: &SourceModule, dfs_parents: &mut Vec<String>) -> Result<SourceModule, String> {
+        
+        // Check if module name is already cached
+        if let Some(cached_module) = self.module_cache.get_mut(name) {
+            return Ok(cached_module.deep_clone());
+        }
 
         // Before bundling, check if module is already being bundled (circular dependency)
         for parent in dfs_parents.iter() {
@@ -89,8 +143,8 @@ impl Bundler {
             Err(message) => Err(message),
             Ok(bundled_module) => {
                 let clone = bundled_module.deep_clone();
-               // let mut module_cache_mut: &'s mut HashMap<String, SourceModule> = &mut ;
-               self.module_cache.insert(String::from(name), bundled_module);
+                // let mut module_cache_mut: &'s mut HashMap<String, SourceModule> = &mut ;
+                self.module_cache.insert(String::from(name), bundled_module);
                 // If bundling is successful
                 Ok(clone)
             }
@@ -151,7 +205,12 @@ impl Bundler {
             },
             SourceStep::Simple(step_string) => {
                 if let Some(module_name) = try_get_use_name_from_step(step_string) {
-                    if let Some(source) = self.module_sources.get(&module_name) {
+                    if module_name.starts_with("_") {
+                        // Module name cannot start with _ to avoid conflict with language
+                        let error = self.make_attached_error(parent_name, "Module name cannot start with underscore (_)");
+                        out_arr.push(SourceStep::Simple(step_string.to_string()));
+                        out_arr.push(SourceStep::Simple(error));
+                    }else if let Some(source) = self.module_sources.get(&module_name) {
                         let unbundled_module = SourceModule::from(source);
                         return match self.bundle_module(&module_name, &unbundled_module, dfs_parents) {
                             Ok(bundled_module) => {
@@ -171,6 +230,7 @@ impl Bundler {
                         }
                     }else{
                         let error = self.make_attached_error(parent_name, &format!("Cannot find module: {}", &module_name));
+                        out_arr.push(SourceStep::Simple(step_string.to_string()));
                         out_arr.push(SourceStep::Simple(error));
                     }
                 }else{

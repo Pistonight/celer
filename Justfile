@@ -44,17 +44,23 @@ lint: check vsync
 
 # Test everything
 test: check
-    @just testrs
+    @just testu
     @just teste2e
     
-
+# Unit Test
+testu: testrs testts
 # Test rust code
 testrs:
     cargo test
 
+testts:
+    @echo "There's no tests for TS at the moment"
+
 # (Devtool) Integration tests
 teste2e:
     @just packages/celer-e2e-test/test
+teste2e-windows:
+    @just packages/celer-e2e-test/test ".exe"
 
 # Only build RS. Pass in --release for ship builds
 buildrs RELEASE="":

@@ -22,6 +22,6 @@ pub fn new_route(metadata: core::Metadata) -> core::SourceObject {
 }
 
 /// Bundle the unbundled json
-pub fn bundle(source: &serde_json::Value) -> core::SourceObject {
-    core::SourceObject::from(source)
+pub fn bundle(source: &serde_json::Value, out_bundler_errors: &mut Vec<core::BundlerError>) -> core::SourceObject {
+    core::SourceObject::from(source, out_bundler_errors)
 }

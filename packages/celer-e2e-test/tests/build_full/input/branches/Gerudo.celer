@@ -1,0 +1,43 @@
+Gerudo: # Start: Keh Namut
+
+- BLSS + .dir(N) + .dir(N) midair
+- _Shrine::MoggLatan
+- BLSS + 2 WB .dir(W) + glide up:
+    notes: Get 1 wood from tree if you only have 2 (i.e. no extra wood from tree)
+    var-change:
+      EOD: -2
+- _Shrine::KeehaYoog:
+    comment: 1 Shock Arrow activate
+- BLSS:
+    notes: or wb <E Turn + SE
+    coord: [-3086,1216.453207298804]
+- Melt Kuh Takkar:
+    var-change:
+      FireArrow: -7
+    coord: [-3122.5,1326.4799939085751]
+- _Shrine::KuhTakkar:
+    notes: Use EOD for ice block
+    var-change:
+      EOD: -3
+- Infinity SCW:
+    notes: cut tree BLSS. use ice -> shock. Can use all ice arrows here if need
+    var-change:
+      EOD: -1
+- _Shrine::RaqaZunzo:
+    comment: Radiant Shield
+- .dir(N) fast cardinal
+- _Shrine::DaqoChisay
+- BLSS
+- _Shrine::KemaZoos
+- .dir(S>) out + .dir(S.) Turn
+- _Shrine::ThoKayu:
+    comment: Check .v(FireArrow) fire arrows
+    notes: Need 3 fire arrows for TOD, 2 for Bareeda Naag and 1 for Goma Assagh. Rest for chus
+    var-change:
+      FireArrow: -3
+- BLSS
+- _Shrine::HawaKoth:
+    notes: clip through
+- __use__ CheckResources
+- ""
+

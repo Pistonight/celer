@@ -1,0 +1,25 @@
+14 errors in bundle emitted:
+    In section _Equipment<section level preset extend>: (^!) Bundler Error: Step customization must be an object, but received: "hello"
+    In section Test Validation Section: (^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?
+    In section Test Validation Section: (^!) Bundler Error: Step customization must be an object, but received: 2
+    In section Test Validation Section: (^!) Bundler Error: Step customization must be an object, but received: false
+    In section Test Validation Section: (^?) Bundler Warning: Invalid attribute "invalid-attr"
+    In section Test Validation Section: (^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates
+    In section Test Validation Section: (^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates
+    In section Test Validation Section: (^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates
+    In section Test Validation Section: (^?) Bundler Warning: Invalid coordinate value: "invalid"
+    In route root (_route): (^!) Bundler Error: Section must only have 1 key. Did you indent correctly?
+    In section Another Section: (^!) Bundler Error: Customized step must only have 1 key. Did you indent correctly?
+    In route root (_route): (^!) Bundler Error: Module name cannot start with underscore (_)
+    In route root (_route): (^!) Bundler Error: Cannot find module: NonExistingModule
+    In module BadModule: (^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?
+
+14 errors total
+
+The build has failed because of the following 1 error
+1 error in build step: bundle:
+    14 errors were generated, see output above
+
+1 error total
+
+ERROR: BUILD FAILED

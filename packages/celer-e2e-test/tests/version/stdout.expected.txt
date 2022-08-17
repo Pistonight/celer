@@ -1,1 +1,1 @@
-2.0.0
+celer-devtool 2.0.0
