@@ -14,11 +14,19 @@ pub struct BundlerError {
 }
 
 impl BundlerError {
+    pub fn make_global(error: &str) -> Self {
+        Self {
+            location: "_global".to_string(),
+            message: error.to_string()
+        }
+    }
     pub fn root_location() -> String { String::from("_route") }
     pub fn section_location(section: &str) -> String { format!("_section_{}", section) }
     pub fn location_type(&self) -> &'static str {
         if self.location.eq("_route") {
             "route root"
+        }else if self.location.eq("_global"){
+            "project"
         }else if self.location.starts_with("_section_") {
             "section"
         }else{
@@ -28,6 +36,8 @@ impl BundlerError {
     pub fn location_name(&self) -> &str {
         if self.location.eq("_route") {
             "(_route)"
+        }else if self.location.eq("_global") {
+            "(fatal error emitted by bundler)"
         }else if self.location.starts_with("_section_") {
             &self.location[9/* len("_section_") */..]
         }else{

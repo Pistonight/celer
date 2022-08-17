@@ -1,0 +1,12 @@
+1 error in bundle emitted:
+    In project (fatal error emitted by bundler): Circular Dependency Found: Trace: ["_route", "D", "A", "B", "C"] -> A
+
+1 error total
+
+The build has failed because of the following 1 error
+1 error in build step: bundle:
+    1 error was generated, see output above
+
+1 error total
+
+ERROR: BUILD FAILED

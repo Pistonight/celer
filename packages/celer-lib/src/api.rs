@@ -23,5 +23,10 @@ pub fn new_route(metadata: core::Metadata) -> core::SourceObject {
 
 /// Bundle the unbundled json
 pub fn bundle(source: &serde_json::Value, out_bundler_errors: &mut Vec<core::BundlerError>) -> core::SourceObject {
-    core::SourceObject::from(source, out_bundler_errors)
+    let bundle = core::SourceObject::from(source, out_bundler_errors);
+    if let Some(global_error) = &bundle.global_error {
+        out_bundler_errors.push(core::BundlerError::make_global(global_error));
+    }
+
+    bundle
 }
