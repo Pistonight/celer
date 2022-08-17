@@ -189,8 +189,12 @@ def run_test_config(executable, test_path, config, index):
         os.makedirs(test_dir)
 
     # read command line args
+    if executable.endswith(".exe"):
+        args = ["PowerShell.exe", "-Command"]
+    else:
+        args = []
     # cwd will be tests/xxx/test_output/yyy/actual
-    args = [f"../../../../../{executable}"]
+    args.append(f"../../../../../{executable}")
     args.extend(extra_args)
 
     # read inputs
@@ -222,9 +226,8 @@ def run_test_config(executable, test_path, config, index):
     # Run test
     result = subprocess.run(
         args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
         text=True,
+        capture_output=True,
         check=False,
         input=input_content,
         cwd=test_dir)
