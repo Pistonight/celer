@@ -1,15 +1,19 @@
 [[test]]
 args = ["build"]
-expected = ["expected_json", "input"]
+input = ["all_shrines"]
+expected = ["expected_json", "../../inputs/all_shrines"]
 
 [[test]]
 args = ["build", "--debug"]
-expected = ["expected_debug", "input"]
+input = ["all_shrines"]
+expected = ["expected_debug", "../../inputs/all_shrines"]
 
 [[test]]
 args = ["build", "--yaml"]
-expected = ["expected_yaml", "input"]
+input = ["all_shrines"]
+expected = ["expected_yaml", "../../inputs/all_shrines"]
 
 [[test]]
 args = ["build", "--yaml", "-t", "merge"]
-expected = ["expected_merge", "input"]
+input = ["all_shrines"]
+expected = ["expected_merge", "../../inputs/all_shrines"]

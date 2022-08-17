@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """Execute and verify the result of e2e test. Args: (run <executable>)|(clean) [options]"""
 # A test folder contains:
 # expected: the expected directory state
@@ -21,7 +22,7 @@ import toml
 PASS = "PASS"
 REASON_HAS_ERROR = "FAIL: Command finished with non-zero code or non-empty stderr"
 REASON_EXPECT_ERROR = "FAIL: Expected error (non-zero code or non-empty stderr), but there was none"
-REASON_ERROR_DIFF = "FAIL: stderr is different from expected" 
+REASON_ERROR_DIFF = "FAIL: stderr is different from expected"
 REASON_STDOUT_DIFF = "FAIL: stdout is different from expected"
 REASON_FILE_DIFF = "FAIL: actual directory state is different from expected"
 
@@ -29,35 +30,48 @@ FLAG_FAIL_ONLY = False
 CONFIG_INDEX_ONLY = None
 
 def get_configs(test_path):
-    # Load config
+    """Load config"""
     with open(f"tests/{test_path}/config.toml", "r", encoding="utf-8") as config_file:
         return toml.load(config_file)["test"]
 
 def config_args(config):
+    """Get args from config"""
     return config["args"] if "args" in config else None
 
+def config_input_directory(config):
+    """Get input from config, default empty array"""
+    return config["input"] if "input" in config else []
+
 def config_check_output(config):
+    """Get if stdout is in config"""
     return "stdout" in config
 
 def config_input(config):
+    """Get stdin from config, default None"""
     return config["stdin"] if "stdin" in config else None
 
 def config_expected_output(config):
+    """Get stdout from config"""
     return config["stdout"]
 
 def config_check_directory(config):
+    """Get if expected is in config"""
     return "expected" in config
 
 def config_expected_directory(config):
+    """Get expected from config"""
     return config["expected"]
 
 def config_has_err(config):
-    return "error" in config and config["error"] != False
+    """Get if err should be expected"""
+    return "error" in config and config["error"] is not False
 
 def config_check_err(config):
-    return type(config["error"]) == str
+    """Get if err should be compared"""
+    return isinstance(config["error"], str)
 
 def config_expected_err(config):
+    """Get error from config"""
     return config["error"]
 
 def dir_match(path1, path2):
@@ -142,28 +156,37 @@ def run_test(executable, test_path):
     return count, total
 
 def print_test_start(test, index):
+    """Print test start info"""
     if not FLAG_FAIL_ONLY:
-        print(f"Running [ {test} ] {index} ... ", end="")
+        print(f"[ {test} ] {index} ... ", end="", flush=True)
 
-def print_test_result(test, index, result, passed):
+def print_test_result(test, args, index, result, passed):
+    """Print test result info"""
+    args_string = " ".join(args)
     if FLAG_FAIL_ONLY:
         if not passed:
-            print(f"[ {test} ] {index} {result}")
+            print(f"[ {test} ] {index} {result} | {args_string}")
     else:
-        print(result)
+        print(f"{result} | {args_string}")
 
+# pylint: disable-next=too-many-locals
 def run_test_config(executable, test_path, config, index):
+    """Run a specific config in a test"""
     print_test_start(test_path, index)
 
     extra_args = config_args(config)
     if extra_args is None:
-        print_test_result(test_path, index, f"FAIL: error: \"args\" not specified", False)
+        print_test_start(test_path, index)
+        print_test_result(test_path, [], index, "FAIL: error: \"args\" not specified", False)
         return 0
+
+    input_dirs = config_input_directory(config)
+
     test_root_dir = f"tests/{test_path}/test_output/{index}"
     test_dir = f"{test_root_dir}/actual"
 
-    if not os.path.exists(test_root_dir):
-        os.makedirs(test_root_dir)
+    if not os.path.exists(test_dir):
+        os.makedirs(test_dir)
 
     # read command line args
     # cwd will be tests/xxx/test_output/yyy/actual
@@ -177,17 +200,24 @@ def run_test_config(executable, test_path, config, index):
         input_txt = f"tests/{test_path}/{input_txt_name}"
 
         if not os.path.exists(input_txt):
-            print_test_result(test_path, index, f"FAIL: error: file does not exist: {input_txt}", False)
+            print_test_result(test_path, extra_args, index, f"FAIL: error: file does not exist: {input_txt}", False)
             return 0
         if not os.path.isfile(input_txt):
-            print_test_result(test_path, index, f"FAIL: error: stdin not a file: {input_txt}", False)
+            print_test_result(test_path, extra_args, index, f"FAIL: error: stdin not a file: {input_txt}", False)
             return 0
 
         with open(input_txt, "r", encoding="utf-8") as input_file:
             input_content = input_file.read()
 
-    # copy input to test_output
-    shutil.copytree(f"tests/{test_path}/input", test_dir)
+    # Create input dir state
+    for input_dir in input_dirs:
+        full_input_dir = f"inputs/{input_dir}"
+        for subpath_to_copy in os.listdir(full_input_dir):
+            full_src_path = f"{full_input_dir}/{subpath_to_copy}"
+            if os.path.isfile(full_src_path):
+                shutil.copyfile(full_src_path, f"{test_dir}/{subpath_to_copy}")
+            elif os.path.isdir(full_src_path):
+                shutil.copytree(full_src_path, f"{test_dir}/{subpath_to_copy}")
 
     # Run test
     result = subprocess.run(
@@ -209,9 +239,10 @@ def run_test_config(executable, test_path, config, index):
 
     test_result = verify_test(test_path, result.returncode, result.stderr, config, index)
     passed = test_result == PASS
-    print_test_result(test_path, index, test_result, passed)
+    print_test_result(test_path, extra_args, index, test_result, passed)
     return 1 if passed else 0
 
+# pylint: disable-next=too-many-branches
 def main():
     """Main"""
     #pylint: disable-next=global-statement
@@ -243,8 +274,7 @@ def main():
             total_passed, total_tests = run_test(executable, test)
         else:
             CONFIG_INDEX_ONLY = None
-            
-        
+
             for test in tests:
                 passed, total = run_test(executable, test)
                 total_passed+=passed

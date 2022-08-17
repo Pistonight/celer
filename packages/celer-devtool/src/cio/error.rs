@@ -36,7 +36,7 @@ impl ErrorState {
             for e in path_errors {
                 writeln!(out_string, "    {}", e).unwrap();
             }
-            out_string.push_str("\n")
+            out_string.push('\n')
         }
         writeln!(out_string, "{} total", x_error_s(num_errors)).unwrap();
     
@@ -53,7 +53,7 @@ impl ErrorState {
 
     pub fn len(&self) -> usize {
         let mut num_errors = 0;
-        for (_, path_errors) in &self.underlying_map {
+        for path_errors in self.underlying_map.values() {
             num_errors += path_errors.len();
         }
         num_errors

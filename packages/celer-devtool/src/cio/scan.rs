@@ -5,14 +5,14 @@ use super::ErrorState;
 
 pub fn scan_for_celer_files(out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorState) -> u32 {
     let current_dir = Path::new(".");
-    if find_main(&current_dir.to_path_buf(), out_errors){
+    if find_main(current_dir, out_errors){
         scan_dir(current_dir.to_path_buf(), out_paths, out_errors)
     }else{
         0
     }
 }
 
-fn find_main(path: &PathBuf, out_errors: &mut ErrorState) -> bool {
+fn find_main(path: &Path, out_errors: &mut ErrorState) -> bool {
     let entries = match fs::read_dir(&path) {
         Ok(entries) => entries,
         Err(e) => {
@@ -86,6 +86,6 @@ fn scan_file(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut Error
             return 0;
         }
     }
-    out_errors.add(format!("{}", path.display()), format!("Unable to access file"));
+    out_errors.add(format!("{}", path.display()), "Unable to access file".to_string());
     0
 }

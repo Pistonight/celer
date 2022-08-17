@@ -1,0 +1,68 @@
+---
+_config: {}
+_project:
+  authors:
+    - iTNTPiston
+  description: Example of a celer project
+  name: Example
+  url: ""
+  version: 0.1.0
+_route:
+  - section level text step
+  - "_Equipment<section level text step as preset>"
+  - _Equipment<section level preset extend>: 
+      comment: hello
+  - __use__ TextStepSingle
+  - __use__ TextStepSinglePreset
+  - __use__ TextStepSinglePresetExtend
+  - __use__ TextStepArraySingle
+  - __use__ TextStepArrayMultiple
+  - Test Section 1:
+    - inner step
+    - "_Equipment<text step as preset>"
+    - _Equipment<preset extend>: 
+        comment: hello
+    - __use__ TextStepSingle
+    - __use__ TextStepSinglePreset
+    - __use__ TextStepSinglePresetExtend
+    - __use__ TextStepArraySingle
+    - __use__ TextStepArrayMultiple
+  - Single Text Section: single text
+  - Single Text Section Include: __use__ TextStepSingle
+  - Single preset extend section:
+      _Equipment<single>: 
+        comment: preset extend
+  - Single preset extend include: __use__ TextStepSinglePresetExtend
+  - section array include: __use__ TextStepArrayMultiple
+  - section array include 2: __use__ TextStepArraySingle
+
+  - Test Validation Section:
+    - Test Validation 1:
+    - Test Validation 2: 2
+    - Test Validation 3: false
+    - Test Validation 4:
+        invalid-attr: something
+    - Test Validation 5:
+        coord: wrong type
+    - Test Validation 6:
+        coord: [1, 2, 3, 4]
+    - Test Validation 6a:
+        coord: [1, 2, 3]
+    - Test Validation 6b:
+        coord: [1, 2]
+    - Test Validation 6c:
+        coord: [1]
+    - Test Validation 7:
+        coord: ["invalid", "type"]
+
+  - incorrect indentation:
+    notes: hellow
+
+  - # null step
+  - Another Section:
+    - incorrect step indentation:
+      movement: ["hellow"]
+
+  - __use__ _BadName
+  - __use__ NonExistingModule
+  - __use__ BadModule

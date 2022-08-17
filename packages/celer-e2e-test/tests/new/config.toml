@@ -2,14 +2,14 @@
 args = ["new"]
 stdin = "stdin.txt"
 stdout = "stdout.expected.txt"
-expected = ["expected", "input"]
+expected = ["expected"]
 
 [[test]]
 args = ["--new"]
 error = true
-expected = ["input"]
+expected = []
 
 [[test]]
 args = ["-n"]
 error = true
-expected = ["input"]
+expected = []

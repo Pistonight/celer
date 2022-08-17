@@ -205,7 +205,7 @@ impl Bundler {
             },
             SourceStep::Simple(step_string) => {
                 if let Some(module_name) = try_get_use_name_from_step(step_string) {
-                    if module_name.starts_with("_") {
+                    if module_name.starts_with('_') {
                         // Module name cannot start with _ to avoid conflict with language
                         let error = self.make_attached_error(parent_name, "Module name cannot start with underscore (_)");
                         out_arr.push(SourceStep::Simple(step_string.to_string()));

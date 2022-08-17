@@ -1,13 +1,13 @@
 """Validation Imports for celer-devtool and celer-lib"""
 # imports must be sorted and std imports must preceed others
 
-from locale import currency
 from os.path import isdir, isfile, join
 from os import listdir
 import sys
 from enum import Enum
 
 class CodeGroup(Enum):
+    """Enum for type of statement"""
     PUB_IMPORT = 0
     PRIV_MOD = 1
     PRIV_IMPORT = 2
@@ -17,13 +17,16 @@ class CodeGroup(Enum):
     TEST = 6
 
 class PubImportType(Enum):
+    """Enum for type of public import (use statement)"""
     STD = 7
     EXTERNAL = 8
     CELER = 9
     CRATE = 10
     SUPER = 11
 
+# pylint: disable-next=too-many-return-statements
 def get_code_group(line, private_mods):
+    """Get the type of statement"""
     if line.startswith("use "):
         crate = get_crate_from_line(line)
         if crate is None:
@@ -42,6 +45,7 @@ def get_code_group(line, private_mods):
     return CodeGroup.CODE
 
 def get_pub_import_type(crate):
+    """Get type of public import"""
     if crate == "std":
         return PubImportType.STD
     if crate == "celer":
@@ -54,17 +58,18 @@ def get_pub_import_type(crate):
 
 
 def get_crate_offset_and_end(line):
+    """Get (crate_start_index, end_delimiter)"""
     if line.startswith("use "):
         return 4, "::"
     if line.startswith("pub use "):
         return 8, "::"
-    elif line.startswith("mod "):
+    if line.startswith("mod "):
         return 4, ";"
-    elif line.startswith("pub mod"):
+    if line.startswith("pub mod"):
         return 8, ";"
-    else:
-        return 0, None
+    return 0, None
 def get_crate_from_line(line):
+    """Get crate name from line"""
     begin_index, end = get_crate_offset_and_end(line)
     if end is None:
         return None
@@ -74,10 +79,12 @@ def get_crate_from_line(line):
     return line[begin_index:end_index]
 
 def get_mod_from_line(line):
+    """Remove statement prefix to get full module name string"""
     begin_index, _ = get_crate_offset_and_end(line)
     return line[begin_index:-1]
 
 def append_error(error_lines, i, line, error):
+    """Add error"""
     line_num_string = f"{i+1}"
     line_num_width = len(line_num_string)
     error_lines.append(f"  {line_num_string}: {line[:-1]}")
@@ -85,6 +92,8 @@ def append_error(error_lines, i, line, error):
     spacer = " "*(4+line_num_width+offset)
     error_lines.append(f"{spacer}^ {error}")
 
+# pylint: disable-next=too-many-branches
+# pylint: disable-next=too-many-statements
 def validate_file(file_name):
     """Validate a file, return array of errors"""
     errors = []
@@ -103,51 +112,57 @@ def validate_file(file_name):
                 # ignore test code
                 break
             if group.value < current_group.value:
-                append_error(errors, i, line, f"Code group {group.name} must preceed the {current_group.name} group")
+                append_error(errors, i, line,
+                    f"Code group {group.name} must preceed the {current_group.name} group")
                 continue
             if group == CodeGroup.CODE:
                 current_group = group
                 continue
             crate = get_crate_from_line(line)
             if crate is None:
-                append_error(errors, i, line, f"Cannot determine crate name")
+                append_error(errors, i, line, "Cannot determine crate name")
                 continue
 
             # validate external vs private imports
             if group == CodeGroup.PRIV_MOD:
                 if crate in external_crates:
-                    append_error(errors, i, line, f"private mod {crate} should be declared before import")
+                    append_error(errors, i, line,
+                        f"private mod {crate} should be declared before import")
                     continue
                 private_crates.append(crate)
-                
-            
+
             # for pub imports we want to check sorting only within same type
             if group == CodeGroup.PUB_IMPORT:
                 pub_import = get_pub_import_type(crate)
                 if pub_import == PubImportType.EXTERNAL and crate not in external_crates:
                     external_crates.append(crate)
                 if pub_import.value < current_pub_import.value:
-                    append_error(errors, i, line, f"Pub import type {pub_import.name} must preceed the {current_pub_import.name} type")
+                    append_error(errors, i, line,
+f"Pub import type {pub_import.name} must preceed the {current_pub_import.name} type")
                     continue
-                elif pub_import == current_pub_import:
+                if pub_import == current_pub_import:
                     # Check alphabetical sorting
                     mod_name = get_mod_from_line(line)
                     if last_accepted is not None and mod_name < last_accepted:
-                        append_error(errors, i, line, f"Pub import must be sorted alphabetically within types. {mod_name} should be after {last_accepted}")
+                        append_error(errors, i, line,
+f"Pub import must be sorted alphabetically within types. \
+{mod_name} should be after {last_accepted}")
                         continue
                     last_accepted = mod_name
                 else:
                     last_accepted = None
                     current_pub_import = pub_import
-            
+
             elif group == current_group:
                  # Check alphabetical sorting
                 mod_name = get_mod_from_line(line)
                 if last_accepted is not None and mod_name < last_accepted:
-                    append_error(errors, i, line, f"Statements must be sorted alphabetically within groups. {mod_name} should be after {last_accepted}")
+                    append_error(errors, i, line,
+f"Statements must be sorted alphabetically within groups. \
+{mod_name} should be after {last_accepted}")
                     continue
                 last_accepted = mod_name
-            
+
             else: # group > current_group
                 last_accepted = None
                 current_group = group

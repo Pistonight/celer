@@ -1,7 +1,10 @@
+# [[test]]
+# Required:
 # args: command line arguments
-# stdin: file name for inputs from stdin
-# stdout: (optional) file name for expected output from stdout. omit if not comparing
-# expected: (optional) list of directory names for expected directory result. (the directories are merged). omit if not comparing
-# error: (optional) set to true to expect non-empty stderr, or set to a file for comparison
 
-# input directory state should be in a directory called "input", and is shared among tests
+# Optional:
+# input: list of directory names for input state in the "inputs" directory
+# expected: list of directory names for expected directory result. (the directories are merged). omit if not comparing
+# stdin: file name for inputs from stdin
+# stdout: file name for expected output from stdout. omit if not comparing
+# error: set to true to expect non-empty stderr, or set to a file for comparison

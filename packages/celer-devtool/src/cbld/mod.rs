@@ -20,9 +20,9 @@ fn merge(config: Config) {
     fail_build_on_error(&errors);
     
     if config.yaml {
-        cio::file::write_yaml_file(&unbundled_route, "merged.yaml", &mut errors);
+        cio::file::write_yaml_file(&unbundled_route, "source.yaml", &mut errors);
     }else{
-        cio::file::write_json_file(&unbundled_route, "merged.json", config.debug, &mut errors);
+        cio::file::write_json_file(&unbundled_route, "source.json", config.debug, &mut errors);
     }
     fail_build_on_error(&errors);
 }

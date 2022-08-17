@@ -30,6 +30,7 @@ fn main() {
         .bin_name("celer")
         .about("Celer Devtool")
         .version(VERSION)
+        .long_version(const_format::formatcp!("{VERSION} (lib {})", celer::VERSION))
         .subcommand_required(true)
         .arg_required_else_help(true)
         // new command
@@ -56,4 +57,3 @@ fn main() {
     }
     
 }
-

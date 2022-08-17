@@ -64,13 +64,16 @@ check_package("celer-vscode-extension", "packages/celer-vscode-extension/", [
 check_package("celer-devtool", "packages/celer-devtool/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
-    ("src/main.rs", 1, 27, "\"")
+    ("src/main.rs", 6, 27, "\""),
+    ("../celer-e2e-test/tests/version/version.txt", 1, 14, ""),
+    ("../celer-e2e-test/tests/version/long_version.txt", 1, 14, " ")
 ])
 
 check_package("celer-lib", "packages/celer-lib/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
-    ("src/lib.rs", 1, 27, "\"")
+    ("src/lib.rs", 8, 27, "\""),
+    ("../celer-e2e-test/tests/version/long_version.txt", 1, 25, ")")
 ])
 
 if not OK:
