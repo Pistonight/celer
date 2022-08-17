@@ -26,7 +26,7 @@ lintts:
 
 # Lint RS code
 lintrs:
-    python3 scripts/validatersimport.py packages/celer-devtool/src packages/celer-lib/src
+    python3 scripts/rsvalidateimport.py packages/celer-devtool/src packages/celer-lib/src
     cargo clippy --release -- -D clippy::all -D warnings
 
 # Lint PY code

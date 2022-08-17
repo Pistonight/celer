@@ -1,4 +1,5 @@
-#![allow(clippy::unused_unit)] // This warning is within wasm_bindgen and we can't fix it
+/* Import Validation Exempt */#![allow(clippy::unused_unit)] 
+/* Import Validation Exempt */// This warning is within wasm_bindgen and we can't fix it
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
 // WASM API

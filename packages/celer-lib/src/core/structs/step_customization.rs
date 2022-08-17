@@ -1,9 +1,9 @@
 use std::collections::HashMap;
+use serde_json::json;
 use crate::data;
 use super::step_movement::Movement;
-
 use super::step_movement::validate_coord_array;
-use serde_json::json;
+
 
 #[derive(Debug)]
 pub struct SourceStepCustomization {

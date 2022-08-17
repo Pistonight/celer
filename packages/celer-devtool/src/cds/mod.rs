@@ -2,21 +2,19 @@ use std::collections::HashMap;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
-
 use chrono::{DateTime, Local};
+use serde_json::json;
 use celer::core;
-
-use crate::cio;
+use crate::cio::bundle;
 mod client;
-mod delay;
-mod server;
-mod display;
 mod config;
-pub use config::{Config, get_subcommand};
+mod delay;
+mod display;
+mod server;
 use delay::DelayMgr;
 use display::DevServerDisplay;
 use server::DevServer;
-use serde_json::json;
+pub use config::{Config, get_subcommand};
 
 /// Entry point for cds
 pub fn start(config: Config) {
@@ -135,12 +133,12 @@ impl DevServerThread {
     /// Emits bundle.json if emit_bundle is set to true in Config
     fn load_files(&mut self) -> bool {
         self.errors.clear();
-        let (unbundled_route, metadata) = cio::load_unbundled_route(&mut self.errors);
+        let (unbundled_route, metadata) = bundle::load_unbundled_route_with_metadata(&mut self.errors);
         let changed = !self.unbundled_route.eq(&unbundled_route);
         if changed {
             if self.config.emit_bundle{ 
                 let source_object = core::SourceObject::from(&unbundled_route);
-                cio::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
+                bundle::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
             }
             self.unbundled_route = unbundled_route;
             self.metadata = metadata;

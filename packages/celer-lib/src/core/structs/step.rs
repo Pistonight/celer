@@ -1,6 +1,5 @@
-
-use crate::data;
 use serde_json::json;
+use crate::data;
 use super::step_customization::SourceStepCustomization;
 /// Struct for a step in the route doc
 #[derive(Debug)]

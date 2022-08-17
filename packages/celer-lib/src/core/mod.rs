@@ -1,10 +1,10 @@
 use std::collections::HashMap;
+use serde_json::json;
 
 mod bundler;
 mod structs;
 
 use bundler::Bundler;
-use serde_json::json;
 pub use structs::{Config, Metadata, SourceSection, SourceModule, SourceStep};
 
 /// data structure that represents the bundled source files.

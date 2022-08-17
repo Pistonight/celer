@@ -1,9 +1,8 @@
 use std::fs::File;
 use std::io::{self, Write};
 use std::path::Path;
-
-use celer::{api, core};
 use serde_json::json;
+use celer::{api, core};
 
 pub fn new() {
     println!("Enter optional values for the following properties to create a new project. You can change them later in main.celer");

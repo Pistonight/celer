@@ -1,14 +1,9 @@
-pub const VERSION: &str = "2.0.0";
-// use std::env;
+mod cbld; // Celer Build 
+mod ccmd;   // Celer Command Module
+mod cds;    // Celer Dev Server
+mod cio;    // Celer IO
 
-// Celer Command Module
-mod ccmd;
-// Celer Dev Server
-mod cds;
-// Celer IO
-mod cio;
-// Celer Build 
-mod cbuild;
+pub const VERSION: &str = "2.0.0";
 
 #[cfg(not(debug_assertions))]
 fn ship_panic(panic_info: &std::panic::PanicInfo) {
@@ -45,7 +40,7 @@ fn main() {
         // dev command
         .subcommand(cds::get_subcommand())
         // build command
-        .subcommand(cbuild::get_subcommand());
+        .subcommand(cbld::get_subcommand());
 
     match matches.get_matches().subcommand() {
         Some(("new", _)) => ccmd::new(),
@@ -54,8 +49,8 @@ fn main() {
             cds::start(config);
         },
         Some(("build", matches)) => {
-            let config = cbuild::Config::from(matches);
-            cbuild::run(config);
+            let config = cbld::Config::from(matches);
+            cbld::run(config);
         }
         _ => {}
     }
