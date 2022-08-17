@@ -41,6 +41,7 @@ codegen end
 
 codegen begin
 DefineJobStart e2e-test-windows,Devtool E2E Test for Windows,windows-latest,#
+SetWindowsLineEnd
 CommonSetup
 JustCIJob e2e-test-windows
 codegen end
