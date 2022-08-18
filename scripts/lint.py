@@ -15,7 +15,9 @@ ignore = [
     "target",
     "binaryen-version_105",
     "pkg",
-    "wasmlib"
+    "wasmlib",
+    ".cargo",
+    "test_output"
 ]
 
 ignore_exts = [
@@ -28,6 +30,8 @@ ignore_exts = [
     ".ps1",
     ".wasm",
     ".tar.gz",
+    "bundle.json",
+    "bundle.yaml"
 ]
 
 ROOT = "."

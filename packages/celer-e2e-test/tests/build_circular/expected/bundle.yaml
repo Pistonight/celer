@@ -1,0 +1,11 @@
+---
+_config: {}
+_globalError: "Circular Dependency Found: Trace: [\"_route\", \"D\", \"A\", \"B\", \"C\"] -> A"
+_project:
+  authors:
+    - ""
+  description: Bundler should detect circular dependency
+  name: Circular Dependency Test
+  url: ""
+  version: 0.1.0
+_route: []

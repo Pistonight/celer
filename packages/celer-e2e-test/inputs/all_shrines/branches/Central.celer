@@ -1,0 +1,71 @@
+Central:
+
+- Shield Surf SCW
+- WB + BLSS:
+    movements:
+    - to: [-3196,1032.7717201206897]
+    - to: [-3112,888.7146730481127]
+    notes: activate with amiibo
+- _Shrine::JolooNah
+- .dir(.S) Turn or BLSS
+- _Shrine::JeeNoh
+- .dir(N>) TS or BLSS
+- _Shrine::DahKaso
+- Cryo + .dir(N>) + .dir(N) midairs
+- _Shrine::RotaOoh
+- BLSS
+- _Shrine::KaamYatak
+- .dir(<N) + .dir(NW) + .dir(W):
+    notes: if you have ice arrow and is day time, can btb. not sure if night time btb is faster than wb
+- _Shrine::SheemDagoze
+- .dir(N>) TS
+- _Shrine::ZaltaWa
+- .dir(E) + .dir(E) Turn
+- _Shrine::NoyaNeha:
+    var-change:
+      Hammer: -1
+- Updraft + .dir(SE)
+- _Shrine::KatahChuki
+
+- +.dir(<E) Turn super + .dir(N>) super
+- _Chest<3 AA>:
+    coord: [-254.5,-741.9742687822863]
+    notes: Throw away hammer while waiting for chest to load
+- Climb up + .dir(<N) Turn
+- _Equipment::Bow<Royal Guard Bow>:
+    coord: [-333,-995.5355553803038]
+- _Equipment::Weapon<EOD>:
+    notes: Should have old EOD, Boomerang, Claymore, new EOD for fights (in this order). If you don't have enough elemental for blights, pick up 5 arrow here
+- WB to scantum
+- __use__ CheckResources
+- ""
+- ""
+- Castle:
+    split-type: UserDefined
+    icon: calamity
+- .enemy(Windblight):
+    icon: medoh-done
+    comment: Skip
+    notes: Eat attack up
+- .enemy(Waterblight):
+    icon: ruta-done
+    comment: 1=Old EOD, 2=Same as any%
+    notes: switch to new EOD before last 2 headshots
+- .enemy(Fireblight):
+    icon: rudania-done
+    notes: 1=EOD 3 slam, EOD 4 slam, Boomerang 3 throw. 2=same as any%
+- .enemy(Thunderblight):
+    icon: naboris-done
+    comment: Same as any%
+    notes: Throw old EOD instead of RC for Thunderblight
+- Blights:
+    split-type: UserDefined
+    icon: calamity
+    coord: [-253.75,-1066.3135837163095]
+    hide-icon-on-map: true
+- Calamity:
+    split-type: UserDefined
+    icon: calamity
+    coord: [-253.75,-1066.3135837163095]
+    hide-icon-on-map: true
+    notes: TODO make a video

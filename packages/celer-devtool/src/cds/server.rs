@@ -75,8 +75,4 @@ impl DevServer {
         send_count
     }
 
-    // /// Get number of clients currently alive
-    // pub fn num_clients(&self) -> usize {
-    //     self.clients.len()
-    // }
 }

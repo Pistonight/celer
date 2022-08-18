@@ -10,22 +10,45 @@ on:
 jobs:
 codegen begin
 DefineJobStart check,Health Check,ubuntu-latest,#
+CommonSetup
 JustCIJob check
 codegen end
 
 codegen begin
 DefineJobStart rs-lint,Lint RS,ubuntu-latest,#
+CommonSetup
 JustCIJob rs-lint
 codegen end
 
 codegen begin
 DefineJobStart ts-lint,Lint TS,ubuntu-latest,#
+CommonSetup
 SetupNode
 JustCIJob ts-lint
 codegen end
 
 codegen begin
+DefineJobStart run-unit-test,Unit Test,ubuntu-latest,#
+CommonSetup
+JustCIJob unit-test
+codegen end
+
+codegen begin
+DefineJobStart e2e-test,Devtool E2E Test,${{ matrix.os }},strategy: { matrix: { os: [ ubuntu-latest\, macos-latest ] } }
+CommonSetup
+JustCIJob e2e-test
+codegen end
+
+codegen begin
+DefineJobStart e2e-test-windows,Devtool E2E Test for Windows,windows-latest,#
+SetWindowsLineEnd
+CommonSetup
+JustCIJob e2e-test-windows
+codegen end
+
+codegen begin
 DefineJobStart cargo-build-ubuntu,Build Devtool (Ubuntu),ubuntu-latest,#
+CommonSetup
 JustCIJob cargo-release
 JustCIJob cargo-tar-ubuntu
 JustCIJob release-notes
@@ -34,6 +57,7 @@ codegen end
 
 codegen begin
 DefineJobStart cargo-build-macos,Build Devtool (Mac OS),macos-latest,#
+CommonSetup
 JustCIJob cargo-release
 JustCIJob cargo-tar-macos
 JustCIJob release-notes
@@ -42,6 +66,7 @@ codegen end
 
 codegen begin
 DefineJobStart cargo-build-windows,Build Devtool (Windows),windows-latest,#
+CommonSetup
 JustCIJob cargo-release
 JustCIJob cargo-tar-windows
 JustCIJob release-notes
@@ -50,6 +75,7 @@ codegen end
 
 codegen begin
 DefineJobStart web-build,Build Web,ubuntu-latest,#
+CommonSetup
 SetupNode
 SetupWasmPack
 SkipJobWIP web-test
@@ -64,6 +90,7 @@ codegen end
 
 codegen begin
 DefineJobStart vsce-build,Build VSCE,ubuntu-latest,#
+CommonSetup
 SetupNode
 JustCIJob vsce-build
 JustCIJob vsix

@@ -1,17 +1,18 @@
 use std::collections::HashMap;
+use serde_json::json;
 
 mod bundler;
-pub mod structs;
+mod structs;
 
 use bundler::Bundler;
-use serde_json::json;
-use structs::{Config, Metadata, SourceSection};
+pub use bundler::BundlerError;
+pub use structs::{Config, Metadata, SourceSection, SourceModule, SourceStep};
 
 /// data structure that represents the bundled source files.
 #[derive(Debug)]
 pub struct SourceObject {
     /// Metadata
-    pub project: Metadata,
+    pub metadata: Metadata,
     /// Configuration
     pub config: Config,
     /// Bundled Route
@@ -23,11 +24,20 @@ pub struct SourceObject {
 }
 
 impl SourceObject {
+    /// Generate (unbundled) source object from metadata and route
+    pub fn new(metadata: Metadata, route: Vec<SourceSection>) -> Self {
+        Self {
+            metadata,
+            config: Config::new(),
+            route,
+            global_error: None
+        }
+    }
     /// Convert and bundle json source into SourceObject
-    pub fn from(value: &serde_json::Value) -> SourceObject{
+    pub fn from(value: &serde_json::Value, out_bundler_errors: &mut Vec<BundlerError>) -> Self {
         if !value.is_object() {
-            return SourceObject {
-                project: Metadata::new(),
+            return Self {
+                metadata: Metadata::new(),
                 config: Config::new(),
                 route: Vec::new(),
                 global_error: Some(String::from("Input is not an object (mapping)"))
@@ -42,15 +52,15 @@ impl SourceObject {
                 modules.insert(String::from(k), v.clone());
             }
             let sections: Vec<SourceSection> = obj_route.iter().map(SourceSection::from).collect();
-            return match Bundler::bundle(&sections, modules) {
+            return match Bundler::bundle(&sections, modules, out_bundler_errors) {
                 Ok(bundled_sections) => SourceObject {
-                    project: metadata,
+                    metadata,
                     config,
                     route: bundled_sections,
                     global_error: None
                 },
                 Err(message) => SourceObject {
-                    project: metadata,
+                    metadata,
                     config,
                     route: Vec::new(),
                     global_error: Some(message)
@@ -58,8 +68,8 @@ impl SourceObject {
             };
         }
 
-        SourceObject {
-            project: metadata,
+        Self {
+            metadata,
             config,
             route: Vec::new(),
             global_error: Some(String::from("Missing _route property or _route is not an array"))
@@ -69,7 +79,7 @@ impl SourceObject {
     pub fn to_json(&self) -> serde_json::Value {
         let route_obj: Vec<serde_json::Value> = self.route.iter().map(|x|x.to_json()).collect();
         let mut obj = json!({
-            "_project": self.project,
+            "_project": self.metadata,
             "_config": self.config.to_json(),
             "_route": route_obj,
         });

@@ -1,0 +1,76 @@
+Kakariko:
+- BLSS
+- _Shrine::BoshKala:
+    line-color: red
+- .dir(N>) TS
+- _Shrine::WahgoKatta
+- .dir(<E) Turn
+- _Shrine::HilaRao
+- .dir(N.) Turn to fairy:
+    coord: [950,500.1411246295402]
+- .dir(.N) Turn to forest:
+    notes: Land at the group of 5 endura shrooms. 
+           Pick them up, then pick up 1 hylian shroom + 1 endura shroom + 1 radish (eat for wb in shrine)
+- _Shrine::KayaWan
+
+- SQ to Beedle:
+    notes: He should always be in front of the stable at this TOD
+- Sell Ruby
+- Buy 3 frogs 2 Butterfly:
+    notes: If you only buy 2 butterfly instead of 3, it's faster to sell later. .v(Rupee) rupees left
+    var-change:
+      Rupee: -50
+- BLSS to shrine:
+    coord: [917,150.2713926522165]
+- _Shrine::DakaTuss:
+    comment: Eat Steak
+- +3 WB to shop:
+    notes: Make sure you keep 2 shrooms and 2 peppers. Eat endura shroom if you have to
+
+- +_Shop<3 Carrot 1 Gut>:
+    var-change:
+      Rupee: -128 # 80 + 48
+    notes: .v(Rupee) rupee left
+    coord: [1794.5,1029.0004800600318]
+- +_Cook<1 Speed>:
+    comment: 3 Frog + Carrot + Gut
+- +_Cook<3-4 Endura>:
+    notes: 
+      Faster to only have 2 endura left. If you have all 6 shrooms, cook 2 of them into one meal (or just cook 4).
+      Use shroom, pepper, endura, butterfly, carrot to break 5 slots.
+      Import .link([this simulator file]https://github.com/iTNTPiston/as3/blob/main/IST.txt)
+      to .link([the simulator]https://dupl.itntpiston.app/#options) to see the steps for IST. 
+- +_Equipment::Shield<Pot Lid>:
+    hide-icon-on-map: true
+- +Do IST in arrow shop:
+    var-change:
+      Rupee: 18 # 2+4+3+3+6
+    notes: ".v(Rupee) rupees left after IST. Rest: 360 FA + 240 SA + 80 RS + 80 IA"
+- Sell 355+ Fairy:
+    var-change:
+      Rupee: 710 # 
+- +_Shop<20 Fire Arrow>:
+    coord: [1827,1039.9681091017883]
+    var-change:
+      Rupee: -360
+      FireArrow: 20
+- Throw away tree branch
+- SQ to Impa
+- +_Npc::SheikaFemale<Impa>:
+    coord: [1772.71, 229.43, 984.31]
+- Run to statue
+- +_Npc<2 Stam Upgrades>:
+    coord: [1841,997.9514703722871]
+    notes: The statue will keep asking if you want to upgrade after 2. Make sure you cancel out, or you will soft lock
+- +.dir(N) to shrine
+- _Shrine::TalohNaeg:
+    comment: Get Shield inside
+
+- SCW to Lakna Rokee:
+    notes: Shield surf, EOD inside shrine. Only use EOD for cutting trees, as we need this for blights
+- _Shrine::LaknaRokee:
+    comment: Get EOD
+    var-change:
+      EOD: 35
+- __use__ CheckResources
+- ""

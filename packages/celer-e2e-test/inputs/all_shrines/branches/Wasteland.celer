@@ -1,0 +1,57 @@
+Wasteland: # Start: Keeha Yoog
+- BLSS:
+    movements:
+    - to: [-3928,532.6861495118246]
+    - to: [-4320,416.64019492558236]
+    notes: or 3 wb chain
+- _Shrine::KemaKosassa
+- BLSS
+- Hammer luminous stone
+- _Shrine::ShoDantu:
+    var-change:
+      Hammer: -1
+- Shield Surf SCW
+- .dir(S) LOOK UP
+- Campfire Activate:
+    var-change: 
+      Wood: -1
+      FireArrow: -1
+    notes: .v(Wood) wood left
+- _Shrine::SasaKai
+- .dir(SE) Delay
+- _Shrine::DakoTah
+- .dir(E>) Slight Turn + .dir(<E)
+- _Shrine::KayNoh
+- .dir(E>) + .dir(S)
+- _Shrine::KorshOhu:
+    notes: make noon during the orbs. Earliest is before first orb. Can use fire chu to save arrows unless that's the only chu left
+    var-change:
+      Wood: -1
+- .dir(S) + BLSS
+- Clip in
+- _Shrine::MisaeSuma
+- .dir(E) Turn + .dir(E) + .dir(E) + .dir(<<E) Turn
+- _Shrine::DilaMaag:
+    notes: Barb armor if need
+- +WB straight up land left
+- +.dir(E) + .dir(E) up
+- +.dir(S) + .dir(S) +.dir(N>) + midair
+- _Shrine::SumaSahma
+- .dir(E>) Turn
+- _Shrine::IshtoSoh
+- BLSS
+- _Shrine::ShaeKatha
+- Infinity SCW:
+    notes: use shock -> fire
+    var-change:
+      FireArrow: -1
+      EOD: -1 # cut tree
+- _Shrine::ShoqaTatone
+- .dir(E) + .dir(E) + .dir(N>)
+- _Shrine::KaoMakagh
+- .dir(N.) Turn
+- _Shrine::PumaagNitae
+- .dir(W>) Turn + .dir(W>>) Turn
+- _Shrine::YaNaga
+- __use__ CheckResources
+- ""

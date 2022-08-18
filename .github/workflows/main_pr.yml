@@ -107,6 +107,36 @@ jobs:
     - name: Just ts-lint
       run: just -f .justci ci-ts-lint
 
+  run-unit-test:
+    name: Unit Test
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just unit-test
+      run: just -f .justci ci-unit-test
+
   cargo-build:
     name: Build Devtool
     strategy: { matrix: { os: [ ubuntu-latest, macos-latest, windows-latest ] } }
@@ -136,6 +166,70 @@ jobs:
           pylint-quotes
     - name: Just cargo
       run: just -f .justci ci-cargo
+
+  e2e-test:
+    name: Devtool E2E Test
+    strategy: { matrix: { os: [ ubuntu-latest, macos-latest ] } }
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just e2e-test
+      run: just -f .justci ci-e2e-test
+
+  e2e-test-windows:
+    name: Devtool E2E Test for Windows
+    #
+    runs-on: windows-latest
+    steps:
+    - name: Setup | Windows Line End (CRLF)
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol crlf
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just e2e-test-windows
+      run: just -f .justci ci-e2e-test-windows
 
   web-build:
     name: Build Web
@@ -174,8 +268,6 @@ jobs:
       uses: jetli/wasm-pack-action@v0.3.0
       with:
         version: 'latest'
-    - name: Skip web-test (because WIP)
-      run: echo "web-test Skipped"
     - name: Just web-build
       run: just -f .justci ci-web-build
 

@@ -1,0 +1,15 @@
+[[test]]
+args = ["new"]
+stdin = "stdin.txt"
+stdout = "stdout.expected.txt"
+expected = ["expected"]
+
+[[test]]
+args = ["--new"]
+error = true
+expected = []
+
+[[test]]
+args = ["-n"]
+error = true
+expected = []

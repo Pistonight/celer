@@ -1,0 +1,19 @@
+Bloodmoon: # Start: KT
+- Shield Surf SCW:
+    notes: If you have no wood, last chance to get 1 wood
+- .dir(N) Turn + BLSS:
+    coord: [-3196,1032.7717201206897]
+    notes: Activate with kass diary. Can WB chain
+- _Shrine::MijahRokee
+- .dir(<N) Turn
+- _Shrine::ShaeLoya
+- .!!(6 Hits on Each Orb):
+    notes: Otherwise, your hammer will break early
+- .dir(<<E) TS to red
+- .dir(NW) to orange
+- .dir(S) to green:
+    var-change:
+      Hammer: -12
+- _Shrine::TohYahsa
+- .dir(N) + midairs
+- _Shrine::DunbaTaag

@@ -1,5 +1,5 @@
-use super::step::SourceStep;
 use serde_json::json;
+use super::step::SourceStep;
 
 /// Struct representing a module, which can either be a single step or an array of steps
 #[derive(Debug)]

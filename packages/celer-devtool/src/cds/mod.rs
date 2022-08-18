@@ -1,90 +1,36 @@
-use std::collections::HashMap;
-use std::path::PathBuf;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
-
-use celer::core::structs::{Metadata, SourceObject};
 use chrono::{DateTime, Local};
-use serde_json::{json, Value};
-
-use crate::cfio;
+use serde_json::json;
+use celer::{api, core};
+use crate::cio::bundle;
+use crate::cio::ErrorState;
 mod client;
+mod config;
 mod delay;
-mod server;
 mod display;
-/*import-validate-exempt*/use delay::DelayMgr;
-/*import-validate-exempt*/use display::DevServerDisplay;
-/*import-validate-exempt*/use server::DevServer;
+mod server;
+use delay::DelayMgr;
+use display::DevServerDisplay;
+use server::DevServer;
+pub use config::{Config, get_subcommand};
 
 /// Entry point for cds
-pub fn start() {
-    match DevServer::new(2222) {
-        Err(e) => panic!("error: cds: Error starting dev server: {}", e),
-        Ok(mut server) => run(&mut server)
-    }
+pub fn start(config: Config) {
+    println!("Starting dev server...");
+    let mut thread = DevServerThread::new(config);
+    println!("Loading route for the first time...");
+    thread.load_files();
+
+    while thread.main_loop() {}
+
+    thread.stop();
 
     println!("Dev server stopped");
 }
 
-fn run(server: &mut DevServer) {
-    let running = Arc::new(AtomicBool::new(true));
-
-    set_interrupt(running.clone());
-    // start dev server
-    let mut last_update: Option<DateTime<Local>> = Option::None;
-    //let mut update_success_count = 0;
-
-    let mut delay_mgr = DelayMgr::new();
-    let mut display = DevServerDisplay::new();
-
-    let (mut bundle, mut metadata, mut errors) = load_bundle();
-    loop {
-        let new_clients = server.query_clients();
-
-        let (new_bundle, new_metadata, new_errors) = load_bundle();
-        let bundle_changed = !new_bundle.eq(&bundle);
-        if bundle_changed {
-            bundle = new_bundle;
-            metadata = new_metadata;
-            errors = new_errors;
-        }
-        // if clients changed, then update regardless of file change    
-        if bundle_changed || new_clients {
-            // send update
-            let new_update_count = server.send(&bundle);
-            if new_update_count > 0 {
-                last_update = Option::Some(Local::now());
-            }
-
-            delay_mgr.reset();
-        }else{
-            delay_mgr.slack();
-        }
-
-        let project = &metadata.name;
-
-        let last_update_str = match last_update {
-            Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
-            None => String::from("never"),
-        };
-        
-        display.update(project, &last_update_str, &errors);
-        
-        for _ in 0..delay_mgr.get_delay() {
-            if !running.load(Ordering::SeqCst) {
-                break;
-            }
-            thread::sleep(Duration::from_secs(1));
-        }
-        if !running.load(Ordering::SeqCst) {
-            break;
-        }
-        
-    }
-
-    server.stop();
-}
+/// Set Ctrl C interrupt handler for stopping
 fn set_interrupt(running: Arc<AtomicBool>) {
     if let Err(e) = ctrlc::set_handler(move || {
         println!("Shutting down dev server");
@@ -96,52 +42,112 @@ fn set_interrupt(running: Arc<AtomicBool>) {
     }
 }
 
-fn load_bundle() -> (String, celer::Metadata, HashMap<String, Vec<String>>) {
-    let mut paths: Vec<PathBuf> = Vec::new();
-    let mut errors: HashMap<String, Vec<String>> = HashMap::new();
+struct DevServerThread {
+    /// Underlying wrapper for TcpListener, for communicating with clients
+    server: DevServer,
 
-    cfio::scan_for_celer_files(&mut paths, &mut errors);
+    config: Config,
+    running: Arc<AtomicBool>,
+    delay_mgr: DelayMgr,
+    display: DevServerDisplay,
 
-    let mut combined_json = json!({});
-    for p in paths {
-        let file_content = match std::fs::read_to_string(&p) {
-            Ok(v) => v,
-            Err(e) => {
-                cfio::add_error(format!("{}", p.display()), format!("Cannot read file: {}", e), &mut errors);
-                continue
-            }
+    last_update: Option<DateTime<Local>>,
+    unbundled_route: serde_json::Value,
+    metadata: core::Metadata,
+    errors: ErrorState
+
+}
+
+impl DevServerThread {
+    /// Create and bind to port
+    pub fn new(config: Config) -> Self {
+        let server = match DevServer::new(config.port) {
+            Err(e) => panic!("error: cds: Error starting dev server: {}", e),
+            Ok(server) => server
         };
-        let file_json: Value = match cfio::load_yaml_object(&file_content) {
-            Ok(file_json) => file_json,
-            Err(e) => {
-                cfio::add_error(format!("{}", p.display()), format!("Error loading object: {}", e), &mut errors);
-                continue
-            }
-        };
-        for (k, v) in file_json.as_object().unwrap() {
-            combined_json[k.to_string()] = v.clone();
+        
+        let running = Arc::new(AtomicBool::new(true));
+
+        set_interrupt(running.clone());
+
+        Self {
+            server,
+            config,
+            running,
+            delay_mgr: DelayMgr::new(),
+            display: DevServerDisplay::new(),
+            last_update: None,
+            unbundled_route: json!({}),
+            metadata: core::Metadata::new(),
+            errors: ErrorState::new(),
         }
+        
     }
-    
 
-    let json = serde_json::to_string(&combined_json).unwrap();
-    //println!("{}", json);
-    
-    let source_object: SourceObject = match serde_json::from_value(combined_json) {
-        Err(_) => {
-            SourceObject {
-                project: Metadata {
-                    authors: vec![],
-                    name: String::from("unknown"),
-                    url: String::new(),
-                    description: String::new(),
-                    version: String::new()
-                }
+    pub fn stop(&mut self) {
+        self.server.stop();
+    }
+
+    /// Main loop
+    /// Returns true if loop should continue
+    pub fn main_loop(&mut self) -> bool{
+        let new_clients = self.server.query_clients();
+
+        let changed = self.load_files();
+        // if clients changed, then update regardless of file change    
+        if changed || new_clients {
+            // send update
+            let bundle_str = serde_json::to_string(&self.unbundled_route).unwrap();
+            let new_update_count = self.server.send(&bundle_str);
+            if new_update_count > 0 {
+                self.last_update = Option::Some(Local::now());
             }
-        },
-        Ok(v) => v
-    };
 
-    (json, source_object.project, errors)
+            self.delay_mgr.reset();
+        }else{
+            // If no change, let the server update less often
+            self.delay_mgr.slack();
+        }
 
+        let project = &self.metadata.name;
+
+        let last_update_str = match self.last_update {
+            Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
+            None => String::from("never"),
+        };
+        
+        self.display.update(self.config.port, project, &last_update_str, &self.errors);
+        
+        for _ in 0..self.delay_mgr.get_delay() {
+            if !self.running.load(Ordering::SeqCst) {
+                return false
+            }
+            thread::sleep(Duration::from_secs(1));
+        }
+        
+        self.running.load(Ordering::SeqCst)
+    }
+
+    /// Reload route files. 
+    /// Returns if the unbundled source has changed
+    /// Emits bundle.json if emit_bundle is set to true in Config
+    fn load_files(&mut self) -> bool {
+        self.errors.clear();
+        let (unbundled_route, metadata) = bundle::load_unbundled_route_with_metadata(&mut self.errors);
+        let changed = !self.unbundled_route.eq(&unbundled_route);
+        if changed {
+            if self.config.emit_bundle{ 
+                let mut bundler_errors = Vec::new();
+                let source_object = api::bundle(&unbundled_route, &mut bundler_errors);
+
+                bundle::add_bundle_errors(&bundler_errors, &mut self.errors);
+
+                bundle::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
+            }
+            self.unbundled_route = unbundled_route;
+            self.metadata = metadata;
+        }
+
+        changed
+    }
 }

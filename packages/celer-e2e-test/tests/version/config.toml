@@ -1,0 +1,14 @@
+[[test]]
+args = ["version"]
+error = true
+expected = []
+
+[[test]]
+args = ["--version"]
+stdout = "long_version.txt"
+expected = []
+
+[[test]]
+args = ["-V"]
+stdout = "version.txt"
+expected = []

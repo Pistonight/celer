@@ -19,6 +19,15 @@ ci-cargo:
 ci-cargo-release:
     cargo build --release
 
+ci-unit-test:
+    @just testu
+
+ci-e2e-test:
+    @just teste2e
+
+ci-e2e-test-windows:
+    @just teste2e-windows
+
 ci-web-build:
     @just packages/celer-web-app/build
 
@@ -43,8 +52,6 @@ ci-cargo-tar-windows:
 ci-web-tar:
     mkdir -p release-ci
     cp -R -T packages/celer-web-app/build release-ci/celer-web-app
-    cp -T packages/celer-user-docs/setup.sh release-ci/celer-web-app/setup.sh
-    cp -T packages/celer-user-docs/setup-windows.ps1 release-ci/celer-web-app/setup-windows.ps1
     cd release-ci && tar -cvzf celer-web-app.tar.gz celer-web-app
 
 ci-vsix:

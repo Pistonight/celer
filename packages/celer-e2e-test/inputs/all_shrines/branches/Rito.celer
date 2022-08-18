@@ -1,0 +1,61 @@
+Rito: # Start: Shae Lota
+- .dir(.W) Turn + .dir(W) + .dir(W)
+- _Shrine::TenaKosah
+- .dir(.W) DT
+- _Shrine::KahOkeo:
+    var-change:
+      EOD: -1
+    notes: Use EOD on slab
+- _Warp::Shrine::TenaKosah
+- _Tod::Noon:
+    var-change:
+      Wood: -1
+      FireArrow: -1
+  
+- BLSS
+- _Shrine::AkhVaquot
+- +.dir(S) + Fire arrow
+- _Shrine::BareedaNaag:
+    var-change:
+      FireArrow: -1
+    notes: .v(FireArrow) Fire Arrows Left
+- Shield Surf SCW
+- _Shrine::VooLota:
+    notes: Rushroom activate. (EOD on switch)
+    var-change:
+      EOD: -1
+
+- .dir(N>) Turn
+- _Shrine::ShaWarvo
+- .dir(<N) super:
+    coord: [-3984,-2549.3553557229257]
+- _Shrine::MakaRah
+
+- +Run out:
+    coord: [-3984,-2549.3553557229257]
+- +.dir(E) HIGH:
+    coord: [-3859,-2534.3494133195322]
+- +.dir(N.) + .dir(E) midair:
+    movements:
+    - to: [-3807,-2720.4230991216104]
+    - to: [-3655,-2710.419137519348]
+- +.dir(N) + .dir(N) midair:
+    coord: [-3575,-3031.5463049519667]
+- _Shrine::MozoShenno
+
+- +.dir(E) HIGH:
+    coord: [-3437,-3053.5550204769434]
+- +.dir(N) + .dir(E) midairs:
+    coord: [-3408,-3217.619990754045]
+- _Shrine::ShadaNaw
+
+- BLSS
+- _Shrine::HiaMiu
+- .dir(E)
+- Clip into mountain
+- _Shrine::ToQuomo:
+    notes: Get claymore. 
+
+- __use__ CheckResources
+- ""
+

@@ -49,11 +49,6 @@ def check_package(package, root_path, configs):
         get_version(versions, root_path + path, line, col, end)
     check_package_versions(package, versions)
 
-check_package("celer-user-docs", "packages/celer-user-docs/", [
-    ("CHANGELOG.md", 4, 4, "`"),
-    ("README.md", 2, 10, "`")
-])
-
 check_package("celer-web-app", "packages/celer-web-app/", [
     ("package.json", 4, 14, "\""),
     ("CHANGELOG.md", 4, 4, "`"),
@@ -69,13 +64,16 @@ check_package("celer-vscode-extension", "packages/celer-vscode-extension/", [
 check_package("celer-devtool", "packages/celer-devtool/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
-    ("src/main.rs", 1, 27, "\"")
+    ("src/main.rs", 6, 27, "\""),
+    ("../celer-e2e-test/tests/version/version.txt", 1, 14, ""),
+    ("../celer-e2e-test/tests/version/long_version.txt", 1, 14, " ")
 ])
 
 check_package("celer-lib", "packages/celer-lib/", [
     ("CHANGELOG.md", 4, 4, "`"),
     ("Cargo.toml", 3, 11, "\""),
-    ("src/lib.rs", 1, 27, "\"")
+    ("src/lib.rs", 8, 27, "\""),
+    ("../celer-e2e-test/tests/version/long_version.txt", 1, 25, ")")
 ])
 
 if not OK:

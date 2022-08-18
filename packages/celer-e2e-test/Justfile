@@ -1,14 +1,32 @@
-build:
-    @just ../../buildrs
+lint:
+    pylint scripts
 
-release:
+build EXT="":
     @just ../../buildrs --release
+    @mkdir -p build
+    @cp ../../target/release/celer-devtool{{EXT}} build/celer{{EXT}}
 
-debug COMMAND FLAG="": build
-    ../../target/debug/celer-devtool {{COMMAND}} {{FLAG}}
+test EXT="":
+    @just build {{EXT}}
+    python3 scripts/e2e.py test build/celer{{EXT}}
 
-ship COMMAND FLAG="": release
-    ../../target/release/celer-devtool {{COMMAND}} {{FLAG}}
+run-test TEST EXT="":
+    @just build {{EXT}}
+    python3 scripts/e2e.py test build/celer{{EXT}} -t {{TEST}}
 
-alias d := debug
-alias s := ship
+run-config TEST CONFIG EXT="":
+    @just build {{EXT}}
+    python3 scripts/e2e.py test build/celer{{EXT}} -t {{TEST}} -c {{CONFIG}}
+
+clean:
+    python3 scripts/e2e.py clean
+    rm -rf build
+
+clean-test TEST:
+    python3 scripts/e2e.py clean -t {{TEST}}
+
+alias r:=run-test
+alias c:=run-config
+
+diff TEST CONFIG FILE:
+    diff tests/{{TEST}}/test_output/{{CONFIG}}/expected/{{FILE}} tests/{{TEST}}/test_output/{{CONFIG}}/actual/{{FILE}}

@@ -1,0 +1,18 @@
+ZD: # Start: Mezza Lo
+- BLSS to ZD
+- _Chest<Ceremonial Trident>:
+    coord: [3229,-602.2594849481793]
+- +.dir(<S) Turn
+- _Shop<5 Ice Arrow>:
+    var-change:
+      Rupee: -80
+    notes: .v(Rupee) rupees left
+    coord: [3326,-480]
+- _Shrine::NeezYohma
+- .dir(E):
+   coord: [3087,-458.2024378756023]
+- _Shrine::DagahKeek
+- .dir(S) Turn + .dir(<S) TS
+- _Shrine::RuccoMaag
+- .dir(E>) + .dir(E) Turn
+- _Shrine::ShaiYota

@@ -1,0 +1,57 @@
+EldinSouth: # Start: Maag Halan
+- Infinity SCW:
+    notes: Use sign activate
+- _Shrine::KayraMah
+- Clip + Run out:
+    coord: [1993,-2052.397348706906]
+- .dir(.N) + .dir(N>) Turn
+- _Shrine::DaqaKoh
+- .dir(S>) Turn
+- _Shrine::QuaRaym
+- .dir(SE) super
+- _Shrine::TahMuhl
+- .dir(E>) + .dir(N>)
+- _Shrine::MoaKeet
+- .dir(.N) Turn
+- _Shrine::SahDahaj
+- .dir(E) + run + .dir(<E)
+- _Shrine::ZeKasho
+- .dir(.E) TS + .dir(SE)
+- _Shrine::DahHesho
+- .dir(E>) + .dir(<S)
+- _Shrine::KenaiShakah:
+    notes: Hammer the rocks, no need bomb arrow
+    var-change:
+      Hammer: -2
+- Jump out + .dir(SE) midair:
+    notes: Strong wind
+- updraft + .dir(NE) super
+- _Shrine::KahMael:
+    notes: EOD on slab
+    var-change:
+      EOD: -1
+- .dir(.N) Turn
+- BLSS with orb
+- _Shrine::RitaagZumo
+- .dir(N) + .dir(<N) midairs
+- _Shrine::KatosaAug
+- .dir(.E) Turn
+- _Shrine::TutsuwaNima
+- __use__ CheckResources
+- ""
+
+EldinNorth: # Start: Daqa Koh
+- .dir(W>>) Turn
+- _Shrine::ShaeMosah
+- .dir(<N) Turn
+- _Shrine::ShoraHah
+- BLSS + .dir(.E) Turn:
+    notes: Can also use the minecart + wbs (old strat)
+- _Shrine::GoraeTorr
+- .dir(E) Turn
+- _Shrine::ZunaKai
+- BLSS
+- _Shrine::TuKaloh:
+    notes: No barb if you cooked attack
+- __use__ CheckResources
+- ""

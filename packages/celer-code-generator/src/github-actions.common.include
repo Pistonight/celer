@@ -6,6 +6,18 @@ write     name: {{Name}}
 write     {{Extra}}
 write     runs-on: {{Os}}
 write     steps:
+codegen define end
+codegen define begin
+func SetWindowsLineEnd
+input
+write     - name: Setup | Windows Line End (CRLF)
+write       run: |
+write         git config --global core.autocrlf false
+write         git config --global core.eol crlf
+codegen define end
+codegen define begin
+func CommonSetup
+input
 write     - name: Setup | Checkout
 write       uses: actions/checkout@v2
 write     - name: Setup | Rust

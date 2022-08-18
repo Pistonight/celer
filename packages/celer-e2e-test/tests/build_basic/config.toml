@@ -1,0 +1,78 @@
+[[test]]
+args = ["build"]
+input = ["basic"]
+expected = ["expected_bundle_json", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "-t", "bundle"]
+input = ["basic"]
+expected = ["expected_bundle_json", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "--target", "bundle"]
+input = ["basic"]
+expected = ["expected_bundle_json", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "-D"]
+input = ["basic"]
+expected = ["expected_bundle_debug", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "-t", "bundle", "-D"]
+input = ["basic"]
+expected = ["expected_bundle_debug", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "--debug"]
+input = ["basic"]
+expected = ["expected_bundle_debug", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "-y"]
+input = ["basic"]
+expected = ["expected_bundle_yaml", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "--yaml"]
+input = ["basic"]
+expected = ["expected_bundle_yaml", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "--yaml", "--target", "bundle"]
+input = ["basic"]
+expected = ["expected_bundle_yaml", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+# Error cases
+[[test]]
+args = ["--build"] # invalid subcommand
+expected = []
+error = true
+
+[[test]]
+args = ["build", "-t", "notatarget"] # invalid target
+expected = []
+error = true
+
+[[test]]
+args = ["build", "-D", "-y"] # use debug and yaml
+expected = []
+error = true

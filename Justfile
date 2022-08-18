@@ -2,8 +2,9 @@
 list:
     @just -l
 
-# Install node packages
+# Install or update tools
 install:
+    rustup update
     just packages/celer-vscode-extension/install
     just packages/celer-web-app/install
 
@@ -26,7 +27,7 @@ lintts:
 
 # Lint RS code
 lintrs:
-    python3 scripts/validatersimport.py packages/celer-devtool/src packages/celer-lib/src
+    python3 scripts/rsvalidateimport.py packages/celer-devtool/src packages/celer-lib/src
     cargo clippy --release -- -D clippy::all -D warnings
 
 # Lint PY code
@@ -34,6 +35,7 @@ lintpy VERBOSE="":
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     @just packages/celer-code-generator/lint
+    @just packages/celer-e2e-test/lint
 
 # Lint everything. Run this before push/PR
 lint: check vsync
@@ -41,10 +43,29 @@ lint: check vsync
     @just lintts
     @just lintrs
 
+# Test everything
+test: check
+    @just testu
+    @just teste2e
+    
+# Unit Test
+testu: testrs testts
+# Test rust code
+testrs:
+    cargo test
+
+testts:
+    @echo "There's no tests for TS at the moment"
+
+# (Devtool) Integration tests
+teste2e:
+    @just packages/celer-e2e-test/test
+teste2e-windows:
+    @just packages/celer-e2e-test/test ".exe"
+
 # Only build RS. Pass in --release for ship builds
 buildrs RELEASE="":
     cargo build {{RELEASE}}
-# wasm
 
 # Build everything
 build: buildc buildrs
@@ -57,7 +78,6 @@ release: buildc
     cargo build --release 
     @just packages/celer-vscode-extension/release
     @just packages/celer-web-app/release
-    @just packages/celer-user-docs/release
     
     python3 scripts/release.py > release/RELEASE_NOTES.txt
 
@@ -69,6 +89,7 @@ clean:
     @just packages/celer-code-generator/clean
     @just packages/celer-vscode-extension/clean
     @just packages/celer-web-app/clean
+    @just packages/celer-e2e-test/clean
 
 # Clean everything, including node modules
 nuke: clean

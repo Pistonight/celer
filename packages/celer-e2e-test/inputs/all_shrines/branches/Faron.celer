@@ -1,0 +1,33 @@
+Faron: # Start: Jitan Sami
+- Infinity SCW:
+    notes: Sign activate. Make sure right stick is not neutral when activating the sign, which saves 10 frames
+- _Shrine::TawaJinn
+- .dir(<<N) Turn + .dir(.W) Delay Turn
+- _Shrine::TotoSah:
+    var-change:
+      Hammer: -1
+- .dir(<N) Turn (super)
+- _Shrine::HaDahamar
+- .dir(<<W) + .dir(NW)
+- _Shrine::ReeDahee
+
+- Shield Surf SCW
+- _Shrine::SheeVaneer
+- _Shrine::SheeVenath
+- BLSS 
+- _Shrine::QukahNata
+- _Tod::Morning:
+    notes: Make morning here So farosh is already spawned when you wb up
+- .dir(<N) + .dir(W.):
+    coord: [1740,2981.200060914244]
+- _Material<Farosh Scale>:
+    var-change:
+      Wood: -1
+      FireArrow: -1
+- _Shrine::ShodaSah
+- BLSS
+- _Shrine::ShaiUtoh:
+    var-change:
+      Hammer: -1
+- __use__ CheckResources
+- ""

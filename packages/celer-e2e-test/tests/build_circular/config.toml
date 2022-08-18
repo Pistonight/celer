@@ -1,0 +1,6 @@
+[[test]]
+args = ["build", "-y"]
+input = ["circular_dependency"]
+error = true
+expected = ["expected", "../../inputs/circular_dependency"]
+stdout = "stdout.expected.txt"

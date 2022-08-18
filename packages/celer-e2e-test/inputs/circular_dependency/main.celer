@@ -1,0 +1,16 @@
+---
+_config: {}
+_project:
+  authors:
+    - ""
+  description: Bundler should detect circular dependency
+  name: Circular Dependency Test
+  url: ""
+  version: 0.1.0
+_route:
+  - __use__ D
+
+A: __use__ B
+B: __use__ C
+C: __use__ A
+D: __use__ A

@@ -7,5 +7,5 @@ clean:
 
 # Copy files to web app directory
 apply: build
-    mkdir -p ../celer-web-app/src/data/wasmlib
-    cp -R -T pkg ../celer-web-app/src/data/wasmlib
+    rm -rf ../celer-web-app/src/data/wasmlib
+    cp -R pkg ../celer-web-app/src/data/wasmlib

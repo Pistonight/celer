@@ -28,13 +28,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# debugging files
-main.celer
-bundle.json
-bundle.src.celer
-bundle.asm.json
-bundle.obj.json
-
 # Binary files
 *.tar.gz
 bin
