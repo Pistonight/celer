@@ -52,8 +52,8 @@ if ($OPTION_NUM -eq "1"){
       $INSTALL_PATH = $DEFAULT_INSTALL_PATH
   }
 
-  if (Test-Path -Path $INSTALL_PATH/celer -PathType container) {
-    Write-Output "Installation failed: There's a directory in the location named `"celer`", which conflicts with the binary"
+  if (Test-Path -Path $INSTALL_PATH/celer.exe -PathType container) {
+    Write-Output "Installation failed: There's a directory in the location named `"celer.exe`", which conflicts with the binary"
     exit 1
   }
 
