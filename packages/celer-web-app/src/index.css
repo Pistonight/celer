@@ -14,5 +14,5 @@ body {
 }
 
 #mapframe > div {
-  background-color: #000000 !important;
+  background-color: #000000 !important; /* Pigeon map workaround */
 }

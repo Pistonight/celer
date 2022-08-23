@@ -14,8 +14,6 @@ export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("E
 export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
-// Pigeon Map
-export const useExpBetterMap = ():boolean => useAppExperiment("BetterMap", true);
 // [08-11] Use FC AppStateProvider
 export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format
@@ -24,3 +22,5 @@ export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment(
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
 // [08-11 Added] Use New DocumentContext and not use old ServiceContext. New DocumentContext will not work with leaflet map
 export const useExpNewDP = ():boolean => useAppExperiment("NewDP", true);
+// [08-25 Added] Use wasm bundler (only applies to dev server)
+export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);

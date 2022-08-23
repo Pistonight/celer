@@ -1,12 +1,12 @@
-import { Map } from "leaflet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { BannerType, Compiler, Coord, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
+import { BannerType, Compiler, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
 import { AppExperimentsContext, AppState as ContextState, AppStateContext, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap, useExpInferCoord, useExpNewDP } from "core/experiments";
-import { InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
+import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP } from "core/experiments";
+import { InGameCoordinates, MapEngine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
-import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
+import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
+import { SourceObject, RouteMetadata, RouteConfig } from "data/libs";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 
@@ -24,36 +24,12 @@ const compiler = new Compiler();
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
-// Wrapper for L.Map which is deprecated
-const deprecatedMapCore = new MapCoreLeaflet();
-
 export const AppStateProvider: React.FC = ({children})=>{
 	if(useExpNewASP()){
 		return <AppStateProviderFC>{children}</AppStateProviderFC>;
 	}
 	return <AppStateProviderOld>{children}</AppStateProviderOld>;
 };
-
-// empty impl for pigeon map
-class DummyMapCore implements MapCore {
-	setMap(_map: Map): void {
-		// do nothing
-	}
-	setIcons(_icons: MapIcon[]): void {
-		// do nothing
-	}
-	setLines(_lines: MapLine[]): void {
-		// do nothing
-	}
-	centerMap(_coord: Coord): void {
-		// do nothing
-	}
-	invalidateSize(): void {
-		// do nothing
-	}
-	
-}
-const dummyMapCore = new DummyMapCore();
 
 export const AppStateProviderFC: React.FC = ({children})=>{
 	const warnNegativeVar = useExpWarnNegativeVar();
@@ -65,7 +41,6 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
 	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
-	const enablePigeonMap = useExpBetterMap();
 	// set up AppState
 	const [mapDisplayMode, setMapDisplayMode] = useState(
 		()=>MapDisplayModeStorage.load()
@@ -107,7 +82,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 	}, [docCurrentLine]);
 	const [docScrollToLine, setDocScrollToLine] = useState(()=>LocalStorageWrapper.load(DOC_LINE_POS_KEY, 0));
 
-	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
+	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject|null>(null);
 	const {metadata, config, routeAssembly} = useMemo(()=>{
 		// Return dummy data if NewDP is on
 		if (routeSourceBundle === null || enableDocumentProvider){
@@ -152,10 +127,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 	const {docLines, mapIcons, mapLines} = useMemo(()=>{
 		const docLines = routeEngine.compute(routeAssembly);
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
-		if(!enablePigeonMap){
-			deprecatedMapCore.setIcons(mapIcons);
-			deprecatedMapCore.setLines(mapLines);
-		}
+
 		return {
 			docLines,
 			mapIcons,
@@ -175,7 +147,6 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 	return (
 		<AppStateContext.Provider value={{
 			mapDisplayMode,
-			mapCore: enablePigeonMap ? dummyMapCore : deprecatedMapCore,
 			theme,
 			splitSetting,
 			enableSubsplits,
@@ -220,7 +191,7 @@ export class AppStateProviderOld extends React.Component<EmptyObject, AppState> 
 			theme: ThemeStorage.load(),
 			splitSetting: SplitSettingStorage.load(),
 			enableSubsplits: LocalStorageWrapper.load(ENABLE_SUBSPLITS_KEY, false),
-			mapCore: deprecatedMapCore,
+			
 			docScrollToLine: LocalStorageWrapper.load(DOC_LINE_POS_KEY, 0),
 			docCurrentLine: 0,
 			mapCenter: undefined,
@@ -281,7 +252,7 @@ export class AppStateProviderOld extends React.Component<EmptyObject, AppState> 
 		});
 	}
 
-	private setRouteScript(sourceBundle: SourceBundle) {
+	private setRouteScript(sourceBundle: SourceObject) {
 		const [metadata, metadataDeprecated] = ensureMetadata(sourceBundle);
 		const config = ensureConfig(sourceBundle);
 		const routeScriptUnchecked = sourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -310,11 +281,6 @@ export class AppStateProviderOld extends React.Component<EmptyObject, AppState> 
 		if(metadata.name){
 			document.title = `${metadata.name} - Celer`;
 		}
-		const PigeonMapEnabled = this.context("BetterMap");
-		if(!PigeonMapEnabled){
-			this.state.mapCore.setIcons(mapIcons);
-			this.state.mapCore.setLines(mapLines);
-		}
 	}
 
 	private setMapCenter(igc: InGameCoordinates) {
@@ -327,7 +293,6 @@ export class AppStateProviderOld extends React.Component<EmptyObject, AppState> 
 
 		return <AppStateContext.Provider value={{
 			mapDisplayMode: this.state.mapDisplayMode,
-			mapCore: this.state.mapCore,
 			theme: this.state.theme,
 			splitSetting: this.state.splitSetting,
 			enableSubsplits: this.state.enableSubsplits,

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { SourceBundle } from "data/bundler";
-import { DocumentService } from "./type";
+import { SourceObject } from "data/libs";
+import { DocumentService } from "./types";
 
 export class UrlService implements DocumentService {
 	private url: string;
@@ -10,7 +10,7 @@ export class UrlService implements DocumentService {
 		this.url = url;
 	}
 
-	start(callback: (doc: SourceBundle | null, error: string | null, status: string | null) => void): void {
+	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
 		axios.get(this.url, {signal: this.controller.signal}).then(response=>{
 			//console.log(response.data);
 			callback(response.data, null, null);

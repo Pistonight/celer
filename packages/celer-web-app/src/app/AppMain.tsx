@@ -1,5 +1,6 @@
 import { HashRouter, Outlet, Route, Routes, } from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
+import { useExpBetterBundler } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -31,6 +32,12 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shou
 	</AppDocumentProvider>
 ;
 
+// Need this to access exp
+const WsDevDocumentLayer: React.FC = () => {
+	const enableBetterBundler = useExpBetterBundler();
+	return <DocumentLayer serviceCreator={()=>createWebSocketDevService(enableBetterBundler)} shouldSetBundle={!enableBetterBundler}/>;
+};
+
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {
 	return (
@@ -41,7 +48,7 @@ export const AppMain: React.FC<EmptyObject> = () => {
 					<Route path="docs" element={<DocumentLayer serviceCreator={createInternalDocumentService} shouldSetBundle={false}/>}>
 						<Route path=":reference" element={<InternalDocumentServiceOld><AppFrame /></InternalDocumentServiceOld>}/>
 					</Route>
-					<Route path="dev" element={<DocumentLayer serviceCreator={createWebSocketDevService} shouldSetBundle={true}/>}>
+					<Route path="dev" element={<WsDevDocumentLayer />}>
 						<Route index element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
 						<Route path=":port" element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
 					</Route>

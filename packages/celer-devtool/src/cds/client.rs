@@ -56,8 +56,11 @@ impl DevClient {
     }
 
     pub fn close(&mut self) {
-        if let Err(e) = self.ws.close(Option::None) {
-            println!("error: cds: Error when trying to close the client: {:?}", e);
+        if !self.closed {
+            if let Err(e) = self.ws.close(Option::None) {
+                println!("error: cds: Error when trying to close the client: {:?}", e);
+            }
+            self.closed = true
         }
     }
 

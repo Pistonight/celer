@@ -32,6 +32,7 @@ lintrs:
 
 # Lint PY code
 lintpy VERBOSE="":
+    rm -f packages/celer-e2e-test/celer
     python3 scripts/lint.py {{VERBOSE}}
     pylint scripts
     @just packages/celer-code-generator/lint

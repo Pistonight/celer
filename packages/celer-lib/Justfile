@@ -4,8 +4,3 @@ build:
 
 clean:
     rm -rf pkg
-
-# Copy files to web app directory
-apply: build
-    rm -rf ../celer-web-app/src/data/wasmlib
-    cp -R pkg ../celer-web-app/src/data/wasmlib

@@ -60,7 +60,7 @@ checksum = "f0b3de4a0c5e67e16066a0715723abd91edc2f9001d09c46e1dca929351e130e"
 
 [[package]]
 name = "celer-devtool"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "celer-lib",
  "chrono",

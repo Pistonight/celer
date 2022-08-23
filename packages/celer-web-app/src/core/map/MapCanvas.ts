@@ -1,4 +1,4 @@
-import { DynamicCanvasSizeX, DynamicCanvasSizeZ, geoToInGameCoord, inGameToSvgCoord, zoomToSvgScale } from "./pconvert";
+import { DynamicCanvasSizeX, DynamicCanvasSizeZ, geoToInGameCoord, inGameToSvgCoord, zoomToSvgScale } from "./convert";
 import { GeoCoordinates, InGameCoordinates, svgCoord, SvgCoordinates } from "./type";
 
 const inGameToDynamicCanvasCoord = (center: GeoCoordinates, zoom: number): (igc: InGameCoordinates)=>SvgCoordinates => {
