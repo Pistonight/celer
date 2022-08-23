@@ -14,8 +14,6 @@ export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("E
 export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
-// Pigeon Map
-export const useExpBetterMap = ():boolean => useAppExperiment("BetterMap", true);
 // [08-11] Use FC AppStateProvider
 export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format

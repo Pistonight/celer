@@ -25,7 +25,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 	// This hook loads the route (using old ServiceContext)
 	useService();
 	const {
-		mapCore, 
 		mapDisplayMode, 
 		setMapDisplayMode, 
 		theme, 
@@ -114,7 +113,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							<MenuItemWithValue value={mapDisplayMode.name} action={function (): void {
 								setContextMenuRef(undefined);
 								setMapDisplayMode(mapDisplayMode.next());
-								mapCore.invalidateSize();
 							} } text={"Map Size: "} />
 							<hr />
 							{/* <MenuItemWithValue value={""} action={function (): void {

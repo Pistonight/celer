@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
-import { InGameCoordinates, MapCore, MapIcon, MapLine } from "core/map";
+import { InGameCoordinates, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
 import { RouteConfig, RouteMetadata, SourceObject } from "data/libs";
 import { Consumer, emptyObject } from "data/util";
@@ -9,7 +9,7 @@ import { Consumer, emptyObject } from "data/util";
 export interface AppState {
     mapDisplayMode: MapDisplayMode,
     theme: Theme,
-    mapCore: MapCore,
+    
     splitSetting: SplitTypeSetting<boolean>,
     enableSubsplits: boolean,
     // Updating this value will cause DocFrame to scroll to that line

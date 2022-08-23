@@ -1,5 +1,3 @@
-/* Import Validation Exempt */#![allow(clippy::unused_unit)] 
-/* Import Validation Exempt */// ^ This warning is within wasm_bindgen and we can't fix it
 use serde_json::json;
 use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;

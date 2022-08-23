@@ -1,7 +1,11 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.1` - `08-13-2022` `LATEST`
+## `5.0.2` - `08-13-2022` `LATEST`
+- Removed leaflet map. Pigeon map is now the only map
+- Add experiment for using wasm bundler when using dev server (`Exp.BetterBundler`). Default on.
+
+## `5.0.1` - `08-13-2022`
 - Fix new DP not setting shouldSetBundle correctly for ws dev
 
 ## `5.0.0` - `08-11-2022` 
