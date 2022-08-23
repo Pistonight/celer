@@ -1,6 +1,3 @@
-import L, { LatLngBounds } from "leaflet"; 
-import React, { useEffect } from "react";
-import { MapContainer, TileLayer } from "react-leaflet"; 
 import { useStyles } from "ui/StyleContext";
 import { Map } from "ui/components";
 import { Coord } from "core/compiler";

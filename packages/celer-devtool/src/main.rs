@@ -1,9 +1,9 @@
-mod cbld; // Celer Build 
+mod cbld;   // Celer Build 
 mod ccmd;   // Celer Command Module
 mod cds;    // Celer Dev Server
 mod cio;    // Celer IO
 
-pub const VERSION: &str = "2.0.0";
+pub const VERSION: &str = "2.0.1";
 
 #[cfg(not(debug_assertions))]
 fn ship_panic(panic_info: &std::panic::PanicInfo) {

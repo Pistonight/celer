@@ -1,4 +1,4 @@
-export * from "./type";
+export * from "./types";
 export * from "./empty";
 export * from "./assert";
 export * from "./version";

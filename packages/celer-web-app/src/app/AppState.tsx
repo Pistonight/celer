@@ -1,10 +1,9 @@
-import { Map } from "leaflet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { BannerType, Compiler, Coord, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
+import { BannerType, Compiler, RouteAssemblySection, SplitType, StringParser } from "core/compiler";
 import { AppExperimentsContext, AppState as ContextState, AppStateContext, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
 import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP } from "core/experiments";
-import { InGameCoordinates, MapEngine, MapIcon, MapLine } from "core/map";
+import { InGameCoordinates, MapEngine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
 import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
 import { SourceObject, RouteMetadata, RouteConfig } from "data/libs";
@@ -25,14 +24,12 @@ const compiler = new Compiler();
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
-
 export const AppStateProvider: React.FC = ({children})=>{
 	if(useExpNewASP()){
 		return <AppStateProviderFC>{children}</AppStateProviderFC>;
 	}
 	return <AppStateProviderOld>{children}</AppStateProviderOld>;
 };
-
 
 export const AppStateProviderFC: React.FC = ({children})=>{
 	const warnNegativeVar = useExpWarnNegativeVar();

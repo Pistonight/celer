@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { ServiceContext, useAppState } from "core/context";
+import { bundleRouteScript } from "data/bundler";
 import { SourceObject, wasmBundle } from "data/libs";
 import { EmptyObject } from "data/util";
 import { DocumentService } from "./types";
-import { bundleRouteScript } from "data/bundler";
 
 let ws: WebSocket|null = null;
 export const WsDevServiceOld: React.FC<EmptyObject> = ({children}) => {
@@ -83,7 +83,6 @@ class WebSocketDevService implements DocumentService {
 			}else{
 				callback(bundleRouteScript(dataObject), null, null);
 			}
-			
 
 		};
 		newws.onopen = ()=>{

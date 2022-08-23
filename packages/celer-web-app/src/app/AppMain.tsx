@@ -1,5 +1,6 @@
 import { HashRouter, Outlet, Route, Routes, } from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
+import { useExpBetterBundler } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -15,7 +16,6 @@ import {
 	createGitHubService, 
 	createWebSocketDevService 
 } from "./services";
-import { useExpBetterBundler } from "core/experiments";
 
 const RootLayer: React.FC = ()=>
 	<AppExperimentsProvider>
@@ -36,7 +36,7 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shou
 const WsDevDocumentLayer: React.FC = () => {
 	const enableBetterBundler = useExpBetterBundler();
 	return <DocumentLayer serviceCreator={()=>createWebSocketDevService(enableBetterBundler)} shouldSetBundle={!enableBetterBundler}/>;
-}
+};
 
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {
