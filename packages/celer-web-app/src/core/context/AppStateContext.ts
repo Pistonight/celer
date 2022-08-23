@@ -3,7 +3,7 @@ import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
 import { InGameCoordinates, MapCore, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
-import { RouteConfig, RouteMetadata, SourceBundle } from "data/bundler";
+import { RouteConfig, RouteMetadata, SourceObject } from "data/libs";
 import { Consumer, emptyObject } from "data/util";
 
 export interface AppState {
@@ -36,7 +36,7 @@ interface AppStateContextState extends AppState {
     setEnableSubsplits: Consumer<boolean>,
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
-    setRouteScript:(routeScript: SourceBundle)=>void,
+    setRouteScript:(routeScript: SourceObject)=>void,
     setBundle:(bundle: string | null) => void,
     setMapCenter: (igc: InGameCoordinates) => void,
 }

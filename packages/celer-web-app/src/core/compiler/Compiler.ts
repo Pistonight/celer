@@ -1,4 +1,11 @@
-import { RouteScriptExtend, RouteSection, RouteStep, switchModule, switchSection, switchStep} from "data/bundler";
+import { 
+	SourceSection,
+	SourceStep,
+	SourceStepCustomization, 
+	switchModule, 
+	switchSection, 
+	switchStep
+} from "data/libs";
 import { MapOf } from "data/util";
 import { getModules,CompilerPresetModule } from "./modules";
 import { StringParser } from "./text";
@@ -7,7 +14,7 @@ import { BannerType, RouteAssembly, RouteAssemblySection, RouteCommand, Movement
 export class Compiler {
 	private modules: CompilerPresetModule[] = getModules();
 
-	public compile(sections: RouteSection[]): RouteAssemblySection[] {
+	public compile(sections: SourceSection[]): RouteAssemblySection[] {
 		try{
 			const compiled = this.compileSections(sections);
 			
@@ -30,7 +37,7 @@ export class Compiler {
         
 	}
 
-	private compileSections(sections: RouteSection[]): RouteAssemblySection[] {
+	private compileSections(sections: SourceSection[]): RouteAssemblySection[] {
 		if(Array.isArray(sections)){
 			return sections.map(this.compileSection.bind(this));
 		}
@@ -42,7 +49,7 @@ export class Compiler {
 		}];
 	}
 
-	private compileSection(section: RouteSection): RouteAssemblySection{
+	private compileSection(section: SourceSection): RouteAssemblySection{
 		const sectionErrorHandler = (s: string)=>({
 			route: [
 				this.makeCompilerError("Error when compiling section, caused by: " + s)
@@ -72,7 +79,7 @@ export class Compiler {
 			},sectionErrorHandler);
 	}
 
-	private compileStep(step: RouteStep): RouteAssembly[]{
+	private compileStep(step: SourceStep): RouteAssembly[]{
 		return switchStep<RouteAssembly[]>(step, 
 			(stringStep)=>{
 				if(stringStep.startsWith("_")){
@@ -119,7 +126,7 @@ export class Compiler {
 		return this.makeCompilerError("Unexpected Error Compiler.compileStepString. This is likely a bug in the compiler");
 	}
 
-	private compilePresetExtend(preset:string, extend: RouteScriptExtend): RouteAssembly[] | undefined{
+	private compilePresetExtend(preset:string, extend: SourceStepCustomization): RouteAssembly[] | undefined{
 		const { header, typedString } = StringParser.parseStringBlock(preset);
 		for(let i = 0;i<this.modules.length;i++){
 			const stepAssembly = this.modules[i].compile(typedString);
@@ -141,7 +148,7 @@ export class Compiler {
 		return [this.makeCompilerError("Unexpected Error Compiler.compilePresetExtend. This is likely a bug in the compiler")];
 	}
 
-	private applyExtend(data: RouteAssembly, extend: RouteScriptExtend): void {
+	private applyExtend(data: RouteAssembly, extend: SourceStepCustomization): void {
 		if(extend.text){
 			data.text = StringParser.parseStringBlockSimple(extend.text);
 		}

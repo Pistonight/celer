@@ -1,22 +1,32 @@
 /* eslint-disable */
-import { switchModule, switchSection, switchStep } from "./switch";
-import { SourceBundle, RouteModule, RouteSection, RouteScriptExtend, RouteStep, RouteMetadata, RouteConfig } from "./type";
+import { 
+	switchModule, 
+	switchSection, 
+	switchStep,
+	SourceObject,
+	SourceModule,
+	SourceSection,
+	SourceStep,
+	SourceStepCustomization,
+	RouteMetadata,
+	RouteConfig
+} from "data/libs";
 
 // Unbundled route script is what the bundler receives
 // The bundler processes __use__ directives and remove unused modules
 const __use__ = "__use__";
-type MergedSource = SourceBundle & {
-    [key: string]: RouteModule
+type MergedSource = SourceObject & {
+    [key: string]: SourceModule
 };
 
-export const addRouteScriptDeprecationMessage = (route: RouteSection[]):RouteSection[] => {
+export const addRouteScriptDeprecationMessage = (route: SourceSection[]):SourceSection[] => {
 	return [
 		"(?=) Deprecation Warning: You are using a legacy version of the route script that is no longer supported. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Misc:-Migrate-from-Legacy-Route-Script) here.",
 		...route
 	];
 }
 
-export const bundleRouteScript = (mergedSource: MergedSource): SourceBundle => {
+export const bundleRouteScript = (mergedSource: MergedSource): SourceObject => {
 	const [ metadata, metadataDeprecated ] = ensureMetadata(mergedSource);
 	
 	const routeDeprecated = !mergedSource._route && mergedSource.Route;
@@ -81,7 +91,7 @@ export const ensureConfig = (mergedSource: any): RouteConfig => {
 	return mergedSource._config || {};
 }
 
-const bundleRoute = (script: MergedSource, route: RouteSection[]): RouteSection[] => {
+const bundleRoute = (script: MergedSource, route: SourceSection[]): SourceSection[] => {
 	// Make sure route is actually an array
 	if(!Array.isArray(route)){
 		return ["(!=) Bundler Error: Route property must be an array"];
@@ -109,12 +119,12 @@ const bundleRoute = (script: MergedSource, route: RouteSection[]): RouteSection[
 		return ["(!=) Bundler Error: Circular dependency is detected, so the route is not processed. Please check all your __use__ directives to make sure there is no circular dependencies. Path hit: "+circularDependency];
 	}
 
-	const cache: {[key: string]: RouteModule} = {};
+	const cache: {[key: string]: SourceModule} = {};
 	const bundled = bundleSections(script, route, cache);
 	return bundled;
 }
 
-const scanDependencyForModule = (dependency: {[name: string]: string[]}, name: string, module: RouteModule): void => {
+const scanDependencyForModule = (dependency: {[name: string]: string[]}, name: string, module: SourceModule): void => {
 	switchModule(module,
 		(stringModule)=>{
 			scanDependencyForStringStep(dependency, name, stringModule);
@@ -168,8 +178,8 @@ const ensureNoCircularDependency = (dependency: {[name: string]: string[]}, name
 	}
 	return undefined;
 }
-const bundleSections = (script: MergedSource, sections: RouteSection[], cache: {[key: string]: RouteModule}): RouteSection[] => {
-	const returnArray: RouteSection[] = [];
+const bundleSections = (script: MergedSource, sections: SourceSection[], cache: {[key: string]: SourceModule}): SourceSection[] => {
+	const returnArray: SourceSection[] = [];
 	sections.forEach(section=>{
 		switchSection(section,
 			(name, module)=>{
@@ -182,7 +192,7 @@ const bundleSections = (script: MergedSource, sections: RouteSection[], cache: {
 						(stringModule)=>{
 							returnArray.push(stringModule);
 						},(preset, extend)=>{
-							const warningOrError: RouteStep[] = [];
+							const warningOrError: SourceStep[] = [];
 							ensureValidExtend(extend,(validExtend)=>{
 								returnArray.push({[preset]: validExtend});
 							}, (warning)=>{
@@ -206,7 +216,7 @@ const bundleSections = (script: MergedSource, sections: RouteSection[], cache: {
 	
 }
 
-const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key: string]: RouteModule}, unbundledModule?: RouteModule):RouteModule => {
+const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key: string]: SourceModule}, unbundledModule?: SourceModule):SourceModule => {
 	if(name && cache[name]){
 		//Cache hit, return cached module
 		return cache[name];
@@ -230,8 +240,8 @@ const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key
 				return stringModule;
 			}
 		},(preset, extend)=>{
-			const container: RouteStep[] = [];
-			const warningOrError: RouteStep[] = [];
+			const container: SourceStep[] = [];
+			const warningOrError: SourceStep[] = [];
 			ensureValidExtend(extend,(validExtend)=>{
 				container.push({[preset]: validExtend});
 			}, (warning)=>{
@@ -245,7 +255,7 @@ const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key
 			}
 			return container;
 		},(arrayModule)=>{
-			const returnArray: RouteStep[] = [];
+			const returnArray: SourceStep[] = [];
 			arrayModule.forEach(s=>{
 				switchStep(s,
 					(stringStep)=>{
@@ -256,7 +266,7 @@ const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key
 								(stringModule)=>{
 									returnArray.push(stringModule);
 								},(preset, extend)=>{
-									const warningOrError: RouteStep[] = [];
+									const warningOrError: SourceStep[] = [];
 									ensureValidExtend(extend,(validExtend)=>{
 										returnArray.push({[preset]: validExtend});
 									}, (warning)=>{
@@ -275,7 +285,7 @@ const bundleModule = (script: MergedSource, name: string|undefined, cache: {[key
 							returnArray.push(stringStep);
 						}
 					},(preset, extend)=>{
-						const warningOrError: RouteStep[] = [];
+						const warningOrError: SourceStep[] = [];
 						ensureValidExtend(extend,(validExtend)=>{
 							returnArray.push({[preset]: validExtend});
 						}, (warning)=>{
@@ -322,8 +332,8 @@ const getModuleNameFromStep = (step: string): string | undefined => {
 }
 
 const ensureValidExtend = (
-	extend: RouteScriptExtend | null | undefined, 
-	successCallback: (extend: RouteScriptExtend)=>void, 
+	extend: SourceStepCustomization | null | undefined, 
+	successCallback: (extend: SourceStepCustomization)=>void, 
 	warningCallback: (warningString: string)=>void, 
 	errorCallback: (errorString: string)=>void): void => {
 	if(!extend){
@@ -334,7 +344,7 @@ const ensureValidExtend = (
 		errorCallback("Step extension must be an object (mapping)");
 		return;
 	}
-	const validExtend: RouteScriptExtend = {};
+	const validExtend: SourceStepCustomization = {};
 	// Validate each field
 	for(const key in extend){
 		const value = extend[key as keyof typeof extend];

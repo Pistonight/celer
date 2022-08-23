@@ -6,7 +6,8 @@ import { RouteEngine } from "core/engine";
 import { useExpNewASP, useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpBetterMap, useExpInferCoord, useExpNewDP } from "core/experiments";
 import { InGameCoordinates, MapCore, MapCoreLeaflet, MapEngine, MapIcon, MapLine } from "core/map";
 import { MapDisplayMode, MapDisplayModeStorage, SplitSettingStorage, Theme, ThemeStorage } from "core/settings";
-import { SourceBundle, ensureMetadata, RouteMetadata, addRouteScriptDeprecationMessage, RouteConfig, ensureConfig } from "data/bundler";
+import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
+import { SourceObject, RouteMetadata, RouteConfig } from "data/libs";
 import { LocalStorageWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 
@@ -107,7 +108,7 @@ export const AppStateProviderFC: React.FC = ({children})=>{
 	}, [docCurrentLine]);
 	const [docScrollToLine, setDocScrollToLine] = useState(()=>LocalStorageWrapper.load(DOC_LINE_POS_KEY, 0));
 
-	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
+	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject|null>(null);
 	const {metadata, config, routeAssembly} = useMemo(()=>{
 		// Return dummy data if NewDP is on
 		if (routeSourceBundle === null || enableDocumentProvider){
@@ -281,7 +282,7 @@ export class AppStateProviderOld extends React.Component<EmptyObject, AppState> 
 		});
 	}
 
-	private setRouteScript(sourceBundle: SourceBundle) {
+	private setRouteScript(sourceBundle: SourceObject) {
 		const [metadata, metadataDeprecated] = ensureMetadata(sourceBundle);
 		const config = ensureConfig(sourceBundle);
 		const routeScriptUnchecked = sourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any

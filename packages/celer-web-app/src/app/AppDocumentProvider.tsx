@@ -4,9 +4,16 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
+import { useExpBetterBundler, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
-import { addRouteScriptDeprecationMessage, ensureConfig, ensureMetadata, SourceBundle } from "data/bundler";
+import { 
+	addRouteScriptDeprecationMessage, 
+	ensureConfig, 
+	ensureMetadata, 
+} from "data/bundler";
+import {
+	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
+} from "data/libs";
 import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
@@ -23,6 +30,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableDocumentProvider = useExpNewDP();
+	const enableBetterBundler = useExpBetterBundler();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
@@ -33,7 +41,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	const params = useParams();
 	const [status, setStatus] = useState<string|null>(null);
 	const [error, setError] = useState<string|null>(null);
-	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceBundle|null>(null);
+	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject|null>(null);
 	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
 
 	useEffect(()=>{
@@ -67,7 +75,9 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	}, [serviceCreator, params]);
 
 	useEffect(()=>{
-		if(!shouldSetBundle || routeSourceBundle === null){
+		// If better bundler is enabled, don't set bundle string
+		// set shouldSetBundle = false when removing experiment
+		if(!shouldSetBundle || routeSourceBundle === null || enableBetterBundler){
 			setRouteSourceBundleString(null);
 		}else{
 			setRouteSourceBundleString(JSON.stringify(routeSourceBundle));
@@ -89,8 +99,8 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 				routeAssembly: []
 			};
 		}
-		const [metadata, metadataDeprecated] = ensureMetadata(routeSourceBundle);
-		const config = ensureConfig(routeSourceBundle);
+		const [metadata, metadataDeprecated] = enableBetterBundler ? [wasmEnsureRouteMetadata(routeSourceBundle._project), false] : ensureMetadata(routeSourceBundle);
+		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._route) : ensureConfig(routeSourceBundle);
 		let route = routeSourceBundle._route;
 		if(enableDeprecated){
 			const routeScriptUnchecked = routeSourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any

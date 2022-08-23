@@ -7,10 +7,13 @@ import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
 import { useAppState, useService } from "core/context";
 import { createLiveSplitFile } from "core/external";
-import { SplitTypeConfig, SplitTypeKeys } from "data/bundler";
-import { saveAs } from "data/libs";
+import { 
+	saveAs, 
+	wasmLibVersion,
+	SplitTypeConfig,
+	SplitTypeKeys
+} from "data/libs";
 import { EmptyObject, MapOf, WebAppVersion } from "data/util";
-import { wasmLibVersion } from "data/wasmlib";
 
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
@@ -200,20 +203,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 			</div>
 
 			<MapFrame manualCenter={mapCenter}/>
-      
-			{/* <div style={{position: "fixed", backgroundColor: "rgba(0,0,0,0.5)", width: "100vw", height: "100vh", zIndex:99999}}>
-      <div style={{margin: "calc( ( 100vw - 30em ) / 2 )", height: "100%"}}>
-        <div style={{backgroundColor: "white", width: "30em", maxWidth: "100%",position: "absolute", top: "50%", transform: "translate(0,-50%)", padding:"10px"}}>
-          <h3 style={{margin: 0, textAlign: "center"}}>About</h3>
-          <hr></hr>
-          <p>celer-engine v0.0.0 by iTNTPiston<br></br><a href="">Source on GitHub</a></p>
-          
-          <hr></hr>
-          <div style={{textAlign: "right"}}><span style={{cursor: "pointer", marginLeft: "10px", marginRight: "10px", padding:"3px 10px", border: "1px solid black"}}>Close</span></div>
-        </div>
-      </div>
-      </div> */}
-
 		</div>
 	);
 };

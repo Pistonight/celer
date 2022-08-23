@@ -3,7 +3,7 @@ import { ServiceContext } from "core/context";
 import { EmptyObject } from "data/util";
 import { UrlService } from "./UrlService";
 import { useLoadRouteAsync } from "./service";
-import { ServiceCreator } from "./type";
+import { ServiceCreator } from "./types";
 
 export const GitHubServiceOld: React.FC<EmptyObject> = ({children}) => {
 

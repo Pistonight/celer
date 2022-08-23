@@ -1,8 +1,8 @@
 
 // Bundled Route script.
-export type SourceBundle = {
+export type SourceObject = {
     _project: RouteMetadata,
-    _route: RouteSection[],
+    _route: SourceSection[],
     _config: RouteConfig,
     _globalError?: string,
 }
@@ -20,10 +20,10 @@ export type RouteMetadata = {
     description: string,
 }
 
-export type RouteSection = RouteModule | SingleProperty<RouteModule>
-export type RouteModule = RouteStep | RouteStep[];
-export type RouteStep = string | SingleProperty<RouteScriptExtend>;
-export type RouteScriptExtend = {
+export type SourceSection = SourceModule | SingleProperty<SourceModule>
+export type SourceModule = SourceStep | SourceStep[];
+export type SourceStep = string | SingleProperty<SourceStepCustomization>;
+export type SourceStepCustomization = {
     text?: string,
 	icon?: string,
 	comment?: string,

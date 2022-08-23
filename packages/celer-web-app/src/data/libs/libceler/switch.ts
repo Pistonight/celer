@@ -1,41 +1,41 @@
 // Helper functions to encapsulate error handling when parsing route script
 
-import { RouteSection, RouteModule, RouteScriptExtend, RouteStep, SingleProperty } from "./type";
+import { SourceSection, SourceModule, SourceStepCustomization, SourceStep, SingleProperty } from "./types";
 
 export const switchSection = <T>(
-	section: RouteSection,
-	moduleHandler: (name: string | undefined, m: RouteModule)=>T,
+	section: SourceSection,
+	moduleHandler: (name: string | undefined, m: SourceModule)=>T,
 	errorHandler: (error: string)=>T
 ):T => {
 	if(!section){
 		return errorHandler("Not a valid section: "+ section);
 	}
 	if(typeof section === "object" && !Array.isArray(section)){
-		const [name, module] = switchSinglePropertyObject<RouteModule|RouteScriptExtend, [string|undefined, RouteModule | undefined]>(section, (name, moduleOrExtend)=>{
+		const [name, module] = switchSinglePropertyObject<SourceModule|SourceStepCustomization, [string|undefined, SourceModule | undefined]>(section, (name, moduleOrExtend)=>{
 			// Need to further determine if module is a module or actually extend..
 			if(name.length > 0 && name[0] === "_"){
 				// if name starts with underscore, treat it as a step
-				return [undefined, section as RouteModule];
+				return [undefined, section as SourceModule];
 			}
 			// Otherwise treat as section
-			return [name, moduleOrExtend as RouteModule];
+			return [name, moduleOrExtend as SourceModule];
 		}, (errorString)=>{
 			return [errorString, undefined];
 		});
 		if(!module){
 			return errorHandler(name || "Unknown Error");
 		}
-		return moduleHandler(name, module as RouteModule);
+		return moduleHandler(name, module as SourceModule);
 	}
 	//If falls through, must be unnamed section (section is a module)
-	return moduleHandler(undefined, section as RouteModule);
+	return moduleHandler(undefined, section as SourceModule);
 };
 
 export const switchModule = <T>(
-	module: RouteModule, 
+	module: SourceModule, 
 	stringHandler: (m: string)=>T, 
-	extendHandler: (preset: string, extend: RouteScriptExtend)=>T,
-	arrayHandler: (array: RouteStep[])=>T,
+	extendHandler: (preset: string, extend: SourceStepCustomization)=>T,
+	arrayHandler: (array: SourceStep[])=>T,
 	errorHandler: (error: string)=>T
 ): T => {
 	if (typeof module === "string"){
@@ -47,14 +47,14 @@ export const switchModule = <T>(
 	if (Array.isArray(module)){
 		return arrayHandler(module);
 	}
-	return switchSinglePropertyObject<RouteScriptExtend, T>(module, extendHandler, errorHandler);
+	return switchSinglePropertyObject<SourceStepCustomization, T>(module, extendHandler, errorHandler);
 
 };
 
 export const switchStep = <T>(
-	step: RouteStep,
+	step: SourceStep,
 	stringHandler: (m: string)=>T, 
-	extendHandler: (preset: string, extend: RouteScriptExtend)=>T,
+	extendHandler: (preset: string, extend: SourceStepCustomization)=>T,
 	errorHandler: (error: string)=>T
 ):T => {
 	if (typeof step === "string"){
@@ -66,7 +66,7 @@ export const switchStep = <T>(
 	if (Array.isArray(step)){
 		return errorHandler("Step cannot be an array: " + JSON.stringify(step));
 	}
-	return switchSinglePropertyObject<RouteScriptExtend, T>(step, extendHandler, errorHandler);
+	return switchSinglePropertyObject<SourceStepCustomization, T>(step, extendHandler, errorHandler);
 };
  
 const switchSinglePropertyObject = <T, R>(

@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-devtool
 
-## `2.0.0` - `08-17-2022` `LATEST`
+## `2.0.1` - `08-22-2022` `LATEST`
+- Fix bug: dev server client stuck in close loop if an error occurs on close
+
+## `2.0.0` - `08-17-2022`
 - Improved command line arg parsing with `clap`
   - `version` and `help` subcommands are now changed to `clap` defaults
 - Added `build` subcommand

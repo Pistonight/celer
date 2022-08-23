@@ -16,7 +16,7 @@ impl Config {
     }
     pub fn from(value: &serde_json::Value) -> Self {
         let mut config = Config::new();
-        if value.is_null() {
+        if !value.is_object() {
             return config;
         }
 

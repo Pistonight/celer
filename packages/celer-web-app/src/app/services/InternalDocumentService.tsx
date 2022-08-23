@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { Params, useParams } from "react-router-dom";
 import { useAppState, ServiceContext } from "core/context";
-import { SourceBundle } from "data/bundler";
+import { SourceObject } from "data/libs";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { EmptyObject } from "data/util";
-import { DocumentService } from "./type";
+import { DocumentService } from "./types";
 
 export const InternalDocumentServiceOld: React.FC<EmptyObject> = ({children}) => {
 	const { setBundle, setRouteScript } = useAppState();
@@ -13,10 +13,10 @@ export const InternalDocumentServiceOld: React.FC<EmptyObject> = ({children}) =>
 		setBundle(null);
 		switch(reference){
 			case "presets":
-				setRouteScript(exampleRouteScriptPresets as unknown as SourceBundle);
+				setRouteScript(exampleRouteScriptPresets as unknown as SourceObject);
 				break;
 			case "functions":
-				setRouteScript(exampleRouteScriptFunctions as unknown as SourceBundle);
+				setRouteScript(exampleRouteScriptFunctions as unknown as SourceObject);
 				break;
 		}
 	}, [reference]);
@@ -28,11 +28,11 @@ export const InternalDocumentServiceOld: React.FC<EmptyObject> = ({children}) =>
 };
 
 class InternalDocumentService implements DocumentService {
-	private doc?: SourceBundle;
-	constructor(doc?: SourceBundle){
+	private doc?: SourceObject;
+	constructor(doc?: SourceObject){
 		this.doc = doc;
 	}
-	start(callback: (doc: SourceBundle | null, error: string | null, status: string | null) => void): void {
+	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
 		if(this.doc){
 			callback(this.doc, null, null);
 		}else{
@@ -48,9 +48,9 @@ class InternalDocumentService implements DocumentService {
 export const createInternalDocumentService = ({reference}: Params<string>)=>{
 	switch(reference){
 		case "presets":
-			return new InternalDocumentService(exampleRouteScriptPresets as unknown as SourceBundle);
+			return new InternalDocumentService(exampleRouteScriptPresets as unknown as SourceObject);
 		case "functions":
-			return new InternalDocumentService(exampleRouteScriptFunctions as unknown as SourceBundle);
+			return new InternalDocumentService(exampleRouteScriptFunctions as unknown as SourceObject);
 	}
 	return new InternalDocumentService();
 	
