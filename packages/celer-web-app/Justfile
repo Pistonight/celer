@@ -18,7 +18,7 @@ build: wasm
     wget -q -O {{WASM_DIR}}binaryen.tar.gz https://github.com/WebAssembly/binaryen/releases/download/version_105/binaryen-version_105-x86_64-linux.tar.gz
     tar -xzvf {{WASM_DIR}}binaryen.tar.gz -C {{WASM_DIR}}
     mv -f {{WASM_DIR}}celer_bg.wasm {{WASM_DIR}}celer_bg_unoptimized.wasm
-    {{WASM_DIR}}binaryen-version_105/bin/wasm-opt {{WASM_DIR}}/celer_bg_unoptimized.wasm -O3 -o {{WASM_DIR}}/celer_bg.wasm
+    {{WASM_DIR}}binaryen-version_105/bin/wasm-opt {{WASM_DIR}}celer_bg_unoptimized.wasm -O3 -o {{WASM_DIR}}celer_bg.wasm
     npm run build
 
 # Build wasm from celer lib and copy the file over
