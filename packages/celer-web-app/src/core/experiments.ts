@@ -14,8 +14,6 @@ export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("E
 export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
-// [08-11] Use FC AppStateProvider
-export const useExpNewASP = ():boolean => useAppExperiment("NewASP", true);
 // Enable support for loading deprecated route format
 export const useExpEnableDeprecatedRouteBundle = ():boolean => useAppExperiment("EnableDeprecatedRouteBundle", false);
 // Enable engine to infer coordinates for lines without coordinates (so that every line can be clicked)
