@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
-import { DocumentContext } from "core/context";
+import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
 import { useExpBetterBundler, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
@@ -18,7 +18,7 @@ import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
     serviceCreator: ServiceCreator,
-    //temporary until devtool bundler is shipped
+    //still need this for local document...
     shouldSetBundle: boolean
 }
 
@@ -31,6 +31,8 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	const enableInferCoord = useExpInferCoord();
 	const enableDocumentProvider = useExpNewDP();
 	const enableBetterBundler = useExpBetterBundler();
+
+	const {splitSetting} = useAppSetting();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
@@ -121,6 +123,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	}, [routeSourceBundle]);
 
 	const {docLines, mapIcons, mapLines} = useMemo(()=>{
+		routeEngine.setSplitSetting(splitSetting);
 		const docLines = routeEngine.compute(routeAssembly);
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
 
@@ -129,7 +132,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			mapIcons,
 			mapLines
 		};
-	}, [routeAssembly]);
+	}, [routeAssembly, splitSetting]);
 
 	useEffect(()=>{
 		if(metadata.name){

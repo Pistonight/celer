@@ -4,6 +4,7 @@ import { useExpBetterBundler } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
+import { AppSettingProvider } from "./AppSettingProvider";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
 import { 
@@ -19,7 +20,9 @@ import {
 
 const RootLayer: React.FC = ()=>
 	<AppExperimentsProvider>
-		<Outlet />
+		<AppSettingProvider>
+			<Outlet />
+		</AppSettingProvider>
 	</AppExperimentsProvider>;
 
 const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle})=>
