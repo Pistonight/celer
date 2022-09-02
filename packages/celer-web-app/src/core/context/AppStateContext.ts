@@ -12,21 +12,13 @@ export interface AppState {
     // Updating this value will cause MapFrame to center to the new location
     mapCenter: InGameCoordinates|undefined,
 
-    // these are used when NewDP is off
-    metadata: RouteMetadata;
-    config: RouteConfig;
-    docLines: DocLine[];
-    mapIcons: MapIcon[];
-    mapLines: MapLine[];
-    // Temporary state to store bundlejson
-    bundle: string | null
 }
 
 interface AppStateContextState extends AppState {
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
-    setRouteScript:(routeScript: SourceObject)=>void,
-    setBundle:(bundle: string | null) => void,
+    //setRouteScript:(routeScript: SourceObject)=>void,
+    //setBundle:(bundle: string | null) => void,
     setMapCenter: (igc: InGameCoordinates) => void,
 }
 
