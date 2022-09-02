@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { BannerType, Compiler, StringParser } from "core/compiler";
 import { AppStateContext, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP } from "core/experiments";
+import { useExpWarnNegativeVar, useExpInferCoord, useExpNewDP } from "core/experiments";
 import { InGameCoordinates, MapEngine } from "core/map";
-import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
+import { ensureMetadata, ensureConfig } from "data/bundler";
 import { SourceObject } from "data/libs";
 import { LocalStorageWrapper } from "data/storage";
 
@@ -23,7 +23,6 @@ export const AppStateProvider: React.FC = ({children})=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
-	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
 
 	// set up state
 	const [docCurrentLine, setDocCurrentLine] = useState(
@@ -53,18 +52,10 @@ export const AppStateProvider: React.FC = ({children})=>{
 				routeAssembly: []
 			};
 		}
-		const [metadata, metadataDeprecated] = ensureMetadata(routeSourceBundle);
+		const [metadata] = ensureMetadata(routeSourceBundle);
 		const config = ensureConfig(routeSourceBundle);
 		let route = routeSourceBundle._route;
-		if(enableDeprecated){
-			const routeScriptUnchecked = routeSourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-			const routeDeprecated = !routeSourceBundle._route && routeScriptUnchecked.Route;
-			route = route ?? routeScriptUnchecked.Route;
-	
-			if (metadataDeprecated || routeDeprecated){
-				route = addRouteScriptDeprecationMessage(route);
-			}
-		}
+
 		const routeAssembly = compiler.compile(route);
 		if(metadata.name){
 			document.title = `${metadata.name} - Celer`;

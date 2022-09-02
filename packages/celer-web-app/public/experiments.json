@@ -4,7 +4,6 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "BetterMap": true,
-    "EnableDeprecatedRouteBundle": false,
     "InferCoord": true,
     "NewDP": true,
     "BetterBundler": true

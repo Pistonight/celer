@@ -4,14 +4,14 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpBetterBundler, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
+import { useExpBetterBundler, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
 import { 
-	addRouteScriptDeprecationMessage, 
 	ensureConfig, 
 	ensureMetadata, 
 } from "data/bundler";
 import {
+	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
 import { ServiceCreator } from "./services";
@@ -38,7 +38,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
-	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
     
 	const params = useParams();
 	const [status, setStatus] = useState<string|null>(null);
@@ -101,18 +100,10 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 				routeAssembly: []
 			};
 		}
-		const [metadata, metadataDeprecated] = enableBetterBundler ? [wasmEnsureRouteMetadata(routeSourceBundle._project), false] : ensureMetadata(routeSourceBundle);
+		const metadata: RouteMetadata = enableBetterBundler ? wasmEnsureRouteMetadata(routeSourceBundle._project) : ensureMetadata(routeSourceBundle)[0];
 		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._route) : ensureConfig(routeSourceBundle);
 		let route = routeSourceBundle._route;
-		if(enableDeprecated){
-			const routeScriptUnchecked = routeSourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-			const routeDeprecated = !routeSourceBundle._route && routeScriptUnchecked.Route;
-			route = route ?? routeScriptUnchecked.Route;
-	
-			if (metadataDeprecated || routeDeprecated){
-				route = addRouteScriptDeprecationMessage(route);
-			}
-		}
+
 		const routeAssembly = compiler.compile(route);
 		
 		return {
