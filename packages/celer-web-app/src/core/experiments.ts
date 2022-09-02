@@ -22,3 +22,5 @@ export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", tru
 export const useExpNewDP = ():boolean => useAppExperiment("NewDP", true);
 // [08-25 Added] Use wasm bundler (only applies to dev server)
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
+// [09-02 Added] Use AppSettingProvider for managing settings
+export const useExpNewSetting = () => useAppExperiment("NewSetting", true);

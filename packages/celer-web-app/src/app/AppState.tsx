@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BannerType, Compiler, SplitType, StringParser } from "core/compiler";
-import { AppStateContext, useDocument } from "core/context";
+import { AppStateContext, useAppSetting, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP } from "core/experiments";
+import { useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpNewSetting } from "core/experiments";
 import { InGameCoordinates, MapEngine } from "core/map";
 import { MapDisplayModeStorage, SplitSettingStorage, ThemeStorage } from "core/settings";
 import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
@@ -21,6 +21,7 @@ export const AppStateProvider: React.FC = ({children})=>{
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableDocumentProvider = useExpNewDP();
+	const enableSettingProvider = useExpNewSetting();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
@@ -130,12 +131,14 @@ export const AppStateProvider: React.FC = ({children})=>{
 
 	const newDPDocument = useDocument();
 
+	const newSetting = useAppSetting();
+
 	return (
 		<AppStateContext.Provider value={{
-			mapDisplayMode,
-			theme,
-			splitSetting,
-			enableSubsplits,
+			mapDisplayMode:enableSettingProvider?newSetting.mapDisplayMode:mapDisplayMode,
+			theme:enableSettingProvider?newSetting.theme:theme,
+			splitSetting:enableSettingProvider?newSetting.splitSetting:splitSetting,
+			enableSubsplits:enableSettingProvider?newSetting.enableSubsplits:enableSubsplits,
 			docScrollToLine,
 			docCurrentLine,
 			mapCenter,
@@ -153,10 +156,10 @@ export const AppStateProvider: React.FC = ({children})=>{
 			mapIcons:enableDocumentProvider?newDPDocument.mapIcons:mapIcons,
 			mapLines:enableDocumentProvider?newDPDocument.mapLines:mapLines,
 			bundle:enableDocumentProvider?newDPDocument.bundle:bundle,
-			setMapDisplayMode,
-			setTheme,
-			setSplitSetting: setSplitSettingWithTypes,
-			setEnableSubsplits,
+			setMapDisplayMode:enableSettingProvider?newSetting.setMapDisplayMode:setMapDisplayMode,
+			setTheme:enableSettingProvider?newSetting.setTheme:setTheme,
+			setSplitSetting:enableSettingProvider?newSetting.setSplitSetting:setSplitSettingWithTypes,
+			setEnableSubsplits:enableSettingProvider?newSetting.setEnableSubsplits:setEnableSubsplits,
 			setDocScrollToLine,
 			setDocCurrentLine,
 			setRouteScript: setRouteSourceBundle,
