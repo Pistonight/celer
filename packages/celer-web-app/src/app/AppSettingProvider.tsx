@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { SplitType } from "core/compiler";
 import { SettingContext } from "core/context";
-import { useExpNewSetting } from "core/experiments";
 import { MapDisplayModeStorage, SplitSettingStorage, ThemeStorage } from "core/settings";
 import { LocalStorageWrapper } from "data/storage";
 
 const ENABLE_SUBSPLITS_KEY="EnableSubsplits";
 
 export const AppSettingProvider: React.FC = ({children})=>{
-	const enable = useExpNewSetting();
 	// TODO restructure this to a single setting object to have one key in local storage
 	const [mapDisplayMode, setMapDisplayMode] = useState(
 		()=>MapDisplayModeStorage.load()
@@ -43,10 +41,6 @@ export const AppSettingProvider: React.FC = ({children})=>{
 	useEffect(()=>{
 		LocalStorageWrapper.store(ENABLE_SUBSPLITS_KEY, enableSubsplits);
 	}, [enableSubsplits]);
-
-	if(!enable){
-		return <>{children}</>;
-	}
 
 	return (
 		<SettingContext.Provider value={{
