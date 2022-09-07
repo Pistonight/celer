@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-import { DocLine } from "core/engine";
-import { InGameCoordinates, MapIcon, MapLine } from "core/map";
-import { RouteConfig, RouteMetadata, SourceObject } from "data/libs";
+import { InGameCoordinates } from "core/map";
 import { Consumer, emptyObject } from "data/util";
 
 export interface AppState {
@@ -12,21 +10,11 @@ export interface AppState {
     // Updating this value will cause MapFrame to center to the new location
     mapCenter: InGameCoordinates|undefined,
 
-    // these are used when NewDP is off
-    metadata: RouteMetadata;
-    config: RouteConfig;
-    docLines: DocLine[];
-    mapIcons: MapIcon[];
-    mapLines: MapLine[];
-    // Temporary state to store bundlejson
-    bundle: string | null
 }
 
 interface AppStateContextState extends AppState {
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
-    setRouteScript:(routeScript: SourceObject)=>void,
-    setBundle:(bundle: string | null) => void,
     setMapCenter: (igc: InGameCoordinates) => void,
 }
 

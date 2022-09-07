@@ -54,7 +54,6 @@ export const AppSettingProvider: React.FC = ({children})=>{
 			setEnableSubsplits,
 		}}>
 			{children}
-			
 		</SettingContext.Provider>
 	);
 };

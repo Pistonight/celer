@@ -19,7 +19,7 @@ type MergedSource = SourceObject & {
     [key: string]: SourceModule
 };
 
-export const addRouteScriptDeprecationMessage = (route: SourceSection[]):SourceSection[] => {
+const addRouteScriptDeprecationMessage = (route: SourceSection[]):SourceSection[] => {
 	return [
 		"(?=) Deprecation Warning: You are using a legacy version of the route script that is no longer supported. If you are the maintainer of this document, it is recommended that you upgrade to the latest version. Please follow the .link([migration guide]https://github.com/iTNTPiston/celer/wiki/Misc:-Migrate-from-Legacy-Route-Script) here.",
 		...route

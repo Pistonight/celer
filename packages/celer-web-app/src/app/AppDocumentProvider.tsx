@@ -4,14 +4,14 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpBetterBundler, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
+import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
 import { 
-	addRouteScriptDeprecationMessage, 
 	ensureConfig, 
 	ensureMetadata, 
 } from "data/bundler";
 import {
+	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
 import { ServiceCreator } from "./services";
@@ -29,16 +29,14 @@ const mapEngine = new MapEngine();
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle, children}) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
-	const enableDocumentProvider = useExpNewDP();
 	const enableBetterBundler = useExpBetterBundler();
 
-	const {splitSetting} = useAppSetting();
+	const { splitSetting } = useAppSetting();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
-	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
     
 	const params = useParams();
 	const [status, setStatus] = useState<string|null>(null);
@@ -47,10 +45,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
 
 	useEffect(()=>{
-		if(!enableDocumentProvider){
-			return;
-		}
-
 		const service = serviceCreator(params);
 		service.start((doc, error, status)=>{
 			if(doc){
@@ -101,18 +95,10 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 				routeAssembly: []
 			};
 		}
-		const [metadata, metadataDeprecated] = enableBetterBundler ? [wasmEnsureRouteMetadata(routeSourceBundle._project), false] : ensureMetadata(routeSourceBundle);
-		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._route) : ensureConfig(routeSourceBundle);
-		let route = routeSourceBundle._route;
-		if(enableDeprecated){
-			const routeScriptUnchecked = routeSourceBundle as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-			const routeDeprecated = !routeSourceBundle._route && routeScriptUnchecked.Route;
-			route = route ?? routeScriptUnchecked.Route;
-	
-			if (metadataDeprecated || routeDeprecated){
-				route = addRouteScriptDeprecationMessage(route);
-			}
-		}
+		const metadata: RouteMetadata = enableBetterBundler ? wasmEnsureRouteMetadata(routeSourceBundle._project) : ensureMetadata(routeSourceBundle)[0];
+		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._config) : ensureConfig(routeSourceBundle);
+		const route = routeSourceBundle._route;
+
 		const routeAssembly = compiler.compile(route);
 		
 		return {
@@ -141,10 +127,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			document.title = "Celer";
 		}
 	}, [metadata]);
-
-	if(!enableDocumentProvider){
-		return <>{children}</>;
-	}
 
 	if(error){
 		return <LoadingFrame error>{error}</LoadingFrame>;

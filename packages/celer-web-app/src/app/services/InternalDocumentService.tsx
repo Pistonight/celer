@@ -1,31 +1,7 @@
-import { useCallback } from "react";
-import { Params, useParams } from "react-router-dom";
-import { useAppState, ServiceContext } from "core/context";
+import { Params } from "react-router-dom";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { SourceObject } from "data/libs";
-import { EmptyObject } from "data/util";
 import { DocumentService } from "./types";
-
-export const InternalDocumentServiceOld: React.FC<EmptyObject> = ({children}) => {
-	const { setBundle, setRouteScript } = useAppState();
-	const {reference} = useParams();
-	const serviceFunction = useCallback(()=>{
-		setBundle(null);
-		switch(reference){
-			case "presets":
-				setRouteScript(exampleRouteScriptPresets as unknown as SourceObject);
-				break;
-			case "functions":
-				setRouteScript(exampleRouteScriptFunctions as unknown as SourceObject);
-				break;
-		}
-	}, [reference]);
-	return (
-		<ServiceContext.Provider value={serviceFunction}>
-			{children}
-		</ServiceContext.Provider>
-	);
-};
 
 class InternalDocumentService implements DocumentService {
 	private doc?: SourceObject;

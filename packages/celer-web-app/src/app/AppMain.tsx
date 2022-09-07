@@ -8,10 +8,6 @@ import { AppSettingProvider } from "./AppSettingProvider";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
 import { 
-	InternalDocumentServiceOld, 
-	GitHubServiceOld, 
-	WsDevServiceOld, 
-	LocalServiceOld,
 	createInternalDocumentService, 
 	createLocalService,
 	createGitHubService, 
@@ -49,18 +45,18 @@ export const AppMain: React.FC<EmptyObject> = () => {
 				<Route path="/" element={<RootLayer />}>
 					<Route index element={<Home />} />
 					<Route path="docs" element={<DocumentLayer serviceCreator={createInternalDocumentService} shouldSetBundle={false}/>}>
-						<Route path=":reference" element={<InternalDocumentServiceOld><AppFrame /></InternalDocumentServiceOld>}/>
+						<Route path=":reference" element={<AppFrame />}/>
 					</Route>
 					<Route path="dev" element={<WsDevDocumentLayer />}>
-						<Route index element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
-						<Route path=":port" element={<WsDevServiceOld><AppFrame /></WsDevServiceOld>}/>
+						<Route index element={<AppFrame />}/>
+						<Route path=":port" element={<AppFrame />}/>
 					</Route>
 					<Route path="gh" element={<DocumentLayer serviceCreator={createGitHubService} shouldSetBundle={false}/>}>
-						<Route path=":user/:repo" element={<GitHubServiceOld><AppFrame /></GitHubServiceOld>}/>
-						<Route path=":user/:repo/:branch" element={<GitHubServiceOld><AppFrame /></GitHubServiceOld>}/>
+						<Route path=":user/:repo" element={<AppFrame />}/>
+						<Route path=":user/:repo/:branch" element={<AppFrame />}/>
 					</Route>
 					<Route path="local" element={<DocumentLayer serviceCreator={createLocalService} shouldSetBundle={true}/>}>
-						<Route index element={<LocalServiceOld><AppFrame /></LocalServiceOld>}/>
+						<Route index element={<AppFrame />}/>
 					</Route>
 					<Route path="*" element={<LoadingFrame error>Not Found</LoadingFrame>} />
 				</Route>
