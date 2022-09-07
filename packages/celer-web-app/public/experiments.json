@@ -5,6 +5,5 @@
     "WarnNegativeVar": false,
     "BetterMap": true,
     "InferCoord": true,
-    "NewDP": true,
     "BetterBundler": true
 }

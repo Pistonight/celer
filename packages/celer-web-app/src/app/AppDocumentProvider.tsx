@@ -4,7 +4,7 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpBetterBundler, useExpInferCoord, useExpNewDP, useExpWarnNegativeVar } from "core/experiments";
+import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
 import { 
 	ensureConfig, 
@@ -29,10 +29,9 @@ const mapEngine = new MapEngine();
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle, children}) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
-	const enableDocumentProvider = useExpNewDP();
 	const enableBetterBundler = useExpBetterBundler();
 
-	const {splitSetting} = useAppSetting();
+	const { splitSetting } = useAppSetting();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
@@ -46,10 +45,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
 
 	useEffect(()=>{
-		if(!enableDocumentProvider){
-			return;
-		}
-
 		const service = serviceCreator(params);
 		service.start((doc, error, status)=>{
 			if(doc){
@@ -132,10 +127,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			document.title = "Celer";
 		}
 	}, [metadata]);
-
-	if(!enableDocumentProvider){
-		return <>{children}</>;
-	}
 
 	if(error){
 		return <LoadingFrame error>{error}</LoadingFrame>;

@@ -3,6 +3,7 @@ This is the change log for celer-web-app
 
 ## `5.0.4` - `09-08-2022` `LATEST`
 - Clean up new setting experiment
+- Clean up new document provider experiment
 
 ## `5.0.3` - `09-02-2022`
 - Add AppSettingProvider to separate setting storage from state. This also fixes the bug where the engine is not getting split settings with new DocumentProvider on

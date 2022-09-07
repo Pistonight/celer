@@ -5,7 +5,7 @@ import { useStyles } from "ui/StyleContext";
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
-import { useAppSetting, useAppState, useService } from "core/context";
+import { useAppSetting, useAppState, useDocument } from "core/context";
 import { createLiveSplitFile } from "core/external";
 import { 
 	saveAs, 
@@ -22,15 +22,16 @@ const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
 const splitSettingsMenuItemRef = React.createRef<HTMLDivElement>();
 export const AppFrame: React.FC<EmptyObject> = ()=>{
-	// This hook loads the route (using old ServiceContext)
-	useService();
+
+	const {
+		mapCenter,
+	} = useAppState();
 	const {
 		metadata,// clean up these once new DP rolls out
 		config,
 		docLines,
 		bundle,
-		mapCenter,
-	} = useAppState();
+	} = useDocument();
 	const {
 		mapDisplayMode, 
 		setMapDisplayMode, 

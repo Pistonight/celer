@@ -1,7 +1,7 @@
 import { useStyles } from "ui/StyleContext";
 import { Map } from "ui/components";
 import { Coord } from "core/compiler";
-import { useAppState } from "core/context";
+import { useDocument } from "core/context";
 import { inGameCoord, InGameCoordinates, MapIcon, MapLine, NewMapIcon, NewMapLine } from "core/map";
 
 type MapFrameProps = {
@@ -16,7 +16,7 @@ const updateMapLines = (lines: MapLine[]): NewMapLine[] => lines.map(({color, ve
 
 const updateIcon = (icons: MapIcon[]): NewMapIcon[] => icons.map(({iconName, coord})=>({iconName, coord: updateCoord(coord)}));
 export const MapFrame: React.FC<MapFrameProps> = ({manualCenter})=>{
-	const { mapLines, mapIcons } = useAppState();
+	const { mapLines, mapIcons } = useDocument();
 	const styles = useStyles();
 
 	return (

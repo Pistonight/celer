@@ -17,8 +17,6 @@ export interface AppState {
 interface AppStateContextState extends AppState {
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
-    //setRouteScript:(routeScript: SourceObject)=>void,
-    //setBundle:(bundle: string | null) => void,
     setMapCenter: (igc: InGameCoordinates) => void,
 }
 
