@@ -4,7 +4,7 @@ import { DocumentService } from "./types";
 
 class WebSocketDevService implements DocumentService {
 	private ws: WebSocket|null = null;
-	private port: string = "2222";
+	private port = "2222";
 	private useExpBetterBundler: boolean;
 
 	constructor(useExpBetterBundler: boolean, port: string){
