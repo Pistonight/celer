@@ -92,8 +92,7 @@ def append_error(error_lines, i, line, error):
     spacer = " "*(4+line_num_width+offset)
     error_lines.append(f"{spacer}^ {error}")
 
-# pylint: disable-next=too-many-branches
-# pylint: disable-next=too-many-statements
+# pylint: disable-next=too-many-branches, too-many-statements
 def validate_file(file_name):
     """Validate a file, return array of errors"""
     errors = []
