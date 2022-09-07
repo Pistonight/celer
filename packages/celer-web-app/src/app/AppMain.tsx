@@ -1,6 +1,6 @@
 import { HashRouter, Outlet, Route, Routes, } from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
-import { useExpBetterBundler } from "core/experiments";
+import { useExpBetterBundler, useExpPortCustomization } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -13,6 +13,7 @@ import {
 	createGitHubService, 
 	createWebSocketDevService 
 } from "./services";
+import { useCallback } from "react";
 
 const RootLayer: React.FC = ()=>
 	<AppExperimentsProvider>
@@ -34,7 +35,12 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator, shou
 // Need this to access exp
 const WsDevDocumentLayer: React.FC = () => {
 	const enableBetterBundler = useExpBetterBundler();
-	return <DocumentLayer serviceCreator={()=>createWebSocketDevService(enableBetterBundler)} shouldSetBundle={!enableBetterBundler}/>;
+	const enablePortCustomization = useExpPortCustomization();
+	const creatorWrapper = useCallback((params)=>{
+		const port = enablePortCustomization ? params.port : undefined;
+		return createWebSocketDevService(enableBetterBundler, port);
+	}, [enableBetterBundler, enablePortCustomization]);
+	return <DocumentLayer serviceCreator={creatorWrapper} shouldSetBundle={!enableBetterBundler}/>;
 };
 
 // Router for the app

@@ -4,15 +4,18 @@ import { DocumentService } from "./types";
 
 class WebSocketDevService implements DocumentService {
 	private ws: WebSocket|null = null;
+	private port: string = "2222";
 	private useExpBetterBundler: boolean;
 
-	constructor(useExpBetterBundler: boolean){
+	constructor(useExpBetterBundler: boolean, port: string){
 		this.useExpBetterBundler = useExpBetterBundler;
+		if (port){
+			this.port = port;
+		}
 	}
 	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
-		const port = "2222";
-		console.log("Connecting to local ws dev server "+port); // eslint-disable-line no-console
-		const newws = new WebSocket("ws://localhost:"+port);
+		console.log("Connecting to local ws dev server "+this.port); // eslint-disable-line no-console
+		const newws = new WebSocket("ws://localhost:"+this.port);
 		newws.onerror=(e)=>{
 			console.error(e);
 			callback(null, "Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again", null);
@@ -25,7 +28,6 @@ class WebSocketDevService implements DocumentService {
 			}else{
 				callback(bundleRouteScript(dataObject), null, null);
 			}
-
 		};
 		newws.onopen = ()=>{
 			callback(null, null, "Waiting for data");
@@ -39,4 +41,4 @@ class WebSocketDevService implements DocumentService {
 	
 }
 
-export const createWebSocketDevService = (useExpBetterBundler: boolean)=>new WebSocketDevService(useExpBetterBundler);
+export const createWebSocketDevService = (useExpBetterBundler: boolean, port: string)=>new WebSocketDevService(useExpBetterBundler, port);

@@ -5,5 +5,6 @@
     "WarnNegativeVar": false,
     "BetterMap": true,
     "InferCoord": true,
-    "BetterBundler": true
+    "BetterBundler": true,
+    "PortCustomization": true
 }
