@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
-import { useAppState } from "core/context";
+import { useAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useExpInferCoord } from "core/experiments";
 import { inGameCoord, InGameCoordinates } from "core/map";
@@ -66,7 +66,7 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {counterValue, splitType} = docLine;
 	const styles = useStyles();
-	const {splitSetting} = useAppState();
+	const {splitSetting} = useAppSetting();
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
 		const showSplit = splitType === SplitType.UserDefined && splitSetting[SplitType.UserDefined];
 		return (

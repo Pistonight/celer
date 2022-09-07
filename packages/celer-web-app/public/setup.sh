@@ -76,6 +76,7 @@ then
 | cut -d : -f 2,3 \
 | tr -d \")
   
+  mkdir -p $INSTALL_PATH
   rm -rf $INSTALL_PATH/celer.tar.gz
   echo "Downloading from" $URL
   wget -q -O $INSTALL_PATH/celer.tar.gz $URL

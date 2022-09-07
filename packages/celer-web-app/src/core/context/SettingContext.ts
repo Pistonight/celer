@@ -6,10 +6,8 @@ import { Consumer, emptyObject } from "data/util";
 export interface AppSetting {
     mapDisplayMode: MapDisplayMode,
     theme: Theme,
-    
     splitSetting: SplitTypeSetting<boolean>,
     enableSubsplits: boolean,
-    
 }
 
 interface AppSettingContextState extends AppSetting {

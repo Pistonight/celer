@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { BannerType, Compiler, SplitType, StringParser } from "core/compiler";
-import { AppStateContext, useAppSetting, useDocument } from "core/context";
+import React, { useEffect, useMemo, useState } from "react";
+import { BannerType, Compiler, StringParser } from "core/compiler";
+import { AppStateContext, useDocument } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP, useExpNewSetting } from "core/experiments";
+import { useExpWarnNegativeVar, useExpEnableDeprecatedRouteBundle, useExpInferCoord, useExpNewDP } from "core/experiments";
 import { InGameCoordinates, MapEngine } from "core/map";
-import { MapDisplayModeStorage, SplitSettingStorage, ThemeStorage } from "core/settings";
 import { ensureMetadata, addRouteScriptDeprecationMessage, ensureConfig } from "data/bundler";
 import { SourceObject } from "data/libs";
 import { LocalStorageWrapper } from "data/storage";
 
 const DOC_LINE_POS_KEY="DocLinePos";
-
-const ENABLE_SUBSPLITS_KEY="EnableSubsplits";
 
 const compiler = new Compiler();
 const routeEngine = new RouteEngine();
@@ -21,46 +18,14 @@ export const AppStateProvider: React.FC = ({children})=>{
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableDocumentProvider = useExpNewDP();
-	const enableSettingProvider = useExpNewSetting();
 
 	useEffect(()=>{
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
 	const enableDeprecated = useExpEnableDeprecatedRouteBundle();
-	// set up AppState
-	const [mapDisplayMode, setMapDisplayMode] = useState(
-		()=>MapDisplayModeStorage.load()
-	);
-	// TODO update settings structure
-	useEffect(()=>{
-		MapDisplayModeStorage.save(mapDisplayMode);
-	}, [mapDisplayMode]);
-	const [theme, setTheme] = useState(
-		()=>ThemeStorage.load()
-	);
-	useEffect(()=>{
-		ThemeStorage.save(theme);
-	}, [theme]);
-	const [splitSetting, setSplitSetting] = useState(()=>SplitSettingStorage.load());
-	useEffect(()=>{
-		SplitSettingStorage.save(splitSetting);
-		routeEngine.setSplitSetting(splitSetting);
 
-	}, [splitSetting]);
-	const setSplitSettingWithTypes = useCallback((value: boolean, ...splitType: SplitType[])=>{
-		const newSetting = {
-			...splitSetting,
-		};
-		splitType.forEach(t=>newSetting[t]=value);
-		setSplitSetting(newSetting);
-	}, [splitSetting]);
-	const [enableSubsplits, setEnableSubsplits] = useState(
-		()=>LocalStorageWrapper.load(ENABLE_SUBSPLITS_KEY, false)
-	);
-	useEffect(()=>{
-		LocalStorageWrapper.store(ENABLE_SUBSPLITS_KEY, enableSubsplits);
-	}, [enableSubsplits]);
+	// set up state
 	const [docCurrentLine, setDocCurrentLine] = useState(
 		0
 	);
@@ -131,14 +96,8 @@ export const AppStateProvider: React.FC = ({children})=>{
 
 	const newDPDocument = useDocument();
 
-	const newSetting = useAppSetting();
-
 	return (
 		<AppStateContext.Provider value={{
-			mapDisplayMode:enableSettingProvider?newSetting.mapDisplayMode:mapDisplayMode,
-			theme:enableSettingProvider?newSetting.theme:theme,
-			splitSetting:enableSettingProvider?newSetting.splitSetting:splitSetting,
-			enableSubsplits:enableSettingProvider?newSetting.enableSubsplits:enableSubsplits,
 			docScrollToLine,
 			docCurrentLine,
 			mapCenter,
@@ -156,10 +115,6 @@ export const AppStateProvider: React.FC = ({children})=>{
 			mapIcons:enableDocumentProvider?newDPDocument.mapIcons:mapIcons,
 			mapLines:enableDocumentProvider?newDPDocument.mapLines:mapLines,
 			bundle:enableDocumentProvider?newDPDocument.bundle:bundle,
-			setMapDisplayMode:enableSettingProvider?newSetting.setMapDisplayMode:setMapDisplayMode,
-			setTheme:enableSettingProvider?newSetting.setTheme:setTheme,
-			setSplitSetting:enableSettingProvider?newSetting.setSplitSetting:setSplitSettingWithTypes,
-			setEnableSubsplits:enableSettingProvider?newSetting.setEnableSubsplits:setEnableSubsplits,
 			setDocScrollToLine,
 			setDocCurrentLine,
 			setRouteScript: setRouteSourceBundle,

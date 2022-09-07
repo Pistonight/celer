@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { AllStyles, StyleContext } from "ui/StyleContext";
 import { LoadingFrame } from "ui/frames";
 import { DefaultColors, Sizes, StyleEngine, ThemeColorMap } from "ui/styles";
-import { useAppState } from "core/context";
+import { useAppSetting } from "core/context";
 import { EmptyObject } from "data/util";
 
 const styleEngine = new StyleEngine(AllStyles);
 
 export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
-	const { mapDisplayMode, theme } = useAppState();
+	const { mapDisplayMode, theme } = useAppSetting();
 	const appColors = (theme && ThemeColorMap[theme.name]) ?? DefaultColors;
 
 	const [ready, setReady] = useState(false);
