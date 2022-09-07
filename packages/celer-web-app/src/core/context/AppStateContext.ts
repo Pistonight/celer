@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-import { DocLine } from "core/engine";
-import { InGameCoordinates, MapIcon, MapLine } from "core/map";
-import { RouteConfig, RouteMetadata, SourceObject } from "data/libs";
+import { InGameCoordinates } from "core/map";
 import { Consumer, emptyObject } from "data/util";
 
 export interface AppState {

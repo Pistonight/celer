@@ -96,8 +96,8 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			};
 		}
 		const metadata: RouteMetadata = enableBetterBundler ? wasmEnsureRouteMetadata(routeSourceBundle._project) : ensureMetadata(routeSourceBundle)[0];
-		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._route) : ensureConfig(routeSourceBundle);
-		let route = routeSourceBundle._route;
+		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._config) : ensureConfig(routeSourceBundle);
+		const route = routeSourceBundle._route;
 
 		const routeAssembly = compiler.compile(route);
 		
