@@ -6,7 +6,7 @@
     "BetterMap": true,
     "EnableDeprecatedRouteBundle": false,
     "InferCoord": true,
-    "NewDP": true,
-    "BetterBundler": true,
-    "NewSetting": true
+    "NewDP": false,
+    "BetterBundler": false,
+    "NewSetting": false
 }
