@@ -57,7 +57,7 @@ if ($OPTION_NUM -eq "1"){
     exit 1
   }
 
-  mkdir -Force -p $INSTALL_PATH | Out-Null
+  New-Item $INSTALL_PATH -Force -ItemType directory | Out-Null
   $INSTALL_PATH = (Resolve-Path $INSTALL_PATH).Path
 
   (Invoke-RestMethod -Uri https://api.github.com/repos/iTNTPiston/celer/releases/latest).assets | Foreach-Object -Process {

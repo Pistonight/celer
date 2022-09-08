@@ -4,9 +4,7 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "BetterMap": true,
-    "EnableDeprecatedRouteBundle": false,
     "InferCoord": true,
-    "NewDP": false,
-    "BetterBundler": false,
-    "NewSetting": false
+    "BetterBundler": true,
+    "PortCustomization": true
 }
