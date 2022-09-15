@@ -3,7 +3,6 @@
     "MapSyncToDocScrollEnabled": false,
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
-    "BetterMap": true,
     "InferCoord": true,
     "BetterBundler": true,
     "PortCustomization": true
