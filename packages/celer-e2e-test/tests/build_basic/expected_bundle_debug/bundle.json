@@ -131,7 +131,31 @@
     {
       "Another Section": [
         "{\"incorrect step indentation\":null,\"movement\":[\"hellow\"]}",
-        "(^!) Bundler Error: Customized step must only have 1 key. Did you indent correctly?"
+        "(^!) Bundler Error: Customized step must only have 1 key. Did you indent correctly?",
+        {
+          "boolean literals": {
+            "movements": [
+              {
+                "to": [
+                  1.0,
+                  2.0
+                ],
+                "warp": true
+              }
+            ]
+          }
+        },
+        {
+          "boolean literals 2": {}
+        },
+        {
+          "boolean literals 3": {
+            "hide-icon-on-map": true
+          }
+        },
+        {
+          "boolean literals 4": {}
+        }
       ]
     },
     "__use__ _BadName",

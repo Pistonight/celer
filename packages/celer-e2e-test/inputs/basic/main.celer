@@ -62,6 +62,16 @@ _route:
   - Another Section:
     - incorrect step indentation:
       movement: ["hellow"]
+    - boolean literals:
+        movements:
+        - to: [1,2]
+          warp: True
+    - boolean literals 2:
+        hide-icon-on-map: False
+    - boolean literals 3:
+        hide-icon-on-map: true
+    - boolean literals 4:
+        hide-icon-on-map: false
 
   - __use__ _BadName
   - __use__ NonExistingModule

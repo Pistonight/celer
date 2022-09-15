@@ -1,18 +1,29 @@
----
 _config: {}
 _project:
   authors:
-    - iTNTPiston
+  - iTNTPiston
   description: Example of a celer project
   name: Example
-  url: ""
+  url: ''
   version: 0.1.0
 _route:
-  - section level text step
-  - _Equipment<section level text step as preset>
-  - _Equipment<section level preset extend>:
-      - comment
-      - "(^!) Bundler Error: Step customization must be an object, but received: \"hello\""
+- section level text step
+- _Equipment<section level text step as preset>
+- _Equipment<section level preset extend>:
+  - comment
+  - '(^!) Bundler Error: Step customization must be an object, but received: "hello"'
+- TextStepSingle
+- _Equipment<t>
+- _Custom:
+    comment: cool
+- single step array
+- step 1
+- step 2
+- Test Section 1:
+  - inner step
+  - _Equipment<text step as preset>
+  - _Equipment<preset extend>:
+      comment: hello
   - TextStepSingle
   - _Equipment<t>
   - _Custom:
@@ -20,65 +31,63 @@ _route:
   - single step array
   - step 1
   - step 2
-  - Test Section 1:
-      - inner step
-      - _Equipment<text step as preset>
-      - _Equipment<preset extend>:
-          comment: hello
-      - TextStepSingle
-      - _Equipment<t>
-      - _Custom:
-          comment: cool
-      - single step array
-      - step 1
-      - step 2
-  - Single Text Section: single text
-  - Single Text Section Include: TextStepSingle
-  - Single preset extend section:
-      _Equipment<single>:
-        comment: preset extend
-  - Single preset extend include:
-      _Custom:
-        comment: cool
-  - section array include:
-      - step 1
-      - step 2
-  - section array include 2: single step array
-  - Test Validation Section:
-      - Test Validation 1
-      - "(^!) Bundler Error: Step customization cannot be null. Did you put an extra \":\" there?"
-      - Test Validation 2
-      - "(^!) Bundler Error: Step customization must be an object, but received: 2"
-      - Test Validation 3
-      - "(^!) Bundler Error: Step customization must be an object, but received: false"
-      - Test Validation 4: {}
-      - "(^?) Bundler Warning: Invalid attribute \"invalid-attr\""
-      - Test Validation 5: {}
-      - "(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates"
-      - Test Validation 6: {}
-      - "(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates"
-      - Test Validation 6a:
-          coord:
-            - 1.0
-            - 2.0
-            - 3.0
-      - Test Validation 6b:
-          coord:
-            - 1.0
-            - 2.0
-      - Test Validation 6c: {}
-      - "(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates"
-      - Test Validation 7: {}
-      - "(^?) Bundler Warning: Invalid coordinate value: \"invalid\""
-  - "{\"incorrect indentation\":null,\"notes\":\"hellow\"}"
-  - "(^!) Bundler Error: Section must only have 1 key. Did you indent correctly?"
-  - "null"
-  - Another Section:
-      - "{\"incorrect step indentation\":null,\"movement\":[\"hellow\"]}"
-      - "(^!) Bundler Error: Customized step must only have 1 key. Did you indent correctly?"
-  - __use__ _BadName
-  - "(^!) Bundler Error: Module name cannot start with underscore (_)"
-  - __use__ NonExistingModule
-  - "(^!) Bundler Error: Cannot find module: NonExistingModule"
-  - There needs to be an error
-  - "(^!) Bundler Error: Step customization cannot be null. Did you put an extra \":\" there?"
+- Single Text Section: single text
+- Single Text Section Include: TextStepSingle
+- Single preset extend section:
+    _Equipment<single>:
+      comment: preset extend
+- Single preset extend include:
+    _Custom:
+      comment: cool
+- section array include:
+  - step 1
+  - step 2
+- section array include 2: single step array
+- Test Validation Section:
+  - Test Validation 1
+  - '(^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?'
+  - Test Validation 2
+  - '(^!) Bundler Error: Step customization must be an object, but received: 2'
+  - Test Validation 3
+  - '(^!) Bundler Error: Step customization must be an object, but received: false'
+  - Test Validation 4: {}
+  - '(^?) Bundler Warning: Invalid attribute "invalid-attr"'
+  - Test Validation 5: {}
+  - '(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates'
+  - Test Validation 6: {}
+  - '(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates'
+  - Test Validation 6a:
+      coord:
+      - 1.0
+      - 2.0
+      - 3.0
+  - Test Validation 6b:
+      coord:
+      - 1.0
+      - 2.0
+  - Test Validation 6c: {}
+  - '(^?) Bundler Warning: Coordinates are ignored because the value is not valid. It must be an array with either 2 or 3 coordinates'
+  - Test Validation 7: {}
+  - '(^?) Bundler Warning: Invalid coordinate value: "invalid"'
+- '{"incorrect indentation":null,"notes":"hellow"}'
+- '(^!) Bundler Error: Section must only have 1 key. Did you indent correctly?'
+- 'null'
+- Another Section:
+  - '{"incorrect step indentation":null,"movement":["hellow"]}'
+  - '(^!) Bundler Error: Customized step must only have 1 key. Did you indent correctly?'
+  - boolean literals:
+      movements:
+      - to:
+        - 1.0
+        - 2.0
+        warp: true
+  - boolean literals 2: {}
+  - boolean literals 3:
+      hide-icon-on-map: true
+  - boolean literals 4: {}
+- __use__ _BadName
+- '(^!) Bundler Error: Module name cannot start with underscore (_)'
+- __use__ NonExistingModule
+- '(^!) Bundler Error: Cannot find module: NonExistingModule'
+- There needs to be an error
+- '(^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?'
