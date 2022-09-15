@@ -1,14 +1,13 @@
----
 _config: {}
 _project:
   authors:
-    - test author1
-    - test author2
+  - test author1
+  - test author2
   description: test description
   name: test name
   url: test url
   version: 0.1.0
 _route:
-  - (==) Welcome to celer!
-  - Hello World:
-      - My first line
+- (==) Welcome to celer!
+- Hello World:
+  - My first line
