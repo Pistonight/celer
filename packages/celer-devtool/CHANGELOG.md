@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-devtool
 
-## `2.0.1` - `08-22-2022` `LATEST`
+## `2.0.2` - `09-15-2022` `LATEST`
+- Fix bug: `True` and `False` not recognized as booleans
+
+## `2.0.1` - `08-22-2022`
 - Fix bug: dev server client stuck in close loop if an error occurs on close
 
 ## `2.0.0` - `08-17-2022`
