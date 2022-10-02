@@ -1,1 +1,1 @@
-[Home](https://github.com/iTNTPiston/celer/wiki) | [Installation](./Installation.md) | [Tutorial](./Tutorial/order.txt) | [Release](https://github.com/iTNTPiston/celer/releases) | [Documentation](https://github.com/iTNTPiston/celer/wiki/Documentation-Index) | [Misc](https://github.com/iTNTPiston/celer/wiki/Misc-Index)
+[Home](https://github.com/iTNTPiston/celer/wiki) | [Installation](./Installation.md) | [Tutorial](./Tutorial/order.txt) | [Release](https://github.com/iTNTPiston/celer/releases) | [Documentation](./Documentation/order.txt)

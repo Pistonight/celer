@@ -5,8 +5,6 @@ import urllib.parse
 
 from stat import S_IREAD, S_IRGRP, S_IROTH, S_IWRITE, S_IWGRP, S_IWOTH
 
-
-
 LOCAL_IMAGE_ROOT = "../"
 LOCAL_LINK_ROOT = "./"
 PROD_IMAGE_ROOT = "https://raw.githubusercontent.com/iTNTPiston/celer/main/packages/celer-wiki/"
@@ -80,7 +78,7 @@ def process_page_text(text, dir_path, is_release, abs_path_map):
     return "".join(out_parts)
 
 def get_replacement(dir_path, is_link, name, link, is_release, abs_path_map):
-    if link.startswith("http"):
+    if link.startswith("http") or link.startswith("#"):
         return f"[{name}]({link})" if is_link else f"![{name}]({link})"
 
     link = urllib.parse.unquote(link)
@@ -90,7 +88,7 @@ def get_replacement(dir_path, is_link, name, link, is_release, abs_path_map):
         hash_part = parts[1] if len(parts) > 1 else ""
         abs_path = os.path.abspath(os.path.join(dir_path, link_part))
         if abs_path not in abs_path_map:
-            raise ValueError(f"Absolute path {abs_path} does not point to a page")
+            raise ValueError(f"Absolute path {abs_path} does not point to a page (for {link=}")
         page_name = abs_path_map[abs_path]
         link_root = PROD_LINK_ROOT if is_release else LOCAL_LINK_ROOT
         ext = ".md" if not is_release else ""
@@ -171,7 +169,9 @@ def build_for_file(dir_path, dir_stack, file_name, abs_path_map, is_release, ord
         output_lines = build_file(input_file, dir_path, dir_stack, file_name, abs_path_map, is_release, prev, next)
     
     output_file_path = f"{build_dir}{output_name}.md"
-    os.chmod(output_file_path, S_IWRITE|S_IWGRP|S_IWOTH)
+    
+    if os.path.exists(output_file_path):
+        os.chmod(output_file_path, S_IWRITE|S_IWGRP|S_IWOTH)
     with open(output_file_path, "w+", encoding="utf-8") as output_file:
         output_file.writelines(output_lines)
     os.chmod(output_file_path, S_IREAD|S_IRGRP|S_IROTH)
@@ -179,16 +179,7 @@ def build_for_file(dir_path, dir_stack, file_name, abs_path_map, is_release, ord
 def build_file(input_iter, dir_path, dir_stack, file_name, abs_path_map, is_release, prev, next):
     output = []
     if dir_stack:
-        top_nav_parts = [f"[Home]({PROD_LINK_ROOT})"]
-        dir_stack_len = len(dir_stack)
-        for i, dir_name in enumerate(dir_stack):
-            # i = length -1 => ./
-            # i = length -2 => .././
-            repeat_times = dir_stack_len - i - 1
-            link = "../" * repeat_times + "./order.txt"
-            top_nav_parts.append(f"[{dir_name}]({link})")
-        top_nav_parts.append(file_name[:-3])
-        top_nav = process_page_text(" / ".join(top_nav_parts), dir_path, is_release, abs_path_map)
+        top_nav = create_top_nav(dir_stack, file_name[:-3], dir_path, is_release, abs_path_map)
         output.append(top_nav+"\n\n")
     
     for line in input_iter:
@@ -204,15 +195,20 @@ def build_file(input_iter, dir_path, dir_stack, file_name, abs_path_map, is_rele
 def build_index(dir_path, dir_stack, file_name, abs_path_map, is_release):
     output_name = convert_file_name(dir_stack, file_name)
     build_dir = PROD_BUILD_DIR if is_release else LOCAL_BUILD_DIR
-    
     output_lines = []
+    if dir_stack:
+        top_nav = create_top_nav(dir_stack, file_name[:-3], dir_path, is_release, abs_path_map)
+        output_lines.append(top_nav+"\n\n")
+    
     with open(os.path.join(dir_path, "order.txt"), "r", encoding="utf-8") as input_file:
         for i, line in enumerate(input_file):
-            link_name = line.rstrip()
-            output_lines.append(process_page_text(f"{i+1}. [{link_name}](./{link_name}.md)\n", dir_path, is_release, abs_path_map))
+            link = urllib.parse.quote(line.rstrip())
+            link_name = file_path_to_title(link)
+            output_lines.append(process_page_text(f"{i+1}. [{link_name}](./{link})\n", dir_path, is_release, abs_path_map))
 
     output_file_path = os.path.join(build_dir, output_name+".md")
-    os.chmod(output_file_path, S_IWRITE|S_IWGRP|S_IWOTH)
+    if os.path.exists(output_file_path):
+        os.chmod(output_file_path, S_IWRITE|S_IWGRP|S_IWOTH)
     with open(output_file_path, "w+", encoding="utf-8") as output_file:
         output_file.writelines(output_lines)    
     os.chmod(output_file_path, S_IREAD|S_IRGRP|S_IROTH)
@@ -223,7 +219,23 @@ def convert_file_name(dir_stack, file_name):
         return "".join([ f"[{dir_name}]" for dir_name in dir_stack])+"-"+clean_file_name
     return clean_file_name
 
+def file_path_to_title(file_path):
+    if file_path.endswith("order.txt"):
+        folder_name = os.path.basename(file_path)
+        return f"Subcategory: {folder_name}"
+    return os.path.splitext(os.path.basename(file_path))[0]
 
+def create_top_nav(dir_stack, title, dir_path, is_release, abs_path_map):
+    top_nav_parts = [f"[Home]({PROD_LINK_ROOT})"]
+    dir_stack_len = len(dir_stack)
+    for i, dir_name in enumerate(dir_stack):
+        # i = length -1 => ./
+        # i = length -2 => .././
+        repeat_times = dir_stack_len - i - 1
+        link = "../" * repeat_times + "./order.txt"
+        top_nav_parts.append(f"[{dir_name}]({link})")
+    top_nav_parts.append(title)
+    return process_page_text(" / ".join(top_nav_parts), dir_path, is_release, abs_path_map)
 
 if __name__ == "__main__":
     abs_path_map = {}
@@ -233,15 +245,15 @@ if __name__ == "__main__":
     }
 
     populate_data_for_path("src", [], None, abs_path_map, order_maps)
-    print("abs")
-    for key,value in abs_path_map.items():
-        print(f"{key=}, {value=}")
-    print("prev")
-    for key,value in order_maps["prev"].items():
-        print(f"{key=}, {value=}")
-    print("next")
-    for key,value in order_maps["next"].items():
-        print(f"{key=}, {value=}")
+    # print("abs")
+    # for key,value in abs_path_map.items():
+    #     print(f"{key=}, {value=}")
+    # print("prev")
+    # for key,value in order_maps["prev"].items():
+    #     print(f"{key=}, {value=}")
+    # print("next")
+    # for key,value in order_maps["next"].items():
+    #     print(f"{key=}, {value=}")
 
     
 

@@ -4,7 +4,7 @@ lint:
 build:
     python3 scripts/build.py
 
-release:
+release: clean
     python3 scripts/build.py release
 
 clean:
