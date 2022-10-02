@@ -158,7 +158,7 @@ def build_for_file(dir_path, dir_stack, file_name, abs_path_map, is_release, ord
     print(f"Build {output_name}")
     build_dir = PROD_BUILD_DIR if is_release else LOCAL_BUILD_DIR
     with open(os.path.join(dir_path, file_name), "r", encoding="utf-8") as input_file:
-        key = "/".join(dir_stack)+"/"+file_name[:-3]
+        key = "/".join(dir_stack)+"/"+file_name
         prev = None
         if key in order_maps["prev"]:
             prev = order_maps["prev"][key]
@@ -185,11 +185,22 @@ def build_file(input_iter, dir_path, dir_stack, file_name, abs_path_map, is_rele
     for line in input_iter:
         output.append(process_page_text(line, dir_path, is_release, abs_path_map))
     if prev is not None or next is not None:
-        output.append("\n\n")
-        if next is not None:
-            output.append(process_page_text(f"Next: [{next}](./{next}.md)\n", dir_path, is_release, abs_path_map))
+        output.append("\n\n<hr/>\n\n###### ")
+        
         if prev is not None:
-            output.append(process_page_text(f"Previous: [{prev}](./{prev}.md)\n", dir_path, is_release, abs_path_map))
+            prev_link = urllib.parse.quote(prev)
+            prev_name = file_path_to_title(prev)
+            output.append(process_page_text(f"Previous: [{prev_name}](./{prev_link})", dir_path, is_release, abs_path_map))
+        
+        if prev is not None and next is not None:
+            output.append(" | ")
+        
+        if next is not None:
+            next_link = urllib.parse.quote(next)
+            next_name = file_path_to_title(next)
+            output.append(process_page_text(f"Next: [{next_name}](./{next_link})", dir_path, is_release, abs_path_map))
+    
+        output.append("\n")
     return output
 
 def build_index(dir_path, dir_stack, file_name, abs_path_map, is_release):
@@ -202,9 +213,10 @@ def build_index(dir_path, dir_stack, file_name, abs_path_map, is_release):
     
     with open(os.path.join(dir_path, "order.txt"), "r", encoding="utf-8") as input_file:
         for i, line in enumerate(input_file):
-            link = urllib.parse.quote(line.rstrip())
+            link = line.rstrip()
+            link_quoted = urllib.parse.quote(link)
             link_name = file_path_to_title(link)
-            output_lines.append(process_page_text(f"{i+1}. [{link_name}](./{link})\n", dir_path, is_release, abs_path_map))
+            output_lines.append(process_page_text(f"{i+1}. [{link_name}](./{link_quoted})\n", dir_path, is_release, abs_path_map))
 
     output_file_path = os.path.join(build_dir, output_name+".md")
     if os.path.exists(output_file_path):
@@ -221,12 +233,12 @@ def convert_file_name(dir_stack, file_name):
 
 def file_path_to_title(file_path):
     if file_path.endswith("order.txt"):
-        folder_name = os.path.basename(file_path)
+        folder_name = os.path.basename(os.path.dirname(file_path))
         return f"Subcategory: {folder_name}"
     return os.path.splitext(os.path.basename(file_path))[0]
 
 def create_top_nav(dir_stack, title, dir_path, is_release, abs_path_map):
-    top_nav_parts = [f"[Home]({PROD_LINK_ROOT})"]
+    top_nav_parts = [f"###### [Home]({PROD_LINK_ROOT})"]
     dir_stack_len = len(dir_stack)
     for i, dir_name in enumerate(dir_stack):
         # i = length -1 => ./
