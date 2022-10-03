@@ -306,3 +306,33 @@ jobs:
       run: just -f .justci ci-node
     - name: Just vsce-build
       run: just -f .justci ci-vsce-build
+
+  wiki-build:
+    name: Build Wiki
+    #
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup | Checkout
+      uses: actions/checkout@v2
+    - name: Setup | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+    - name: Setup | just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup | Python 3.10
+      uses: actions/setup-python@v3.0.0
+      with:
+        python-version: '3.10'
+    - name: Setup | toml, pyyaml, pylint, pylint-quotes
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          toml
+          pyyaml
+          pylint
+          pylint-quotes
+    - name: Just wiki-release
+      run: just -f .justci ci-wiki-release
