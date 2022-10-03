@@ -15,6 +15,8 @@ Also join the celer discord if you would like https://discord.gg/6t36Tp8sbc
 
 This wiki is built with easy navigation. You can also see a full list of pages on the side bar and search there.
 
+**Note: if you would like to contribute to this wiki, edit it [here](https://github.com/iTNTPiston/celer/tree/main/packages/celer-wiki) and then open a PR when you are done**
+
 To get started, check out these pages
 
 - [Installation](./Installation.md): Download and install celer devtool and other components
