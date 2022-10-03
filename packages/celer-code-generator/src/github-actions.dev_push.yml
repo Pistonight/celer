@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
 codegen begin
 DefineJobStart check,Health Check,ubuntu-latest,#
@@ -87,4 +90,10 @@ SetupNode
 JustCIJob vsce-build
 JustCIJob vsix
 UploadArtifact vsix,release-ci/celer.vsix 
+codegen end
+
+codegen begin
+DefineJobStart wiki-build,Build Wiki,ubuntu-latest,#
+CommonSetup
+JustCIJob wiki-release
 codegen end

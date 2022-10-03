@@ -59,6 +59,12 @@ ci-vsix:
     @just packages/celer-vscode-extension/package
     cp -T packages/celer-vscode-extension/*.vsix release-ci/celer.vsix
 
+ci-wiki-build:
+    @just packages/celer-wiki/build
+
+ci-wiki-release:
+    @just packages/celer-wiki/release
+
 ci-release-notes:
     mkdir -p release-ci
     python3 scripts/release.py > release-ci/RELEASE_NOTES.txt

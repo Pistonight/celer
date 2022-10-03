@@ -65,3 +65,9 @@ CommonSetup
 SetupNode
 JustCIJob vsce-build
 codegen end
+
+codegen begin
+DefineJobStart wiki-build,Build Wiki,ubuntu-latest,#
+CommonSetup
+JustCIJob wiki-release
+codegen end
