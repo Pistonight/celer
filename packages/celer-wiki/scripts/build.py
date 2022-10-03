@@ -150,6 +150,7 @@ def build_for_path(dir_path, dir_stack, file_name, abs_path_map, is_release, ord
         if file_path.endswith(".md"):
             build_for_file(dir_path, dir_stack, file_name, abs_path_map, is_release, order_maps)
         elif file_name == "order.txt":
+            print(f"Build index for {dir_path}")
             build_index(dir_path, dir_stack, "List of Pages.md", abs_path_map, is_release)
             
 
@@ -185,7 +186,7 @@ def build_file(input_iter, dir_path, dir_stack, file_name, abs_path_map, is_rele
     for line in input_iter:
         output.append(process_page_text(line, dir_path, is_release, abs_path_map))
     if prev is not None or next is not None:
-        output.append("\n\n<hr/>\n\n###### ")
+        output.append("\n\n<hr/>\n\n**")
         
         if prev is not None:
             prev_link = urllib.parse.quote(prev)
@@ -200,7 +201,7 @@ def build_file(input_iter, dir_path, dir_stack, file_name, abs_path_map, is_rele
             next_name = file_path_to_title(next)
             output.append(process_page_text(f"Next: [{next_name}](./{next_link})", dir_path, is_release, abs_path_map))
     
-        output.append("\n")
+        output.append("**\n")
     return output
 
 def build_index(dir_path, dir_stack, file_name, abs_path_map, is_release):
@@ -238,7 +239,7 @@ def file_path_to_title(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
 
 def create_top_nav(dir_stack, title, dir_path, is_release, abs_path_map):
-    top_nav_parts = [f"###### [Home]({PROD_LINK_ROOT})"]
+    top_nav_parts = [f"**[Home]({PROD_LINK_ROOT})"]
     dir_stack_len = len(dir_stack)
     for i, dir_name in enumerate(dir_stack):
         # i = length -1 => ./
@@ -246,7 +247,7 @@ def create_top_nav(dir_stack, title, dir_path, is_release, abs_path_map):
         repeat_times = dir_stack_len - i - 1
         link = "../" * repeat_times + "./order.txt"
         top_nav_parts.append(f"[{dir_name}]({link})")
-    top_nav_parts.append(title)
+    top_nav_parts.append(f"{title}**")
     return process_page_text(" / ".join(top_nav_parts), dir_path, is_release, abs_path_map)
 
 if __name__ == "__main__":
