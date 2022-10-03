@@ -87,9 +87,8 @@ impl Bundler {
     fn bundle_route(&mut self, route: &[SourceSection]) -> Result<Vec<SourceSection>, String> {
         let mut sections = Vec::new();
         for unbundled_section in route {
-            if let Err(why) = self.bundle_section(unbundled_section, &mut sections) {
-                return Err(why);
-            }
+            // Note that this will return error if fail because of the "?"
+            self.bundle_section(unbundled_section, &mut sections)?
         }
         
         Ok(sections)
@@ -169,17 +168,11 @@ impl Bundler {
         let mut bundled_steps = Vec::new();
         match unbundled_module {
             SourceModule::SingleStep(step) => {
-                let result = self.bundle_step(step, &mut bundled_steps, dfs_parents);
-                if let Err(message) = result {
-                    return Err(message);
-                }
+                self.bundle_step(step, &mut bundled_steps, dfs_parents)?
             },
             SourceModule::MultiStep(steps) => {
                 for s in steps {
-                    let result = self.bundle_step(s, &mut bundled_steps, dfs_parents);
-                    if let Err(message) = result {
-                        return Err(message);
-                    }
+                    self.bundle_step(s, &mut bundled_steps, dfs_parents)?
                 }
             }
         }
