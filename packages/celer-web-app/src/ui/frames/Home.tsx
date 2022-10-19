@@ -10,7 +10,8 @@ export const Home: React.FC<EmptyObject> = () => {
 		<View style={styles.Background}>
 			<View nativeID="View-title" style={{flexDirection: "row"}}>
 				{/* TODO: it may be beneficial to have the link to the image as a variable */}
-				<Image /*style={{justifyContent: "center"}}*/ source={require("../../data/image/celer.png")} />
+				{/* TODO: this way of doing the image causes it to stretch when using smaller screen sizes. Make it not do that.*/ }
+				<img src="../celer.png" alt="Celer Logo" />
 				<h1 style={styles.TitleText}>Celer Route Engine</h1>
 			</View>
 			<View style={{flexDirection: "row", justifyContent: "center", flexWrap: "wrap"}}>
@@ -24,7 +25,7 @@ export const Home: React.FC<EmptyObject> = () => {
 					</View>
 					<View nativeID="gh-route-info">
 						<Text>If you have a route on GitHub, you can load it directly through the URL.</Text>
-						<p style={styles.CodeBlock}>https://celer.itntpiston.app/#/gh/[user]/[repo]</p>
+						<Text style={styles.CodeBlock}>https://celer.itntpiston.app/#/gh/[user]/[repo]</Text>
 					</View>
 				</View>
 				<View nativeID="upload-route" style = {{flex: 1, minWidth: 300}}>
