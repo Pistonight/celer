@@ -1,4 +1,13 @@
+mod compress;
+mod encode;
+mod json;
 
+pub use compress::compress_str;
+pub use compress::decompress_str;
+pub use encode::b64_to_bytes;
+pub use encode::bytes_to_b64;
+pub use json::cast_to_bool;
+pub use json::cast_to_str;
 // pub struct Icon {
 //     data: Vec<u8>
 // }
@@ -30,6 +39,7 @@
 //     }
 // }
 
+<<<<<<< HEAD
 // Convert json value to string in a JS-like manner
 pub fn cast_to_str(value: &serde_json::Value) -> Option<String> {
     if value.is_null() {
@@ -59,13 +69,13 @@ pub fn cast_to_bool(value: &serde_json::Value) -> bool {
         return bool_value;
     }
     if let Some(f64_value) = value.as_f64() {
-        return f64_value == 0.0;
+        return f64_value != 0.0;
     }
     if let Some(i64_value) = value.as_i64() {
-        return i64_value == 0;
+        return i64_value != 0;
     }
     if let Some(str_value) = value.as_str() {
-        return str_value.eq("");
+        return !str_value.eq("");
     }
 
     false
@@ -83,3 +93,5 @@ pub fn to_str_vec(value: &serde_json::Value) -> Vec<String> {
 
     output
 }
+=======
+>>>>>>> 7afdb24 (devtool changes and refactoring to support binary ormat)

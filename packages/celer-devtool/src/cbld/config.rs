@@ -22,11 +22,29 @@ pub fn get_subcommand() -> clap::Command<'static> {
             clap::Arg::new("yaml")
                 .short('y')
                 .long("yaml")
-                .help("Output in YAML format instead of JSON. File name will be *.yaml as well")
+                .help("Output in YAML format instead of JSON. Output file names will be *.yaml")
                 .conflicts_with(arg::DEBUG)
+                .conflicts_with("binary")
+                .action(clap::ArgAction::SetTrue)
+        )
+        .arg(
+            clap::Arg::new("binary")
+                .short('b')
+                .long("binary")
+                .help("Output in gzipped binary format. Output file names will be *.bin")
+                .conflicts_with(arg::DEBUG)
+                .conflicts_with("yaml")
                 .action(clap::ArgAction::SetTrue)
         )
 
+}
+
+/// Output format
+#[derive(Debug)]
+pub enum Format {
+    Json,
+    Yaml,
+    Binary
 }
 
 /// Configuration of celer build
@@ -34,19 +52,25 @@ pub fn get_subcommand() -> clap::Command<'static> {
 pub struct Config {
     pub debug: bool,
     pub target: String,
-    pub yaml: bool,
+    pub format: Format,
 }
 
 impl Config {
     pub fn from(args: &clap::ArgMatches) -> Self {
         let debug = arg::has_flag(args, arg::DEBUG);
         let target = args.get_one::<String>("target").unwrap().to_string();
-        let yaml = arg::has_flag(args, "yaml");
+        
+        let mut format = Format::Json;
+        if arg::has_flag(args, "yaml"){
+            format = Format::Yaml;
+        }else if arg::has_flag(args, "binary"){
+            format = Format::Binary;
+        }
 
         Self {
             debug,
             target,
-            yaml
+            format
         }
     }
 }

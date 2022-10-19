@@ -34,7 +34,7 @@ fn find_main(path: &Path, out_errors: &mut ErrorState) -> bool {
         }
     }
 
-    out_errors.add(format!("{}", path.display()), "Cannot find main.celer".to_string());
+    out_errors.add(format!("{}", path.display()), "Cannot find main.celer");
     false
 }
 
@@ -86,6 +86,6 @@ fn scan_file(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut Error
             return 0;
         }
     }
-    out_errors.add(format!("{}", path.display()), "Unable to access file".to_string());
+    out_errors.add(format!("{}", path.display()), "Unable to access file");
     0
 }

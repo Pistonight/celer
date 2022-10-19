@@ -14,6 +14,7 @@ wasm-bindgen = { version = "=0.2.81", features = ["serde-serialize"]}
 serde = { version = "1.0.136", features = ["derive"]}
 serde_json = "1.0"
 base64 = "0.13.0"
+flate2 = "1.0"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

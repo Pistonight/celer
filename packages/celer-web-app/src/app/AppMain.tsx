@@ -1,5 +1,6 @@
 import { HashRouter, Outlet, Route, Routes} from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
+import { useExpBetterBundler, useExpBinaryBundle, useExpWebSocketDevClient } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -29,6 +30,25 @@ const DocumentLayer: React.FC<AppDocumentProviderProps> = ({serviceCreator})=>
 		</AppStateProvider>
 	</AppDocumentProvider>
 ;
+
+// Need these to access exp
+const WsDevDocumentLayer: React.FC = () => {
+	const enableBetterBundler = useExpBetterBundler();
+	const enableWsDevClient = useExpWebSocketDevClient();
+	const enableBinary = useExpBinaryBundle();
+	const creatorWrapper = useCallback((params)=>{
+		return createWebSocketDevService(enableBetterBundler, enableWsDevClient, enableBinary, params.port);
+	}, [enableBetterBundler, enableWsDevClient, enableBinary]);
+	return <DocumentLayer serviceCreator={creatorWrapper} shouldSetBundle={!enableBetterBundler}/>;
+};
+
+const GitHubDocumentLayer: React.FC = () => {
+	const enableBinary = useExpBinaryBundle();
+	const creatorWrapper = useCallback((params)=>{
+		return createGitHubService(params, enableBinary);
+	}, [enableBinary]);
+	return <DocumentLayer serviceCreator={creatorWrapper} shouldSetBundle={false}/>;
+}
 
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {

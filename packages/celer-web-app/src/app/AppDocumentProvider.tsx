@@ -41,10 +41,9 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 
 	useEffect(() => {
 		const service = serviceCreator(params);
-		service.start((doc, error, status) => {
-			// After starting the service, add it to recent pages
-			if (doc) {
-				if (doc._globalError) {
+		service.start(({doc, error, status})=>{
+			if(doc){
+				if(doc._globalError){
 					setError(doc._globalError);
 					setStatus(null);
 					setRouteSourceBundle(null);
@@ -53,9 +52,9 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 					setStatus(null);
 					setRouteSourceBundle(doc);
 				}
-			} else {
-				setError(error);
-				setStatus(status);
+			}else{
+				setError(error ?? null);
+				setStatus(status ?? null);
 				setRouteSourceBundle(null);
 			}
 		});

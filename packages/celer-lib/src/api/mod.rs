@@ -1,6 +1,9 @@
 use crate::core;
 // COMMON API
 
+mod clean_bundle_json;
+pub use clean_bundle_json::clean_bundle_json;
+
 /// Get the version of celer-lib
 pub fn lib_version() -> String {
     String::from(crate::VERSION)
@@ -22,6 +25,7 @@ pub fn new_route(metadata: core::Metadata) -> core::SourceObject {
 }
 
 /// Bundle the unbundled json
+/// The output bundle will always be valid, even if the input source has errors
 pub fn bundle(source: &serde_json::Value, out_bundler_errors: &mut Vec<core::BundlerError>) -> core::SourceObject {
     let bundle = core::SourceObject::from(source, out_bundler_errors);
     if let Some(global_error) = &bundle.global_error {

@@ -14,14 +14,14 @@ impl ErrorState {
         }
     }
 
-    pub fn add(&mut self, path: String, error: String) {
-        match self.underlying_map.get_mut(&path) {
+    pub fn add<P: Into<String> + AsRef<str>, E: Into<String>>(&mut self, path: P, error: E) {
+        match self.underlying_map.get_mut(path.as_ref()) {
             Some(vec) => {
-                vec.push(error);
+                vec.push(error.into());
             },
             None => {
-                let vec = vec![error];
-                self.underlying_map.insert(path, vec);
+                let vec = vec![error.into()];
+                self.underlying_map.insert(path.into(), vec);
             }
         }
     }
@@ -47,6 +47,7 @@ impl ErrorState {
         self.underlying_map.is_empty()
     }
 
+    #[allow(dead_code)]
     pub fn clear(&mut self) {
         self.underlying_map.clear()
     }
@@ -61,10 +62,6 @@ impl ErrorState {
 
     pub fn x_error_s(&self) -> String {
         x_error_s(self.len())
-    }
-
-    pub fn was_verb(&self) -> &'static str {
-        if self.len() < 2 { "was" } else { "were" }
     }
 }
 

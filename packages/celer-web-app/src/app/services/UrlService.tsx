@@ -4,8 +4,9 @@ import { addPageToRecents } from "data/storage";
 import { DocumentService } from "./types";
 
 export class UrlService implements DocumentService {
-	private url: string;
+	private config: UrlServiceConfig[];
 	private controller: AbortController = new AbortController();
+	private enableBinary: boolean;
 
 	constructor(url: string) {
 		this.url = url;
@@ -23,7 +24,68 @@ export class UrlService implements DocumentService {
 				callback(null, "Unknown Error", null);
 			}
 		});
+		
+		
 	}
+
+	async fetchRouteAsync(): Promise<ServiceResponse> {
+		let lastError: any = "";
+		for(let i=0;i<this.config.length;i++){
+			const {url, type} = this.config[i];
+			try{
+				let response: ServiceResponse;
+				switch(type){
+					case "bin":
+						response = await this.fetchBinaryRouteAsync(url);
+						break;
+					case "json":
+						response = await this.fetchJsonRouteAsync(url);
+						break;
+					default:
+						console.error(`Invalid url config type ${type}`);
+						continue;
+				}
+				if (response.doc){
+					console.log(`Loaded route from ${url}`);
+					return response;
+				}
+				if (response.error){
+					lastError = response.error;
+				}else{
+					lastError = "Unknown network error";
+				}
+			}catch(e){
+				lastError = e;
+			}
+
+			console.error(lastError);
+			console.warn(`Fail to fetch route from ${url}, trying next option`);
+		}
+		return {error: lastError};
+	}
+
+	async fetchBinaryRouteAsync(url: string): Promise<ServiceResponse> {
+		const {data} = await axios.get<Uint8Array>(url, {
+			responseType: 'arraybuffer', //This will make axios parse data as uint8array
+			signal: this.controller.signal
+		});
+		
+		const bundle = wasmBundleFromBytes(data);
+		if(bundle){
+			return {doc: bundle};
+		}
+		return {error: "Unable to parse binary data"};
+	}
+
+	async fetchJsonRouteAsync(url: string): Promise<ServiceResponse> {
+		const {data} = await axios.get(url, {
+			signal: this.controller.signal
+		});
+		
+		const bundle = wasmCleanBundleJson(data);
+		return {doc: bundle};
+	}
+
 	release(): void {
 		this.controller.abort();
 	}

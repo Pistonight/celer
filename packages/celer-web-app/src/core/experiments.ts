@@ -24,3 +24,7 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [1-26] Enable showing only the current branch
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
+// [pending] Extract web dev logic to WebSocketDevClient
+export const useExpWebSocketDevClient = () => useAppExperiment("WebSocketDevClient", true);
+// [pending] Enable loading binary bundle
+export const useExpBinaryBundle = () => useAppExperiment("BinaryBundle", true);

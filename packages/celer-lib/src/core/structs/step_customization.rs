@@ -195,8 +195,8 @@ impl SourceStepCustomization {
 
         // invalid attributes
         for k in obj_value.keys() {
-            if k.eq("notes") {
-                out_errors.push("Invalid attribute \"notes\", did you mean \"note\"?".to_string());
+            if k.eq("note") {
+                out_errors.push("Invalid attribute \"note\", did you mean \"notes\"?".to_string());
             }else if k.eq("movement") {
                 out_errors.push("Invalid attribute \"movement\", did you mean \"movements\"?".to_string());
             }else{

@@ -15,7 +15,7 @@ class WebSocketDevService implements DocumentService {
 		const newws = new WebSocket("ws://localhost:" + this.port);
 		newws.onerror = (e) => {
 			console.error(e);
-			callback(null, "Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again", null);
+			callback({error: "Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again"});
 		};
 		newws.onmessage = (e) => {
 			const dataObject = JSON.parse(e.data);
@@ -26,7 +26,7 @@ class WebSocketDevService implements DocumentService {
 			callback(null, null, "Waiting for data");
 		};
 		this.ws = newws;
-		callback(null, null, "Connecting to dev server");
+		callback({status: "Connecting to dev server"});
 	}
 	release(): void {
 		this.ws?.close();

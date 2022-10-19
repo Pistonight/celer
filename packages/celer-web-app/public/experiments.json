@@ -6,5 +6,7 @@
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
     "UseNewKorokComment": true,
-    "UseCurrentBranch": true
+    "UseCurrentBranch": true,
+    "WebSocketDevClient": true,
+    "BinaryBundle": true
 }

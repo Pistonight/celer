@@ -1,20 +1,20 @@
 import { Params } from "react-router-dom";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { SourceObject } from "data/libs";
-import { DocumentService } from "./types";
+import { DocumentService, ServiceResponse } from "./types";
+import { Consumer } from "data/util";
 
 class InternalDocumentService implements DocumentService {
 	private doc?: SourceObject;
 	constructor(doc?: SourceObject) {
 		this.doc = doc;
 	}
-	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
-		if (this.doc) {
-			callback(this.doc, null, null);
-		} else {
-			callback(null, "The URL you entered is not a valid internal document", null);
+	start(callback: Consumer<ServiceResponse>): void {
+		if(this.doc){
+			callback( {doc: this.doc});
+		}else{
+			callback({error: "The URL you entered is not a valid internal document"});
 		}
-
 	}
 	release(): void {
 		//no-op
