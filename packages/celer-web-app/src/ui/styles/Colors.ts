@@ -1,6 +1,15 @@
 import { ReadonlyMapOf } from "data/util";
 import { AppColors } from "./types";
 
+//Colors for the home page
+export const HomePageColors = {
+	background: "#fafaf5",
+	titleText: "75753b",
+	sectionTitleText: "75753b",
+	recentRoutesList: "64641e",
+	codeBlock: "64641e"
+}
+
 export const DefaultColors: AppColors = {
 	text: "black",
 	subText: "#333333",

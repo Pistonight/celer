@@ -1,3 +1,5 @@
+import { TitleText } from "ui/frames/Home.Style";
+
 // Sizes
 export const Sizes = <const>{
 	// Main font size
@@ -28,8 +30,22 @@ export const Sizes = <const>{
 	instruction: "12em",
 	// Doc instruction icon size
 	instructionIcon: "2.5em",
-    
+    // Home page title text size
+	titleText: "50",
+	// Home page title text capital letter size
+	titleTextCapital: TitleText.fontSize * 1.2,
+	// Home page section title text
+	sectionTitleText: "35"
 };
+
+// Fonts
+export const Fonts = {
+	// Home page title text font weight
+	titleTextWeight: "bold",
+	// Home page code block font family
+	codeBlockFamily: "monospace"
+}
+
 // Under this width, route will be medium
 export const FullRouteSizeThreshold = 760;
 // Under this width, route will be small
