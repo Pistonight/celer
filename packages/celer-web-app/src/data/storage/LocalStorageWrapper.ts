@@ -21,7 +21,7 @@ export class LocalStorageWrapper {
 		const valueObject = JSON.parse(valueString);
 		return valueObject;
 	}
-	public static delete(key: string): void{
+	public static delete(key: string): void {
 		const prefixedKey = STORAGE_KEY_PREFIX+key;
 		localStorage.removeItem(prefixedKey);
 	}
