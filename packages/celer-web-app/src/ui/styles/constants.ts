@@ -1,5 +1,3 @@
-import { TitleText } from "ui/frames/Home.Style";
-
 // Sizes
 export const Sizes = <const>{
 	// Main font size
@@ -31,9 +29,7 @@ export const Sizes = <const>{
 	// Doc instruction icon size
 	instructionIcon: "2.5em",
     // Home page title text size
-	titleText: "50",
-	// Home page title text capital letter size
-	titleTextCapital: TitleText.fontSize * 1.2,
+	titleText: "2.75em",
 	// Home page section title text
 	sectionTitleText: "35"
 };

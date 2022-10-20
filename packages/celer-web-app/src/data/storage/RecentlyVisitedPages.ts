@@ -1,5 +1,6 @@
 export const RECENTPAGES_KEY = "RecentlyVisitedPages";
 export const NUM_RECENTPAGES = 5;
+export const RECENTPAGES_DEFAULT = new Array(NUM_RECENTPAGES);
 
 // Used when reading in the most recently visited websites from local storage
 export function parseArrayFromString(valueString: string): string[] {
