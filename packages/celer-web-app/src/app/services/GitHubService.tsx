@@ -10,7 +10,7 @@ export const createGitHubService: ServiceCreator = ({user, repo, branch}) => {
 	// Adds this URL to the front of the recently visited URLs
 	let last = recentlyVisitedLinks[0];
 	// Push all other values backwards in the priority list. Let the last one "fall off"
-	// If the page visited is already at the head of the list, skip this.
+	// If the page visited is already at the head of the list, skip.
 	if (!(last === currentURL)) {
 		recentlyVisitedLinks[0] = currentURL;
 		for (let i=1; i<RecentPages.NUM_PAGES; i++) {
