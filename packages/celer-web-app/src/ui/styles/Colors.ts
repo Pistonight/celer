@@ -3,11 +3,11 @@ import { AppColors } from "./types";
 
 //Colors for the home page
 export const HomePageColors = {
-	background: "#fafaf5",
-	titleText: "75753b",
-	sectionTitleText: "75753b",
-	recentRoutesList: "64641e",
-	codeBlock: "64641e"
+	background: "#e3e3d5",
+	titleText: "#525215",
+	sectionTitleText: "#525215",
+	recentRoutesList: "#3d3d0d",
+	codeBlock: "#3d3d0d"
 };
 
 export const DefaultColors: AppColors = {
@@ -163,7 +163,7 @@ export const GranatusColors: AppColors = {
 	counterTalusText: "#000000",
 	counterMoldugaBackground: "#ff4444",
 	counterMoldugaText: "#000000",
-    
+
 	instructionShrineBackground: "#000000",
 	instructionShrineText: "#ffffff",
 	instructionTowerBackground: "#000000",
