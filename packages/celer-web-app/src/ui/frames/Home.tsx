@@ -25,7 +25,7 @@ export const Home: React.FC<EmptyObject> = () => {
 
 	return (
 		<View style={{ backgroundColor: HomePageColors.background }}>
-			<View nativeID="View-title" style={{ flexDirection: "row", padding: SITE_PADDING }}>
+			<View style={{ flexDirection: "row", padding: SITE_PADDING }}>
 				{/* TODO: it may be beneficial to have the link to the image as a constant variable */}
 				{/* TODO: this way of doing the image causes it to stretch when using smaller screen sizes. Make it not do that.*/}
 				<img src="celer.png" alt="Celer Logo" height='128' />
@@ -33,7 +33,7 @@ export const Home: React.FC<EmptyObject> = () => {
 			</View>
 			<View style={{ flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
 				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column" }}>
-					<View nativeID="recent-routes" style={{ paddingHorizontal: SITE_PADDING }}>
+					<View style={{ paddingHorizontal: SITE_PADDING }}>
 						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
 						{/* TODO: apply the RecentRoutesList styles to each list item */}
 						<ul>
@@ -41,12 +41,12 @@ export const Home: React.FC<EmptyObject> = () => {
 							<li><a href="#/dev">Dev Server</a></li>
 						</ul>
 					</View>
-					<View nativeID="gh-route-info" style={{ paddingHorizontal: SITE_PADDING }}>
+					<View style={{ paddingHorizontal: SITE_PADDING }}>
 						<Text>If you have a route on GitHub, you can load it directly through the URL.</Text>
 						<Text style={{ fontFamily: Fonts.codeBlockFamily, color: HomePageColors.codeBlock }}>https://celer.itntpiston.app/#/gh/[user]/[repo]</Text>
 					</View>
 				</View>
-				<View nativeID="upload-route" style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, paddingHorizontal: SITE_PADDING }}>
+				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, paddingHorizontal: SITE_PADDING }}>
 					<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>Upload Route</h2>
 					<Text>To upload a route, please paste the contents of your <span style={{ fontFamily: Fonts.codeBlockFamily, color: HomePageColors.codeBlock }}>bundle.json</span> file into the box or use the "Choose File" button and press "Upload Route" below.</Text>
 					<textarea rows={10} cols={60} value={textBundle} onChange={(e) => {
