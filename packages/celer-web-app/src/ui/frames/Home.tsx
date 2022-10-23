@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { LocalStorageWrapper } from "data/storage";
-import { EmptyObject } from "data/util";
-import { HomePageColors, Sizes, Fonts } from "ui/styles";
 import { View, Text, Image } from "react-native";
-// import { parseArrayFromString, 
-// 		 RECENTPAGES_KEY, 
-// 		 RECENTPAGES_DEFAULT} from "data/storage/RecentlyVisitedPages";
+import { HomePageColors, Sizes, Fonts } from "ui/styles";
+import { LocalStorageWrapper, RecentPagesWrapper } from "data/storage";
+import { EmptyObject } from "data/util";
 
 // const populateRecentPages = () => {
 // 	const recentPages = LocalStorageWrapper.load(RECENTPAGES_KEY, RECENTPAGES_DEFAULT, parseArrayFromString);
