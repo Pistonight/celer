@@ -28,10 +28,6 @@
                 "SwitchCase": 1
             }
         ],
-        "linebreak-style": [
-            "warn",
-            "unix"
-        ],
         "quotes": [
             "warn",
             "double"
