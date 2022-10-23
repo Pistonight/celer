@@ -28,7 +28,7 @@ export const Sizes = <const>{
 	instruction: "12em",
 	// Doc instruction icon size
 	instructionIcon: "2.5em",
-    // Home page title text size
+	// Home page title text size
 	titleText: "2.75em",
 	// Home page section title text
 	sectionTitleText: "35"
@@ -40,7 +40,7 @@ export const Fonts = {
 	titleTextWeight: "bold",
 	// Home page code block font family
 	codeBlockFamily: "monospace"
-}
+};
 
 // Under this width, route will be medium
 export const FullRouteSizeThreshold = 760;
