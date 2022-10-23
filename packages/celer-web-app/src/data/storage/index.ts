@@ -1,2 +1,2 @@
 export * from "./LocalStorageWrapper";
-export * from "./RecentPages/RecentPages";
+export * from "./RecentPages";

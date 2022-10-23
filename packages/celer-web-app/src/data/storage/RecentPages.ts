@@ -1,4 +1,4 @@
-import { LocalStorageWrapper } from "..";
+import { LocalStorageWrapper } from ".";
 
 const KEY = "RecentlyVisitedPages";
 const NUM_PAGES = 5; // <-- Change this to increase number of pages tracked
