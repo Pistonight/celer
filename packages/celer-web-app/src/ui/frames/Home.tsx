@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
 import { LocalStorageWrapper, RecentPagesWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
@@ -22,7 +22,7 @@ export const Home: React.FC<EmptyObject> = () => {
 			<View nativeID="View-title" style={{flexDirection: "row", padding: SITE_PADDING}}>
 				{/* TODO: it may be beneficial to have the link to the image as a constant variable */}
 				{/* TODO: this way of doing the image causes it to stretch when using smaller screen sizes. Make it not do that.*/ }
-				<img src="celer.png" alt="Celer Logo" />
+				<img src="celer.png" alt="Celer Logo" height='128'/>
 				<h1 style={{color: HomePageColors.titleText, fontSize: Sizes.titleText}}>Celer Route Engine</h1>
 			</View>
 			<View style={{flexDirection: "row", justifyContent: "center", flexWrap: "wrap"}}>

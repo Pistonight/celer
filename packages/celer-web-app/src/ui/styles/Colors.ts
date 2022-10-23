@@ -8,7 +8,7 @@ export const HomePageColors = {
 	sectionTitleText: "75753b",
 	recentRoutesList: "64641e",
 	codeBlock: "64641e"
-}
+};
 
 export const DefaultColors: AppColors = {
 	text: "black",
