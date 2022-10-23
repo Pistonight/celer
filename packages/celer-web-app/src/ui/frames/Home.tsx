@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { View, Text, ShadowPropTypesIOS } from "react-native";
+import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
-import { LocalStorageWrapper, RecentPagesWrapper } from "data/storage";
+import { LocalStorageWrapper, loadRecentPages } from "data/storage";
 import { EmptyObject } from "data/util";
 
+// Function that automatically populates the Recent Pages table
 function populateRecentPages() {
-	const recentPages = RecentPagesWrapper.load();
+	const recentPages = loadRecentPages();
 	return recentPages.map((url) => {
+		if (!url) {
+			return;
+		}
 		const link = "#/" + url;
 		return (
 			<li key={url}>
