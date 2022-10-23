@@ -1,16 +1,22 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ShadowPropTypesIOS } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
-import { LocalStorageWrapper } from "data/storage";
+import { LocalStorageWrapper, RecentPagesWrapper } from "data/storage";
 import { EmptyObject } from "data/util";
 
-// const populateRecentPages = () => {
-// 	const recentPages = LocalStorageWrapper.load(RECENTPAGES_KEY, RECENTPAGES_DEFAULT, parseArrayFromString);
-// 	recentPages.map((PAGE) => (
-// 		<li>{PAGE}</li>
-// 	));
-// 	<li><a href="#/dev">Dev Server</a></li>
-// }
+function populateRecentPages() {
+	const recentPages = RecentPagesWrapper.load();
+	return recentPages.map((url) => {
+		const link = "#/" + url;
+		return (
+			<li key={url}>
+				<a href={link}>
+					{url}
+				</a>
+			</li>
+		);
+	});
+}
 
 export const Home: React.FC<EmptyObject> = () => {
 	const [textBundle, setTextBundle] = useState(LocalStorageWrapper.load<string>("TmpBundleString", ""));
@@ -31,6 +37,7 @@ export const Home: React.FC<EmptyObject> = () => {
 						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
 						{/* TODO: apply the RecentRoutesList styles to each list item */}
 						<ul>
+							{populateRecentPages()}
 							<li><a href="#/dev">Dev Server</a></li>
 						</ul>
 					</View>
