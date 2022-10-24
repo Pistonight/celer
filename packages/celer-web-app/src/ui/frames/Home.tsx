@@ -54,7 +54,6 @@ export const Home: React.FC<EmptyObject> = () => {
 						LocalStorageWrapper.store<string>("TmpBundleString", e.target.value);
 						setTextBundle(e.target.value);
 					}}></textarea>
-					<br />
 					<input type="file" onChange={(e) => {
 						const files = e.target.files;
 						if (files?.length && files[0]) {
@@ -66,7 +65,9 @@ export const Home: React.FC<EmptyObject> = () => {
 						}
 					}}></input>
 					<br />
-					<button type="button" id="upload-route-button">Upload Route</button>
+					<button type="button" id="upload-route-button">
+						<a href="#/local">Upload Route</a>
+					</button>
 				</View>
 			</View>
 		</View>
