@@ -1,4 +1,4 @@
-import { LocalStorageWrapper } from ".";
+import { LocalStorageWrapper } from "data/storage";
 
 // The key in LocalStorage to use
 const KEY = "RecentlyVisitedPages";
@@ -8,7 +8,7 @@ const MAX_PAGES = 5;
 // Adds the currently visited page to the recent pages list in localStorage
 export function addPageToRecents(url: string): void {
 	// Load the most recently visited pages
-	let recentlyVisited = loadRecentPages();
+	const recentlyVisited = loadRecentPages();
 	// Add the current URL to the list of recently visited pages
 	recentlyVisited.splice(0, 0, url);
 	// Remove any duplicate occurrences of the current from the array
@@ -30,6 +30,6 @@ export function addPageToRecents(url: string): void {
 
 // Returns the most recently visited pages from localStorage
 export function loadRecentPages(): string[] {
-	let recentlyVisited = LocalStorageWrapper.load<string[]>(KEY, new Array());
+	const recentlyVisited = LocalStorageWrapper.load<string[]>(KEY, []);
 	return recentlyVisited;
 }

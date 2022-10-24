@@ -1,4 +1,3 @@
-import { addPageToRecents } from "data/storage";
 import { UrlService } from "./UrlService";
 import { ServiceCreator } from "./types";
 

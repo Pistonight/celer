@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoadingFrame } from "ui/frames";
-import { addPageToRecents } from "data/storage";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
@@ -15,6 +14,7 @@ import {
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
+import { addPageToRecents } from "data/storage";
 import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
@@ -58,11 +58,11 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 					setStatus(null);
 					setRouteSourceBundle(doc);
 					// Store current page in localStorge if it is a GitHub route
-					if (("user" in params) && ("repo" in params)) {
+					if (params.user && params.repo) {
 						// Define the current url from the parameters
-						let url = "gh/" + params["user"] + "/" + params["repo"];
-						if ("branch" in params) {
-							url += "/" + params["branch"]
+						let url = "gh/" + params.user + "/" + params.repo;
+						if (params.branch) {
+							url += "/" + params.branch;
 						}
 						// Add this page to the recent pages list
 						addPageToRecents(url);
