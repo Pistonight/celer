@@ -8,9 +8,6 @@ import { EmptyObject } from "data/util";
 function populateRecentPages() {
 	const recentPages = loadRecentPages();
 	return recentPages.map((url) => {
-		if (!url) {
-			return;
-		}
 		const link = "#/" + url;
 		return (
 			<li key={url}>
