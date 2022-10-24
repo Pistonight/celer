@@ -14,7 +14,6 @@ import {
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
-import { addPageToRecents } from "data/storage";
 import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
@@ -48,6 +47,8 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	useEffect(() => {
 		const service = serviceCreator(params);
 		service.start((doc, error, status) => {
+			// After starting the service, add it to recent pages
+			service.addToRecentPages();
 			if (doc) {
 				if (doc._globalError) {
 					setError(doc._globalError);
@@ -57,12 +58,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 					setError(null);
 					setStatus(null);
 					setRouteSourceBundle(doc);
-					// Store current page in localStorge if it is a GitHub route
-					const url = service.getDocPath();
-					if (url.startsWith("https://raw.githubusercontent.com/")) {
-						url.replace("https://raw.githubusercontent.com/", "gh/");
-						addPageToRecents(url);
-					}
 				}
 			} else {
 				setError(error);

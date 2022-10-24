@@ -5,29 +5,32 @@ import { DocumentService } from "./types";
 
 class InternalDocumentService implements DocumentService {
 	private doc?: SourceObject;
-	constructor(doc?: SourceObject){
+	constructor(doc?: SourceObject) {
 		this.doc = doc;
 	}
 	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
-		if(this.doc){
+		if (this.doc) {
 			callback(this.doc, null, null);
-		}else{
+		} else {
 			callback(null, "The URL you entered is not a valid internal document", null);
 		}
-		
+
 	}
 	release(): void {
 		//no-op
 	}
+	addToRecentPages(): void {
+		// Adding InternalDocument to recent pages not yet supported
+	}
 }
 
-export const createInternalDocumentService = ({reference}: Params<string>)=>{
-	switch(reference){
+export const createInternalDocumentService = ({ reference }: Params<string>) => {
+	switch (reference) {
 		case "presets":
 			return new InternalDocumentService(exampleRouteScriptPresets as unknown as SourceObject);
 		case "functions":
 			return new InternalDocumentService(exampleRouteScriptFunctions as unknown as SourceObject);
 	}
 	return new InternalDocumentService();
-	
+
 };

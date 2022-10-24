@@ -13,7 +13,7 @@ export function addPageToRecents(url: string): void {
 	recentlyVisited.splice(0, 0, url);
 	// Remove any duplicate occurrences of the current from the array
 	let i = 1;
-	for (; i < recentlyVisited.length && i < MAX_PAGES; i++) {
+	for (; i < recentlyVisited.length && i <= MAX_PAGES; i++) {
 		if (recentlyVisited[i] === url) {
 			recentlyVisited.splice(i, 1);
 			break;
@@ -21,7 +21,7 @@ export function addPageToRecents(url: string): void {
 	}
 	// If the array is larger than the maximum size (meaning the list
 	//  is full and no repeats were deleted), delete the last item.
-	if (i == MAX_PAGES) {
+	if (i > MAX_PAGES) {
 		recentlyVisited.splice(-1, 1);
 	}
 	// Store the updated list back into LocalStorage

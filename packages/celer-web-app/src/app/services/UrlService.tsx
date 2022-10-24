@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SourceObject } from "data/libs";
+import { addPageToRecents } from "data/storage";
 import { DocumentService } from "./types";
 
 export class UrlService implements DocumentService {
@@ -26,7 +27,14 @@ export class UrlService implements DocumentService {
 	release(): void {
 		this.controller.abort();
 	}
-	getDocPath(): string {
-		return this.url;
+	addToRecentPages(): void {
+		// If this is a github service, shorten the URL and add it to recent pages
+		if (this.url.startsWith("https://raw.githubusercontent.com")) {
+			let relativeURL = this.url;
+			relativeURL = relativeURL.replace("https://raw.githubusercontent.com", "gh");
+			relativeURL = relativeURL.replace("/bundle.json", "");
+			addPageToRecents(relativeURL);
+		}
+		// Other URL types not yet supported
 	}
 }
