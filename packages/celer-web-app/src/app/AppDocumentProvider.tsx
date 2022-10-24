@@ -58,17 +58,12 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 					setStatus(null);
 					setRouteSourceBundle(doc);
 					// Store current page in localStorge if it is a GitHub route
-					if (params.user && params.repo) {
-						// Define the current url from the parameters
-						let url = "gh/" + params.user + "/" + params.repo;
-						if (params.branch) {
-							url += "/" + params.branch;
-						}
-						// Add this page to the recent pages list
+					const url = service.getDocPath();
+					if (url.startsWith("https://raw.githubusercontent.com/")) {
+						url.replace("https://raw.githubusercontent.com/", "gh/");
 						addPageToRecents(url);
 					}
 				}
-
 			} else {
 				setError(error);
 				setStatus(status);
