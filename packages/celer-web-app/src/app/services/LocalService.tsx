@@ -7,14 +7,16 @@ const KEY = "TmpBundleString";
 class LocalService implements DocumentService {
 	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
 		const bundle = LocalStorageWrapper.load<string>(KEY, "");
-		if(bundle){
+		if (bundle) {
 			callback(JSON.parse(bundle), null, null);
 		}
 	}
 	release(): void {
 		//no-op
 	}
-	
+	addToRecentPages(): void {
+		// Adding LocalService to recent pages not yet supported
+	}
 }
 
-export const createLocalService = ()=>new LocalService();
+export const createLocalService = () => new LocalService();
