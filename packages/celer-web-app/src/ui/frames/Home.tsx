@@ -21,15 +21,12 @@ function populateRecentPages() {
 
 export const Home: React.FC<EmptyObject> = () => {
 	const [textBundle, setTextBundle] = useState(LocalStorageWrapper.load<string>("TmpBundleString", ""));
-	const [recentPages, setRecentPages] = useState({});
+	const [recentPages, setRecentPages] = useState(populateRecentPages());
 	const SITE_PADDING = "2em";
 	const MIN_WIDTH_BEFORE_COLLAPSE = 325;
+	console.log(recentPages);
+	
 
-	useEffect(()=>{
-		const recent=populateRecentPages()
-		setRecentPages(recent);
-		console.log(recent);
-	},[]);
 	return (
 		<View style={{ backgroundColor: HomePageColors.background }}>
 			<View style={{ flexDirection: "row", padding: SITE_PADDING }}>
@@ -44,7 +41,7 @@ export const Home: React.FC<EmptyObject> = () => {
 						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
 						{/* TODO: apply the RecentRoutesList styles to each list item */}
 						<ul>
-							recentPages
+							{recentPages}
 							<li><a href="#/dev">Dev Server</a></li>
 						</ul>
 					</View>
