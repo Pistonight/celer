@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
 import { LocalStorageWrapper, loadRecentPages } from "data/storage";
 import { EmptyObject } from "data/util";
+import { useRecentRoutes } from "core/experiments";
 
 // Function that automatically populates the Recent Pages table
 function populateRecentPages() {
@@ -36,16 +37,20 @@ export const Home: React.FC<EmptyObject> = () => {
 				<h1 style={{ color: HomePageColors.titleText, fontSize: Sizes.titleText }}>Celer Route Engine</h1>
 			</View>
 			<View style={{ flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
-				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column" }}>
-					<View style={{ paddingHorizontal: SITE_PADDING }}>
-						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
+				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column"}} >
+					{
+					useRecentRoutes() && <View style={{ paddingHorizontal: SITE_PADDING }}>
+						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText}}>My Recent Routes</h2>
 						{/* TODO: apply the RecentRoutesList styles to each list item */}
 						<ul>
 							{recentPages}
-							<li><a href="#/dev">Dev Server</a></li>
 						</ul>
 					</View>
+					}
 					<View style={{ paddingHorizontal: SITE_PADDING }}>
+						<ul>
+							<li><a href="#/dev">Dev Server</a></li>
+						</ul>
 						<Text>If you have a route on GitHub, you can load it directly through the URL.</Text>
 						<Text style={{ fontFamily: Fonts.codeBlockFamily, color: HomePageColors.codeBlock }}>https://celer.itntpiston.app/#/gh/[user]/[repo]</Text>
 					</View>
