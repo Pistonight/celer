@@ -48,7 +48,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 		const service = serviceCreator(params);
 		service.start((doc, error, status) => {
 			// After starting the service, add it to recent pages
-			service.addToRecentPages();
 			if (doc) {
 				if (doc._globalError) {
 					setError(doc._globalError);
@@ -65,6 +64,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 				setRouteSourceBundle(null);
 			}
 		});
+		service.addToRecentPages();
 		return () => {
 			service.release();
 		};
