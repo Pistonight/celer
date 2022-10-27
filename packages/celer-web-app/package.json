@@ -127,7 +127,7 @@
       "^.+\\.module\\.(css|sass|scss)$"
     ],
     "modulePaths": [
-      ".\\celer-engine\\src"
+      "src"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
@@ -144,10 +144,6 @@
       "web.jsx",
       "jsx",
       "node"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src"
     ],
     "watchPlugins": [
       "jest-watch-typeahead/filename",
