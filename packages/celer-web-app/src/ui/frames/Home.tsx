@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
+import { useRecentRoutes } from "core/experiments";
 import { LocalStorageWrapper, loadRecentPages } from "data/storage";
 import { EmptyObject } from "data/util";
-import { useRecentRoutes } from "core/experiments";
 
 // Function that automatically populates the Recent Pages table
 function populateRecentPages() {
@@ -22,11 +22,9 @@ function populateRecentPages() {
 
 export const Home: React.FC<EmptyObject> = () => {
 	const [textBundle, setTextBundle] = useState(LocalStorageWrapper.load<string>("TmpBundleString", ""));
-	const [recentPages, setRecentPages] = useState(populateRecentPages());
+	const [recentPages, _] = useState(populateRecentPages());
 	const SITE_PADDING = "2em";
 	const MIN_WIDTH_BEFORE_COLLAPSE = 325;
-	console.log(recentPages);
-	
 
 	return (
 		<View style={{ backgroundColor: HomePageColors.background }}>
@@ -37,15 +35,15 @@ export const Home: React.FC<EmptyObject> = () => {
 				<h1 style={{ color: HomePageColors.titleText, fontSize: Sizes.titleText }}>Celer Route Engine</h1>
 			</View>
 			<View style={{ flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
-				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column"}} >
+				<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column" }} >
 					{
-					useRecentRoutes() && <View style={{ paddingHorizontal: SITE_PADDING }}>
-						<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText}}>My Recent Routes</h2>
-						{/* TODO: apply the RecentRoutesList styles to each list item */}
-						<ul>
-							{recentPages}
-						</ul>
-					</View>
+						useRecentRoutes() && <View style={{ paddingHorizontal: SITE_PADDING }}>
+							<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
+							{/* TODO: apply the RecentRoutesList styles to each list item */}
+							<ul>
+								{recentPages}
+							</ul>
+						</View>
 					}
 					<View style={{ paddingHorizontal: SITE_PADDING }}>
 						<ul>
