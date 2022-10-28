@@ -1,7 +1,7 @@
 import { ReadonlyMapOf } from "data/util";
 import { AppColors } from "./types";
 
-//Colors for the home page
+// Colors for the home page
 export const HomePageColors = {
 	background: "#e3e3d5",
 	titleText: "#525215",

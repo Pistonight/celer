@@ -1,4 +1,4 @@
-// Sizes
+// Font Sizes, weights
 export const Sizes = <const>{
 	// Main font size
 	font: "14pt",
