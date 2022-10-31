@@ -20,3 +20,5 @@ export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", tru
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
 // Enable recent routes
 export const useRecentRoutes = ():boolean => useAppExperiment("RecentRoutes", true);
+//Enable new home page
+export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
