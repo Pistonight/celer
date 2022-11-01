@@ -6,6 +6,8 @@
 
 import { useAppExperiment } from "./context";
 
+// Enabling the progress tracker that keeps track of scrolling progress and which branch you are on (WIP)
+export const useProgressTrackerEnabled = ():boolean => useAppExperiment("ProgressTrackerEnabled", true);
 // Enabling the binary search version for scroll tracking, currently WIP
 export const useExpEnhancedScrollTrackerEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
 // Sync map when scrolling, currently have performance issue
