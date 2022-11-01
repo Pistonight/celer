@@ -4,5 +4,7 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "InferCoord": true,
-    "BetterBundler": true
+    "BetterBundler": true,
+    "RecentRoutes": true,
+    "UseNewHomePage": true
 }
