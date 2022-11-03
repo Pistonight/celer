@@ -1,14 +1,11 @@
+
 import clsx from "clsx";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useStyles } from "ui/StyleContext";
-
 import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useProgressTrackerEnabled,
-	useExpEnhancedScrollTrackerEnabled,
-	useExpMapSyncToDocScrollEnabled,
-	useExpNoTrackDocPos } from "core/experiments";
+import { useProgressTrackerEnabled, useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
@@ -67,16 +64,16 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// Gets scroll position from local storage
 	const loadScrollPos = (): void => {
 		currentScrollPos = LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0);
-	}
+		console.log("Scroll position on startup: ", currentScrollPos);
+		
+	};
 
 	loadScrollPos();
 
 	// Stores the given scroll position to local storage
 	const storeScrollPos = (): void => {
 		LocalStorageWrapper.store<number>(SCROLL_POS_KEY, currentScrollPos);
-	}
-
-
+	};
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		//console.log("Create components");
@@ -127,7 +124,6 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		}
 	}, []);
 
-
 	const styles = useStyles();
 	
 	const components:JSX.Element[] = [];
@@ -145,11 +141,13 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		});
 		return (
 			<div ref={docFrameRef} className={clsx(styles.docFrame)} onScroll={(e)=>{
-				// Track scrolling location
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				const target = e.target as any;
-				currentScrollPos = target.scrollTop || 0;
-				console.log(currentScrollPos);
+				if (ProgressTrackerEnabled) {
+					// Track scrolling location
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const target = e.target as any;
+					currentScrollPos = target.scrollTop || 0;
+					console.log(currentScrollPos);
+				}
 
 				if(!NoTrackDocPos){
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -160,6 +158,14 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 						setScrollPos(pos);
 						LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
 					}
+				}
+			}} onLoad={(e) => {
+				if (ProgressTrackerEnabled) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const target = e.target as any;
+					target.scrollTo(0, currentScrollPos);
+					console.log("Current scroll position: ", currentScrollPos);
+					// console.log("Set current scroll position to ", currentScrollPos);
 				}
 			}}>
 				{components}
