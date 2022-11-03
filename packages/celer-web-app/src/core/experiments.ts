@@ -6,8 +6,6 @@
 
 import { useAppExperiment } from "./context";
 
-// Enabling the progress tracker that keeps track of scrolling progress and which branch you are on (WIP)
-export const useProgressTrackerEnabled = ():boolean => useAppExperiment("ProgressTrackerEnabled", true);
 // Enabling the binary search version for scroll tracking, currently WIP
 export const useExpEnhancedScrollTrackerEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
 // Sync map when scrolling, currently have performance issue
@@ -22,3 +20,5 @@ export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", tru
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
 // [09-07 Added] Enable port customization
 export const useExpPortCustomization = () => useAppExperiment("PortCustomization", true);
+// [Work in Progress] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
+export const useProgressTrackerEnabled = ():boolean => useAppExperiment("ProgressTrackerEnabled", true);
