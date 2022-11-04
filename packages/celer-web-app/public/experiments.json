@@ -5,6 +5,5 @@
     "WarnNegativeVar": false,
     "InferCoord": true,
     "BetterBundler": true,
-    "RecentRoutes": true,
     "UseNewHomePage": true
 }

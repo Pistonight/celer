@@ -18,7 +18,5 @@ export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegati
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
 // [08-25 Added] Use wasm bundler (only applies to dev server)
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
-// Enable recent routes
-export const useRecentRoutes = ():boolean => useAppExperiment("RecentRoutes", true);
-//Enable new home page
+// [11-03] Enable new home page
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
