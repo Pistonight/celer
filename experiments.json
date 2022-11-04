@@ -5,5 +5,5 @@
     "WarnNegativeVar": false,
     "InferCoord": true,
     "BetterBundler": true,
-    "PortCustomization": true
+    "UseNewHomePage": true
 }
