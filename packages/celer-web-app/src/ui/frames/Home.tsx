@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
-import { useRecentRoutes, useNewHomePage } from "core/experiments";
+import { useNewHomePage } from "core/experiments";
 import { LocalStorageWrapper, loadRecentPages } from "data/storage";
 import { EmptyObject } from "data/util";
 
@@ -39,7 +39,7 @@ export const Home: React.FC<EmptyObject> = () => {
 				<View style={{ flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
 					<View style={{ flex: 1, minWidth: MIN_WIDTH_BEFORE_COLLAPSE, flexDirection: "column" }} >
 						{
-							useRecentRoutes() && <View style={{ paddingHorizontal: SITE_PADDING }}>
+							<View style={{ paddingHorizontal: SITE_PADDING }}>
 								<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
 								{/* TODO: apply the RecentRoutesList styles to each list item */}
 								<ul>

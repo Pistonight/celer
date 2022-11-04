@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.4` - `09-08-2022` `LATEST`
+## `5.0.5` - `11-03-2022` `LATEST`
+- New home page
+
+## `5.0.4` - `09-08-2022`
 - Clean up new setting experiment
 - Clean up new document provider experiment
 - Fix port customization not working
