@@ -33,7 +33,7 @@ pub fn write_yaml_file(value: &serde_json::Value, file_name: &str, out_errors: &
 pub fn write_file(content: String, file_name: &str, out_errors: &mut ErrorState) {
     let path = Path::new(file_name);
 
-    let mut file = match File::create(&path) {
+    let mut file = match File::create(path) {
         Err(why) => {
             out_errors.add(file_name.to_string(), format!("Cannot open {file_name} for writing: {why}"));
             return;
