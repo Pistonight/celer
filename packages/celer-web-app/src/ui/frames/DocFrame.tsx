@@ -5,7 +5,12 @@ import { useStyles } from "ui/StyleContext";
 import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useProgressTrackerEnabled, useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
+import {
+	useProgressTrackerEnabled,
+	useExpEnhancedScrollTrackerEnabled,
+	useExpMapSyncToDocScrollEnabled,
+	useExpNoTrackDocPos
+} from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
