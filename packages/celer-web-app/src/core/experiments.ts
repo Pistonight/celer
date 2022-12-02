@@ -21,4 +21,4 @@ export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler
 // [09-07 Added] Enable port customization
 export const useExpPortCustomization = () => useAppExperiment("PortCustomization", true);
 // [Work in Progress] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
-export const useProgressTrackerEnabled = ():boolean => useAppExperiment("ProgressTrackerEnabled", true);
+export const useScrollProgressTrackerEnabled = ():boolean => useAppExperiment("ScrollProgressTrackerEnabled", true);

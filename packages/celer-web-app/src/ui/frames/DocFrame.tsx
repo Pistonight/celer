@@ -6,13 +6,13 @@ import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
 import {
-	useProgressTrackerEnabled,
+	useScrollProgressTrackerEnabled,
 	useExpEnhancedScrollTrackerEnabled,
 	useExpMapSyncToDocScrollEnabled,
 	useExpNoTrackDocPos
 } from "core/experiments";
 import { InGameCoordinates } from "core/map";
-import { LocalStorageWrapper } from "data/storage";
+import { LocalStorageWrapper, ScrollTracker } from "data/storage";
 
 export interface DocFrameProps {
 	docLines: DocLine[],
@@ -56,29 +56,15 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
 
 	const { docScrollToLine , setDocCurrentLine, setMapCenter} = useAppState();
-	const ProgressTrackerEnabled = useProgressTrackerEnabled();
+	const ScrollProgressTrackerEnabled = useScrollProgressTrackerEnabled();
 	const EnhancedScrollTrackerEnabled = useExpEnhancedScrollTrackerEnabled();
 	const NoTrackDocPos = useExpNoTrackDocPos();
 	const MapSyncToDocScrollEnabled = useExpMapSyncToDocScrollEnabled();
 
 	const docFrameRef = useRef<HTMLDivElement>(null);
 
-	// Initialize scroll position
-	let currentScrollPos = 0;
-
-	// Gets scroll position from local storage
-	const loadScrollPos = (): void => {
-		currentScrollPos = LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0);
-		console.log("Scroll position on startup: ", currentScrollPos);
-		
-	};
-
-	loadScrollPos();
-
-	// Stores the given scroll position to local storage
-	const storeScrollPos = (): void => {
-		LocalStorageWrapper.store<number>(SCROLL_POS_KEY, currentScrollPos);
-	};
+	// Initialize the scroll tracker
+	const scrollTracker = new ScrollTracker();
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		//console.log("Create components");
@@ -123,9 +109,9 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 
 	// Only store scroll position in local storage on close
 	useEffect(() => {
-		if (ProgressTrackerEnabled) {
+		if (ScrollProgressTrackerEnabled) {
 			console.log("Progress tracker enabled.");
-			window.addEventListener("beforeunload", storeScrollPos);
+			window.addEventListener("beforeunload", scrollTracker.storeScrollPos);
 		}
 	}, []);
 
@@ -145,34 +131,38 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			}
 		});
 		return (
-			<div ref={docFrameRef} className={clsx(styles.docFrame)} onScroll={(e)=>{
-				if (ProgressTrackerEnabled) {
-					// Track scrolling location
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const target = e.target as any;
-					currentScrollPos = target.scrollTop || 0;
-					console.log(currentScrollPos);
-				}
-
-				if(!NoTrackDocPos){
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const target = e.target as any;
-					const pos = target.scrollTop || 0;
-					if(Math.abs(pos - scrollPos) >= 300){
-						console.log(pos);
-						setScrollPos(pos);
-						LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
+			<div ref={docFrameRef} className={clsx(styles.docFrame)}
+				// Effects when the document is loaded
+				onLoad={(e) => {
+					if (ScrollProgressTrackerEnabled) {
+						// TODO: define target more explicitly
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const target = e.target as any;
+						target.scrollTo(0, scrollTracker.getScrollPos());
+						console.log("Loading current scroll position: ", scrollTracker.getScrollPos());
 					}
-				}
-			}} onLoad={(e) => {
-				if (ProgressTrackerEnabled) {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const target = e.target as any;
-					target.scrollTo(0, currentScrollPos);
-					console.log("Current scroll position: ", currentScrollPos);
-					// console.log("Set current scroll position to ", currentScrollPos);
-				}
-			}}>
+				
+				// Effects when the document is scrolled
+				}} onScroll={(e) => {
+					if (ScrollProgressTrackerEnabled) {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const target = e.target as any;
+						scrollTracker.setScrollPos(target.scrollTop || 0);
+						console.log(scrollTracker.getScrollPos());
+					}
+
+					if(!NoTrackDocPos){
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const target = e.target as any;
+						const pos = target.scrollTop || 0;
+						if(Math.abs(pos - scrollPos) >= 300){
+							console.log(pos);
+							setScrollPos(pos);
+							LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
+						}
+					}
+
+				}}>
 				{components}
 			</div>
 		);
