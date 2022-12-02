@@ -1,4 +1,4 @@
-import { LocalStorageWrapper } from "data/storage";
+import { LocalStorageWrapper } from "./LocalStorageWrapper";
 
 const SCROLLPOS_STORAGE_KEY = "DocScrollPos";
 
