@@ -45,7 +45,7 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 	if(centerCoord){
 		setMapCenter(centerCoord);
 	}
-	
+
 };
 
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
@@ -65,6 +65,40 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 
 	// Initialize the scroll tracker
 	const scrollTracker = new ScrollTracker();
+
+	// Delay for syncing map to current scroll position (ms)
+	const SCROLL_DELAY = 1000;
+	
+	// Center the map around the line corresponding with the current scroll position
+	const syncMapToScrollPos = (scrollPos: number) => {
+		const lineNumber = getLineNumberFromScrollPos(docLineRefs, scrollPos);
+		setDocCurrentLine(lineNumber);
+		const line = docLines[lineNumber];
+		if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
+			centerMapToLine(line, setMapCenter);
+		}
+	};
+
+	// Binary search for the currently selected line number by scroll position
+	const getLineNumberFromScrollPos = (docLineRefs: React.RefObject<HTMLDivElement>[], scrollPos: number) => {
+		let lo = 0;
+		let hi = docLines.length-1;
+		while (lo <= hi) {
+			const mid = Math.floor((lo+hi)/2);
+			const midElement = docLineRefs[mid].current;
+			if (midElement) {
+				const rect = midElement.getBoundingClientRect();
+				if (rect.top < scrollPos) {
+					lo = mid + 1;
+				} else {
+					hi = mid - 1;
+				}
+			} else {
+				return 0;
+			}
+		}
+		return lo;
+	};
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		//console.log("Create components");
@@ -114,6 +148,14 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			window.addEventListener("beforeunload", scrollTracker.storeScrollPos);
 		}
 	}, []);
+
+	// Only update the map view to the scrolled position after the user stops scrolling
+	useEffect(() => {
+		if (ScrollProgressTrackerEnabled) {
+			const timeoutID = setTimeout(() => syncMapToScrollPos(scrollPos), SCROLL_DELAY);
+			return () => clearTimeout(timeoutID);
+		}
+	}, [scrollPos]);
 
 	const styles = useStyles();
 	
