@@ -65,44 +65,87 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 
 	// Initialize the scroll tracker
 	const scrollTracker = new ScrollTracker();
+	var scrollProgress = scrollTracker.getScrollPos();
 
 	// Delay for syncing map to current scroll position (ms)
 	const SCROLL_DELAY = 1000;
 	
 	// Center the map around the line corresponding with the current scroll position
 	const syncMapToScrollPos = (scrollPos: number) => {
-		const lineNumber = getLineNumberFromScrollPos(docLineRefs, scrollPos);
-		setDocCurrentLine(lineNumber);
-		const line = docLines[lineNumber];
-		if(line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
-			centerMapToLine(line, setMapCenter);
-		}
+		// console.log("Doc line refs");
+		// console.log(docLineRefs);
+		const lineNumber = binarySearchForLine(docLineRefs, scrollPos);
+		console.log("Line number: " + lineNumber);
+		// // console.log("Syncing map to scroll position.");
+		// // const lineNumber = getLineNumberFromScrollPos(docLineComponents, scrollPos);
+		// // const lineNumber = binarySearchForLine();
+		// console.log("Line number: " + lineNumber);
+		// setDocCurrentLine(lineNumber);
+		// const line = docLines[lineNumber];
+		// console.log(line);
+		// // if (line.lineType !== "DocLineBanner") {
+		// // 	console.log(line.lineType);
+		// // }
+		// if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
+		// 	console.log("AAAAAAAAAAAAAAAAAAAAA")
+		// 	centerMapToLine(line, setMapCenter);
+		// }
 	};
 
 	// Binary search for the currently selected line number by scroll position
-	const getLineNumberFromScrollPos = (docLineRefs: React.RefObject<HTMLDivElement>[], scrollPos: number) => {
-		let lo = 0;
-		let hi = docLines.length-1;
-		while (lo <= hi) {
-			const mid = Math.floor((lo+hi)/2);
-			const midElement = docLineRefs[mid].current;
-			if (midElement) {
-				const rect = midElement.getBoundingClientRect();
-				if (rect.top < scrollPos) {
-					lo = mid + 1;
-				} else {
-					hi = mid - 1;
-				}
-			} else {
-				return 0;
-			}
-		}
-		return lo;
-	};
+	// const getLineNumberFromScrollPos = (docLines: React.RefObject<HTMLDivElement>[], scrollPos: number) => {
+	// 	let lo = 0;
+	// 	let hi = docLines.length-1;
+	// 	console.log("docLines length: " + docLines.length);
+	// 	while (lo <= hi) {
+	// 		const mid = Math.floor((lo+hi)/2);
+	// 		const midElement = docLines[mid].current;
+	// 		console.log("Mid element: " + midElement);
+	// 		if (midElement) {
+	// 			const rect = midElement.getBoundingClientRect();
+	// 			if (rect.top < scrollPos) {
+	// 				lo = mid + 1;
+	// 			} else {
+	// 				hi = mid - 1;
+	// 			}
+	// 		} else {
+	// 			console.log("Mid element bad. Returning line 0.");
+	// 			return 0;
+	// 		}
+	// 		return 0;
+	// 	}
+	// 	return lo;
+	// };
+
+	// const getLineNumberFromScrollPos = (doc: JSX.Element[], scrollPos: number) => {
+	// 	let lo = 0;
+	// 	let hi = docLineComponents.length-1;
+	// 	while (lo <= hi) {
+	// 		const mid = Math.floor((lo+hi)/2);
+	// 		const midElement = docLineComponents[mid];
+	// 		console.log("Mid element: ");
+	// 		console.log(midElement);
+	// 		if (midElement) {
+	// 			console.log("Found the element.");
+	// 			const rect = midElement.getBoundingClientRect();
+	// 			// if (rect.top < scrollPos) {
+	// 			// 	lo = mid + 1;
+	// 			// } else {
+	// 			// 	hi = mid - 1;
+	// 			// }
+	// 		} else {
+	// 			console.log("Mid element bad. Returning line 0.");
+	// 			return 0;
+	// 		}
+	// 		return 0;
+	// 	}
+	// 	return lo;
+	// };
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		//console.log("Create components");
-		if(EnhancedScrollTrackerEnabled){
+		if (EnhancedScrollTrackerEnabled || ScrollProgressTrackerEnabled) {
+			console.log("GOOD");
 			let altLineColor = false;
 			let altNoteColor = false;
 			const components:JSX.Element[] = [];
@@ -122,9 +165,14 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 					}
 				}
 			});
+			console.log("Doc Line Components:");
+			console.log(components);
+			console.log("Doc Line Refs:");
+			console.log(refs);
 			return [components, refs];
 
 		}
+		console.log("BAD")
 		return [[],[]];
 	}, [docLines]);
 
@@ -145,22 +193,24 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	useEffect(() => {
 		if (ScrollProgressTrackerEnabled) {
 			console.log("Progress tracker enabled.");
-			window.addEventListener("beforeunload", scrollTracker.storeScrollPos);
+			// window.addEventListener("beforeunload", scrollTracker.storeScrollPos);
 		}
 	}, []);
 
 	// Only update the map view to the scrolled position after the user stops scrolling
 	useEffect(() => {
 		if (ScrollProgressTrackerEnabled) {
-			const timeoutID = setTimeout(() => syncMapToScrollPos(scrollPos), SCROLL_DELAY);
-			return () => clearTimeout(timeoutID);
+			// console.log("Syncing map.")
+			// const timeoutID = setTimeout(() => syncMapToScrollPos(scrollPos), SCROLL_DELAY);
+			// return () => clearTimeout(timeoutID);
+			// syncMapToScrollPos(scrollPos);
 		}
-	}, [scrollPos]);
+	}, [scrollProgress]);
 
 	const styles = useStyles();
 	
 	const components:JSX.Element[] = [];
-	if(!EnhancedScrollTrackerEnabled){
+	if(!EnhancedScrollTrackerEnabled || ScrollProgressTrackerEnabled){
 		let altLineColor = false;
 		let altNoteColor = false;
 		docLines.forEach((docLine, i)=>{
@@ -180,8 +230,8 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 						// TODO: define target more explicitly
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const target = e.target as any;
-						target.scrollTo(0, scrollTracker.getScrollPos());
-						console.log("Loading current scroll position: ", scrollTracker.getScrollPos());
+						target.scrollTo(0, scrollProgress);
+						console.log("Loading current scroll position: ", scrollProgress);
 					}
 				
 				// Effects when the document is scrolled
@@ -189,8 +239,10 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 					if (ScrollProgressTrackerEnabled) {
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const target = e.target as any;
+						scrollProgress = target.scrollTop || 0;
+						syncMapToScrollPos(scrollPos);
 						scrollTracker.setScrollPos(target.scrollTop || 0);
-						console.log(scrollTracker.getScrollPos());
+						console.log(scrollProgress);
 					}
 
 					if(!NoTrackDocPos){
