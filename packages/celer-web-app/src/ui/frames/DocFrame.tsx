@@ -23,17 +23,17 @@ const SCROLL_POS_KEY="DocFrameScrollPos";
 const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: number)=>{
 	let lo = 0;
 	let hi = docLineRefs.length-1;
-	while(lo<=hi){
+	while (lo<=hi) {
 		const mid = Math.floor((lo+hi)/2);
 		const midElement = docLineRefs[mid].current;
-		if(midElement){
+		if (midElement) {
 			const rect = midElement.getBoundingClientRect();
-			if(rect.top < y){
+			if (rect.top < y) {
 				lo = mid + 1;
-			}else{
+			} else {
 				hi = mid - 1;
 			}
-		}else{
+		} else {
 			return 0;
 		}
 	}
@@ -108,11 +108,12 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const syncMapToScrollPos = useCallback((scrollPos: number) => {
 		//console.log("Doc line refs");
 		//console.log(docLineRefs);
-		console.log(docLineRefs.map(ref=>ref.current && ref.current.getBoundingClientRect()));
+		// console.log(docLineRefs.map(ref=>ref.current && ref.current.getBoundingClientRect()));
 		if(!docLineRefs[0].current){
 			return;
 		}
 		const lineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top);
+		console.log(docLineRefs[lineNumber]);
 		console.log({scrollPos, lineNumber, line: docLineRefs[lineNumber]});
 		// // console.log("Syncing map to scroll position.");
 		// // const lineNumber = getLineNumberFromScrollPos(docLineComponents, scrollPos);
