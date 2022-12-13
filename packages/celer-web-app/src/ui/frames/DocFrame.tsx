@@ -51,6 +51,7 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	//console.log("Render DocFrame");
 	const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
+	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
 
 	// const [docLineComponents, setDocLineComponents] = useState<JSX.Element[]>([]);
 	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
@@ -68,7 +69,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	var scrollProgress = scrollTracker.getScrollPos();
 
 	// Delay for syncing map to current scroll position (ms)
-	const SCROLL_DELAY = 1000;
+	const SCROLL_DELAY = 500;
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		//console.log("Create components");
@@ -113,7 +114,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			return;
 		}
 		const lineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top);
-		console.log(docLineRefs[lineNumber]);
+		console.log();
 		console.log({scrollPos, lineNumber, line: docLineRefs[lineNumber]});
 		// // console.log("Syncing map to scroll position.");
 		// // const lineNumber = getLineNumberFromScrollPos(docLineComponents, scrollPos);
@@ -201,11 +202,21 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			// }} 
 			onScroll={(e) => {
 				if (ScrollProgressTrackerEnabled) {
+					// Reset any existing timeouts
+					if (updateHandle) {
+						clearTimeout(updateHandle);
+					}
+					// Calculate the current scroll position
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					const target = e.target as any;
 					scrollProgress = target.scrollTop || 0;
-					syncMapToScrollPos(scrollProgress);
-					scrollTracker.setScrollPos(target.scrollTop || 0);
+					// Set the scroll position after SCROLL_DELAY ms
+					const scrollDelayHandle = setTimeout(() => {
+						setScrollPos(scrollProgress);
+						syncMapToScrollPos(scrollProgress);
+						setUpdateHandle(undefined);
+					}, SCROLL_DELAY);
+					setUpdateHandle(scrollDelayHandle as unknown as number);
 				}
 
 				// if(!NoTrackDocPos){
