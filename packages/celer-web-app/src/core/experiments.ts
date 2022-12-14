@@ -20,3 +20,7 @@ export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", tru
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
 // [11-03] Enable new home page
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
+// [09-07 Added] Enable port customization
+export const useExpPortCustomization = () => useAppExperiment("PortCustomization", true);
+// [Work in Progress] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
+export const useScrollProgressTrackerEnabled = ():boolean => useAppExperiment("ScrollProgressTrackerEnabled", true);

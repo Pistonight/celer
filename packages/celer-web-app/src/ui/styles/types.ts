@@ -140,6 +140,7 @@ export interface AppColors {
 
     docLineBackground: string;
     docLineBackgroundAlt: string;
+    docLineBackgroundSelected: string;
 
     stringItemColor: string;
     stringLocationColor: string;

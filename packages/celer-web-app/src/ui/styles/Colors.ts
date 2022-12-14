@@ -87,6 +87,7 @@ export const DefaultColors: AppColors = {
 	docNotesColorAlt: "inherit",
 	docLineBackground: "#ffffff",
 	docLineBackgroundAlt: "#eeeeee",
+	docLineBackgroundSelected: "#ffffaa",
 
 	stringItemColor: "#ffff00",
 	stringLocationColor: "#00ffff",
@@ -193,6 +194,7 @@ export const GranatusColors: AppColors = {
 	docNotesColorAlt: "inherit",
 	docLineBackground: "#ffffff",
 	docLineBackgroundAlt: "#ffffff",
+	docLineBackgroundSelected: "#ffffaa",
 
 	stringItemColor: "inherit",
 	stringLocationColor: "inherit",
