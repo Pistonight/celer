@@ -32,7 +32,9 @@ export const getRandomLinesForTestingPerformance = (count: number): NewMapLine[]
 
 	return randomLineCoords.map(coords=>({
 		vertices: coords,
-		color: randomColor()
+		color: randomColor(),
+		section: 1,
+		visible: true
 	}));
 };
 

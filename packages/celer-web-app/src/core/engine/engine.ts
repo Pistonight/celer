@@ -293,7 +293,6 @@ export class RouteEngine{
 				lineType: "DocLineTextWithIcon",
 				icon: data.icon,
 				comment: this.applyAbilityTextBlockOptional(data, data.comment, furyText, galeText),
-
 				counterValue: counter,
 				splitType: data.splitType,
 				mapLineColor: data.lineColor,

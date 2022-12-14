@@ -1,5 +1,5 @@
 # comment
-    
+
 TextStepSingle: TextStepSingle
 TextStepSinglePreset: "_Equipment<t>"
 TextStepSinglePresetExtend:
@@ -15,7 +15,7 @@ TextStepArrayMultiple:
 
 _BadName: my name is bad
 
-BadModule: 
+BadModule:
   There needs to be an error:
 
 UnusedModule: I am unused

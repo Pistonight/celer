@@ -45,10 +45,14 @@ export type SvgPolygon = SvgCoordinates[];
 
 export type NewMapIcon = {
     iconName: string,
+    section: number,
+    visible: boolean,
     coord: InGameCoordinates,
 }
 
 export type NewMapLine = {
     color: string,
+    section: number,
+    visible: boolean,
     vertices: InGameCoordinates[]
 }

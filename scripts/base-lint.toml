@@ -6,7 +6,6 @@ ignore = [
     ".git/",
     ".github/workflows/",
     "__pycache__/",
-    ".vscode/",
     "target/",
     "binaryen-version_105/",
     "scripts/base-lint/",

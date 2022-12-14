@@ -1,4 +1,3 @@
 CheckResources:
   Check Resources =>:
     notes: .v(FireArrow) Fire Arrows; .v(Wood) Wood; .v(Hammer) Hammer Durability; .v(EOD) EOD Durability
-  

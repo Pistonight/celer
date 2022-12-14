@@ -9,6 +9,9 @@ export const AppStateProvider: React.FC = ({children})=>{
 	const [docCurrentLine, setDocCurrentLine] = useState(
 		0
 	);
+	const [docCurrentSection, setDocCurrentSection] = useState(
+		0
+	);
 	useEffect(()=>{
 		LocalStorageWrapper.store(DOC_LINE_POS_KEY, docCurrentLine);
 	}, [docCurrentLine]);
@@ -19,9 +22,11 @@ export const AppStateProvider: React.FC = ({children})=>{
 		<AppStateContext.Provider value={{
 			docScrollToLine,
 			docCurrentLine,
+			docCurrentSection,
 			mapCenter,
 			setDocScrollToLine,
 			setDocCurrentLine,
+			setDocCurrentSection,
 			setMapCenter,
 		}}>
 			{children}

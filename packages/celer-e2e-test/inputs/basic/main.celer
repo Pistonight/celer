@@ -10,7 +10,7 @@ _project:
 _route:
   - section level text step
   - "_Equipment<section level text step as preset>"
-  - _Equipment<section level preset extend>: 
+  - _Equipment<section level preset extend>:
       comment: hello
   - __use__ TextStepSingle
   - __use__ TextStepSinglePreset
@@ -20,7 +20,7 @@ _route:
   - Test Section 1:
     - inner step
     - "_Equipment<text step as preset>"
-    - _Equipment<preset extend>: 
+    - _Equipment<preset extend>:
         comment: hello
     - __use__ TextStepSingle
     - __use__ TextStepSinglePreset
@@ -30,7 +30,7 @@ _route:
   - Single Text Section: single text
   - Single Text Section Include: __use__ TextStepSingle
   - Single preset extend section:
-      _Equipment<single>: 
+      _Equipment<single>:
         comment: preset extend
   - Single preset extend include: __use__ TextStepSinglePresetExtend
   - section array include: __use__ TextStepArrayMultiple

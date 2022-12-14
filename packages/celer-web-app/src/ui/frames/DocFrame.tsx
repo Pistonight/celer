@@ -44,9 +44,19 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 	}
 };
 
+const searchForSection = (docLines: DocLine[], lineNum: number)=>{
+	for(lineNum;lineNum>=0;lineNum--){
+		let line=docLines[lineNum];
+		if(line.lineType==='DocLineSection'){
+			return line.sectionNumber;
+		}
+	}
+	return 0;
+}
+
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
-	const {setDocCurrentLine, setMapCenter} = useAppState();
+	const { docScrollToLine , setDocCurrentLine, setDocCurrentSection, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const docFrameRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +104,8 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
 				setDocCurrentLine(lineNumber);
 				centerMapToLine(line, setMapCenter);
+				const sectionNumber = searchForSection(docLines, lineNumber);
+				setDocCurrentSection(sectionNumber);
 				return;
 			}
 		}
@@ -103,6 +115,8 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
 				setDocCurrentLine(lineNumber);
 				centerMapToLine(line, setMapCenter);
+				const sectionNumber = searchForSection(docLines, lineNumber);
+				setDocCurrentSection(sectionNumber);
 				return;
 			}
 		}

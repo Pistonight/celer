@@ -25,7 +25,7 @@ Lurelin: # Start: Mezza Lo
 - +.dir(N) + .dir(N) midair:
     coord: [4187,1377.9397836456137]
 - +.dir(N) + .dir(W) + .dir(<W):
-    movements: 
+    movements:
     - to: [4179,1267.8962060207286]
     - to: [4049,1275.8993753025388]
     - to: [3948,1343.9263141979218]
@@ -51,9 +51,6 @@ Lurelin: # Start: Mezza Lo
    movements:
    - to: [3289,3538.288804115233]
    - to: [3667,3342.21353070222]
-- _Shrine::ChaasQeta  
+- _Shrine::ChaasQeta
 - __use__ CheckResources
 - ""
-
-
-

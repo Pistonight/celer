@@ -12,6 +12,7 @@ export class MapEngine {
 	private currentIconCoord: Coord = {x:0, z:0};
 	private currentColor: string = DefaultLineColor;
 	private currentVertices: Coord[] = [];
+	private currentSection: number = 0;
 
 	public compute(route: DocLine[]): [MapIcon[], MapLine[]] {
 		// Start from SOR
@@ -22,12 +23,15 @@ export class MapEngine {
 		this.currentIconCoord = sorCoord;
 		this.currentColor = DefaultLineColor;
 		this.currentVertices = [sorCoord];
+		this.currentSection = 0;
 
 		const icons: MapIcon[] = [];
 		const lines: MapLine[] = [];
 
 		icons.push({
 			iconName: "sor",
+			section: 0,
+			visible: true,
 			coord: sorCoord,
 			type: SplitType.UserDefined,
 		});
@@ -38,6 +42,10 @@ export class MapEngine {
 	}
 
 	private computeLine(line: DocLine, outIcons: MapIcon[], outLines: MapLine[]): void {
+		if(line.lineType === "DocLineSection"){
+			this.endCurrentPathIfNeed(outLines);
+			this.currentSection = line.sectionNumber;
+		}
 		if(line.lineType === "DocLineBanner" || line.lineType === "DocLineSection") {
 			return;
 		}
@@ -50,6 +58,8 @@ export class MapEngine {
 		if(line.lineType === "DocLineTextWithIcon" && !line.hideIconOnMap){
 			outIcons.push({
 				coord: {...this.currentIconCoord},
+				section: this.currentSection,
+				visible: true,
 				iconName: line.icon,
 				type: line.splitType
 			});
@@ -61,6 +71,8 @@ export class MapEngine {
 		if(isAway){
 			outLines.push({
 				color: AssistLineColor,
+				section: this.currentSection,
+				visible: true,
 				vertices: [{...this.currentCoord}, to]
 			});
 			this.currentIconCoord = to;
@@ -80,6 +92,8 @@ export class MapEngine {
 		if(this.currentVertices.length>1){
 			outLines.push({
 				color: this.currentColor,
+				section: this.currentSection,
+				visible: true,
 				vertices: [...this.currentVertices]
 			});
 			this.currentVertices = [this.currentVertices[this.currentVertices.length-1]];
@@ -90,10 +104,14 @@ export class MapEngine {
 export type MapIcon = {
     iconName: string,
     coord: Coord,
+	section: number,
+	visible: boolean,
     type: SplitType
 }
 
 export type MapLine = {
     color: string,
+	section: number,
+	visible: boolean,
     vertices: Coord[]
 }

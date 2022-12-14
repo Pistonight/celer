@@ -26,7 +26,7 @@ Plateau:
 - _Tower::GreatPlateau
 
 - WB over barrier to mag:
-    notes: Look down when doing FDC, so if you accidentally throw the tree branch, it doesn't fly too far. 
+    notes: Look down when doing FDC, so if you accidentally throw the tree branch, it doesn't fly too far.
            If your tree branch is badly damaged due to hitting the pot and you threw it, make sure get backup one-handed weapon
 - _Chest<Ruby>:
     coord: [-671.65, 171.79, 1522.61]
