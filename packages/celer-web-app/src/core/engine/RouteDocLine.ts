@@ -33,6 +33,7 @@ export interface DocLineText {
     notes?: TypedString,
 
     centerCoord?: InGameCoordinates;
+    highlighted: boolean;
     movements: Movement[];
     mapLineColor?: string;
 

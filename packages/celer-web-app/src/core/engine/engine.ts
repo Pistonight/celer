@@ -210,6 +210,7 @@ export class RouteEngine{
 			output.push({
 				...common,
 				lineType: "DocLineText",
+				highlighted: false,
 			});
 		}else{
 			// counter
