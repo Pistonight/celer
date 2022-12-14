@@ -5,6 +5,7 @@
     "WarnNegativeVar": false,
     "InferCoord": true,
     "BetterBundler": true,
+    "UseNewHomePage": true,
     "PortCustomization": true,
     "ScrollProgressTrackerEnabled": true
 }
