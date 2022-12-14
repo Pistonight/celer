@@ -107,6 +107,18 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 		});
 	}, [canvasRef, canvasRef.current, icons, zoom, center]);
 
+    // Show only current section
+	useEffect(()=>{
+		//Currently commented out until settings and section detection implemented
+		if(showOnlyCurrent){
+            icons.map(({iconName, section, coord})=>({iconName, section, visible: section === currentSection, coord}));
+			lines.map(({color, section, vertices})=>({color, section, visible: section === currentSection, vertices}));
+		}else{
+            icons.map(({iconName, section, coord})=>({iconName, section, visible: true, coord}));
+			lines.map(({color, section, vertices})=>({color, section, visible: true, vertices}));
+		}
+	}, [showOnlyCurrent, currentSection])
+
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean)=>{
 		setAnimating(true);
 		setAnimationZoom(animationZoom);
@@ -118,8 +130,10 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 				return;
 			}
 			mapCanvas.withDynamicCoordinateTransformer(center, animationZoom, (transformer)=>{
-				icons.forEach(({coord, iconName})=>{
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+				icons.forEach(({coord, iconName, visible})=>{
+					if(visible){
+				    	mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+					}
 				});
 			});
 
@@ -134,8 +148,10 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 			}
 
 			mapCanvas.withStaticCoordinateTransformer(animationZoom, (transformer)=>{
-				icons.forEach(({coord, iconName})=>{
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom<3?IconSizeSmall:IconSize);
+				icons.forEach(({coord, iconName, visible})=>{
+					if(visible){
+                        mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom<3?IconSizeSmall:IconSize);
+					}
 				});
 			});
 			

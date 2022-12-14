@@ -12,9 +12,9 @@ const updateCoord = ({x,z}: Coord): InGameCoordinates => {
 	return inGameCoord(x,z);
 };
 
-const updateMapLines = (lines: MapLine[]): NewMapLine[] => lines.map(({color, vertices})=>({color, vertices: vertices.map(updateCoord)}));
+const updateMapLines = (lines: MapLine[]): NewMapLine[] => lines.map(({color, section, visible, vertices})=>({color, section, visible, vertices: vertices.map(updateCoord)}));
 
-const updateIcon = (icons: MapIcon[]): NewMapIcon[] => icons.map(({iconName, coord})=>({iconName, coord: updateCoord(coord)}));
+const updateIcon = (icons: MapIcon[]): NewMapIcon[] => icons.map(({iconName, section, visible, coord})=>({iconName, section, visible, coord: updateCoord(coord)}));
 export const MapFrame: React.FC<MapFrameProps> = ({manualCenter})=>{
 	const { mapLines, mapIcons } = useDocument();
 	const styles = useStyles();

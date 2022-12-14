@@ -11,7 +11,7 @@ export const MapSvg: React.FC<MapSvgProps> = ({zoom, segs}) => {
 	return (
 		<svg width={`${scale*SvgSizeX}px`} height={`${scale*SvgSizeZ}px`}>
 			{
-				segs.map((line, i)=><SvgPath key={i} color={line.color} coords={line.vertices} zoom={zoom}/>)
+				segs.map((line, i, visible)=>{visible && <SvgPath key={i} color={line.color} coords={line.vertices} zoom={zoom}/>})
 			}
 		</svg>
 	);
