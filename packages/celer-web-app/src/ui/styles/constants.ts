@@ -11,9 +11,9 @@ export const Sizes = <const>{
 	// Status bar height
 	statusBar: "2em",
 	// Menu anchor width
-	menuAnchor: "6em",
+	menuAnchor: "8em",
 	// Menu error display string width
-	menuErrorString: "6em",
+	menuErrorString: "8em",
 	// Line number column width
 	lineNumber: "2.5em",
 	// Counter number column width

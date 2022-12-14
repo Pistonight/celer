@@ -1,24 +1,12 @@
 import React, { useContext } from "react";
-import { 
-	DocLineBannerComponentStyle, 
-	DocLineSectionComponentStyle, 
-	DocLineTextComponentStyle, 
-	MenuItemStyle, 
-	TypedStringComponentStyle 
-} from "ui/components";
-import { 
-	DocFrameStyle, 
-	MapFrameStyle,
-	MenuFrameStyle
-} from "ui/frames";
+import { DocLineBannerComponentStyle, DocLineSectionComponentStyle, DocLineTextComponentStyle, MenuItemStyle, TypedStringComponentStyle } from "ui/components";
+import { DocFrameStyle, MapFrameStyle } from "ui/frames";
 import { emptyObject } from "data/util";
 import { deprecatedStyles, MergedClassNameMapOf } from "./styles";
-import {  } from "./frames/MenuFrame.Style";
 
 export const AllStyles = [
 	DocFrameStyle,
 	MapFrameStyle,
-	MenuFrameStyle,
 	MenuItemStyle,
 	DocLineSectionComponentStyle,
 	DocLineBannerComponentStyle,
