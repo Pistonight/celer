@@ -134,19 +134,21 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		if(!docLineRefs[0].current){
 			return;
 		}
-		const lineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top);
+		// Get the top line (may be partially clipped off the top of the screen)
+		let lineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top) - 1;
+		let line;
+		do {
+			// Return the next line down if it is a valid document line (not a header)
+			lineNumber += 1;
+			line = docLines[lineNumber];
+		} while (line.lineType !== "DocLineText" && line.lineType !== "DocLineTextWithIcon");
+		// Uncomment this to debug which line was actually selected
+		// console.log(line);
 		setDocCurrentLine(lineNumber);
-		const line = docLines[lineNumber];
-		console.log("Currently selected line:");
-		console.log(line);
-		if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
-			centerMapToLine(line, setMapCenter);
-		}
 	}, [docLineRefs]);
 	
 	const components:JSX.Element[] = [];
 	if (ScrollProgressTrackerEnabled) {
-		console.log("Scroll Progress Tracker is Enabled");
 		return (
 			<div ref={docFrameRef} className={clsx(styles.docFrame)} 
 				// Effects when the document is scrolled
