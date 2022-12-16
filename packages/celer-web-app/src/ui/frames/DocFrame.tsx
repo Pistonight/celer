@@ -7,7 +7,7 @@ import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useExpScrollProgressTrackerEnabled } from "core/experiments";
 import { InGameCoordinates } from "core/map";
-import { ScrollTracker } from "data/storage";
+import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
 	docLines: DocLine[],
@@ -15,6 +15,8 @@ export interface DocFrameProps {
 
 // Delay for syncing map to current scroll position (ms)
 const SCROLL_DELAY = 500;
+
+const SCROLL_POS_KEY = "Celer.DocScrollPos";
 
 const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: number)=>{
 	let lo = 0;
@@ -44,14 +46,11 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 };
 
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
-	// const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
+	const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
-	const { docScrollToLine , setDocCurrentLine, setMapCenter} = useAppState();
+	const {setDocCurrentLine, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const docFrameRef = useRef<HTMLDivElement>(null);
-
-	// Initialize the scroll tracker
-	const scrollTracker = new ScrollTracker();
 	
 	// Loading styles
 	const styles = useStyles();
@@ -145,10 +144,9 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 						// Calculate the current scroll position
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const target = e.target as any;
-						scrollTracker.setScrollPos(target.scrollTop || 0);
-						scrollTracker.storeScrollPos();
+						setScrollPos(target.scrollTop || 0);
 						// Center the map around the currently selected line
-						syncMapToScrollPos(scrollTracker.getScrollPos());
+						syncMapToScrollPos(scrollPos);
 						// Clear the timeout
 						setUpdateHandle(undefined);
 					}, SCROLL_DELAY);
