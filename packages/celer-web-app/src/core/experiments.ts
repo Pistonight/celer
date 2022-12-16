@@ -18,6 +18,8 @@ export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegati
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
 // [08-25 Added] Use wasm bundler (only applies to dev server)
 export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
+// [09-07 Added] Enable port customization
+export const useExpPortCustomization = () => useAppExperiment("PortCustomization", true);
 // [11-03] Enable new home page
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
 // [12-15] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
