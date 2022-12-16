@@ -205,7 +205,6 @@ export class RouteEngine{
 			output.push({
 				...common,
 				lineType: "DocLineText",
-				highlighted: false,
 			});
 		}else{
 			// counter
@@ -290,7 +289,6 @@ export class RouteEngine{
 				icon: data.icon,
 				comment: this.applyAbilityTextBlockOptional(data.comment, furyText, galeText, error),
 
-				highlighted: false,
 				counterValue: counter,
 				splitType: data.splitType,
 				mapLineColor: data.lineColor,
