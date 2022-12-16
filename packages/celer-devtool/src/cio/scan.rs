@@ -13,7 +13,7 @@ pub fn scan_for_celer_files(out_paths: &mut Vec<PathBuf>, out_errors: &mut Error
 }
 
 fn find_main(path: &Path, out_errors: &mut ErrorState) -> bool {
-    let entries = match fs::read_dir(&path) {
+    let entries = match fs::read_dir(path) {
         Ok(entries) => entries,
         Err(e) => {
             out_errors.add(format!("{}", path.display()), format!("Unable to read directory: {}", e));

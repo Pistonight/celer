@@ -1,6 +1,15 @@
 import { ReadonlyMapOf } from "data/util";
 import { AppColors } from "./types";
 
+// Colors for the home page
+export const HomePageColors = {
+	background: "#e3e3d5",
+	titleText: "#525215",
+	sectionTitleText: "#525215",
+	recentRoutesList: "#3d3d0d",
+	codeBlock: "#3d3d0d"
+};
+
 export const DefaultColors: AppColors = {
 	text: "black",
 	subText: "#333333",
@@ -155,7 +164,7 @@ export const GranatusColors: AppColors = {
 	counterTalusText: "#000000",
 	counterMoldugaBackground: "#ff4444",
 	counterMoldugaText: "#000000",
-    
+
 	instructionShrineBackground: "#000000",
 	instructionShrineText: "#ffffff",
 	instructionTowerBackground: "#000000",

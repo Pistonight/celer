@@ -6,9 +6,9 @@ import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
 import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar } from "core/experiments";
 import { MapEngine } from "core/map";
-import { 
-	ensureConfig, 
-	ensureMetadata, 
+import {
+	ensureConfig,
+	ensureMetadata,
 } from "data/bundler";
 import {
 	RouteMetadata,
@@ -17,71 +17,72 @@ import {
 import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
-    serviceCreator: ServiceCreator,
-    //still need this for local document...
-    shouldSetBundle: boolean
+	serviceCreator: ServiceCreator,
+	//still need this for local document...
+	shouldSetBundle: boolean
 }
 
 const compiler = new Compiler();
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
-export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({serviceCreator, shouldSetBundle, children}) => {
+export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ serviceCreator, shouldSetBundle, children }) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableBetterBundler = useExpBetterBundler();
 
 	const { splitSetting } = useAppSetting();
 
-	useEffect(()=>{
+	useEffect(() => {
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
 		routeEngine.inferCoord = enableInferCoord;
 	}, [warnNegativeVar, enableInferCoord]);
-    
-	const params = useParams();
-	const [status, setStatus] = useState<string|null>(null);
-	const [error, setError] = useState<string|null>(null);
-	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject|null>(null);
-	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string|null>(null);
 
-	useEffect(()=>{
+	const params = useParams();
+	const [status, setStatus] = useState<string | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject | null>(null);
+	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string | null>(null);
+
+	useEffect(() => {
 		const service = serviceCreator(params);
-		service.start((doc, error, status)=>{
-			if(doc){
-				if(doc._globalError){
+		service.start((doc, error, status) => {
+			// After starting the service, add it to recent pages
+			if (doc) {
+				if (doc._globalError) {
 					setError(doc._globalError);
 					setStatus(null);
 					setRouteSourceBundle(null);
-				}else{
+				} else {
 					setError(null);
 					setStatus(null);
 					setRouteSourceBundle(doc);
 				}
-			}else{
+			} else {
 				setError(error);
 				setStatus(status);
 				setRouteSourceBundle(null);
 			}
 		});
-
-		return ()=>{
+		service.addToRecentPages();
+		return () => {
 			service.release();
 		};
 
 	}, [serviceCreator, params]);
 
-	useEffect(()=>{
+	useEffect(() => {
 		// If better bundler is enabled, don't set bundle string
 		// set shouldSetBundle = false when removing experiment
-		if(!shouldSetBundle || routeSourceBundle === null || enableBetterBundler){
+		if (!shouldSetBundle || routeSourceBundle === null || enableBetterBundler) {
 			setRouteSourceBundleString(null);
-		}else{
+		} else {
 			setRouteSourceBundleString(JSON.stringify(routeSourceBundle));
 		}
 	}, [routeSourceBundle, shouldSetBundle]);
 
-	const {metadata, config, routeAssembly} = useMemo(()=>{
-		if (routeSourceBundle === null){
+	const { metadata, config, routeAssembly } = useMemo(() => {
+		if (routeSourceBundle === null) {
 			// This is likely when doc is still loading
 			return {
 				metadata: {
@@ -100,7 +101,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		const route = routeSourceBundle._route;
 
 		const routeAssembly = compiler.compile(route);
-		
+
 		return {
 			metadata,
 			config,
@@ -108,7 +109,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		};
 	}, [routeSourceBundle]);
 
-	const {docLines, mapIcons, mapLines} = useMemo(()=>{
+	const { docLines, mapIcons, mapLines } = useMemo(() => {
 		routeEngine.setSplitSetting(splitSetting);
 		const docLines = routeEngine.compute(routeAssembly);
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
@@ -120,18 +121,18 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 		};
 	}, [routeAssembly, splitSetting]);
 
-	useEffect(()=>{
-		if(metadata.name){
+	useEffect(() => {
+		if (metadata.name) {
 			document.title = `${metadata.name} - Celer`;
-		}else{
+		} else {
 			document.title = "Celer";
 		}
 	}, [metadata]);
 
-	if(error){
+	if (error) {
 		return <LoadingFrame error>{error}</LoadingFrame>;
 	}
-	if(!routeSourceBundle){
+	if (!routeSourceBundle) {
 		return <LoadingFrame>{status || "Loading Document"}</LoadingFrame>;
 	}
 	return (
@@ -142,7 +143,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({service
 			mapIcons,
 			mapLines,
 			bundle: routeSourceBundleString
-		}}> 
+		}}>
 			{children}
 		</DocumentContext.Provider>
 	);
