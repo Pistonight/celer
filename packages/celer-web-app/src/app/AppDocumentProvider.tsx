@@ -4,12 +4,8 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
+import { useExpInferCoord, useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
 import { MapEngine } from "core/map";
-import {
-	ensureConfig,
-	ensureMetadata,
-} from "data/bundler";
 import {
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
@@ -17,18 +13,15 @@ import {
 import { ServiceCreator } from "./services";
 
 export type AppDocumentProviderProps = {
-	serviceCreator: ServiceCreator,
-	//still need this for local document...
-	shouldSetBundle: boolean
+	serviceCreator: ServiceCreator
 }
 
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
-export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ serviceCreator, shouldSetBundle, children }) => {
+export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ serviceCreator, children }) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
-	const enableBetterBundler = useExpBetterBundler();
 	const enableNewKorokComment = useNewKorokComment();
 
 	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
@@ -44,7 +37,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	const [status, setStatus] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject | null>(null);
-	const [routeSourceBundleString, setRouteSourceBundleString] = useState<string | null>(null);
 
 	useEffect(() => {
 		const service = serviceCreator(params);
@@ -73,16 +65,6 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 
 	}, [serviceCreator, params]);
 
-	useEffect(() => {
-		// If better bundler is enabled, don't set bundle string
-		// set shouldSetBundle = false when removing experiment
-		if (!shouldSetBundle || routeSourceBundle === null || enableBetterBundler) {
-			setRouteSourceBundleString(null);
-		} else {
-			setRouteSourceBundleString(JSON.stringify(routeSourceBundle));
-		}
-	}, [routeSourceBundle, shouldSetBundle]);
-
 	const { metadata, config, routeAssembly } = useMemo(() => {
 		if (routeSourceBundle === null) {
 			// This is likely when doc is still loading
@@ -98,8 +80,8 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 				routeAssembly: []
 			};
 		}
-		const metadata: RouteMetadata = enableBetterBundler ? wasmEnsureRouteMetadata(routeSourceBundle._project) : ensureMetadata(routeSourceBundle)[0];
-		const config = enableBetterBundler ? wasmEnsureRouteConfig(routeSourceBundle._config) : ensureConfig(routeSourceBundle);
+		const metadata: RouteMetadata = wasmEnsureRouteMetadata(routeSourceBundle._project);
+		const config = wasmEnsureRouteConfig(routeSourceBundle._config);
 		const route = routeSourceBundle._route;
 
 		const routeAssembly = compiler.compile(route);
@@ -143,8 +125,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 			config,
 			docLines,
 			mapIcons,
-			mapLines,
-			bundle: routeSourceBundleString
+			mapLines
 		}}>
 			{children}
 		</DocumentContext.Provider>

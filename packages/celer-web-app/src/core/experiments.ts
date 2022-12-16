@@ -16,8 +16,6 @@ export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
 // Enable engine to infer coordinates for lines without coordinates (so that every line can be clicked)
 export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
-// [08-25 Added] Use wasm bundler (only applies to dev server)
-export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler", true);
 // [11-03] Enable new home page
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
 // [12-15] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on

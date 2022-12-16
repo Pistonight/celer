@@ -30,7 +30,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		metadata,// clean up these once new DP rolls out
 		config,
 		docLines,
-		bundle,
 	} = useDocument();
 	const {
 		mapDisplayMode, 
@@ -165,9 +164,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								});
 								saveAs(splitContent, (metadata.name || "celer-splits").replaceAll(" ", "-")+".lss");
 							} }/>
-							{bundle && <MenuItem text="Download bundle.json" action={function (): void {
-								saveAs(bundle, "bundle.json");
-							} }/>}
+
 							{/* <hr />
     <MenuItem style={appStyle} text="Route Detail..." action={function (): void {
                           console.log(1);
