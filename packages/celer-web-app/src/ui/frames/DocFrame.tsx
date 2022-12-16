@@ -40,10 +40,20 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 	}
 };
 
+const searchForSection = (docLines: DocLine[], lineNum: number)=>{
+	for(lineNum;lineNum>=0;lineNum--){
+		let line=docLines[lineNum];
+		if(line.lineType==='DocLineSection'){
+			return line.sectionNumber;
+		}
+	}
+	return 0;
+}
+
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
-	const { docScrollToLine , setDocCurrentLine, setMapCenter} = useAppState();
+	const { docScrollToLine , setDocCurrentLine, setDocCurrentSection, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useScrollProgressTrackerEnabled();
 	const docFrameRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +101,8 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		}
 		const lineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top);
 		setDocCurrentLine(lineNumber);
+		const sectionNumber = searchForSection(docLines, lineNumber);
+		setDocCurrentSection(sectionNumber);
 		const line = docLines[lineNumber];
 		console.log("Currently selected line:");
 		console.log(line);

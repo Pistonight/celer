@@ -43,6 +43,7 @@ export class MapEngine {
 
 	private computeLine(line: DocLine, outIcons: MapIcon[], outLines: MapLine[]): void {
 		if(line.lineType === "DocLineSection"){
+			this.endCurrentPathIfNeed(outLines);
 			this.currentSection = line.sectionNumber;
 		}
 		if(line.lineType === "DocLineBanner" || line.lineType === "DocLineSection") {

@@ -8,10 +8,11 @@ export interface MapSvgProps {
 
 export const MapSvg: React.FC<MapSvgProps> = ({zoom, segs}) => {
 	const scale = zoomToSvgScale(zoom);
+	// console.log(segs);
 	return (
 		<svg width={`${scale*SvgSizeX}px`} height={`${scale*SvgSizeZ}px`}>
 			{
-				segs.map((line, i, visible)=>{visible && <SvgPath key={i} color={line.color} coords={line.vertices} zoom={zoom}/>})
+				segs.map((line, i)=><SvgPath key={i} color={line.color} coords={line.vertices} zoom={zoom} visible={line.visible}/>)
 			}
 		</svg>
 	);
@@ -20,19 +21,25 @@ export const MapSvg: React.FC<MapSvgProps> = ({zoom, segs}) => {
 interface SvgPathProps {
     zoom: number,
     color: string,
+	visible: boolean,
     coords: InGameCoordinates[]
 }
 
-const SvgPath: React.FC<SvgPathProps> = ({zoom, color, coords}) => {
+const SvgPath: React.FC<SvgPathProps> = ({zoom, color, coords, visible}) => {
 	const transformer = inGameToSvgCoord(zoom);
 	const svgCoords = coords.map(transformer);
 	const arrows = lineToArrows(svgCoords);
+	// console.log(zoom, color, coords, visible);
+	if(visible){
 	return (
 		<>
 			<SvgLine color={color} coords={svgCoords} />
 			<SvgMultiPolygon color={color} polygons={arrows} /> 
 		</>
 	);
+	} else{
+		return (<></>);
+	}
        
 };
 

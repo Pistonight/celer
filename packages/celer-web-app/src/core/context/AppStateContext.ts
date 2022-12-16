@@ -7,6 +7,8 @@ export interface AppState {
     docScrollToLine: number,
     // Current line doc is on
     docCurrentLine: number,
+    // Current section of document
+    docCurrentSection: number,
     // Updating this value will cause MapFrame to center to the new location
     mapCenter: InGameCoordinates|undefined,
 
@@ -15,6 +17,7 @@ export interface AppState {
 interface AppStateContextState extends AppState {
     setDocScrollToLine: Consumer<number>,
     setDocCurrentLine: Consumer<number>,
+    setDocCurrentSection: Consumer<number>,
     setMapCenter: (igc: InGameCoordinates) => void,
 }
 
