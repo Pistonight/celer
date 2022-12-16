@@ -22,3 +22,5 @@ export const useExpBetterBundler = ():boolean => useAppExperiment("BetterBundler
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
 // [12-15] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
 export const useExpScrollProgressTrackerEnabled = ():boolean => useAppExperiment("ScrollProgressTrackerEnabled", true);
+// [12-16] Enable new korok comments. Remove 12/29
+export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokComment", false);
