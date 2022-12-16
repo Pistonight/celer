@@ -1,11 +1,11 @@
-import clsx from "clsx";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useStyles } from "ui/StyleContext";
 
+import clsx from "clsx";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useStyles } from "ui/StyleContext";
 import { DocLineComponent } from "ui/components";
 import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useExpEnhancedScrollTrackerEnabled, useExpMapSyncToDocScrollEnabled, useExpNoTrackDocPos } from "core/experiments";
+import { useExpScrollProgressTrackerEnabled } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import { LocalStorageWrapper } from "data/storage";
 
@@ -13,22 +13,25 @@ export interface DocFrameProps {
 	docLines: DocLine[],
 }
 
-const SCROLL_POS_KEY="DocFrameScrollPos";
+// Delay for syncing map to current scroll position (ms)
+const SCROLL_DELAY = 500;
+
+const SCROLL_POS_KEY = "Celer.DocScrollPos";
 
 const binarySearchForLine = (docLineRefs: React.RefObject<HTMLDivElement>[], y: number)=>{
 	let lo = 0;
 	let hi = docLineRefs.length-1;
-	while(lo<=hi){
+	while (lo<=hi) {
 		const mid = Math.floor((lo+hi)/2);
 		const midElement = docLineRefs[mid].current;
-		if(midElement){
+		if (midElement) {
 			const rect = midElement.getBoundingClientRect();
-			if(rect.top < y){
+			if (rect.top < y) {
 				lo = mid + 1;
-			}else{
+			} else {
 				hi = mid - 1;
 			}
-		}else{
+		} else {
 			return 0;
 		}
 	}
@@ -40,26 +43,21 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 	if(centerCoord){
 		setMapCenter(centerCoord);
 	}
-	
 };
 
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
-	//console.log("Render DocFrame");
 	const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
-
-	// const [docLineComponents, setDocLineComponents] = useState<JSX.Element[]>([]);
-	// const [docLineRefs, setDocLineRefs] = useState<React.RefObject<HTMLDivElement>[]>([]);
-
-	const { docScrollToLine , setDocCurrentLine, setMapCenter} = useAppState();
-	const EnhancedScrollTrackerEnabled = useExpEnhancedScrollTrackerEnabled();
-	const NoTrackDocPos = useExpNoTrackDocPos();
-	const MapSyncToDocScrollEnabled = useExpMapSyncToDocScrollEnabled();
-
+	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
+	const {setDocCurrentLine, setMapCenter} = useAppState();
+	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const docFrameRef = useRef<HTMLDivElement>(null);
+	
+	// Loading styles
+	const styles = useStyles();
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
-		//console.log("Create components");
-		if(EnhancedScrollTrackerEnabled){
+		// If the advanced scroll progress tracker is enabled, set docLineComponents and docLineRefs
+		if (ScrollProgressTrackerEnabled) {
 			let altLineColor = false;
 			let altNoteColor = false;
 			const components:JSX.Element[] = [];
@@ -80,28 +78,40 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 				}
 			});
 			return [components, refs];
-
 		}
+		// Otherwise, initialize them as empty arrays
 		return [[],[]];
 	}, [docLines]);
 
-	useEffect(()=>{
-		if(!NoTrackDocPos){
-			if(docFrameRef.current){
-				if(docScrollToLine >= 0 && docScrollToLine < docLineRefs.length){
-					const line = docLineRefs[docScrollToLine].current;
-					if(line){
-						docFrameRef.current.scrollTop = line.getBoundingClientRect().top + docFrameRef.current.scrollTop;
-					}
-				}
+	// Center the map around the line corresponding with the current scroll position
+	const syncMapToScrollPos = useCallback((scrollPos: number) => {
+		if(!docLineRefs[0].current){
+			return;
+		}
+		const origLineNumber = binarySearchForLine(docLineRefs, scrollPos + docLineRefs[0].current.getBoundingClientRect().top);
+		let line;
+		// If the current line doesn't work (header line), check the next lines below in order.
+		for (let lineNumber=origLineNumber; lineNumber<docLineRefs.length; lineNumber += 1) {
+			line = docLines[lineNumber];
+			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
+				setDocCurrentLine(lineNumber);
+				centerMapToLine(line, setMapCenter);
+				return;
 			}
 		}
-	}, [NoTrackDocPos, docLineRefs, docScrollToLine]);
-
-	const styles = useStyles();
+		// If end of document reached without finding a valid line, check lines above in order
+		for (let lineNumber=origLineNumber-1; lineNumber>0; lineNumber -= 1) {
+			line = docLines[lineNumber];
+			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
+				setDocCurrentLine(lineNumber);
+				centerMapToLine(line, setMapCenter);
+				return;
+			}
+		}
+	}, [docLineRefs]);
 	
 	const components:JSX.Element[] = [];
-	if(!EnhancedScrollTrackerEnabled){
+	if (!ScrollProgressTrackerEnabled) {
 		let altLineColor = false;
 		let altNoteColor = false;
 		docLines.forEach((docLine, i)=>{
@@ -114,32 +124,33 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			}
 		});
 		return (
-			<div ref={docFrameRef} className={clsx(styles.docFrame)} onScroll={(e)=>{
-				if(!NoTrackDocPos){
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					const target = e.target as any;
-					const pos = target.scrollTop || 0;
-					if(Math.abs(pos - scrollPos) >= 300){
-						setScrollPos(pos);
-						LocalStorageWrapper.store(SCROLL_POS_KEY, pos);
-					}
-				}
-			}}>
+			<div ref={docFrameRef} className={clsx(styles.docFrame)}>
 				{components}
 			</div>
 		);
 	}
-	
+
 	return (
 		<div ref={docFrameRef} className={clsx(styles.docFrame)} 
-			onScroll={()=>{
-				const i = binarySearchForLine(docLineRefs, 0);
-				setDocCurrentLine(i);
-				const docLine = docLines[i];
-				if(docLine.lineType === "DocLineText" || docLine.lineType === "DocLineTextWithIcon"){
-					if(MapSyncToDocScrollEnabled){
-						centerMapToLine(docLine, setMapCenter);
+			// Effects when the document is scrolled
+			onScroll={(e) => {
+				if (ScrollProgressTrackerEnabled) {
+					// Reset any existing timeouts
+					if (updateHandle) {
+						clearTimeout(updateHandle);
 					}
+					// Set the scroll position after SCROLL_DELAY ms
+					const scrollDelayHandle = setTimeout(() => {
+						// Calculate the current scroll position
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const target = e.target as any;
+						setScrollPos(target.scrollTop || 0);
+						// Center the map around the currently selected line
+						syncMapToScrollPos(scrollPos);
+						// Clear the timeout
+						setUpdateHandle(undefined);
+					}, SCROLL_DELAY);
+					setUpdateHandle(scrollDelayHandle as unknown as number);
 				}
 			}}>
 			{docLineComponents}
