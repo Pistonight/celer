@@ -1,6 +1,9 @@
 # Change Log
 This is the change log for celer-web-app
 
+## `5.0.6` - `12-15-2022` `LATEST`
+- Added feature to sync map position to document when scrolling. (`Exp.ScrollProgressTrackerEnabled`)
+
 ## `5.0.5` - `11-03-2022` `LATEST`
 - New home page
 
