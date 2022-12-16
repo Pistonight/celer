@@ -7,7 +7,6 @@ import { useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useExpScrollProgressTrackerEnabled } from "core/experiments";
 import { InGameCoordinates } from "core/map";
-import { LocalStorageWrapper } from "data/storage";
 
 export interface DocFrameProps {
 	docLines: DocLine[],
@@ -46,7 +45,6 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 };
 
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
-	const [scrollPos, setScrollPos] = useState<number>(LocalStorageWrapper.load<number>(SCROLL_POS_KEY, 0));
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
 	const {setDocCurrentLine, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
@@ -145,7 +143,6 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 						// Calculate the current scroll position
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const target = e.target as any;
-						setScrollPos(target.scrollTop || 0);
 						// Center the map around the currently selected line
 						syncMapToScrollPos(target.scrollTop || 0);
 						// Clear the timeout
