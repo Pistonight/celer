@@ -111,10 +111,6 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	}, [docLineRefs]);
 	
 	const components:JSX.Element[] = [];
-	
-	// Creating a reference to scrollPos for the timeout
-	const scrollPosRef = useRef(scrollPos);
-	scrollPosRef.current = scrollPos;
 
 	if (!ScrollProgressTrackerEnabled) {
 		let altLineColor = false;
@@ -151,7 +147,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 						const target = e.target as any;
 						setScrollPos(target.scrollTop || 0);
 						// Center the map around the currently selected line
-						syncMapToScrollPos(scrollPosRef.current);
+						syncMapToScrollPos(target.scrollTop || 0);
 						// Clear the timeout
 						setUpdateHandle(undefined);
 					}, SCROLL_DELAY);
