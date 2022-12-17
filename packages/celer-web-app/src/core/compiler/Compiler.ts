@@ -12,7 +12,11 @@ import { StringParser } from "./text";
 import { BannerType, RouteAssembly, RouteAssemblySection, RouteCommand, Movement, SplitType } from "./types";
 
 export class Compiler {
-	private modules: CompilerPresetModule[] = getModules();
+	private modules: CompilerPresetModule[];
+
+	constructor(useNewKorokComment: boolean) {
+		this.modules = getModules(useNewKorokComment);
+	}
 
 	public compile(sections: SourceSection[]): RouteAssemblySection[] {
 		try{

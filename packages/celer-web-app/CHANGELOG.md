@@ -1,10 +1,13 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.6` - `12-15-2022` `LATEST`
+## `5.0.7` - `12-16-2022` `LATEST`
+- Removed strat-specific korok comments (`Exp.UseNewKorokComment`). This is off by default for now.
+
+## `5.0.6` - `12-15-2022`
 - Added feature to sync map position to document when scrolling. (`Exp.ScrollProgressTrackerEnabled`)
 
-## `5.0.5` - `11-03-2022` `LATEST`
+## `5.0.5` - `11-03-2022`
 - New home page
 
 ## `5.0.4` - `09-08-2022`

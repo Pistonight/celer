@@ -6,5 +6,6 @@
     "InferCoord": true,
     "BetterBundler": true,
     "ScrollProgressTrackerEnabled": true,
-    "UseNewHomePage": true
+    "UseNewHomePage": true,
+    "UseNewKorokComment": false
 }

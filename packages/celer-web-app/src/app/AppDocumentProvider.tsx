@@ -4,7 +4,7 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar } from "core/experiments";
+import { useExpBetterBundler, useExpInferCoord, useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
 	ensureConfig,
@@ -22,7 +22,6 @@ export type AppDocumentProviderProps = {
 	shouldSetBundle: boolean
 }
 
-const compiler = new Compiler();
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
@@ -30,6 +29,9 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableInferCoord = useExpInferCoord();
 	const enableBetterBundler = useExpBetterBundler();
+	const enableNewKorokComment = useNewKorokComment();
+
+	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
 
 	const { splitSetting } = useAppSetting();
 
