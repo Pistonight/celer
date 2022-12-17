@@ -265,7 +265,7 @@ F13,2284.27,287.53,2659.97,LiftRock,Under tree
 F14,2874.91,299.73,2683.36,LilyPads
 F15,1325.56,296.66,3008.67,LightChase
 F16,1562.56,298.62,2898.31,Race
-F17,1773.84,346.68,2930.86,Well
+F17,1773.84,346.68,2930.86,Well,Ball and chain
 F18,3084.93,239.77,2884.64,LiftRockRubble,In cave
 F19,1785.53,344.36,3011.07,Race,Swim up
 F20,1943.74,348.58,3009.42,MatchTree
@@ -641,7 +641,7 @@ R11,-1017.85,116.95,-1066.07,Basketball
 R12,-3109.25,34.17,-909.26,Confetti,Top of flagpole
 R13,-2669.55,375.56,-864.39,LiftRock,Top of waterfall
 R14,-2316.80,206.68,-806.45,LightChase
-R15,-2060.66,259.49,-775.78,RockCircle
+R15,-2060.66,259.49,-775.78,RockCircle,On top of tree
 R16,-1142.41,182.62,-761.94,BlockPuzzle
 R17,-2698.41,414.59,-766.74,LiftRock,Top of mountain
 R18,-1964.67,221.20,-584.16,Race,Run
@@ -855,7 +855,7 @@ Z15,2791.46,451.49,-500.93,BlockPuzzle
 Z16,3323.91,301.62,-519.51,Confetti
 Z17,3321.49,414.09,-514.25,Confetti,Top of Zora's Domain
 Z18,3520.64,326.72,-383.58,BlockPuzzle
-Z19,4071.79,483.77,-459.05,BoulderGolf,Use magnesis
+Z19,4071.79,483.77,-459.05,BoulderGolf,Metal boulder
 Z20,4136.60,521.71,-408.56,FlowerChase
 Z21,1088.53,164.78,-215.89,RockCircle,Near water
 Z22,2517.50,182.50,-212.48,LiftRock,On hill
