@@ -4,7 +4,7 @@
     "NoTrackDocPos": true,
     "WarnNegativeVar": false,
     "InferCoord": true,
-    "BetterBundler": true,
     "ScrollProgressTrackerEnabled": true,
-    "UseNewHomePage": true
+    "UseNewHomePage": true,
+    "UseNewKorokComment": false
 }
