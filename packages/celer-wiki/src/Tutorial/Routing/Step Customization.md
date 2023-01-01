@@ -47,7 +47,7 @@ _route: # route object
           - to: [2517.50, 182.50, -212.48] # another location
             warp: true # Warping to this location. No arrow would be drawn for this movement
           - to: [2085.79, 129.79, 181.66] # another location
-            away: true 
+            away: true
             warp: true # if both away and warp are set, only away is considered. Warp has no effect
 ```
 The `coord` property is actually a short hand for `movements`. If both are set, `coord` will be ignored

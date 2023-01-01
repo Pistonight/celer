@@ -8,7 +8,7 @@ export class SimplePreset implements CelerPreset {
 		this.documentation = documentation;
 	}
 	hasMember(): boolean {
-		return false; 
+		return false;
 	}
 	getPrimaryClass(): string {
 		return this.name;

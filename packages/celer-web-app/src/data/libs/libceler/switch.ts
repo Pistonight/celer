@@ -32,8 +32,8 @@ export const switchSection = <T>(
 };
 
 export const switchModule = <T>(
-	module: SourceModule, 
-	stringHandler: (m: string)=>T, 
+	module: SourceModule,
+	stringHandler: (m: string)=>T,
 	extendHandler: (preset: string, extend: SourceStepCustomization)=>T,
 	arrayHandler: (array: SourceStep[])=>T,
 	errorHandler: (error: string)=>T
@@ -53,7 +53,7 @@ export const switchModule = <T>(
 
 export const switchStep = <T>(
 	step: SourceStep,
-	stringHandler: (m: string)=>T, 
+	stringHandler: (m: string)=>T,
 	extendHandler: (preset: string, extend: SourceStepCustomization)=>T,
 	errorHandler: (error: string)=>T
 ):T => {
@@ -68,7 +68,7 @@ export const switchStep = <T>(
 	}
 	return switchSinglePropertyObject<SourceStepCustomization, T>(step, extendHandler, errorHandler);
 };
- 
+
 const switchSinglePropertyObject = <T, R>(
 	spo: SingleProperty<T>,
 	okHandler: (key: string, value: T)=>R,

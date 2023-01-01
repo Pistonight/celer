@@ -1,12 +1,12 @@
 export const exampleRouteScript = {
 	Project: {
-    
+
 		Name: "Example Route Script",
 		Authors: ["iTNTPiston"],
 		Url: "itntpiston.github.io/celer?Internal=1",
 		Version: "Example",
 		Description: "Example"
-        
+
 	},
 	Route: [
 		[],//wrong type,

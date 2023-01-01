@@ -1,11 +1,11 @@
 import { ErrorResponse } from "@remix-run/router";
-import { 
+import {
 	EngineError,
 	SourceSection,
 	SourceStep,
-	SourceStepCustomization, 
-	switchModule, 
-	switchSection, 
+	SourceStepCustomization,
+	switchModule,
+	switchSection,
 	switchStep
 } from "data/libs";
 import { MapOf } from "data/util";
@@ -23,7 +23,7 @@ export class Compiler {
 	public compile(sections: SourceSection[]): RouteAssemblySection[] {
 		try{
 			const compiled = this.compileSections(sections);
-			
+
 			//put 20 empty lines at the end
 			const emptyLines = [];
 			for(let i = 0; i<20;i++){
@@ -40,14 +40,14 @@ export class Compiler {
 				route:[this.makeCompilerError("The compiler has encountered an error. Please check console logs.")]
 			}];
 		}
-        
+
 	}
 
 	private compileSections(sections: SourceSection[]): RouteAssemblySection[] {
 		if(Array.isArray(sections)){
 			return sections.map(this.compileSection.bind(this));
 		}
-        
+
 		return [{
 			route: [
 				this.makeCompilerError("Not a valid route object: " + JSON.stringify(sections))
@@ -86,7 +86,7 @@ export class Compiler {
 	}
 
 	private compileStep(step: SourceStep): RouteAssembly[]{
-		return switchStep<RouteAssembly[]>(step, 
+		return switchStep<RouteAssembly[]>(step,
 			(stringStep)=>{
 				if(stringStep.startsWith("_")){
 					const stepAssembly = this.compilePresetExtend(stringStep, {});
@@ -186,7 +186,7 @@ export class Compiler {
 		if(extend["time-override"]){
 			data.timeOverride = extend["time-override"];
 		}
-      
+
 		if(extend["split-type"]){
 			const customSplitTypeString = extend["split-type"];
 			data.splitType = SplitType.None;

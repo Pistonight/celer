@@ -16,13 +16,13 @@ export const MapTile: React.FC<TileComponentProps> = ({tile, tileLoaded}) => {
 	if (z===8){
 		const isTop = y%2===0;
 		const isLeft = x%2===0;
-		
+
 		const clipTop = isTop ? 0 : tile.height;
 		const clipRight = isLeft ? tile.width : 0;
 		const clipBottom = isTop ? tile.height : 0;
 		const clipLeft = isLeft? 0 : tile.width;
 		style.left = isLeft ? tile.left: tile.left - tile.width;
-		style.top = isTop ? tile.top : tile.top - tile.height; 
+		style.top = isTop ? tile.top : tile.top - tile.height;
 		style.clipPath = `inset(${clipTop} ${clipRight} ${clipBottom} ${clipLeft})`;
 		tileWidth = tile.width*2;
 		tileHeight = tile.height*2;

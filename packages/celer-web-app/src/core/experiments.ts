@@ -1,7 +1,7 @@
 // Experiments configuration
 // Each experiment has a default value. This value is used if live experiments fail to load, or if it's not in live experiments (error case)
 
-// Setting the value in experiments.json in production is enough for emergency. 
+// Setting the value in experiments.json in production is enough for emergency.
 // If it's an important brake, also change the value here and PR
 
 import { useAppExperiment } from "./context";

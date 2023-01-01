@@ -1,11 +1,11 @@
-import { 
-	BannerType, 
-	RouteAssembly, 
-	RouteAssemblySection, 
-	SplitType, 
-	StringType, 
-	TypedString, 
-	TypedStringBlock, 
+import {
+	BannerType,
+	RouteAssembly,
+	RouteAssemblySection,
+	SplitType,
+	StringType,
+	TypedString,
+	TypedStringBlock,
 	TypedStringSingle,
 	RouteCommand,
 } from "core/compiler";
@@ -70,7 +70,7 @@ export class RouteEngine{
 	private config: EngineConfig = {};
 	private errors: string[] = [];
 	private warnings: string[] = [];
-	
+
 	private initialize(config: EngineConfig): void {
 		this.sectionNumber = 1;
 		this.lineNumber = 1;
@@ -97,7 +97,7 @@ export class RouteEngine{
 			fury: 0
 		};
 		this.isInHyruleCastle = false;
-		
+
 		this.variables = {};
 		this.config = config;
 		// this.korokData = newData();
@@ -134,7 +134,7 @@ export class RouteEngine{
 				variables: {}
 			});
 		}
-		
+
 		return postProcessLines(lines);
 	}
 
@@ -166,7 +166,7 @@ export class RouteEngine{
 			});
 			return;
 		}
-		
+
 		this.computeNonBannerStep(data, output);
 	}
 
@@ -195,9 +195,9 @@ export class RouteEngine{
 					this.addError(data, EngineError.NegativeVar, `Variable "${key}" has a negative value`);
 				}
 			}
-			
+
 		}
-		
+
 		const common = {
 			text: this.applyAbilityTextBlock(data, data.text, furyText, galeText),
 			lineNumber: String(this.lineNumber),
@@ -301,7 +301,7 @@ export class RouteEngine{
 				hideIconOnMap: data.hideIconOnMap
 			});
 		}
-		
+
 		this.lineNumber++;
 
 		this.applyErrorAndWarnings(output);
@@ -328,7 +328,7 @@ export class RouteEngine{
 			recharge /= 3;
 		}
 		let text = "";
-		
+
 		if(this.abilityCount[abilityName] === 0){
 			if(this.abilityRechargeTime[abilityName] < recharge){
 				const errorType = abilityName === "gale" ? EngineError.GaleRecharge : EngineError.FuryRecharge;
@@ -349,7 +349,7 @@ export class RouteEngine{
 				this.abilityRechargeTime[abilityName] = 0;
 			}
 		}
-		
+
 		return text;
 	}
 
@@ -494,7 +494,7 @@ export class RouteEngine{
 				text: new TypedStringSingle({content: "Error: "+e, type: StringType.Normal})
 			});
 		});
-	
+
 		this.warnings.forEach(e=>{
 			output.push({
 				lineType: "DocLineBanner",
@@ -552,6 +552,6 @@ export class RouteEngine{
 		}
 	}
 
-	
+
 
 }

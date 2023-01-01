@@ -13,7 +13,7 @@ check:
     just packages/celer-code-generator/verify
 
 # Check versions are consistent in packages
-vsync: 
+vsync:
     python3 scripts/version.py
 
 # Invoke code generator
@@ -31,10 +31,12 @@ lintrs:
     cargo clippy --release -- -D clippy::all -D warnings
 
 # Lint PY code
-lintpy VERBOSE="":
+lintpy EXTRA="":
     rm -f packages/celer-e2e-test/celer
-    python3 scripts/lint.py {{VERBOSE}}
-    pylint scripts
+    python3 scripts/base-lint . -c -p scripts/base-lint.toml {{EXTRA}}
+    pylint scripts/release.py
+    pylint scripts/version.py
+    pylint scripts/rsvalidateimport.py
     @just packages/celer-code-generator/lint
     @just packages/celer-e2e-test/lint
     @just packages/celer-wiki/lint
@@ -49,7 +51,7 @@ lint: check vsync
 test: check
     @just testu
     @just teste2e
-    
+
 # Unit Test
 testu: testrs testts
 # Test rust code
@@ -78,11 +80,11 @@ build: buildc buildrs
 # Produce release artifacts and binaries
 release: buildc
     mkdir -p release
-    cargo build --release 
+    cargo build --release
     @just packages/celer-vscode-extension/release
     @just packages/celer-web-app/release
     @just packages/celer-wiki/release
-    
+
     python3 scripts/release.py > release/RELEASE_NOTES.txt
 
 # Clean build outputs

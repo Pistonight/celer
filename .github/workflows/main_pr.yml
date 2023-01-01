@@ -134,6 +134,12 @@ jobs:
           pyyaml
           pylint
           pylint-quotes
+    - name: Setup | Node 16.14.2
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: '16.14.2'
+    - name: Setup | Node Install
+      run: just -f .justci ci-node
     - name: Just unit-test
       run: just -f .justci ci-unit-test
 

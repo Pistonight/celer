@@ -6,12 +6,12 @@ use celer::{api, core};
 
 pub fn new() {
     println!("Enter optional values for the following properties to create a new project. You can change them later in main.celer");
-    
+
     let mut project_name = String::new();
     print!("Project Name: ");
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut project_name).unwrap();
-    
+
     let mut description = String::new();
     print!("Description: ");
     io::stdout().flush().unwrap();
@@ -38,7 +38,7 @@ pub fn new() {
     });
     let source_metadata = core::Metadata::from(&source_metadata_json);
     let source_object = api::new_route(source_metadata);
-    
+
     let source_object_str = serde_yaml::to_string(&source_object.to_json()).unwrap();
 
     let path = Path::new("main.celer");

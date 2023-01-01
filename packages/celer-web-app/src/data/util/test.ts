@@ -13,11 +13,11 @@ export const getRandomLinesForTestingPerformance = (count: number): NewMapLine[]
 		if(Math.random()<0.005){
 			const nextZ = Math.floor(Math.random()*8000-4000);
 			const nextX = Math.floor(Math.random()*10000-5000);
-            
+
 			lastX = nextX;
 			lastZ = nextZ;
 			randomLineCoords[randomLineCoords.length-1].push(inGameCoord(nextX, nextZ));
-    
+
 		}else{
 			const z = Math.floor(Math.random()*500-250);
 			const x = Math.floor(Math.random()*500-250);

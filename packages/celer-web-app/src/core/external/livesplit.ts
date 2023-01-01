@@ -7,9 +7,9 @@ export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
 	if(!webpackImageData) {
 		return "";
 	}
-    
+
 	const imageBase64String = webpackImageData.substring(webpackImageData.indexOf(",")+1);
-    
+
 	const imageBase64Buff = Buffer.from(imageBase64String, "base64");
 
 	const headerArray = [ 0x00, 0x01, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff,
@@ -46,7 +46,7 @@ const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter
 	let sectionName = "";
 	let isLastSectionEmpty = true;
 	lines.forEach((line)=>{
-		
+
 		if(line.lineType === "DocLineSection") {
 			if(enableSubsplits) {
 				if(splitNames.length > 0 && sectionName && !isLastSectionEmpty){
@@ -81,7 +81,7 @@ const createSegmentTags = (lines: DocLine[], enableSubsplits: boolean, formatter
 
 const createSegmentTag = (splitName: string, icon: string): string =>{
 	const cData = toLiveSplitEncodedImage(icon);
-	
+
 	return `<Segment><Name>${cleanString(splitName)}</Name><Icon>${cData}</Icon><SplitTimes><SplitTime name="Personal Best" /></SplitTimes><BestSegmentTime /><SegmentHistory /></Segment>`;
 };
 

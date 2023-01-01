@@ -3,7 +3,7 @@ ci-check:
     @just vsync
     @just lintpy
 
-ci-rs-lint: 
+ci-rs-lint:
     @just lintrs
 
 ci-ts-lint:

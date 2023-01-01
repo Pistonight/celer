@@ -30,7 +30,7 @@ This is the change log for celer-web-app
 ## `5.0.1` - `08-13-2022`
 - Fix new DP not setting shouldSetBundle correctly for ws dev
 
-## `5.0.0` - `08-11-2022` 
+## `5.0.0` - `08-11-2022`
 - Loading screen for better experience
 - Optimized route and theme loading (`Exp.NewDP`, `Exp.NewASP`)
 - Cleaned up old experiments
@@ -41,7 +41,7 @@ This is the change log for celer-web-app
 - Pigeon map now also supports click line number to center map
 
 ## `4.2.0` - `06-08-2022`
-- Map Update: 
+- Map Update:
   - Experiment to use a new map framework [pigeon-maps](https://github.com/mariusandra/pigeon-maps). Use `?Exp.BetterMap` to enable this experimental feature
   - Performance improvements
   - Use map tiles from [objmap](https://objmap.zeldamods.org)

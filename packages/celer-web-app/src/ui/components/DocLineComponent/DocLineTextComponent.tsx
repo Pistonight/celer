@@ -114,7 +114,7 @@ const StepNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const styles = useStyles();
 	return (
 		<div className={styles.stepNumber}>
-			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}        
+			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 		</div>
 	);
 };
@@ -124,7 +124,7 @@ const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const styles = useStyles();
 	return (
 		<div className={styles.stepNumber}>
-			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>} 
+			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>
 	);
@@ -136,10 +136,10 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
 	if(!notes){
 		return null;
 	}
-    
+
 	return  (
 		<div className={clsx(styles.notes, altNotesColor && styles.notesAlt)}>
-			<TypedStringComponent content={notes} variables={variables} isNotes/>   
+			<TypedStringComponent content={notes} variables={variables} isNotes/>
 		</div>
 	);
 };
@@ -147,7 +147,7 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
 export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, variables} = docLine;
 	const styles = useStyles();
-    
+
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
@@ -164,7 +164,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, icon, comment, splitType, variables} = docLine;
 	const styles = useStyles();
-    
+
 	let textStyleName = styles.instructionDefaultColor;
 	switch(splitType){
 		case SplitType.Shrine:

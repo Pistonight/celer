@@ -17,7 +17,7 @@ pub struct SourceObject {
     pub config: Config,
     /// Bundled Route
     pub route: Vec<SourceSection>,
-    /// Global error. 
+    /// Global error.
     /// If this is not None, there is some serious error that causes the bundler to fail
     /// e.g. Circular dependency, _route not present, etc
     pub global_error: Option<String>

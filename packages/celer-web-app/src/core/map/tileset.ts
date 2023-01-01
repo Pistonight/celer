@@ -11,8 +11,8 @@ export const internalTileUrlToXyz = (url: string): [number, number, number] => {
 };
 
 export const BlankTile = "blank_tile.png";
-export const objmapTileUrlOrBlank = (x: number, y: number, z: number): string => 
-	isTileInBound(x,y,z) 
+export const objmapTileUrlOrBlank = (x: number, y: number, z: number): string =>
+	isTileInBound(x,y,z)
 		? `https://objmap.zeldamods.org/game_files/maptex/${z}/${x}/${y}.png`
 		: BlankTile
 ;
@@ -22,7 +22,7 @@ const TileIndexBounds = {
 	3: [5, 4],
 	4: [11, 9],
 	5: [23, 19],
-	6: [46, 39], 
+	6: [46, 39],
 	7: [93, 78]
 };
 

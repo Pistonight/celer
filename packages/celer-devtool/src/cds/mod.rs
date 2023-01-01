@@ -65,7 +65,7 @@ impl DevServerThread {
             Err(e) => panic!("error: cds: Error starting dev server: {}", e),
             Ok(server) => server
         };
-        
+
         let running = Arc::new(AtomicBool::new(true));
 
         set_interrupt(running.clone());
@@ -81,7 +81,7 @@ impl DevServerThread {
             metadata: core::Metadata::new(),
             errors: ErrorState::new(),
         }
-        
+
     }
 
     pub fn stop(&mut self) {
@@ -94,7 +94,7 @@ impl DevServerThread {
         let new_clients = self.server.query_clients();
 
         let changed = self.load_files();
-        // if clients changed, then update regardless of file change    
+        // if clients changed, then update regardless of file change
         if changed || new_clients {
             // send update
             let bundle_str = serde_json::to_string(&self.unbundled_route).unwrap();
@@ -115,20 +115,20 @@ impl DevServerThread {
             Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
             None => String::from("never"),
         };
-        
+
         self.display.update(self.config.port, project, &last_update_str, &self.errors);
-        
+
         for _ in 0..self.delay_mgr.get_delay() {
             if !self.running.load(Ordering::SeqCst) {
                 return false
             }
             thread::sleep(Duration::from_secs(1));
         }
-        
+
         self.running.load(Ordering::SeqCst)
     }
 
-    /// Reload route files. 
+    /// Reload route files.
     /// Returns if the unbundled source has changed
     /// Emits bundle.json if emit_bundle is set to true in Config
     fn load_files(&mut self) -> bool {
@@ -136,7 +136,7 @@ impl DevServerThread {
         let (unbundled_route, metadata) = bundle::load_unbundled_route_with_metadata(&mut self.errors);
         let changed = !self.unbundled_route.eq(&unbundled_route);
         if changed {
-            if self.config.emit_bundle{ 
+            if self.config.emit_bundle{
                 let mut bundler_errors = Vec::new();
                 let source_object = api::bundle(&unbundled_route, &mut bundler_errors);
 

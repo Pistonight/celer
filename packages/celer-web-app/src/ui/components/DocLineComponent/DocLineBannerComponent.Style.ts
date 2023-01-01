@@ -8,9 +8,9 @@ export const DocLineBannerComponentStyle = ({sizes, colors}: ComputeStyleInputs)
 		position:"relative",
 		top:`-${sizes.bannerTriangle}`,
 		width:0,
-		height:0, 
-		borderLeft: `${sizes.bannerTriangle} solid transparent`,  
-		borderRight: `${sizes.bannerTriangle} solid transparent`,  
+		height:0,
+		borderLeft: `${sizes.bannerTriangle} solid transparent`,
+		borderRight: `${sizes.bannerTriangle} solid transparent`,
 	},
 	bannerTriangleColorNotes: {
 		borderBottom: `${sizes.bannerTriangle} solid ${colors.bannerNotesBorder}`
@@ -22,23 +22,23 @@ export const DocLineBannerComponentStyle = ({sizes, colors}: ComputeStyleInputs)
 		borderBottom: `${sizes.bannerTriangle} solid ${colors.bannerErrorBorder}`
 	},
 	bannerContainer: {
-		boxSizing:"border-box", 
+		boxSizing:"border-box",
 		padding: sizes.cellPadding
 	},
 	bannerContainerColorNotes: {
-		backgroundColor: colors.bannerNotesBackground, 
+		backgroundColor: colors.bannerNotesBackground,
 		borderTop: `3px solid ${colors.bannerNotesBorder}`,
-		color: colors.bannerNotesText, 
+		color: colors.bannerNotesText,
 	},
 	bannerContainerColorWarning: {
-		backgroundColor: colors.bannerWarningBackground, 
+		backgroundColor: colors.bannerWarningBackground,
 		borderTop: `3px solid ${colors.bannerWarningBorder}`,
-		color: colors.bannerWarningText, 
+		color: colors.bannerWarningText,
 	},
 	bannerContainerColorError: {
-		backgroundColor: colors.bannerErrorBackground, 
+		backgroundColor: colors.bannerErrorBackground,
 		borderTop: `3px solid ${colors.bannerErrorBorder}`,
-		color: colors.bannerErrorText, 
+		color: colors.bannerErrorText,
 	},
 	bannerContainerWithTriangle: {
 		position:"relative",
@@ -48,8 +48,8 @@ export const DocLineBannerComponentStyle = ({sizes, colors}: ComputeStyleInputs)
 		borderTop: "none",
 	},
 	bannerText: {
-		display: "inline-block", 
-		padding: "5px", 
+		display: "inline-block",
+		padding: "5px",
 		margin: "0px"
 	},
 	bannerTextWithTriangle: {

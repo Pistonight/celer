@@ -7,8 +7,8 @@ import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
 import { BannerType, SplitType, getInterpolationFunction } from "core/compiler";
 import { useAppSetting, useAppState, useDocument } from "core/context";
 import { createLiveSplitFile } from "core/external";
-import { 
-	saveAs, 
+import {
+	saveAs,
 	wasmLibVersion,
 	SplitTypeConfig,
 	SplitTypeKeys
@@ -32,9 +32,9 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		docLines,
 	} = useDocument();
 	const {
-		mapDisplayMode, 
-		setMapDisplayMode, 
-		theme, 
+		mapDisplayMode,
+		setMapDisplayMode,
+		theme,
 		setTheme,
 		splitSetting,
 		setSplitSetting,
@@ -44,17 +44,17 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
 	const [contextMenuRef, setContextMenuRef] = useState<React.RefObject<HTMLDivElement> | undefined>(undefined);
-   
+
 	let errorCount = 0;
 	docLines.forEach(l=>{
 		if(l.lineType === "DocLineBanner" && l.bannerType === BannerType.Error){
 			errorCount++;
 		}
 	});
-  
+
 	return (
 		<div className={styles.appFrame}>
-      
+
 			<DocFrame docLines={docLines} />
 
 			<div className={styles.statusBarFrame}
@@ -64,7 +64,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 					setContextMenuRef(undefined);
 				}} >
 				<div className={styles.menuOverlayFrame}style={showMenu?{ height: "auto" } : undefined}>
-      
+
 					{showMenu && <>
 						{contextMenuRef === splitSettingsMenuItemRef && <div className={styles.submenu} style={{
 							bottom: `calc( 100vh - ${contextMenuRef.current?.getBoundingClientRect().bottom || 0}px )`,
@@ -94,7 +94,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								setEnableSubsplits(!enableSubsplits);
 							} } text={"Subsplits: "} />
 						</div>}
-      
+
 						<div className={styles.menu}>
 							{/* <MenuItemWithValue value={"Compass"} setValueBasedOnCurrent={function (t: string): void {
                           throw new Error("Function not implemented.");
@@ -188,12 +188,12 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							{metadata.name}
 						</div>
 						<div className={styles.statusErrorString}>
-      
+
 							<span>{errorCount || "No"} Error{errorCount > 1 && "s"}</span>
 
 						</div>
 						<div className={styles.menuAnchor} onClick={(e)=>{setShowMenu(true);e.stopPropagation();}}>
-      
+
 							<span >Options</span>
 						</div>
 					</div>

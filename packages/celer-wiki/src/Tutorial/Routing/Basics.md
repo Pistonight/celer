@@ -6,7 +6,7 @@ YAML is a language designed to present structured data in a human-readable forma
 Route files are `.celer` files. It's recommended that you open these with a text editor that recognizes YAML format like notepad++, but the windows built-in `notepad` works just fine. Here's an example of `main.celer` (created by the dev tool)
 
 ```yaml
-_project: 
+_project:
   name: My Project
   authors: [Your Name]
   version: "1.2.3"
@@ -24,7 +24,7 @@ _route:
 #### Project Section
 The `_project` section of `main.celer` defines the metadata of the route doc, such as name, authors, version, etc.
 ```yaml
-_project: 
+_project:
   name: My Project
   authors: [Your Name]
   version: "1.2.3"

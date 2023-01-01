@@ -23,7 +23,7 @@ export enum EngineError {
     NegativeVar // variable is negative
 };
 
-type EngineErrorKey = keyof typeof EngineError;  
+type EngineErrorKey = keyof typeof EngineError;
 
 export type EngineConfig = {
     ignore?: EngineErrorKey[],
@@ -68,9 +68,9 @@ export type SourceStepCustomization = {
 
 export type SingleProperty<T> = {
     [key: string]: T
-} 
+}
 
-export type SplitTypeKeys = 
+export type SplitTypeKeys =
     "None"|
     "Shrine"| //1 - 120
     "Tower"| //I - XV

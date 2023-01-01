@@ -76,7 +76,7 @@ export const AppExperimentsProvider: React.FC<EmptyObject> = ({children}) => {
 	}, [liveExperiments, overrides, ready, liveExpError]);
 
 	if(!ready){
-		return <LoadingFrame>Loading Experiments</LoadingFrame>; 
+		return <LoadingFrame>Loading Experiments</LoadingFrame>;
 	}
 	return (
 		<AppExperimentsContext.Provider value={isExperimentEnabled}>

@@ -80,6 +80,6 @@ pub fn to_str_vec(value: &serde_json::Value) -> Vec<String> {
             }
         }
     }
-    
+
     output
 }

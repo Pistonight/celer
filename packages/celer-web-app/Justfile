@@ -26,7 +26,7 @@ wasm:
     @just ../celer-lib/build
     rm -rf {{WASM_DIR}}
     cp -R ../celer-lib/pkg {{WASM_DIR}}
-    
+
 
 watch:
     npm run start

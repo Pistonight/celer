@@ -16,7 +16,7 @@ export enum KorokType {
 
 class KorokModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
 		// Add koroks
 		// GENERATE CODE
@@ -68,7 +68,7 @@ class KorokModule implements CompilerPresetModule {
 			timeOverride: mapKorokToEstimate(type),
 
 		});
-        
+
 	}
 
 	private addMovement(id: string, x: number, z: number): void {
@@ -91,7 +91,7 @@ const mapKorokToImage = (korok: KorokType):string =>{
 		// write         case KorokType.{{Enum}}: return "{{Image}}";
 		// joined with newline
 		// codegen csv end
-		
+
 		default: return "korok";
 	}
 };
@@ -105,7 +105,7 @@ const mapKorokToEstimate = (korok: KorokType):number =>{
 		// write         case KorokType.{{Enum}}: return {{Time}};
 		// joined with newline
 		// codegen csv end
-		
+
 		default: return 5;
 	}
 };

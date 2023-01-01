@@ -32,7 +32,7 @@ export enum KorokType {
     LuminousStone = "Luminous Stone",
     MatchTree = "Match Tree",
     MatchCactus = "Match Cactus",
-    MetalBoxCircle = "Metal Box Circle",  
+    MetalBoxCircle = "Metal Box Circle",
     OfferApple = "Offer Apple",
     OfferBanana = "Offer Banana",
     OfferDurian = "Offer Durian",
@@ -53,7 +53,7 @@ export enum KorokType {
 
 class KorokModuleOld implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
 		// Add koroks
 		// GENERATE CODE
@@ -1300,7 +1300,7 @@ class KorokModuleOld implements CompilerPresetModule {
 			timeOverride: mapKorokToEstimate(type),
 
 		});
-        
+
 	}
 
 	private addMovement(id: string, x: number, z: number): void {

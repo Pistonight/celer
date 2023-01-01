@@ -167,5 +167,5 @@ export interface AppColors {
     stringImportantColorNotes: string;
     stringGaleColorNotes: string;
     stringFuryColorNotes: string;
-    
+
 }
