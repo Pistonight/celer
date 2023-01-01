@@ -112,7 +112,7 @@ export const getInterpolationFunction = (format: string): (variables: MapOf<numb
 	return (variables) => {
 		return parts.map(({content, fillChar, fieldWidth, isVariable})=>{
 			if(isVariable){
-				let contentString = String(variables[content]);
+				let contentString = String(variables[content] || 0);
 				if(fillChar && fieldWidth){
 					if(contentString.length<fieldWidth){
 						contentString = fillChar.repeat(fieldWidth-contentString.length)+contentString;

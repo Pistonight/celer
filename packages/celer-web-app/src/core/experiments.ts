@@ -13,9 +13,7 @@ export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("E
 // Disable scroll tracking. scroll tracking currently have performance issue
 export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
-export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", false);
-// Enable engine to infer coordinates for lines without coordinates (so that every line can be clicked)
-export const useExpInferCoord = ():boolean => useAppExperiment("InferCoord", true);
+export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", true);
 // [11-03] Enable new home page
 export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",true);
 // [12-15] Enabling the progress tracker that keeps track of scrolling progress and which branch you are on
