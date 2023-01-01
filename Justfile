@@ -57,7 +57,7 @@ testrs:
     cargo test
 
 testts:
-    @echo "There's no tests for TS at the moment"
+    @just packages/celer-web-app/test
 
 # (Devtool) Integration tests
 teste2e:

@@ -31,6 +31,9 @@ wasm:
 watch:
     npm run start
 
+test:
+    npm run test -- --watchAll=false
+
 release: build
     mkdir -p ../../release
     cp -R -T build ../../release/celer-web-app
