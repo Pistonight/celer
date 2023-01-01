@@ -1,7 +1,12 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.7` - `12-16-2022` `LATEST`
+## `5.1.0` - `01-01-2023` `LATEST`
+- Added error levels to engine. Error levels are determined from global config and engine defaults, and can be suppressed per step.
+- Removed `Exp.InferCoord`
+- Added a new korok variant `Apple` for F44
+
+## `5.0.7` - `12-16-2022`
 - Removed strat-specific korok comments (`Exp.UseNewKorokComment`). This is off by default for now.
 
 ## `5.0.6` - `12-15-2022`
