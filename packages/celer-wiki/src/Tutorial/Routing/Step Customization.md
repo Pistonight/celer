@@ -30,6 +30,7 @@ The following table contains the properties you can set. More might be added in 
 |gale|Number of gales to use. Used together with the `.gale()` [typed string](./Typed%20String%20System.md)|
 |time-override|Override the time this step takes, in seconds. Used for checking recharging times. (Normally the engine estimates the time the step takes by its type|
 |commands|A list of commands for the engine to execute. Valid commands are `EnableFuryPlus`, `EnableGalePlus` and `ToggleHyruleCastle`|
+|suppress|A list of errors to suppress, such as `FuryRecharge`. You can see the error name in the error/warning banner that shows up|
 
 ### Movements
 You can set up complex movements on the map within one step.

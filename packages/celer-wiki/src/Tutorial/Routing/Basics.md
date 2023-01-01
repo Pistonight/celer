@@ -47,7 +47,8 @@ _config:
     Korok: "{{Korok}} {{_}}"
 ```
 
-And here's a table of all available configs and the specs (currently only one, but more to come)
+And here's a table of all available configs and the specs
 |Config|Description|
 |-|-|
 |`split-format`|Customize split format for individual split types. Details see [here](../WebApp/Customize%20Split%20Format%20and%20Export%20Splits.md)
+|`engine`|Engine configuration. Details see [here](./Engine%20Config.md)
