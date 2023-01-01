@@ -21,7 +21,7 @@ export enum EngineError {
     FuryUnspecified, // ability text is given without specifying the use count
     GaleUnspecified,
     NegativeVar // variable is negative
-};
+}
 
 type EngineErrorKey = keyof typeof EngineError;
 

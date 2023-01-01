@@ -10,7 +10,6 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
-import { inGameCoord } from "core/map";
 import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
 import { EngineConfig, EngineError } from "data/libs";
 import { MapOf } from "data/util";
@@ -33,7 +32,7 @@ enum ErrorAction {
 	Ignore,
 	Warn,
 	Error
-};
+}
 
 export class RouteEngine{
 	// Engine configuration
@@ -536,7 +535,7 @@ export class RouteEngine{
 				case EngineError.GaleOveruse:
 				case EngineError.FuryUnspecified:
 				case EngineError.GaleUnspecified:
-					action = ErrorAction.Error
+					action = ErrorAction.Error;
 					break;
 			}
 		}
@@ -551,7 +550,5 @@ export class RouteEngine{
 			default: break;
 		}
 	}
-
-
 
 }

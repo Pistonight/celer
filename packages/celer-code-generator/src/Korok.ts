@@ -8,7 +8,7 @@ export enum KorokType {
 	// GENERATE CODE
 	// codegen csv begin
 	// from korok_types
-	// write     {{Enum}} = "{{Type}}",
+	// write 	{{Enum}} = "{{Type}}",
 	// joined with newline
 	// codegen csv end
 
@@ -88,7 +88,7 @@ const mapKorokToImage = (korok: KorokType):string =>{
 		// GENERATE CODE
 		// codegen csv begin
 		// from korok_types
-		// write         case KorokType.{{Enum}}: return "{{Image}}";
+		// write 		case KorokType.{{Enum}}: return "{{Image}}";
 		// joined with newline
 		// codegen csv end
 
@@ -102,7 +102,7 @@ const mapKorokToEstimate = (korok: KorokType):number =>{
 		// GENERATE CODE
 		// codegen csv begin
 		// from korok_types
-		// write         case KorokType.{{Enum}}: return {{Time}};
+		// write 		case KorokType.{{Enum}}: return {{Time}};
 		// joined with newline
 		// codegen csv end
 
