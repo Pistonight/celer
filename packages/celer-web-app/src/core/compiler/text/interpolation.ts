@@ -62,13 +62,13 @@ export const getInterpolationFunction = (format: string): (variables: MapOf<numb
 							isVariable: true
 						});
 					}
-                    
+
 					i = i+5;
 					continue;
 				}
 			}
 		}
-        
+
 		if (i+8 < tokens.length){
 			if (tokens[i] === "{" &&
             tokens[i+1] === "{" &&
@@ -86,7 +86,7 @@ export const getInterpolationFunction = (format: string): (variables: MapOf<numb
 						});
 						current = "";
 					}
-                    
+
 					parts.push({
 						content: `{{{{${tokens[i+4]}}}}}`,
 						isVariable: false
@@ -94,11 +94,11 @@ export const getInterpolationFunction = (format: string): (variables: MapOf<numb
 					i = i+9;
 					continue;
 				}
-                        
+
 			}
-                     
+
 		}
-          
+
 		current+=tokens[i];
 		i++;
 	}
@@ -108,11 +108,11 @@ export const getInterpolationFunction = (format: string): (variables: MapOf<numb
 			isVariable: false
 		});
 	}
-    
+
 	return (variables) => {
 		return parts.map(({content, fillChar, fieldWidth, isVariable})=>{
 			if(isVariable){
-				let contentString = String(variables[content]);
+				let contentString = String(variables[content] || 0);
 				if(fillChar && fieldWidth){
 					if(contentString.length<fieldWidth){
 						contentString = fillChar.repeat(fieldWidth-contentString.length)+contentString;

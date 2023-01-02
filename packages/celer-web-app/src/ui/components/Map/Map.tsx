@@ -1,21 +1,21 @@
 import { Overlay, MapProps as PigeonMapProps } from "pigeon-maps";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { 
-	DynamicCanvasSizeX, 
-	DynamicCanvasSizeZ, 
-	geoCoord, 
-	GeoCoordinates, 
-	geoToInGameCoord, 
-	inGameCoord, 
-	InGameCoordinates, 
-	inGameToGeoCoord, 
-	internalTileUrl, 
-	MapCanvas, 
-	NewMapIcon, 
-	NewMapLine, 
-	SvgSizeX, 
-	SvgSizeZ, 
-	zoomToSvgScale 
+import {
+	DynamicCanvasSizeX,
+	DynamicCanvasSizeZ,
+	geoCoord,
+	GeoCoordinates,
+	geoToInGameCoord,
+	inGameCoord,
+	InGameCoordinates,
+	inGameToGeoCoord,
+	internalTileUrl,
+	MapCanvas,
+	NewMapIcon,
+	NewMapLine,
+	SvgSizeX,
+	SvgSizeZ,
+	zoomToSvgScale
 } from "core/map";
 import Icons from "data/image";
 import { MapOverride } from "./MapOverride";
@@ -89,7 +89,7 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 				mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom===2?IconSizeSmall:IconSize);
 			});
 		});
-		
+
 	}, [canvasRef, canvasRef.current, icons, zoom]);
 
 	// Dynamic canvas render
@@ -110,7 +110,7 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean)=>{
 		setAnimating(true);
 		setAnimationZoom(animationZoom);
-  
+
 		const canvas = canvasRef.current;
 
 		if(animationZoom > ZOOMTHRES){
@@ -138,10 +138,10 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 					mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom<3?IconSizeSmall:IconSize);
 				});
 			});
-			
+
 		}
 	}, [canvasRef, canvasRef.current, center, icons]);
-	
+
 	const overrideProps = {
 		provider: internalTileUrl,
 		onAnimationZoomCallback,
@@ -152,7 +152,7 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 			setZoom(zoom);
 			setCenter(geoCoord(center[0], center[1]));
 			setAnimating(false);
-            
+
 		},
 		minZoom: 2,
 		maxZoom: 8,
@@ -163,14 +163,14 @@ export const Map: React.FC<MapProps> = ({icons, lines, manualCenter}) => {
 	} as PigeonMapProps;
 	return (
 		<MapOverride {...overrideProps}>
-			<Overlay 
-				anchor={[InGameOriginGeoCoord.lat, InGameOriginGeoCoord.lng]} 
+			<Overlay
+				anchor={[InGameOriginGeoCoord.lat, InGameOriginGeoCoord.lng]}
 				offset={[SvgSizeX/2*zoomToSvgScale(realZoom),SvgSizeZ/2*zoomToSvgScale(realZoom)]}
 			>
 				<MapSvg zoom={realZoom} segs={lines}/>
 			</Overlay>
-			<Overlay 
-				anchor={dynamicCanvasMode? dynamicCanvasAnchor :[DynamicCanvasAnchorGeoCoord.lat, DynamicCanvasAnchorGeoCoord.lng]} 
+			<Overlay
+				anchor={dynamicCanvasMode? dynamicCanvasAnchor :[DynamicCanvasAnchorGeoCoord.lat, DynamicCanvasAnchorGeoCoord.lng]}
 				offset={[0,0]}
 			>
 				{dynamicCanvasMode ?

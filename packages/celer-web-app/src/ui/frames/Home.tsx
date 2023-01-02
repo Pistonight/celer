@@ -85,7 +85,7 @@ export const Home: React.FC<EmptyObject> = () => {
 		<div>
 			<h1>
                             Home page is working in progress.
-			</h1> 
+			</h1>
 			<p>
                             If you are using the celer dev server, click <a href="#/dev">here</a>
 			</p>
@@ -94,7 +94,7 @@ export const Home: React.FC<EmptyObject> = () => {
 			</p>
 			<hr />
 			<p>
-							Paste the content of bundle.json below or 
+							Paste the content of bundle.json below or
                             upload to view it <input type="file" onChange={(e)=>{
 					const files = e.target.files;
 					if(files?.length && files[0]){

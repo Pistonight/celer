@@ -3,7 +3,7 @@ import { BannerType, Movement, SplitType, TypedString } from "core/compiler";
 import { InGameCoordinates } from "core/map";
 import { MapOf } from "data/util";
 
-export type DocLine = 
+export type DocLine =
     DocLineSection |
     DocLineBanner |
     DocLineText |
@@ -26,9 +26,9 @@ export interface DocLineBanner {
 export interface DocLineText {
     lineType: "DocLineText";
     lineNumber: string,
-    
+
     stepNumber?: string,
-    
+
     text: TypedString,
     notes?: TypedString,
 
@@ -37,12 +37,12 @@ export interface DocLineText {
     mapLineColor?: string;
 
     variables: MapOf<number>;
-    
+
 }
 
 export interface DocLineTextWithIcon extends Omit<DocLineText, "lineType"> {
     lineType: "DocLineTextWithIcon";
-    
+
     splitType: SplitType;
     comment?: TypedString;
     icon: string;

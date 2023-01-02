@@ -49,7 +49,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const {setDocCurrentLine, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const docFrameRef = useRef<HTMLDivElement>(null);
-	
+
 	// Loading styles
 	const styles = useStyles();
 
@@ -107,7 +107,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			}
 		}
 	}, [docLineRefs]);
-	
+
 	const components:JSX.Element[] = [];
 
 	if (!ScrollProgressTrackerEnabled) {
@@ -130,7 +130,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	}
 
 	return (
-		<div ref={docFrameRef} className={clsx(styles.docFrame)} 
+		<div ref={docFrameRef} className={clsx(styles.docFrame)}
 			// Effects when the document is scrolled
 			onScroll={(e) => {
 				if (ScrollProgressTrackerEnabled) {
@@ -154,5 +154,5 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			{docLineComponents}
 		</div>
 	);
-	
+
 };

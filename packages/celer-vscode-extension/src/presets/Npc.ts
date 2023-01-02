@@ -2,7 +2,7 @@ import { CelerPreset } from "./Preset";
 
 export class NpcPreset implements CelerPreset {
 	hasMember(): boolean {
-		return false; 
+		return false;
 	}
 	getPrimaryClass(): string {
 		return "Npc";

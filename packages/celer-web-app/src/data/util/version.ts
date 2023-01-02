@@ -1,1 +1,1 @@
-export const WebAppVersion = "5.0.7";
+export const WebAppVersion = "5.1.0";

@@ -7,7 +7,7 @@ The `src` folder should contain the following:
 - `Home.md` - the home page
 - `_Footer.md` - the footer navigation bar
 - `_Sidebar.md` - side bar
-- Sub-folders containing pages for sub-categories 
+- Sub-folders containing pages for sub-categories
 
 Each sub folder can contain `.md` pages or more sub folders. It also must have a file named `order.txt` for the build tool to generate navigation indices
 

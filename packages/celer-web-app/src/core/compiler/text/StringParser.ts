@@ -50,7 +50,7 @@ class StringParser {
 		const bannerWarning = str.startsWith("(?=)") || str.startsWith("(^?)");
 		const bannerTriangle = str.startsWith("(^=)") || str.startsWith("(^!)") || str.startsWith("(^?)");
 		const bannerNormal = str.startsWith("(==)") || str.startsWith("(^=)");
-        
+
 		if(bannerError || bannerWarning || bannerTriangle || bannerNormal){
 			str = str.substring(4).trimStart();
 		}
@@ -90,7 +90,7 @@ class StringParser {
 		let escaping = false;
 		for(let i = 0; i<tokens.length;i++){
 			const token = tokens[i];
-            
+
 			if(token === "." && i<tokens.length-1 && tokens[i+1] === "("){
 				// .( for escaping ..)
 				if(escaping){

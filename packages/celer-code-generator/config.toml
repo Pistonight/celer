@@ -50,12 +50,12 @@ dependencies = ["shrines.csv"]
 
 ["github-actions.dev_pr.yml"]
 target = "../../.github/workflows/main_pr.yml"
-dependencies = []
+dependencies = ["github-actions.common.include"]
 
 ["github-actions.dev_push.yml"]
 target = "../../.github/workflows/main_push.yml"
-dependencies = []
+dependencies = ["github-actions.common.include"]
 
 ["github-actions.pub.yml"]
 target = "../../.github/workflows/pub.yml"
-dependencies = []
+dependencies = ["github-actions.common.include"]

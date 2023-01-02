@@ -43,12 +43,12 @@ export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {
 		} as ComputedStyle<CSArray>;
 	}
 	private addAlternativeOption(
-		alternatives: MapOf<string>, 
-		sizes: AppSizes, 
-		colors: AppColors, 
-		docThreshold: number, 
+		alternatives: MapOf<string>,
+		sizes: AppSizes,
+		colors: AppColors,
+		docThreshold: number,
 		mapSize: number,
-		mapDisplayMode: MapDisplayMode, 
+		mapDisplayMode: MapDisplayMode,
 		docMode: RouteDocMode
 	): void{
 		alternatives[String(this.computeDocModeThreshold(docThreshold, mapSize))]=this.computeCssMemoized(sizes, colors, mapDisplayMode, docMode);

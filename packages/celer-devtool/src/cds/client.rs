@@ -13,7 +13,7 @@ impl DevClient {
             return Err(format!("{}", e));
         }
         // create ws2 web socket
-        
+
         match tungstenite::accept(stream) {
             Err(e) => {
                 Err(format!("{}", e))

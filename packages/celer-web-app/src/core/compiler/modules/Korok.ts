@@ -4,56 +4,59 @@ import { RouteAssembly, SplitType } from "../types";
 import { CompilerPresetModule } from "./Module";
 
 export enum KorokType {
-    Acorn = "Acorn",
-    AcornFlying = "Acorn Flying",
-    AcornLog = "Acorn in Log",
-    AcornTree = "Acorn in Tree",
-    AcornHanging = "Acorn Hanging",
-    Balloon = "Balloon",
-    Basketball = "Basketball",
-    Beard = "Horse Beard",
-    BlockPuzzle = "Block Puzzle",
-    BoulderCircle = "Boulder Circle",
+	// Korok types (generated)
+	// GENERATE CODE
+	Acorn = "Acorn",
+	AcornFlying = "Acorn Flying",
+	AcornLog = "Acorn Log",
+	AcornTree = "Acorn Tree",
+	AcornHanging = "Acorn Hanging",
+	Apple = "Apple",
+	Balloon = "Balloon",
+	Basketball = "Basketball",
+	Beard = "Beard",
+	BlockPuzzle = "Block Puzzle",
+	BoulderCircle = "Boulder Circle",
 	BoulderGolf = "Boulder Golf",
 	Confetti = "Confetti",
 	FlowerChase = "Flower Chase",
 	FlowerCount = "Flower Count",
-    IceBlock = "Ice Block",
-    JumpFence = "Jump Fence",
-    LiftRock = "Lift Rock",
-    LiftRockDoor = "Rock under Door",
-    LiftRockTree = "Rock in Tree",
-    LiftRockRubble = "Rock behind Rubble",
-    LiftRockBoulder = "Rock under Boulder",
-    LiftRockLeaves = "Rock under Leaves",
-    LiftRockSlab = "Rock under Slab",
-    LightChase = "Light Chase",
-    LilyPads = "Lily Pads",
-    LuminousStone = "Luminous Stone",
-    MatchTree = "Match Tree",
-    MatchCactus = "Match Cactus",
-    MetalBoxCircle = "Metal Box Circle",  
-    OfferApple = "Offer Apple",
-    OfferBanana = "Offer Banana",
-    OfferDurian = "Offer Durian",
-    OfferEgg = "Offer Egg",
-    OfferPalmFruit = "Offer Palm Fruit",
-    OfferPepper = "Offer Pepper",
-    OfferShield = "Offer Shield",
-    Race = "Race",
-    RockCircle = "Rock Circle",
-    ShootEmblem = "Shoot Emblem",
-    SnowballGolf = "Snowball Golf",
-    Torch = "Match Torch",
-    TreeBranch = "Tree Branch",
-    TreeStump = "Tree Stump",
-    Well = "Well",
-    Other = "Other"
+	IceBlock = "Ice Block",
+	JumpFence = "Jump Fence",
+	LiftRock = "Lift Rock",
+	LiftRockDoor = "Lift Rock (Door)",
+	LiftRockTree = "Lift Rock (Tree)",
+	LiftRockRubble = "Lift Rock (Rubble)",
+	LiftRockBoulder = "Lift Rock (Boulder)",
+	LiftRockLeaves = "Lift Rock (Leaves)",
+	LiftRockSlab = "Lift Rock (Slab)",
+	LightChase = "Light Chase",
+	LilyPads = "Lily Pads",
+	LuminousStone = "Luminous Stone",
+	MatchTree = "Match Tree",
+	MatchCactus = "Match Cactus",
+	MetalBoxCircle = "Metal Box Circle",
+	OfferApple = "Offer Apple",
+	OfferBanana = "Offer Banana",
+	OfferDurian = "Offer Durian",
+	OfferEgg = "Offer Egg",
+	OfferPalmFruit = "Offer Palm Fruit",
+	OfferPepper = "Offer Pepper",
+	OfferShield = "Offer Shield",
+	Race = "Race",
+	RockCircle = "Rock Circle",
+	ShootEmblem = "Shoot Emblem",
+	SnowballGolf = "Snowball Golf",
+	Torch = "Light Torch",
+	TreeBranch = "Tree Branch",
+	TreeStump = "Tree Stump",
+	Well = "Well",
+	Other = "Korok",
 }
 
 class KorokModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
 		// Add koroks
 		// GENERATE CODE
@@ -350,7 +353,7 @@ class KorokModule implements CompilerPresetModule {
 		this.addKorok("F41", [1552.48, 182.81, 3529.24], KorokType.Beard, "");
 		this.addKorok("F42", [1733.16, 168.05, 3450.58], KorokType.Balloon, "Middle of bridge");
 		this.addKorok("F43", [2139.98, 200.28, 3531.93], KorokType.RockCircle, "");
-		this.addKorok("F44", [2836.96, 126.87, 3452.76], KorokType.OfferApple, "");
+		this.addKorok("F44", [2836.96, 126.87, 3452.76], KorokType.Apple, "");
 		this.addKorok("F45", [2939.43, 122.43, 3427.08], KorokType.FlowerChase, "Top of house");
 		this.addKorok("F46", [1840.68, 135.02, 3595.82], KorokType.BlockPuzzle, "");
 		this.addKorok("F47", [2559.24, 344.00, 3602.71], KorokType.LiftRock, "Peak");
@@ -1300,7 +1303,7 @@ class KorokModule implements CompilerPresetModule {
 			timeOverride: mapKorokToEstimate(type),
 
 		});
-        
+
 	}
 
 	private addMovement(id: string, x: number, z: number): void {
@@ -1316,11 +1319,14 @@ class KorokModule implements CompilerPresetModule {
 
 const mapKorokToImage = (korok: KorokType):string =>{
 	switch(korok){
+		// Korok images (generated)
+		// GENERATE CODE
 		case KorokType.Acorn: return "korok-acorn";
 		case KorokType.AcornFlying: return "korok-acorn-flying";
 		case KorokType.AcornLog: return "korok-acorn";
 		case KorokType.AcornTree: return "korok-acorn";
 		case KorokType.AcornHanging: return "korok-acorn";
+		case KorokType.Apple: return "korok";
 		case KorokType.Balloon: return "korok-balloon";
 		case KorokType.Basketball: return "korok-basketball";
 		case KorokType.Beard: return "korok";
@@ -1367,11 +1373,14 @@ const mapKorokToImage = (korok: KorokType):string =>{
 
 const mapKorokToEstimate = (korok: KorokType):number =>{
 	switch(korok){
+		// Korok time estimate (generated)
+		// GENERATE CODE
 		case KorokType.Acorn: return 5;
 		case KorokType.AcornFlying: return 5;
 		case KorokType.AcornLog: return 5;
 		case KorokType.AcornTree: return 5;
 		case KorokType.AcornHanging: return 5;
+		case KorokType.Apple: return 4;
 		case KorokType.Balloon: return 10;
 		case KorokType.Basketball: return 8;
 		case KorokType.Beard: return 2;
@@ -1392,7 +1401,7 @@ const mapKorokToEstimate = (korok: KorokType):number =>{
 		case KorokType.LiftRockSlab: return 4;
 		case KorokType.LightChase: return 5;
 		case KorokType.LilyPads: return 5;
-		case KorokType.LuminousStone: return 5;
+		case KorokType.LuminousStone: return 2;
 		case KorokType.MatchTree: return 5;
 		case KorokType.MatchCactus: return 5;
 		case KorokType.MetalBoxCircle: return 10;

@@ -5,7 +5,7 @@ import { CompilerPresetModule } from "./Module";
 
 class BossModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
 		this.addBossType("_Boss::Talus::Stone", "Stone Talus", SplitType.Talus, "talus");
 		this.addBossType("_Boss::Talus::Luminous", "Luminous Talus", SplitType.Talus, "talus-luminous");

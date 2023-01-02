@@ -33,6 +33,6 @@ celer-user-docs
 celer-web-app
 celer-vscode-extension
 
-## `1.0.2` 
+## `1.0.2`
 celer-web-app
 celer-vscode-extension

@@ -8,7 +8,7 @@ pub enum SourceStep {
     Error(String, String),
     /// Enum for simple (single-line) step
     Simple(String),
-    /// Enum for step with raw-value customization 
+    /// Enum for step with raw-value customization
     Extended(String, serde_json::Value),
     /// Enum for step with typed customization, after validation during bundling
     ExtendedSafe(String, Box<SourceStepCustomization>)

@@ -1,8 +1,8 @@
 use crate::data;
 
 /// Struct that represents the Metadata of celer route
-/// 
-/// Metadata is a required part of the source bundle. 
+///
+/// Metadata is a required part of the source bundle.
 /// Any missing or error values will be filled with a default value by the bundler
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct Metadata {

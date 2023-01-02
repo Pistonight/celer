@@ -90,7 +90,7 @@ impl Bundler {
             // Note that this will return error if fail because of the "?"
             self.bundle_section(unbundled_section, &mut sections)?
         }
-        
+
         Ok(sections)
     }
 
@@ -130,9 +130,9 @@ impl Bundler {
             }
         }
     }
-    
+
     fn bundle_module(&mut self, name: &str, unbundled_module: &SourceModule, dfs_parents: &mut Vec<String>) -> Result<SourceModule, String> {
-        
+
         // Check if module name is already cached
         if let Some(cached_module) = self.module_cache.get_mut(name) {
             return Ok(cached_module.deep_clone());
@@ -158,11 +158,11 @@ impl Bundler {
                 Ok(clone)
             }
         }
-        
+
     }
 
     /// Bundle a module
-    /// 
+    ///
     /// Each step in the module is bundled and merged
     fn bundle_unnamed_module(&mut self, unbundled_module: &SourceModule, dfs_parents: &mut Vec<String>) -> Result<SourceModule, String> {
         let mut bundled_steps = Vec::new();
@@ -184,16 +184,16 @@ impl Bundler {
                 SourceModule::SingleStep(bundled_steps.remove(0))
             }
         )
-        
+
     }
 
     /// Bundle a step
-    /// 
+    ///
     /// If the step is single-line, the single line will be added to out_arr
-    /// 
+    ///
     /// If the step is a __use__, copies of the lines in the module will be added.
     /// If the module cannot be found, an error message is added.
-    /// 
+    ///
     /// If the step is extended, it is processed accordingly and error messages might be added.
     /// The original step will only be added if no error is generated
     fn bundle_step(&mut self, step: &SourceStep, out_arr: &mut Vec<SourceStep>, dfs_parents: &mut Vec<String>) -> Result<(), String> {
@@ -256,7 +256,7 @@ impl Bundler {
                         out_arr.push(SourceStep::Simple(error));
                     }
                 }
-                
+
                 Ok(())
             },
             SourceStep::ExtendedSafe(_,_)=>{
@@ -268,7 +268,7 @@ impl Bundler {
 }
 
 /// Get the module name from __use__ steps.
-/// 
+///
 /// Returns None if the step does not start with __use__
 fn try_get_use_name_from_step(step: &str) -> Option<String> {
     if let Some(module_name) = step.strip_prefix("__use__") {

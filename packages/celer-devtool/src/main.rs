@@ -1,9 +1,9 @@
-mod cbld;   // Celer Build 
+mod cbld;   // Celer Build
 mod ccmd;   // Celer Command Module
 mod cds;    // Celer Dev Server
 mod cio;    // Celer IO
 
-pub const VERSION: &str = "2.0.2";
+pub const VERSION: &str = "2.1.0";
 
 #[cfg(not(debug_assertions))]
 fn ship_panic(panic_info: &std::panic::PanicInfo) {
@@ -24,7 +24,7 @@ fn init() {
 fn main() {
     init();
     // Common args
-    
+
     // Setup command arg parser
     let matches = clap::Command::new("celer-devtool")
         .bin_name("celer")
@@ -55,5 +55,5 @@ fn main() {
         }
         _ => {}
     }
-    
+
 }

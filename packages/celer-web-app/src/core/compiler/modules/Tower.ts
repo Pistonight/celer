@@ -7,9 +7,9 @@ import { CompilerPresetModule } from "./Module";
 
 class TowerModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
-       
+
 		this.addTower("Great Plateau", [-560.03, 177.64, 1694.86]);
 		this.addTower("Central", [-788.64, 197.64, 442.03]);
 		this.addTower("Lake", [-31.82, 280.48, 2961.60]);
@@ -52,7 +52,7 @@ class TowerModule implements CompilerPresetModule {
 				to: {x: coord[0], z: coord[2]},
 				isAway: false,
 				isWarp: false,
-                
+
 			}]
 		});
 	}

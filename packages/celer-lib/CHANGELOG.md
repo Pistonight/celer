@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-lib
 
-## `2.0.0` - `07-28-2022` `LATEST`
+## `2.1.0` - `01-01-2023` `LATEST`
+- Add `engine` config option to `_config`
+
+## `2.0.0` - `07-28-2022`
 - Add bundler and deprecating TypeScript-based bundler. The later will be removed in the future
 
 ## `1.0.0` - `04-28-2022`

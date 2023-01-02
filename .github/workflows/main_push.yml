@@ -21,6 +21,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -51,6 +53,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -81,6 +85,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -117,6 +123,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -137,6 +145,12 @@ jobs:
           pyyaml
           pylint
           pylint-quotes
+    - name: Setup | Node 16.14.2
+      uses: actions/setup-node@v3.0.0
+      with:
+        node-version: '16.14.2'
+    - name: Setup | Node Install
+      run: just -f .justci ci-node
     - name: Just unit-test
       run: just -f .justci ci-unit-test
 
@@ -147,6 +161,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -181,6 +197,8 @@ jobs:
         git config --global core.eol crlf
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -211,6 +229,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -247,6 +267,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -283,6 +305,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -319,6 +343,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -367,6 +393,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -409,6 +437,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:

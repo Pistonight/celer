@@ -30,10 +30,10 @@ const SvgPath: React.FC<SvgPathProps> = ({zoom, color, coords}) => {
 	return (
 		<>
 			<SvgLine color={color} coords={svgCoords} />
-			<SvgMultiPolygon color={color} polygons={arrows} /> 
+			<SvgMultiPolygon color={color} polygons={arrows} />
 		</>
 	);
-       
+
 };
 
 interface SvgLineProps {
@@ -41,8 +41,8 @@ interface SvgLineProps {
     color: string;
 }
 
-const SvgLine: React.FC<SvgLineProps> = ({color, coords}) => 
-	<path 
+const SvgLine: React.FC<SvgLineProps> = ({color, coords}) =>
+	<path
 		strokeWidth={2}
 		stroke={color}
 		fill="transparent"
@@ -66,10 +66,10 @@ interface SvgMultiPolygonProps {
     color: string,
 }
 
-const SvgMultiPolygon: React.FC<SvgMultiPolygonProps> = ({color, polygons}) => 
-	<path 
+const SvgMultiPolygon: React.FC<SvgMultiPolygonProps> = ({color, polygons}) =>
+	<path
 		strokeWidth={4}
-		stroke="transparent" 
+		stroke="transparent"
 		fill={color}
 		d={(()=>{
 			if(polygons.length === 0){
@@ -87,7 +87,7 @@ const SvgMultiPolygon: React.FC<SvgMultiPolygonProps> = ({color, polygons}) =>
 				});
 				sInner+="Z";
 				s+=sInner;
-                
+
 			});
 			return s;
 		})()}/>;

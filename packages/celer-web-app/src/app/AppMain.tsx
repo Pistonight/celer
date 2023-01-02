@@ -6,11 +6,11 @@ import { AppExperimentsProvider } from "./AppExperiments";
 import { AppSettingProvider } from "./AppSettingProvider";
 import { AppStateProvider } from "./AppState";
 import { AppStyleProvider } from "./AppStyleProvider";
-import { 
-	createInternalDocumentService, 
+import {
+	createInternalDocumentService,
 	createLocalService,
-	createGitHubService, 
-	createWebSocketDevService 
+	createGitHubService,
+	createWebSocketDevService
 } from "./services";
 
 const RootLayer: React.FC = ()=>

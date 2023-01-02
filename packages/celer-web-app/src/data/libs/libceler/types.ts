@@ -7,8 +7,28 @@ export type SourceObject = {
     _globalError?: string,
 }
 
+// Bundled Route config
 export type RouteConfig = {
-    "split-format"?: SplitTypeConfig<string>
+    "split-format"?: SplitTypeConfig<string>,
+    "engine"?: EngineConfig
+}
+
+export enum EngineError {
+    FuryRecharge, // ability may not be recharged
+    GaleRecharge,
+    FuryOveruse, // ability does not have enough uses left
+    GaleOveruse,
+    FuryUnspecified, // ability text is given without specifying the use count
+    GaleUnspecified,
+    NegativeVar // variable is negative
+}
+
+type EngineErrorKey = keyof typeof EngineError;
+
+export type EngineConfig = {
+    ignore?: EngineErrorKey[],
+    warn?: EngineErrorKey[],
+    error?: EngineErrorKey[]
 }
 
 // Metadata containing project info
@@ -20,6 +40,7 @@ export type RouteMetadata = {
     description: string,
 }
 
+// Unbundled/uncompiled source data
 export type SourceSection = SourceModule | SingleProperty<SourceModule>
 export type SourceModule = SourceStep | SourceStep[];
 export type SourceStep = string | SingleProperty<SourceStepCustomization>;
@@ -34,6 +55,7 @@ export type SourceStepCustomization = {
     "var-change"?: {[key: string]: number},
     "time-override"?: number,
     commands?: string[],
+    suppress?: string[],
     coord?: number[],
     movements?: {
         to: number[],
@@ -46,9 +68,9 @@ export type SourceStepCustomization = {
 
 export type SingleProperty<T> = {
     [key: string]: T
-} 
+}
 
-export type SplitTypeKeys = 
+export type SplitTypeKeys =
     "None"|
     "Shrine"| //1 - 120
     "Tower"| //I - XV

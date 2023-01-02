@@ -47,14 +47,14 @@ impl DevServer {
                     }
                 },
                 Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
-                    // No incoming connection. 
+                    // No incoming connection.
                 },
                 Err(e) => {
                     println!("error: cds: Failed to accept incoming connection: {:?}", e);
                 }
             }
         }
-        
+
         // drop connection if close
         for client in self.clients.iter_mut()  {
             client.query_close();

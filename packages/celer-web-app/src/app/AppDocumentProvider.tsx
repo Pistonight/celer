@@ -4,9 +4,10 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpInferCoord, useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
+import { useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
+	RouteConfig,
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
@@ -21,7 +22,6 @@ const mapEngine = new MapEngine();
 
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ serviceCreator, children }) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
-	const enableInferCoord = useExpInferCoord();
 	const enableNewKorokComment = useNewKorokComment();
 
 	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
@@ -30,8 +30,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 
 	useEffect(() => {
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
-		routeEngine.inferCoord = enableInferCoord;
-	}, [warnNegativeVar, enableInferCoord]);
+	}, [warnNegativeVar]);
 
 	const params = useParams();
 	const [status, setStatus] = useState<string | null>(null);
@@ -81,7 +80,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 			};
 		}
 		const metadata: RouteMetadata = wasmEnsureRouteMetadata(routeSourceBundle._project);
-		const config = wasmEnsureRouteConfig(routeSourceBundle._config);
+		const config: RouteConfig = wasmEnsureRouteConfig(routeSourceBundle._config);
 		const route = routeSourceBundle._route;
 
 		const routeAssembly = compiler.compile(route);
@@ -95,7 +94,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 
 	const { docLines, mapIcons, mapLines } = useMemo(() => {
 		routeEngine.setSplitSetting(splitSetting);
-		const docLines = routeEngine.compute(routeAssembly);
+		const docLines = routeEngine.compute(routeAssembly, config.engine || {});
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
 
 		return {
@@ -103,7 +102,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 			mapIcons,
 			mapLines
 		};
-	}, [routeAssembly, splitSetting]);
+	}, [routeAssembly, splitSetting, config]);
 
 	useEffect(() => {
 		if (metadata.name) {

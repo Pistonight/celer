@@ -1,7 +1,12 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.0.7` - `12-16-2022` `LATEST`
+## `5.1.0` - `01-01-2023` `LATEST`
+- Added error levels to engine. Error levels are determined from global config and engine defaults, and can be suppressed per step.
+- Removed `Exp.InferCoord`
+- Added a new korok variant `Apple` for F44
+
+## `5.0.7` - `12-16-2022`
 - Removed strat-specific korok comments (`Exp.UseNewKorokComment`). This is off by default for now.
 
 ## `5.0.6` - `12-15-2022`
@@ -25,7 +30,7 @@ This is the change log for celer-web-app
 ## `5.0.1` - `08-13-2022`
 - Fix new DP not setting shouldSetBundle correctly for ws dev
 
-## `5.0.0` - `08-11-2022` 
+## `5.0.0` - `08-11-2022`
 - Loading screen for better experience
 - Optimized route and theme loading (`Exp.NewDP`, `Exp.NewASP`)
 - Cleaned up old experiments
@@ -36,7 +41,7 @@ This is the change log for celer-web-app
 - Pigeon map now also supports click line number to center map
 
 ## `4.2.0` - `06-08-2022`
-- Map Update: 
+- Map Update:
   - Experiment to use a new map framework [pigeon-maps](https://github.com/mariusandra/pigeon-maps). Use `?Exp.BetterMap` to enable this experimental feature
   - Performance improvements
   - Use map tiles from [objmap](https://objmap.zeldamods.org)

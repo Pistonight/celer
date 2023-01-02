@@ -17,6 +17,7 @@ pub struct SourceStepCustomization {
     var_change: Option<HashMap<String, i64>>,
     time_override: Option<i64>,
     commands: Option<Vec<String>>,
+    suppress: Option<Vec<String>>,
     coord: Option<Vec<f64>>,
     movements: Option<Vec<Movement>>,
     fury: Option<i64>,
@@ -40,6 +41,7 @@ impl SourceStepCustomization {
             var_change: None,
             time_override: None,
             commands: None,
+            suppress: None,
             coord: None,
             movements: None,
             fury: None,
@@ -175,6 +177,21 @@ impl SourceStepCustomization {
                 SourceStepCustomization::add_arr_error(out_errors, "commands");
             }
         }
+        if let Some(value_suppress) = obj_value.remove("suppress") {
+            if let Some(vec_value) = value_suppress.as_array() {
+                let mut vec_suppress = Vec::new();
+                for v in vec_value {
+                    if let Some(str_value) = data::cast_to_str(v) {
+                        vec_suppress.push(str_value);
+                    }else{
+                        out_errors.push(format!("{:?} is not a valid error to suppress", v));
+                    }
+                }
+                customization.suppress = Some(vec_suppress);
+            }else{
+                SourceStepCustomization::add_arr_error(out_errors, "suppress");
+            }
+        }
 
         // invalid attributes
         for k in obj_value.keys() {
@@ -249,6 +266,9 @@ impl SourceStepCustomization {
         }
         if let Some(commands) = &self.commands {
             obj["commands"] = json!(commands);
+        }
+        if let Some(suppress) = &self.suppress {
+            obj["suppress"] = json!(suppress);
         }
         if let Some(coord) = &self.coord {
             obj["coord"] = json!(coord);

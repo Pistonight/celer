@@ -29,6 +29,7 @@ codegen end
 codegen begin
 DefineJobStart run-unit-test,Unit Test,ubuntu-latest,#
 CommonSetup
+SetupNode
 JustCIJob unit-test
 codegen end
 

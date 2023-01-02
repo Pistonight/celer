@@ -14,7 +14,7 @@ MySection:
 # The devtool will bundle it into:
 
 Route: # route object
-  - Section 1: 
+  - Section 1:
     - step 1
     - step 2
     # ...
@@ -22,7 +22,7 @@ Route: # route object
 You can also have multiple nested modules
 ```yaml
 _route: # route object
-  - Section 1: 
+  - Section 1:
     - __use__ split 1
     - __use__ split 2
     # ...
@@ -38,7 +38,7 @@ split 2:
 # The devtool will bundle it into:
 
 _route: # route object
-  - Section 1: 
+  - Section 1:
     - do this
     - do that
     - get this
@@ -50,21 +50,21 @@ _route: # route object
 This also supports reusing modules
 ```yaml
 _route: # route object
-  - Section 1: 
+  - Section 1:
     - __use__ Monument
     - do something else
     - __use__ Monument
     - do something else
     # ...
 
-Monument: 
+Monument:
   .loc(Monument):
     notes: ONLY MASH B
 # ...
 # The devtool will bundle it into:
 
 _route: # route object
-  - Section 1: 
+  - Section 1:
     - .loc(Monument):
         notes: ONLY MASH B
     - do something else
@@ -80,7 +80,7 @@ You can also split up the route into multiple files.
 ```yaml
 # file: main.celer
 _route: # route object
-  - Section 1: 
+  - Section 1:
     - __use__ split 1
     - __use__ split 2
     # ...
@@ -103,7 +103,7 @@ The devtool will recursively load all `.celer` files in the directory. Note that
 The devtool does have circular dependency protection
 ```yaml
 _route:
-  - Section 1: 
+  - Section 1:
     - __use__ A
     # ...
 

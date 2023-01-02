@@ -1,9 +1,10 @@
-import { 
+import {
+	EngineError,
 	SourceSection,
 	SourceStep,
-	SourceStepCustomization, 
-	switchModule, 
-	switchSection, 
+	SourceStepCustomization,
+	switchModule,
+	switchSection,
 	switchStep
 } from "data/libs";
 import { MapOf } from "data/util";
@@ -21,7 +22,7 @@ export class Compiler {
 	public compile(sections: SourceSection[]): RouteAssemblySection[] {
 		try{
 			const compiled = this.compileSections(sections);
-			
+
 			//put 20 empty lines at the end
 			const emptyLines = [];
 			for(let i = 0; i<20;i++){
@@ -38,14 +39,14 @@ export class Compiler {
 				route:[this.makeCompilerError("The compiler has encountered an error. Please check console logs.")]
 			}];
 		}
-        
+
 	}
 
 	private compileSections(sections: SourceSection[]): RouteAssemblySection[] {
 		if(Array.isArray(sections)){
 			return sections.map(this.compileSection.bind(this));
 		}
-        
+
 		return [{
 			route: [
 				this.makeCompilerError("Not a valid route object: " + JSON.stringify(sections))
@@ -84,7 +85,7 @@ export class Compiler {
 	}
 
 	private compileStep(step: SourceStep): RouteAssembly[]{
-		return switchStep<RouteAssembly[]>(step, 
+		return switchStep<RouteAssembly[]>(step,
 			(stringStep)=>{
 				if(stringStep.startsWith("_")){
 					const stepAssembly = this.compilePresetExtend(stringStep, {});
@@ -135,24 +136,24 @@ export class Compiler {
 		for(let i = 0;i<this.modules.length;i++){
 			const stepAssembly = this.modules[i].compile(typedString);
 			if(stepAssembly){
-				this.applyExtend(stepAssembly, extend);
+				const lines = this.applyExtend(stepAssembly, extend);
 				if(header.isStep){
 					stepAssembly.isStep = true;
 				}
 				// Check for icon on splits
 				if(stepAssembly.splitType !== SplitType.None && !stepAssembly.icon) {
-					return [
-						stepAssembly,
+					lines.push(
 						this.makeCompilerWarningWithTriangle("The above step has a split type, but has no icon. A split must have an icon, or it will be ignored when exporting splits")
-					];
+					);
 				}
-				return [stepAssembly];
+				return lines;
 			}
 		}
 		return [this.makeCompilerError("Unexpected Error Compiler.compilePresetExtend. This is likely a bug in the compiler")];
 	}
 
-	private applyExtend(data: RouteAssembly, extend: SourceStepCustomization): void {
+	private applyExtend(data: RouteAssembly, extend: SourceStepCustomization): RouteAssembly[] {
+		const lines = [data];
 		if(extend.text){
 			data.text = StringParser.parseStringBlockSimple(extend.text);
 		}
@@ -184,13 +185,15 @@ export class Compiler {
 		if(extend["time-override"]){
 			data.timeOverride = extend["time-override"];
 		}
-      
+
 		if(extend["split-type"]){
 			const customSplitTypeString = extend["split-type"];
 			data.splitType = SplitType.None;
 			// Make sure split type is valid using typescript enum mapping
 			if(SplitType[SplitType[customSplitTypeString as keyof typeof SplitType]] === customSplitTypeString){
 				data.splitType = SplitType[customSplitTypeString as keyof typeof SplitType];
+			}else{
+				lines.push(this.makeCompilerErrorWithTriangle(`Invalid split type: ${customSplitTypeString}`));
 			}
 		}
 
@@ -199,6 +202,8 @@ export class Compiler {
 			extend.commands.forEach(cString=>{
 				if(RouteCommand[RouteCommand[cString as keyof typeof RouteCommand]] === cString){
 					validCommands.push(RouteCommand[cString as keyof typeof RouteCommand]);
+				}else{
+					lines.push(this.makeCompilerErrorWithTriangle(`Invalid command: ${cString}`));
 				}
 			});
 			data.commands = validCommands;
@@ -231,6 +236,21 @@ export class Compiler {
 			}
 			data.variableChange = validatedMap;
 		}
+
+		// suppress
+		if(extend.suppress){
+			const validSuppress: EngineError[] = [];
+			extend.suppress.forEach(cString=>{
+				if(EngineError[EngineError[cString as keyof typeof EngineError]] === cString){
+					validSuppress.push(EngineError[cString as keyof typeof EngineError]);
+				}else{
+					lines.push(this.makeCompilerErrorWithTriangle(`Invalid command: ${cString}`));
+				}
+			});
+			data.suppress = validSuppress;
+		}
+
+		return lines;
 	}
 
 	private processExtendMovement(movement: {to?: number[], warp?: boolean, away?: boolean}): Movement | undefined {
@@ -250,19 +270,24 @@ export class Compiler {
 	}
 
 	private makeCompilerError(error: string): RouteAssembly {
-		return  {
-			text: StringParser.convertToTypedString("Compile Error: "+error),
-			bannerTriangle: false,
-			bannerType: BannerType.Error,
-			splitType: SplitType.None
-		};
+		return this.makeBanner(error, false, false);
+	}
+
+	private makeCompilerErrorWithTriangle(error: string): RouteAssembly {
+		return this.makeBanner(error, true, false);
 	}
 
 	private makeCompilerWarningWithTriangle(error: string): RouteAssembly {
+		return this.makeBanner(error, true, true);
+	}
+
+	private makeBanner(error: string, triangle: boolean, isWarning: boolean): RouteAssembly {
+		const type = isWarning ? BannerType.Warning : BannerType.Error;
+		const text = isWarning ? "Warning" : "Error";
 		return  {
-			text: StringParser.convertToTypedString("Compile Warning: "+error),
-			bannerTriangle: true,
-			bannerType: BannerType.Warning,
+			text: StringParser.convertToTypedString(`Compiler ${text}: ${error}`),
+			bannerTriangle: triangle,
+			bannerType: type,
 			splitType: SplitType.None
 		};
 	}

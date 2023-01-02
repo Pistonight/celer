@@ -8,15 +8,15 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		backgroundColor: colors.docLineBackground
 	},
 	lineContainerAlt: {
-		backgroundColor: colors.docLineBackgroundAlt 
+		backgroundColor: colors.docLineBackgroundAlt
 	},
 	lineNumber: {
 		cursor: "pointer",
 		display: "inline-block",
-		padding: sizes.cellPadding,  
+		padding: sizes.cellPadding,
 		width: sizes.lineNumber,
 		boxSizing:"border-box",
-		borderRight: `1px solid ${colors.lineNumberBorder}`, 
+		borderRight: `1px solid ${colors.lineNumberBorder}`,
 		borderTop: "1px solid transparent",
 		borderBottom: "1px solid transparent",
 		textAlign: "right",
@@ -28,11 +28,11 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 	},
 	counterNumber: {
 		display: "inline-block",
-		padding: sizes.cellPadding,  
+		padding: sizes.cellPadding,
 		width: sizes.counterNumber,
 		boxSizing: "border-box",
 		textAlign: "right",
-        
+
 	},
 	counterNumberContainer: {
 		display: "inline-block",
@@ -47,33 +47,33 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		border: `1px solid ${colors.counterNumberBorder}`,
 	},
 	stepNumber: {
-		display: "inline-block", 
-		padding: sizes.cellPadding, 
+		display: "inline-block",
+		padding: sizes.cellPadding,
 		width: sizes.stepNumber,
-		backgroundColor: colors.stepNumberBackground, 
+		backgroundColor: colors.stepNumberBackground,
 		color: colors.stepNumberText,
-		borderTop: "1px solid transparent", 
-		borderLeft: `1px solid ${colors.stepNumberBorder}`, 
-		borderBottom: `1px solid ${colors.stepNumberBorder}`, 
+		borderTop: "1px solid transparent",
+		borderLeft: `1px solid ${colors.stepNumberBorder}`,
+		borderBottom: `1px solid ${colors.stepNumberBorder}`,
 		boxSizing: "border-box",
 		overflow: "visible",
 		whitespace: "nowarp",
 		textAlign: "center"
 	},
 	instruction: {
-		width: `calc( ${sizes.instruction} + ${sizes.instructionIcon} )`, 
+		width: `calc( ${sizes.instruction} + ${sizes.instructionIcon} )`,
 
 		display: "inline-block",
-		borderLeft: `1px solid ${colors.docTextBorder}`, 
-		borderRight: `1px solid ${colors.docTextBorder}`, 
-		borderBottom: `1px solid ${colors.docTextBorder}`, 
-		borderTop: "1px solid transparent", 
-		padding: sizes.cellPadding, 
-		margin: "0", 
+		borderLeft: `1px solid ${colors.docTextBorder}`,
+		borderRight: `1px solid ${colors.docTextBorder}`,
+		borderBottom: `1px solid ${colors.docTextBorder}`,
+		borderTop: "1px solid transparent",
+		padding: sizes.cellPadding,
+		margin: "0",
 		boxSizing: "border-box"
 	},
 	instructionDefaultColor: {
-		backgroundColor: colors.docTextBackground, 
+		backgroundColor: colors.docTextBackground,
 		color: colors.docTextColor,
 	},
 	instructionWithIcon: {
@@ -147,9 +147,9 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 	},
 
 	icon: {
-		float: "left", 
-		width: "2.5em", 
-		height: "0px", 
+		float: "left",
+		width: "2.5em",
+		height: "0px",
 		padding: "0px",
 	},
 	iconSideText: {
@@ -159,19 +159,19 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		color: colors.docTextColor
 	},
 	notes: {
-		position: "relative", 
-		display: "inline-block", 
-		float: "right", 
-		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.instruction} - ${sizes.instructionIcon} )`, 
-		backgroundColor: colors.docNotesBackground, 
-		borderTop: "1px solid transparent", 
-		borderBottom: "1px solid transparent", 
-		boxSizing: "border-box", 
+		position: "relative",
+		display: "inline-block",
+		float: "right",
+		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.instruction} - ${sizes.instructionIcon} )`,
+		backgroundColor: colors.docNotesBackground,
+		borderTop: "1px solid transparent",
+		borderBottom: "1px solid transparent",
+		boxSizing: "border-box",
 		padding: sizes.cellPadding,
 		color: colors.docNotesColor
 	},
 	notesAlt: {
-		backgroundColor: colors.docNotesBackgroundAlt, 
+		backgroundColor: colors.docNotesBackgroundAlt,
 		color: colors.docNotesColorAlt
 	},
 

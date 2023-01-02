@@ -1,6 +1,6 @@
 The `_route` section in your celer files defines the route. As an example:
 ```yaml
-_route: 
+_route:
 - first step
 - Section 1:
   - Get the sword
@@ -31,7 +31,7 @@ _route:
       comment: This is a custom step
       notes: This is a note that displays alongside the step and can be very long.
 ```
-This renders into 
+This renders into
 
 ![Extended Route Example](./RouteExample2.png)
 
@@ -53,7 +53,7 @@ _route:
 - custom step:
     notes: is this allowed? # No. Custom steps CANNOT exist outside of sections, because there is no way for the program to tell if this is meant to be a section or a step
 ```
-This renders into 
+This renders into
 
 ![Route Example](./RouteExample3.png)
 
