@@ -1,7 +1,12 @@
 # Change Log
 This is the root change log used by the release script to fetch package change logs
 
-## `5.0.2` `LATEST`
+## `5.1.0` `LATEST`
+celer-devtool
+celer-lib
+celer-web-app
+
+## `5.0.2`
 celer-devtool
 
 ## `5.0.1`
