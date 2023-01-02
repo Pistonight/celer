@@ -2,8 +2,7 @@
     "EnhancedScrollTrackerEnabled": false,
     "MapSyncToDocScrollEnabled": false,
     "NoTrackDocPos": true,
-    "WarnNegativeVar": false,
-    "InferCoord": true,
+    "WarnNegativeVar": true,
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
     "UseNewKorokComment": true

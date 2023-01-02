@@ -75,7 +75,7 @@ then
 | grep "browser_download_url.*-"$ARCH"-"$OS".tar.gz" \
 | cut -d : -f 2,3 \
 | tr -d \")
-  
+
   mkdir -p $INSTALL_PATH
   rm -rf $INSTALL_PATH/celer.tar.gz
   echo "Downloading from" $URL
