@@ -21,6 +21,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -51,6 +53,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -81,6 +85,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -117,6 +123,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -153,6 +161,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -187,6 +197,8 @@ jobs:
         git config --global core.eol crlf
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -217,6 +229,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -253,6 +267,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -289,6 +305,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -325,6 +343,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -373,6 +393,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
@@ -415,6 +437,8 @@ jobs:
     steps:
     - name: Setup | Checkout
       uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
