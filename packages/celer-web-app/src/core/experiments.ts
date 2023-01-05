@@ -20,3 +20,5 @@ export const useNewHomePage = ():boolean => useAppExperiment("UseNewHomePage",tr
 export const useExpScrollProgressTrackerEnabled = ():boolean => useAppExperiment("ScrollProgressTrackerEnabled", true);
 // [12-16] Enable new korok comments. Remove 12/29
 export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokComment", false);
+// [1-5-23] Centers the map around all steps that are visible on the document
+export const useExpCenterToPageEnabled = ():boolean => useAppExperiment("CenterToPageEnabled", true);
