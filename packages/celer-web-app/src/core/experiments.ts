@@ -22,3 +22,5 @@ export const useExpScrollProgressTrackerEnabled = ():boolean => useAppExperiment
 export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokComment", false);
 // [1-17] Enable new settings dialog
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
+// [1-5-23] Centers the map around all steps that are visible on the document
+export const useExpCenterToPageEnabled = ():boolean => useAppExperiment("CenterToPageEnabled", true);
