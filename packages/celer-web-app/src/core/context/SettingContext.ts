@@ -1,22 +1,41 @@
 import React, { useContext } from "react";
-import { SplitType } from "core/compiler";
-import { MapDisplayMode, SplitTypeSetting, Theme } from "core/settings";
+import { MapDisplayModes, Themes, defaultSplitSetting, getNextMap, getNextTheme } from "core/settings";
+import { LocalStorageWrapper } from "data/storage";
 import { Consumer, emptyObject } from "data/util";
 
-export interface AppSetting {
-    mapDisplayMode: MapDisplayMode,
-    theme: Theme,
-    splitSetting: SplitTypeSetting<boolean>,
-    enableSubsplits: boolean,
+export type Setting =
+{
+	theme: typeof Themes.Default
+	mapDisplay: typeof MapDisplayModes.Auto
+	splitSettings: typeof defaultSplitSetting
+	enableSubsplits: boolean
 }
 
-interface AppSettingContextState extends AppSetting {
-    setMapDisplayMode: Consumer<MapDisplayMode>,
-    setTheme: Consumer<Theme>,
-    setSplitSetting: (value: boolean, ...splitType: SplitType[])=>void,
-    setEnableSubsplits: Consumer<boolean>,
+export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
+export const load = () => { 
+	const stored = LocalStorageWrapper.load("Settings", defaultSettings);
+	const result = {
+		...stored,
+		theme: getNextTheme(stored.theme.name),
+		mapDisplay: getNextMap(stored.mapDisplay.name),
+	};
+	return result;
+};
+
+interface SettingContext
+{
+    setting: Setting
+    setSetting: Consumer<Setting>
 }
 
-export const SettingContext = React.createContext<AppSettingContextState>(emptyObject());
+export const defaultSettings = 
+{
+	theme: Themes.Default,
+	mapDisplay: MapDisplayModes.Auto,
+	splitSettings: defaultSplitSetting,
+	enableSubsplits: false,
+};
+
+export const SettingContext = React.createContext<SettingContext>(emptyObject());
 SettingContext.displayName = "SettingContext";
 export const useAppSetting = ()=>useContext(SettingContext);

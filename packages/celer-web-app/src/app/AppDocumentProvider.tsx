@@ -26,7 +26,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 
 	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
 
-	const { splitSetting } = useAppSetting();
+	const { setting } = useAppSetting();
 
 	useEffect(() => {
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
@@ -93,7 +93,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	}, [routeSourceBundle]);
 
 	const { docLines, mapIcons, mapLines } = useMemo(() => {
-		routeEngine.setSplitSetting(splitSetting);
+		routeEngine.setSplitSetting(setting.splitSettings);
 		const docLines = routeEngine.compute(routeAssembly, config.engine || {});
 		const [mapIcons, mapLines] = mapEngine.compute(docLines);
 
@@ -102,7 +102,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 			mapIcons,
 			mapLines
 		};
-	}, [routeAssembly, splitSetting, config]);
+	}, [routeAssembly, setting.splitSettings, config]);
 
 	useEffect(() => {
 		if (metadata.name) {

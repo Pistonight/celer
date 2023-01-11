@@ -10,7 +10,7 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
-import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
+import { defaultSplitSetting } from "core/settings";
 import { EngineConfig, EngineError } from "data/libs";
 import { MapOf } from "data/util";
 import { postProcessLines } from "./postprocess";
@@ -36,7 +36,7 @@ enum ErrorAction {
 
 export class RouteEngine{
 	// Engine configuration
-	private splitSetting: SplitTypeSetting<boolean> =defaultSplitSetting;
+	private splitSetting = defaultSplitSetting;
 	public warnNegativeNumberEnable = false;
 
 	private sectionNumber = 0;
@@ -103,7 +103,7 @@ export class RouteEngine{
 		// this.dupeKorok = [];
 	}
 
-	public setSplitSetting(splitSetting: SplitTypeSetting<boolean>){
+	public setSplitSetting(splitSetting: typeof defaultSplitSetting){
 		this.splitSetting = splitSetting;
 	}
 
