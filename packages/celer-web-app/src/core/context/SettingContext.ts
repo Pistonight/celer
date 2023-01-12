@@ -12,7 +12,7 @@ export type Setting =
 }
 
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
-export const load = () => { 
+export const load = () => {
 	const stored = LocalStorageWrapper.load("Settings", defaultSettings);
 	const result = {
 		...stored,
@@ -28,7 +28,7 @@ interface SettingContext
     setSetting: Consumer<Setting>
 }
 
-export const defaultSettings = 
+export const defaultSettings =
 {
 	theme: Themes.Default,
 	mapDisplay: MapDisplayModes.Auto,

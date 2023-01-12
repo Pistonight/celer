@@ -56,7 +56,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 				onClick={()=>{
 					setShowMenu(false);
 					setContextMenuRef(undefined);
-				}} > 
+				}} >
 				<div className={styles.menuOverlayFrame}style={showMenu?{ height: "auto" } : undefined}>
 
 					{showMenu && <>

@@ -5,8 +5,8 @@ const ENABLE_SUBSPLITS_KEY="EnableSubsplits";
 
 export const AppSettingProvider: React.FC = ({children})=>{
 	// TODO restructure this to a single setting object to have one key in local storage
-	
-	const [setting, setSetting] = 
+
+	const [setting, setSetting] =
 	useState(load());
 	useEffect(() => {
 		save(setting);
