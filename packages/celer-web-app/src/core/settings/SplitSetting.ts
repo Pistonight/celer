@@ -1,5 +1,4 @@
 import { SplitType } from "core/compiler";
-import { SplitTypeSettingStorage } from "./Setting";
 
 export const defaultSplitSetting = {
 	[SplitType.None]: false,
@@ -13,5 +12,3 @@ export const defaultSplitSetting = {
 	[SplitType.Molduga]: false,
 	[SplitType.UserDefined]: true
 };
-
-export const SplitSettingStorage = new SplitTypeSettingStorage<boolean>("SplitSetting", defaultSplitSetting);

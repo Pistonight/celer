@@ -32,14 +32,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		docLines,
 	} = useDocument();
 	const {
-		mapDisplayMode,
-		setMapDisplayMode,
-		theme,
-		setTheme,
-		splitSetting,
-		setSplitSetting,
-		enableSubsplits,
-		setEnableSubsplits,
+		setting,
+		setSetting
 	} = useAppSetting();
 	const styles = useStyles();
 	const [showMenu, setShowMenu] = useState(false);
@@ -62,36 +56,83 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 				onClick={()=>{
 					setShowMenu(false);
 					setContextMenuRef(undefined);
-				}} >
+				}} > 
 				<div className={styles.menuOverlayFrame}style={showMenu?{ height: "auto" } : undefined}>
 
 					{showMenu && <>
 						{contextMenuRef === splitSettingsMenuItemRef && <div className={styles.submenu} style={{
 							bottom: `calc( 100vh - ${contextMenuRef.current?.getBoundingClientRect().bottom || 0}px )`,
 						}}>
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Shrine])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Shrine], SplitType.Shrine);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Shrine])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Shrine]: !setting.splitSettings[SplitType.Shrine]
+									}
+								});
 							} } text={"Shrine: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Tower])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Tower], SplitType.Tower);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Tower])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Tower]: !setting.splitSettings[SplitType.Tower]
+									}
+								});
 							} } text={"Tower: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Memory])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Memory], SplitType.Memory);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Memory])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Memory]: !setting.splitSettings[SplitType.Memory]
+									}
+								});
 							} } text={"Memory: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Warp])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Warp], SplitType.Warp);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Warp])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Warp]: !setting.splitSettings[SplitType.Warp]
+									}
+								});
 							} } text={"Warp: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Hinox])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Hinox], SplitType.Hinox, SplitType.Talus, SplitType.Molduga);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Hinox])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Hinox]: !setting.splitSettings[SplitType.Hinox],
+										[SplitType.Talus]: !setting.splitSettings[SplitType.Talus],
+										[SplitType.Molduga]: !setting.splitSettings[SplitType.Molduga]
+									}
+								});
 							} } text={"Boss: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Korok])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.Korok], SplitType.Korok);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Korok])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.Korok]: !setting.splitSettings[SplitType.Korok]
+									}
+								});
 							} } text={"Korok: "} />
-							<MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.UserDefined])} action={function (): void {
-								setSplitSetting(!splitSetting[SplitType.UserDefined], SplitType.UserDefined);
+							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.UserDefined])} action={function (): void {
+								setSetting({
+									...setting,
+									splitSettings: {
+										...setting.splitSettings,
+										[SplitType.UserDefined]: !setting.splitSettings[SplitType.UserDefined]
+									}
+								});
 							} } text={"Other: "} />
-							<MenuItemWithValue value={enableSubsplits?"On": "Off"} action={function (): void {
-								setEnableSubsplits(!enableSubsplits);
+							<MenuItemWithValue value={setting.enableSubsplits?"On": "Off"} action={function (): void {
+								setSetting({
+									...setting,
+									enableSubsplits: !setting.enableSubsplits
+								});
 							} } text={"Subsplits: "} />
 						</div>}
 
@@ -108,13 +149,19 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                                       <MenuItemWithValue value={"Default"} setValueBasedOnCurrent={function (t: string): void {
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Theme: "} /> */}
-							<MenuItemWithValue value={theme.name} action={function (): void {
-								setTheme(theme.next());
+							<MenuItemWithValue value={setting.theme.name} action={function (): void {
+								setSetting({
+									...setting,
+									theme: setting.theme.next()
+								});
 								setContextMenuRef(undefined);
 							} } text={"Theme: "} />
-							<MenuItemWithValue value={mapDisplayMode.name} action={function (): void {
+							<MenuItemWithValue value={setting.mapDisplay.name} action={function (): void {
 								setContextMenuRef(undefined);
-								setMapDisplayMode(mapDisplayMode.next());
+								setSetting({
+									...setting,
+									mapDisplay: setting.mapDisplay.next()
+								});
 							} } text={"Map Size: "} />
 							<hr />
 							{/* <MenuItemWithValue value={""} action={function (): void {
@@ -143,8 +190,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 										}
 									}
 								}
-								const splitContent = createLiveSplitFile(docLines, enableSubsplits, (variables, splitType, lineText)=>{
-									if(!splitSetting[splitType]){
+								const splitContent = createLiveSplitFile(docLines, setting.enableSubsplits, (variables, splitType, lineText)=>{
+									if(!setting.splitSettings[splitType]){
 										return undefined; // Split on this type is disabled
 									}
 									const splitTypeString = SplitType[splitType] as SplitTypeKeys;
