@@ -1,5 +1,5 @@
 // Shrine::Name
-// 136 shrines 
+// 136 shrines
 import { MapOf } from "data/util";
 import { StringType, TypedString, TypedStringSingle } from "../text";
 import { RouteAssembly, SplitType } from "../types";
@@ -7,7 +7,7 @@ import { CompilerPresetModule } from "./Module";
 
 class ShrineModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
 		// GENERATED CODE
 		this.addShrine("Ja Baij", [-446.70, 180.02, 1990.18]);
@@ -192,7 +192,7 @@ class ShrineModule implements CompilerPresetModule {
 				to: {x: coord[0], z: coord[2]},
 				isAway: false,
 				isWarp: false,
-                
+
 			}],
 			timeOverride
 		});

@@ -1,3 +1,4 @@
+import { EngineError } from "data/libs";
 import { MapOf } from "data/util";
 import { TypedString } from "./text";
 
@@ -32,9 +33,9 @@ export type RouteAssembly = { //RouteAssembly
 	// Override the time this step takes, for calculating ability recharge
 	timeOverride?: number,
 
-	// // Suppress error type
-	// suppressError?: EngineError[],
-	// // Engine command
+	// Suppress error type
+	suppress?: EngineError[],
+	// Engine command
 	commands?: RouteCommand[],
 	movements?: Movement[],
 	lineColor?: string,

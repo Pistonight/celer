@@ -30,7 +30,7 @@ export const AppStateProvider: React.FC = ({children})=>{
 			setMapCenter,
 		}}>
 			{children}
-			
+
 		</AppStateContext.Provider>
 	);
 };

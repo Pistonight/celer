@@ -17,7 +17,7 @@ impl DevServerDisplay {
         if port != super::config::DEFAULT_PORT {
             writeln!(new_display, "Port: {}", port).unwrap();
         }
-        
+
         writeln!(new_display, "Watching project {}", project).unwrap();
         writeln!(new_display, "Last update: {}", last_update).unwrap();
 
@@ -31,8 +31,8 @@ impl DevServerDisplay {
             writeln!(new_display, "Open https://celer.itntpiston.app/#/dev/{port} in your browser").unwrap();
         }else{
             new_display.push_str("Open https://celer.itntpiston.app/#/dev in your browser\n");
-        }        
-        
+        }
+
         if !self.current_display.eq(&new_display) {
             self.current_display = new_display;
             // clear screen

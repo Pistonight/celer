@@ -10,9 +10,9 @@ export const DocLineSectionComponentStyle =({colors, sizes}: ComputeStyleInputs)
 		paddingRight: sizes.cellPadding,
 		paddingTop: "10px",
 		paddingBottom: "10px",
-		width: `calc( ${sizes.lineNumber} + ${sizes.counterNumber} )`, 
+		width: `calc( ${sizes.lineNumber} + ${sizes.counterNumber} )`,
 		boxSizing: "border-box",
-		borderRight: `3px solid ${colors.sectionTitleBorder}`, 
+		borderRight: `3px solid ${colors.sectionTitleBorder}`,
 		borderBottom: `3px solid ${colors.sectionNumberBorder}`,
 		borderTop: `3px solid ${colors.sectionNumberBorder}`,
 		backgroundColor: colors.sectionNumberBackground,
@@ -25,13 +25,13 @@ export const DocLineSectionComponentStyle =({colors, sizes}: ComputeStyleInputs)
 		fontSize: sizes.sectionTitleFont,
 	},
 	sectionTitleContainer: {
-		display: "inline-block", 
+		display: "inline-block",
 		paddingLeft: sizes.cellPadding,
 		paddingRight: sizes.cellPadding,
 		paddingTop: "10px",
 		paddingBottom: "10px",
 		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} )`,
-		margin: "0px", 
+		margin: "0px",
 		boxSizing: "border-box",
 		borderBottom: `3px solid ${colors.sectionTitleBorder}`,
 		borderTop: `3px solid ${colors.sectionTitleBorder}`,
@@ -40,7 +40,7 @@ export const DocLineSectionComponentStyle =({colors, sizes}: ComputeStyleInputs)
 		verticalAlign: "bottom",
 	},
 	sectionTitle: {
-		fontSize: sizes.sectionTitleFont, 
+		fontSize: sizes.sectionTitleFont,
 		marginLeft: "20px"
 	}
 };

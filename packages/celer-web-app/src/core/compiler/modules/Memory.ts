@@ -5,9 +5,9 @@ import { CompilerPresetModule } from "./Module";
 
 class MemoryModule implements CompilerPresetModule {
 	private map: MapOf<() => RouteAssembly> = {};
-    
+
 	constructor(){
-       
+
 		this.addMemory( "Lanayru Road", "Return of Calamity Ganon", [3143.34, 263.09, 1148.49]);
 		this.addMemory( "Sacred Grounds", "Subdued Ceremony", [-254.14, 127.42, -97.91]);
 		this.addMemory( "Lake Kolomo", "Resolve and Grief", [-681.08, 131.59, 1223.99]);
@@ -52,7 +52,7 @@ class MemoryModule implements CompilerPresetModule {
 				to: {x: coord[0], z: coord[2]},
 				isAway: false,
 				isWarp: false,
-                
+
 			}]
 		});
 	}

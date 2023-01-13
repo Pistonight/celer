@@ -45,7 +45,7 @@ const registerPreset = (preset: CelerPreset): void => {
 	}else{
 		completionItem.insertText=primaryClass;
 	}
-	
+
 	completionItem.detail=`(Preset) ${primaryClass}`;
 	completionItem.documentation = preset.getDocumentation();
 	completionItem.command = { command: "editor.action.triggerSuggest", title: "Re-trigger completions..." };

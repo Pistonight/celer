@@ -11,7 +11,7 @@ const inGameToDynamicCanvasCoord = (center: GeoCoordinates, zoom: number): (igc:
 		const svgOffZ = igOffZ * scale;
 		return svgCoord(svgOffX,svgOffZ);
 	};
-}; 
+};
 
 export class MapCanvas {
 	private context: CanvasRenderingContext2D | null = null;

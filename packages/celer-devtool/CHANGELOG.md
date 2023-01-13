@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-devtool
 
-## `2.0.2` - `09-15-2022` `LATEST`
+## `2.1.0` - `01-01-2023` `LATEST`
+- celer-lib update to `2.1.0`
+
+## `2.0.2` - `09-15-2022`
 - Fix bug: `True` and `False` not recognized as booleans
 
 ## `2.0.1` - `08-22-2022`

@@ -30,6 +30,7 @@ The following table contains the properties you can set. More might be added in 
 |gale|Number of gales to use. Used together with the `.gale()` [typed string](./Typed%20String%20System.md)|
 |time-override|Override the time this step takes, in seconds. Used for checking recharging times. (Normally the engine estimates the time the step takes by its type|
 |commands|A list of commands for the engine to execute. Valid commands are `EnableFuryPlus`, `EnableGalePlus` and `ToggleHyruleCastle`|
+|suppress|A list of errors to suppress, such as `FuryRecharge`. You can see the error name in the error/warning banner that shows up|
 
 ### Movements
 You can set up complex movements on the map within one step.
@@ -46,7 +47,7 @@ _route: # route object
           - to: [2517.50, 182.50, -212.48] # another location
             warp: true # Warping to this location. No arrow would be drawn for this movement
           - to: [2085.79, 129.79, 181.66] # another location
-            away: true 
+            away: true
             warp: true # if both away and warp are set, only away is considered. Warp has no effect
 ```
 The `coord` property is actually a short hand for `movements`. If both are set, `coord` will be ignored

@@ -7,7 +7,7 @@ The route URL is in the format of
 ```
 https://celer.itntpiston.app/#/gh/<name>/<repo>
 ```
-The source code of that route will usually be at 
+The source code of that route will usually be at
 ```
 https://github.com/<name>/<repo>
 ```
@@ -42,15 +42,15 @@ Example: https://celer.itntpiston.app/#/gh/iTNTPiston/as3/fae07406e8dac0923c90b1
 You can either download directly from the source code link (a.k.a repository), or creating a fork on GitHub and download that. If you create a fork, you can later save your changes to GitHub and also let others view your changes.
 
 To **fork then download** (You need an GitHub account for this)
-1. Click on this 
+1. Click on this
 ![image](https://user-images.githubusercontent.com/44533763/180585136-b95a3208-ac89-49b3-85d4-8779b5b05e32.png)
 2. Select where you want to fork (usually <YOUR_NAME>/<ROUTE_NAME>) and Click on `Create a Fork`
 3. It should take you to the forked repo after. Follow the steps below to download it.
 
 To **just download without forking**:
-1. Click on this 
+1. Click on this
 ![image](https://user-images.githubusercontent.com/44533763/180585066-75a6867b-6441-4224-83d4-fba137a1cd1c.png)
-2. Click this 
+2. Click this
 ![image](https://user-images.githubusercontent.com/44533763/180585081-da9c7dad-c329-482f-9966-fbcb6589b247.png)
 3. Extract the `.zip` you downloaded into a folder. The folder should have a file called `main.celer` in it.
 

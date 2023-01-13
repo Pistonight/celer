@@ -189,13 +189,13 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 		<MapOverride {...overrideProps}>
 			<Overlay
 				anchor={[InGameOriginGeoCoord.lat, InGameOriginGeoCoord.lng]}
-				offset={[SvgSizeX / 2 * zoomToSvgScale(realZoom), SvgSizeZ / 2 * zoomToSvgScale(realZoom)]}
+				offset={[SvgSizeX/2*zoomToSvgScale(realZoom),SvgSizeZ/2*zoomToSvgScale(realZoom)]}
 			>
 				<MapSvg zoom={realZoom} segs={lineVis} />
 			</Overlay>
 			<Overlay
-				anchor={dynamicCanvasMode ? dynamicCanvasAnchor : [DynamicCanvasAnchorGeoCoord.lat, DynamicCanvasAnchorGeoCoord.lng]}
-				offset={[0, 0]}
+				anchor={dynamicCanvasMode? dynamicCanvasAnchor :[DynamicCanvasAnchorGeoCoord.lat, DynamicCanvasAnchorGeoCoord.lng]}
+				offset={[0,0]}
 			>
 				{dynamicCanvasMode ?
 					<canvas ref={canvasRef} width={DynamicCanvasSizeX} height={DynamicCanvasSizeZ} />

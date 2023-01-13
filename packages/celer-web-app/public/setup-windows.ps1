@@ -6,7 +6,7 @@ $ARCH = "x86_64"
 $OS = "windows"
 
 # Get install info
-$BIN= (Get-Command -Name celer -ErrorVariable CelerDNEError -ErrorAction SilentlyContinue).Path 
+$BIN= (Get-Command -Name celer -ErrorVariable CelerDNEError -ErrorAction SilentlyContinue).Path
 if ($CelerDNEError) {
   $BIN=""
   $OPTION_INSTALL="Install"
@@ -49,7 +49,7 @@ if ($OPTION_NUM -eq "1"){
   }
 
   if ($INSTALL_PATH -eq "") {
-      $INSTALL_PATH = $DEFAULT_INSTALL_PATH
+    $INSTALL_PATH = $DEFAULT_INSTALL_PATH
   }
 
   if (Test-Path -Path $INSTALL_PATH/celer.exe -PathType container) {
@@ -83,7 +83,7 @@ if ($OPTION_NUM -eq "1"){
 
   Write-Output "Done"
   Write-Output "You need to restart powershell to complete the installation"
-  
+
 } else{
   if($CelerDNEError){
     Write-Output "Celer cannot be automatically uninstalled because we cannot find it on your computer"

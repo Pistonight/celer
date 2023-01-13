@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext): void {
 			}
 			return undefined;
 		},
-		
+
 	},"_");
 
 	const ColonProvider = vscode.languages.registerCompletionItemProvider(

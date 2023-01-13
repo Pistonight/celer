@@ -20,6 +20,8 @@ func CommonSetup
 input
 write     - name: Setup | Checkout
 write       uses: actions/checkout@v2
+write       with:
+write         submodules: true
 write     - name: Setup | Rust
 write       uses: ATiltedTree/setup-rust@v1
 write       with:

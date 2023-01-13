@@ -27,7 +27,7 @@ export class MapEngine {
 
 		const icons: MapIcon[] = [];
 		const lines: MapLine[] = [];
-        
+
 		icons.push({
 			iconName: "sor",
 			section: 0,

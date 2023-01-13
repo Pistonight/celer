@@ -11,8 +11,6 @@ type DocumentContextState = {
     docLines: DocLine[];
     mapIcons: MapIcon[];
     mapLines: MapLine[];
-    // Temporary state to store bundle.json
-    bundle: string | null
 }
 
 export const DocumentContext = React.createContext<DocumentContextState>(emptyObject());

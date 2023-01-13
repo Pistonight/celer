@@ -10,7 +10,7 @@ export class BossPreset implements CelerPreset {
 	registerEnums(register: (name: string, description: string, subclass?: string, isSubNamespace?: boolean) => void): void {
 		register("Talus", "(namespace) Talus", undefined, true);
 		register("Hinox", "(namespace) Hinox", undefined, true);
-        
+
 		register("Molduga", "(Boss) Molduga");
 		register("Stalnox", "(Boss) Stalnox");
 

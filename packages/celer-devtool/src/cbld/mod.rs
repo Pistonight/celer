@@ -18,7 +18,7 @@ fn merge(config: Config) {
     let mut errors = ErrorState::new();
     let unbundled_route = cio::bundle::load_unbundled_route(&mut errors);
     fail_build_on_error(&errors);
-    
+
     if config.yaml {
         cio::file::write_yaml_file(&unbundled_route, "source.yaml", &mut errors);
     }else{
@@ -42,7 +42,7 @@ fn bundle(config: Config) {
     }else{
         cio::bundle::write_bundle_json(&source_object, config.debug, &mut errors);
     }
-    
+
     fail_build_on_error(&errors);
 }
 

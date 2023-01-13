@@ -2,16 +2,21 @@ use std::collections::HashMap;
 use serde_json::json;
 use crate::data;
 
+mod engine;
+use engine::EngineConfig;
+
 
 #[derive(Debug)]
 pub struct Config {
-    pub split_format: Option<ConfigMap<String>>
+    pub split_format: Option<ConfigMap<String>>,
+    pub engine: Option<EngineConfig>
 }
 
 impl Config {
     pub fn new() -> Self {
         Config {
-            split_format: None
+            split_format: None,
+            engine: None,
         }
     }
     pub fn from(value: &serde_json::Value) -> Self {
@@ -21,7 +26,11 @@ impl Config {
         }
 
         if let Some(value_split_format) = value.get("split-format"){
-            config.split_format = Some(ConfigMap::from(value_split_format));
+            config.split_format = Some(ConfigMap::<String>::from(value_split_format));
+        }
+
+        if let Some(value_engine) = value.get("engine"){
+            config.engine = Some(EngineConfig::from(value_engine));
         }
 
         config
@@ -30,6 +39,9 @@ impl Config {
         let mut obj = json!({});
         if let Some(split_format) = &self.split_format {
             obj["split-format"] = split_format.to_json();
+        }
+        if let Some(engine) = &self.engine {
+            obj["engine"] = engine.to_json();
         }
         obj
     }

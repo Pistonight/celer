@@ -40,7 +40,7 @@ export const LoadingFrame: React.FC<Props> = ({error, children}) => {
 				<p>
 					{!error && dots}
 				</p>
-                
+
 			</div>
 		</div>
 	);

@@ -22,7 +22,7 @@ impl SourceSection {
                 return SourceSection::Named(String::from(k), SourceModule::from(v));
             }
         }
-        
+
         SourceSection::Unnamed(SourceModule::from(value))
     }
 

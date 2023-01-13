@@ -2,10 +2,8 @@
     "EnhancedScrollTrackerEnabled": false,
     "MapSyncToDocScrollEnabled": false,
     "NoTrackDocPos": true,
-    "WarnNegativeVar": false,
-    "InferCoord": true,
-    "BetterBundler": true,
+    "WarnNegativeVar": true,
+    "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
-    "PortCustomization": true,
-    "ScrollProgressTrackerEnabled": true
+    "UseNewKorokComment": true
 }

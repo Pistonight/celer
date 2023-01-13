@@ -1,14 +1,11 @@
-import { bundleRouteScript } from "data/bundler";
 import { SourceObject, wasmBundle } from "data/libs";
-import { DocumentService } from "./types";
+import { DocumentService, ServiceCreator } from "./types";
 
 class WebSocketDevService implements DocumentService {
 	private ws: WebSocket | null = null;
 	private port = "2222";
-	private useExpBetterBundler: boolean;
 
-	constructor(useExpBetterBundler: boolean, port: string) {
-		this.useExpBetterBundler = useExpBetterBundler;
+	constructor(port?: string) {
 		if (port) {
 			this.port = port;
 		}
@@ -22,12 +19,8 @@ class WebSocketDevService implements DocumentService {
 		};
 		newws.onmessage = (e) => {
 			const dataObject = JSON.parse(e.data);
-			if (this.useExpBetterBundler) {
-				const bundleResult = wasmBundle(dataObject).bundle; //Discard the errors for now
-				callback(bundleResult, null, null);
-			} else {
-				callback(bundleRouteScript(dataObject), null, null);
-			}
+			const bundleResult = wasmBundle(dataObject).bundle; //Discard the errors for now
+			callback(bundleResult, null, null);
 		};
 		newws.onopen = () => {
 			callback(null, null, "Waiting for data");
@@ -43,4 +36,4 @@ class WebSocketDevService implements DocumentService {
 	}
 }
 
-export const createWebSocketDevService = (useExpBetterBundler: boolean, port: string) => new WebSocketDevService(useExpBetterBundler, port);
+export const createWebSocketDevService: ServiceCreator = ({port}) => new WebSocketDevService(port);

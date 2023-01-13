@@ -51,7 +51,7 @@ impl Movement {
             MovementFlag::Away => json!({"to": self.to, "away": true}),
             MovementFlag::Warp => json!({"to": self.to, "warp": true}),
         }
-    } 
+    }
 }
 
 #[derive(Debug)]

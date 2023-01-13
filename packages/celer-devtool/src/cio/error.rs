@@ -39,7 +39,7 @@ impl ErrorState {
             out_string.push('\n')
         }
         writeln!(out_string, "{} total", x_error_s(num_errors)).unwrap();
-    
+
         out_string
     }
 

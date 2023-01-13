@@ -37,7 +37,7 @@ These types are purely for semantics and/or styling.
 
 ## Types with Additional Functionality
 #### Direction
-The `dir` type can be used to specify direction in either compass format or clock format. 
+The `dir` type can be used to specify direction in either compass format or clock format.
 
 The clock format must be `XX:XX`. Example: `.dir(12:00)`
 

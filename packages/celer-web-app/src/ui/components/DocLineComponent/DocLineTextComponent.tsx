@@ -4,8 +4,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useExpInferCoord } from "core/experiments";
-import { inGameCoord, InGameCoordinates } from "core/map";
+import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
 
@@ -21,29 +20,19 @@ export interface DocLineTextWithIconProps{
     altNotesColor?: boolean,
 }
 
-const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void, inferCoord: boolean): void => {
-	if(inferCoord){
-		const centerCoord = docLine.centerCoord;
-		if(centerCoord){
-			setMapCenter(centerCoord);
-		}
-	}else{
-		const movements = docLine.movements;
-		if(movements.length > 0){
-			const {x,z} = movements[0].to;
-			setMapCenter(inGameCoord(x,z));
-		}
+const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
+	const centerCoord = docLine.centerCoord;
+	if(centerCoord){
+		setMapCenter(centerCoord);
 	}
-	
 };
 
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	const inferCoord = useExpInferCoord();
 	return (
-		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter, inferCoord)}>
+		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
 		</div>
 	);
@@ -53,10 +42,9 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	const inferCoord = useExpInferCoord();
 
 	return (
-		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter, inferCoord)}>
+		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>
@@ -126,7 +114,7 @@ const StepNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const styles = useStyles();
 	return (
 		<div className={styles.stepNumber}>
-			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}        
+			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 		</div>
 	);
 };
@@ -136,7 +124,7 @@ const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const styles = useStyles();
 	return (
 		<div className={styles.stepNumber}>
-			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>} 
+			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>
 	);
@@ -148,10 +136,10 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
 	if(!notes){
 		return null;
 	}
-    
+
 	return  (
 		<div className={clsx(styles.notes, altNotesColor && styles.notesAlt)}>
-			<TypedStringComponent content={notes} variables={variables} isNotes/>   
+			<TypedStringComponent content={notes} variables={variables} isNotes/>
 		</div>
 	);
 };
@@ -159,7 +147,7 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
 export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, variables} = docLine;
 	const styles = useStyles();
-    
+
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
@@ -176,7 +164,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, icon, comment, splitType, variables} = docLine;
 	const styles = useStyles();
-    
+
 	let textStyleName = styles.instructionDefaultColor;
 	switch(splitType){
 		case SplitType.Shrine:

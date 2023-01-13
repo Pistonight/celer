@@ -33,7 +33,7 @@ Or define your own split point:
     icon: medoh-done
     split-type: UserDefined
 ```
-Notice the `icon` property. **`icon` property is required on a line that has a `split-type`** You will see a warning if you define `split-type` without an icon. 
+Notice the `icon` property. **`icon` property is required on a line that has a `split-type`** You will see a warning if you define `split-type` without an icon.
 
 All the presets that define `split-type` also pre-define `icon`. You can also add a split type to a preset with an icon to avoid specifying your own
 ```yaml
@@ -66,7 +66,7 @@ _route:                             # Splits with no subsplits      | Splits wit
     - Glider:                       # Glider                        | {Plateau}Glider
         split-type: UserDefined
         icon: king
-    - Scan some amiibos # Notice that this step is technically in the Plateau section, but on the splits, it will be in the next split         
+    - Scan some amiibos # Notice that this step is technically in the Plateau section, but on the splits, it will be in the next split
   Ganon:
     - go kill ganon
     - Dark Beast:                   # Dark Beast                    | {Ganon}Dark Beast
@@ -75,7 +75,7 @@ _route:                             # Splits with no subsplits      | Splits wit
 ```
 
 ## Customize Split Format
-By default, the exported split names will be the same as the one shown in the doc. You might want, for example, korok counts in each shrine split. You can do that by specifying `split-format` in the `_config` property. 
+By default, the exported split names will be the same as the one shown in the doc. You might want, for example, korok counts in each shrine split. You can do that by specifying `split-format` in the `_config` property.
 
 The `_config` property should be at the same level as `_project` and `_route`. Example:
 ```yaml
@@ -115,7 +115,7 @@ Finally, you can use `{{_}}` to interpolate the default split name (as shown in 
 So, for example, `{{Korok}} - {{_}}` becomes `899 - Rona Kachta` in the Granatus route
 
 #### Escaping
-If you really need to use `{{` **and** `}}` in your split names, escape them with `{{{{` and `}}}}`. 
+If you really need to use `{{` **and** `}}` in your split names, escape them with `{{{{` and `}}}}`.
 
 Only required if you are using both opening and closing braces
 
@@ -127,7 +127,7 @@ Examples:
 ## Field Width Formatting
 Suppose you want the shrine number to be `001` for the first shrine, instead of just `1`, you can use the field width formatter
 
-The syntax is 
+The syntax is
 ```
 {{%XWIDTH VARIABLE}}
 ```

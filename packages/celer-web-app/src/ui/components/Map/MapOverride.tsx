@@ -1,5 +1,5 @@
-import { 
-	Point, 
+import {
+	Point,
 	Map as PigeonMap,
 	MinMaxBounds
 } from "pigeon-maps";
@@ -25,7 +25,7 @@ export class MapOverride extends PigeonMap {
 
 	extendedProps<T>(name: string): T|undefined {
 		const p = this.props as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-		return p[name]; 
+		return p[name];
 	}
 
 }

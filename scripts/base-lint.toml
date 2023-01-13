@@ -1,0 +1,33 @@
+ignore = [
+    "CNAME",
+    "build/",
+    "release/",
+    "node_modules/",
+    ".git/",
+    ".github/workflows/",
+    "__pycache__/",
+    ".vscode/",
+    "target/",
+    "binaryen-version_105/",
+    "scripts/base-lint/",
+    "pkg/",
+    "wasm/",
+    ".cargo/",
+    "test_output/",
+
+    ".log",
+    ".png",
+    ".gif",
+    ".vsix",
+    ".celer",
+    ".ico",
+    ".wasm",
+    ".tar.gz",
+    "bundle.json",
+    "bundle.yaml",
+    ".exe"
+
+]
+
+windows = []
+add = []
