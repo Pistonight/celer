@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import produce from "immer";
 import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
@@ -46,6 +46,8 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 		}
 	});
 
+
+
 	return (
 		<div className={styles.appFrame}>
 
@@ -64,75 +66,68 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							bottom: `calc( 100vh - ${contextMenuRef.current?.getBoundingClientRect().bottom || 0}px )`,
 						}}>
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Shrine])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Shrine]: !setting.splitSettings[SplitType.Shrine]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Shrine] = !draft2[SplitType.Shrine];
+										})
+									}));
 							} } text={"Shrine: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Tower])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Tower]: !setting.splitSettings[SplitType.Tower]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Tower] = !draft2[SplitType.Tower];
+										})
+									}));
 							} } text={"Tower: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Memory])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Memory]: !setting.splitSettings[SplitType.Memory]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Memory] = !draft2[SplitType.Memory];
+										})
+									}));
 							} } text={"Memory: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Warp])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Warp]: !setting.splitSettings[SplitType.Warp]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Warp] = !draft2[SplitType.Warp];
+										})
+									}));
 							} } text={"Warp: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Hinox])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Hinox]: !setting.splitSettings[SplitType.Hinox],
-										[SplitType.Talus]: !setting.splitSettings[SplitType.Talus],
-										[SplitType.Molduga]: !setting.splitSettings[SplitType.Molduga]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Hinox] = !draft2[SplitType.Hinox];
+											draft2[SplitType.Talus] = !draft2[SplitType.Talus];
+											draft2[SplitType.Molduga] = !draft2[SplitType.Molduga];
+										})
+									}));
 							} } text={"Boss: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Korok])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.Korok]: !setting.splitSettings[SplitType.Korok]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.Korok] = !draft2[SplitType.Korok];
+										})
+									}));
 							} } text={"Korok: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.UserDefined])} action={function (): void {
-								setSetting({
-									...setting,
-									splitSettings: {
-										...setting.splitSettings,
-										[SplitType.UserDefined]: !setting.splitSettings[SplitType.UserDefined]
-									}
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
+											draft2[SplitType.UserDefined] = !draft2[SplitType.UserDefined];
+										})
+									}));
 							} } text={"Other: "} />
 							<MenuItemWithValue value={setting.enableSubsplits?"On": "Off"} action={function (): void {
-								setSetting({
-									...setting,
-									enableSubsplits: !setting.enableSubsplits
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.enableSubsplits = !draft.enableSubsplits;
+								}));
 							} } text={"Subsplits: "} />
 						</div>}
 
@@ -150,18 +145,18 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
                           throw new Error("Function not implemented.");
                       } } style={appStyle} text={"Theme: "} /> */}
 							<MenuItemWithValue value={setting.theme.name} action={function (): void {
-								setSetting({
-									...setting,
-									theme: setting.theme.next()
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.theme = draft.theme.next();
+								}));
 								setContextMenuRef(undefined);
 							} } text={"Theme: "} />
 							<MenuItemWithValue value={setting.mapDisplay.name} action={function (): void {
 								setContextMenuRef(undefined);
-								setSetting({
-									...setting,
-									mapDisplay: setting.mapDisplay.next()
-								});
+								setSetting(
+									produce(setting, (draft) => {
+										draft.mapDisplay = draft.mapDisplay.next();
+								}));
 							} } text={"Map Size: "} />
 							<hr />
 							{/* <MenuItemWithValue value={""} action={function (): void {

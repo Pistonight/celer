@@ -1,4 +1,11 @@
-export const MapDisplayModes = {
+export type MapDisplay = 
+{
+	name: string,
+	mapSize: number,
+	next: () => MapDisplay
+}
+
+export const MapDisplayModes: {[key: string]: MapDisplay} = {
 	Auto: {
 		name: "Auto",
 		mapSize: 0,
@@ -24,25 +31,4 @@ export const MapDisplayModes = {
 		mapSize: 0,
 		next: ()=>MapDisplayModes.Auto
 	},
-};
-
-export const getNextMap = (map: string) =>
-{
-	if(map == "Auto")
-	{
-		return MapDisplayModes.Auto;
-	}
-	if(map == "Wide")
-	{
-		return MapDisplayModes.Wide;
-	}
-	if(map == "Half")
-	{
-		return MapDisplayModes.Half;
-	}
-	if(map == "Narrow")
-	{
-		return MapDisplayModes.Narrow;
-	}
-	return MapDisplayModes.Hidden;
 };

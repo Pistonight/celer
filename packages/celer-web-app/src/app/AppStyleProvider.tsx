@@ -9,12 +9,14 @@ const styleEngine = new StyleEngine(AllStyles);
 
 export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
 	const { setting } = useAppSetting();
-	const appColors = (setting.theme && ThemeColorMap[setting.theme.name]) ?? DefaultColors;
+	const theme = setting.theme;
+	const map = setting.mapDisplay;
+	const appColors = (theme && ThemeColorMap[theme.name]) ?? DefaultColors;
 
 	const [ready, setReady] = useState(false);
 	const {cssString, styles} = useMemo(()=>{
-		return styleEngine.compute(Sizes, appColors, setting.mapDisplay);
-	}, [setting.mapDisplay, appColors]);
+		return styleEngine.compute(Sizes, appColors, map);
+	}, [map, appColors]);
 
 	useEffect(()=>{
 		//Find element

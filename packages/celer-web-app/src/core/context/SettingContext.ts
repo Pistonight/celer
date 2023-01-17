@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { MapDisplayModes, Themes, defaultSplitSetting, getNextMap, getNextTheme } from "core/settings";
+import { MapDisplayModes, Themes, defaultSplitSetting, MapDisplay, splitSettings, Theme } from "core/settings";
 import { LocalStorageWrapper } from "data/storage";
 import { Consumer, emptyObject } from "data/util";
 
 export type Setting =
 {
-	theme: typeof Themes.Default
-	mapDisplay: typeof MapDisplayModes.Auto
-	splitSettings: typeof defaultSplitSetting
+	theme: Theme
+	mapDisplay: MapDisplay
+	splitSettings: splitSettings
 	enableSubsplits: boolean
 }
 
@@ -16,8 +16,8 @@ export const load = () => {
 	const stored = LocalStorageWrapper.load("Settings", defaultSettings);
 	const result = {
 		...stored,
-		theme: getNextTheme(stored.theme.name),
-		mapDisplay: getNextMap(stored.mapDisplay.name),
+		theme: Themes[stored.theme.name],
+		mapDisplay: MapDisplayModes[stored.mapDisplay.name],
 	};
 	return result;
 };

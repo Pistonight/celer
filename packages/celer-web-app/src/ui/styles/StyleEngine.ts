@@ -1,5 +1,5 @@
 
-import { MapDisplayModes } from "core/settings";
+import { MapDisplayModes, MapDisplay } from "core/settings";
 import { MapOf } from "data/util";
 import { FullRouteSizeThreshold, MediumRouteSizeThreshold} from "./constants";
 import { ComputeStyle, StyleMap, MergedClassNameMapOf, AppColors, AppSizes, ComputedStyle, RouteDocMode, ComputeStyleInputs, StyleObject, MergedStyleMapOf } from "./types";
@@ -19,7 +19,7 @@ export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {
 		this.allStyles = computeStyles;
 	}
 
-	public compute(sizes: AppSizes, colors: AppColors, mapDisplayMode: typeof MapDisplayModes.Auto): ComputedStyle<CSArray> {
+	public compute(sizes: AppSizes, colors: AppColors, mapDisplayMode: MapDisplay): ComputedStyle<CSArray> {
 		let mainCss = "";
 		const alternatives: MapOf<string> = {};
 		if(mapDisplayMode === MapDisplayModes.Auto){
@@ -48,7 +48,7 @@ export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {
 		colors: AppColors,
 		docThreshold: number,
 		mapSize: number,
-		mapDisplayMode: typeof MapDisplayModes.Auto,
+		mapDisplayMode: MapDisplay,
 		docMode: RouteDocMode
 	): void{
 		alternatives[String(this.computeDocModeThreshold(docThreshold, mapSize))]=this.computeCssMemoized(sizes, colors, mapDisplayMode, docMode);
@@ -67,7 +67,7 @@ export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {
 		return `@media(max-width:${width}px){${css}}`;
 	}
 
-	private computeCssMemoized(sizes: AppSizes, colors: AppColors,  mapDisplayMode: typeof MapDisplayModes.Auto, docMode: RouteDocMode): string{
+	private computeCssMemoized(sizes: AppSizes, colors: AppColors,  mapDisplayMode: MapDisplay, docMode: RouteDocMode): string{
 		// Get doc mode name using enum reverse mapping
 		const docModeName = RouteDocMode[docMode];
 		const { mapSize } = mapDisplayMode;

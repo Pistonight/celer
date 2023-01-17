@@ -10,7 +10,7 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
-import { defaultSplitSetting } from "core/settings";
+import { defaultSplitSetting, splitSettings } from "core/settings";
 import { EngineConfig, EngineError } from "data/libs";
 import { MapOf } from "data/util";
 import { postProcessLines } from "./postprocess";
@@ -103,7 +103,7 @@ export class RouteEngine{
 		// this.dupeKorok = [];
 	}
 
-	public setSplitSetting(splitSetting: typeof defaultSplitSetting){
+	public setSplitSetting(splitSetting: splitSettings){
 		this.splitSetting = splitSetting;
 	}
 
