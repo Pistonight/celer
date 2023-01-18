@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
-import { DocumentContext, useAppSetting } from "core/context";
+import { DocumentContext, useAppSetting, useOldAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useNewKorokComment } from "core/experiments";
+import { useExpWarnNegativeVar, useNewKorokComment, useNewSettings } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
 	RouteConfig,
@@ -25,9 +25,10 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	const enableNewKorokComment = useNewKorokComment();
 
 	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
-
+	const useNew = useNewSettings();
 	const { setting } = useAppSetting();
-	const splits = setting.splitSettings;
+	const {splitSetting} = useOldAppSetting();
+	const splits = useNew ? setting.splitSettings : splitSetting;
 
 	useEffect(() => {
 		routeEngine.warnNegativeNumberEnable = warnNegativeVar;

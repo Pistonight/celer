@@ -1,4 +1,3 @@
-
 import { MapDisplayModes, MapDisplay } from "core/settings";
 import { MapOf } from "data/util";
 import { FullRouteSizeThreshold, MediumRouteSizeThreshold} from "./constants";

@@ -2,17 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import { AllStyles, StyleContext } from "ui/StyleContext";
 import { LoadingFrame } from "ui/frames";
 import { DefaultColors, Sizes, StyleEngine, ThemeColorMap } from "ui/styles";
-import { useAppSetting } from "core/context";
+import { useAppSetting, useOldAppSetting } from "core/context";
+import { useNewSettings } from "core/experiments";
 import { EmptyObject } from "data/util";
 
 const styleEngine = new StyleEngine(AllStyles);
 
 export const AppStyleProvider: React.FC<EmptyObject> = ({children})=>{
-	const { setting } = useAppSetting();
-	const theme = setting.theme;
-	const map = setting.mapDisplay;
-	const appColors = (theme && ThemeColorMap[theme.name]) ?? DefaultColors;
-
+	const useNew = useNewSettings();
+	const {setting} = useAppSetting();
+	const { mapDisplayMode, theme } = useOldAppSetting();
+	const map = useNew ? setting.mapDisplay : mapDisplayMode;
+	const themeUsed = useNew ? setting.theme : theme;
+	const appColors = (themeUsed && ThemeColorMap[themeUsed.name]) ?? DefaultColors;
 	const [ready, setReady] = useState(false);
 	const {cssString, styles} = useMemo(()=>{
 		return styleEngine.compute(Sizes, appColors, map);

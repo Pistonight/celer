@@ -1,7 +1,22 @@
 import React, { useContext } from "react";
-import { MapDisplayModes, Themes, defaultSplitSetting, MapDisplay, splitSettings, Theme } from "core/settings";
+import { SplitType } from "core/compiler";
+import { OldMapDisplayMode, SplitTypeSetting, OldTheme, MapDisplayModes, Themes, defaultSplitSetting, MapDisplay, splitSettings, Theme } from "core/settings";
 import { LocalStorageWrapper } from "data/storage";
 import { Consumer, emptyObject } from "data/util";
+
+export interface OldAppSetting {
+	mapDisplayMode: OldMapDisplayMode,
+	theme: OldTheme,
+	splitSetting: SplitTypeSetting<boolean>,
+	enableSubsplits: boolean,
+}
+
+interface OldAppSettingContextState extends OldAppSetting {
+	setMapDisplayMode: Consumer<OldMapDisplayMode>,
+	setTheme: Consumer<OldTheme>,
+	setSplitSetting: (value: boolean, ...splitType: SplitType[])=>void,
+	setEnableSubsplits: Consumer<boolean>,
+}
 
 export type Setting =
 {
@@ -36,6 +51,9 @@ export const defaultSettings =
 	enableSubsplits: false,
 };
 
+export const OldSettingContext = React.createContext<OldAppSettingContextState>(emptyObject());
+OldSettingContext.displayName = "SettingContext";
+export const useOldAppSetting = ()=>useContext(OldSettingContext);
 export const SettingContext = React.createContext<SettingContext>(emptyObject());
 SettingContext.displayName = "SettingContext";
 export const useAppSetting = ()=>useContext(SettingContext);
