@@ -1,6 +1,6 @@
 import { SplitType } from "core/compiler";
 
-export type splitSettings = 
+export type splitSettings =
 {
 	[SplitType.None]: boolean,
 	[SplitType.Tower]: boolean,

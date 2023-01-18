@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import produce from "immer";
+import React, { useState } from "react";
 import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue } from "ui/components";
@@ -45,9 +45,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 			errorCount++;
 		}
 	});
-
-
-
 	return (
 		<div className={styles.appFrame}>
 
@@ -70,7 +67,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.Shrine] = !draft2[SplitType.Shrine];
-										})
+										});
 									}));
 							} } text={"Shrine: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Tower])} action={function (): void {
@@ -78,7 +75,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.Tower] = !draft2[SplitType.Tower];
-										})
+										});
 									}));
 							} } text={"Tower: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Memory])} action={function (): void {
@@ -86,7 +83,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.Memory] = !draft2[SplitType.Memory];
-										})
+										});
 									}));
 							} } text={"Memory: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Warp])} action={function (): void {
@@ -94,7 +91,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.Warp] = !draft2[SplitType.Warp];
-										})
+										});
 									}));
 							} } text={"Warp: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Hinox])} action={function (): void {
@@ -104,7 +101,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 											draft2[SplitType.Hinox] = !draft2[SplitType.Hinox];
 											draft2[SplitType.Talus] = !draft2[SplitType.Talus];
 											draft2[SplitType.Molduga] = !draft2[SplitType.Molduga];
-										})
+										});
 									}));
 							} } text={"Boss: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Korok])} action={function (): void {
@@ -112,7 +109,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.Korok] = !draft2[SplitType.Korok];
-										})
+										});
 									}));
 							} } text={"Korok: "} />
 							<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.UserDefined])} action={function (): void {
@@ -120,17 +117,16 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 									produce(setting, (draft) => {
 										draft.splitSettings = produce(draft.splitSettings, (draft2) => {
 											draft2[SplitType.UserDefined] = !draft2[SplitType.UserDefined];
-										})
+										});
 									}));
 							} } text={"Other: "} />
 							<MenuItemWithValue value={setting.enableSubsplits?"On": "Off"} action={function (): void {
 								setSetting(
 									produce(setting, (draft) => {
 										draft.enableSubsplits = !draft.enableSubsplits;
-								}));
+									}));
 							} } text={"Subsplits: "} />
 						</div>}
-
 						<div className={styles.menu}>
 							{/* <MenuItemWithValue value={"Compass"} setValueBasedOnCurrent={function (t: string): void {
                           throw new Error("Function not implemented.");
@@ -148,7 +144,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								setSetting(
 									produce(setting, (draft) => {
 										draft.theme = draft.theme.next();
-								}));
+									}));
 								setContextMenuRef(undefined);
 							} } text={"Theme: "} />
 							<MenuItemWithValue value={setting.mapDisplay.name} action={function (): void {
@@ -156,7 +152,7 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								setSetting(
 									produce(setting, (draft) => {
 										draft.mapDisplay = draft.mapDisplay.next();
-								}));
+									}));
 							} } text={"Map Size: "} />
 							<hr />
 							{/* <MenuItemWithValue value={""} action={function (): void {

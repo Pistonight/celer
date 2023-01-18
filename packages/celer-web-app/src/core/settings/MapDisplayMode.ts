@@ -1,4 +1,4 @@
-export type MapDisplay = 
+export type MapDisplay =
 {
 	name: string,
 	mapSize: number,

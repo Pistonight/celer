@@ -3,7 +3,7 @@ export type Theme = {
 	next: () => Theme
 }
 
-export const Themes: {[key: string]: Theme} = 
+export const Themes: {[key: string]: Theme} =
 {
 	Default: {
 		name: "Default",
