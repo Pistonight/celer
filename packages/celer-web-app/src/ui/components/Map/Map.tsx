@@ -89,8 +89,10 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			return;
 		}
 		mapCanvas.withStaticCoordinateTransformer(zoom, (transformer) => {
-			iconVis.forEach(({ coord, iconName }) => {
-				mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
+			iconVis.forEach(({ coord, iconName, visible }) => {
+				if(visible){
+					mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
+				}
 			});
 		});
 
@@ -105,15 +107,17 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			return;
 		}
 		mapCanvas.withDynamicCoordinateTransformer(center, zoom, (transformer) => {
-			iconVis.forEach(({ coord, iconName }) => {
-				mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+			iconVis.forEach(({ coord, iconName, visible }) => {
+				if(visible){
+					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+				}
 			});
 		});
 	}, [canvasRef, canvasRef.current, iconVis, zoom, center]);
 
 	// Show only current section
 	useEffect(() => {
-		//Currently commented out until settings and section detection implemented
+		//Currently set to true, do not actually merge this until integrated with settings dialog
 		if (docCurrentSection != prevSection) {
 			console.log(docCurrentSection);
 			if (true) {
