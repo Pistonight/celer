@@ -76,59 +76,45 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Shrine])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Shrine] = !draft2[SplitType.Shrine];
-											});
+											draft.splitSettings[SplitType.Shrine] = !draft.splitSettings[SplitType.Shrine];
 										}));
 								} } text={"Shrine: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Tower])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Tower] = !draft2[SplitType.Tower];
-											});
+											draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
 										}));
 								} } text={"Tower: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Memory])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Memory] = !draft2[SplitType.Memory];
-											});
+											draft.splitSettings[SplitType.Memory] = !draft.splitSettings[SplitType.Memory];
 										}));
 								} } text={"Memory: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Warp])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Warp] = !draft2[SplitType.Warp];
-											});
+											draft.splitSettings[SplitType.Warp] = !draft.splitSettings[SplitType.Warp];
 										}));
 								} } text={"Warp: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Hinox])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Hinox] = !draft2[SplitType.Hinox];
-												draft2[SplitType.Talus] = !draft2[SplitType.Talus];
-												draft2[SplitType.Molduga] = !draft2[SplitType.Molduga];
-											});
+											draft.splitSettings[SplitType.Hinox] = !draft.splitSettings[SplitType.Hinox];
+											draft.splitSettings[SplitType.Talus] = !draft.splitSettings[SplitType.Talus];
+											draft.splitSettings[SplitType.Molduga] = !draft.splitSettings[SplitType.Molduga];
 										}));
 								} } text={"Boss: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.Korok])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.Korok] = !draft2[SplitType.Korok];
-											});
+											draft.splitSettings[SplitType.Korok] = !draft.splitSettings[SplitType.Korok];
 										}));
 								} } text={"Korok: "} />
 								<MenuItemWithValue value={getSplitSettingText(setting.splitSettings[SplitType.UserDefined])} action={function (): void {
 									setSetting(
 										produce(setting, (draft) => {
-											draft.splitSettings = produce(draft.splitSettings, (draft2) => {
-												draft2[SplitType.UserDefined] = !draft2[SplitType.UserDefined];
-											});
+											draft.splitSettings[SplitType.UserDefined] = !draft.splitSettings[SplitType.UserDefined];
 										}));
 								} } text={"Other: "} />
 								<MenuItemWithValue value={setting.enableSubsplits?"On": "Off"} action={function (): void {
