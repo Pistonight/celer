@@ -36,7 +36,7 @@ enum ErrorAction {
 
 export class RouteEngine{
 	// Engine configuration
-	private splitSetting: SplitTypeSetting<boolean> =defaultSplitSetting;
+	private splitSetting: SplitTypeSetting<boolean> = defaultSplitSetting;
 	public warnNegativeNumberEnable = false;
 
 	private sectionNumber = 0;
