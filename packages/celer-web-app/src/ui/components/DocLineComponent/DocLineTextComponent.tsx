@@ -2,8 +2,9 @@ import clsx from "clsx";
 
 import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
-import { useAppSetting, useAppState } from "core/context";
+import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
+import { useNewSettings } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
@@ -54,9 +55,12 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const {counterValue, splitType} = docLine;
 	const styles = useStyles();
-	const {splitSetting} = useAppSetting();
+	const useNew = useNewSettings();
+	const {setting} = useAppSetting();
+	const { splitSetting } = useOldAppSetting();
+	const splits = useNew ? setting.splitSettings : splitSetting;
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
-		const showSplit = splitType === SplitType.UserDefined && splitSetting[SplitType.UserDefined];
+		const showSplit = splitType === SplitType.UserDefined && splits[SplitType.UserDefined];
 		return (
 			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)}>
 				<span className="code">{showSplit ? "SPLT" : "." }</span>
