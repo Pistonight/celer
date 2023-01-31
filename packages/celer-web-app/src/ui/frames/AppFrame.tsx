@@ -20,6 +20,7 @@ import { EmptyObject, MapOf, WebAppVersion } from "data/util";
 
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
+import { SettingsOptions } from "ui/styles/Styles";
 
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
