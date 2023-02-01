@@ -14,7 +14,7 @@ export const SettingCategory: React.FunctionComponent<SettingsDialogProps> = (pr
     return (
         <View>
             {/* Style as a category. Also style as a categorySelected if isSelected */}
-            <Pressable style={[categoryName == selectedCategory ? settingsCategoryStyles.categorySelected : settingsCategoryStyles.category]}
+            <Pressable style={[settingsCategoryStyles.category, (categoryName == selectedCategory) && settingsCategoryStyles.categorySelected]}
                        onPress={() => setSelected(categoryName)}>
                 <Text style={settingsCategoryStyles.categoryText}>{categoryName}</Text>
             </Pressable>

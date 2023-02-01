@@ -10,17 +10,20 @@ export const settingsDialogStyles = StyleSheet.create({
     pageBackground: {
         backgroundColor: "#ffffff99",
         flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     dialogBackground: {
         backgroundColor: CelerColors.main1,
-        marginVertical: "5%",
-        marginHorizontal: "5%",
+        width: "75%",
+        maxWidth: 600,
+        height: "75%",
+        maxHeight: 500,
         paddingHorizontal: 15,
         paddingVertical: 0,
         borderRadius: 10,
         borderWidth: 3,
-        flex: 1,
     },
 
     headerRow: {
@@ -57,14 +60,17 @@ export const settingsDialogStyles = StyleSheet.create({
     },
 
     menuSelectionPanel: {
-        // backgroundColor: "#ff0000",
         flex: 1,
+        minWidth: 100,
     },
 
     menu: {
         backgroundColor: CelerColors.main2,
-        padding: 8,
-        flex: 3,
+        borderRadius: 10,
+        borderTopLeftRadius : 0,
+        padding: 10,
+        marginBottom: 5,
+        flexGrow: 2,
     },
 
     settingHeader: {
@@ -77,8 +83,8 @@ export const settingsDialogStyles = StyleSheet.create({
 export const settingsCategoryStyles = StyleSheet.create({
     category: {
         backgroundColor: CelerColors.main1,
-        borderTopLeftRadius: 3,
-        borderBottomLeftRadius: 3,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
         padding: 5,
     },
 

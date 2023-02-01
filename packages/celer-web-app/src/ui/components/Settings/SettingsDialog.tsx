@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, View, Text, TouchableOpacity } from "react-native";
+import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
 
 import { SettingCategory } from "ui/components";
 import { settingsDialogStyles } from "ui/styles";
@@ -44,9 +44,9 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (pro
                                     <SettingCategory categoryName={Category.Document} selectedCategory={category} setSelected={setCategory}/>
                                     <SettingCategory categoryName={Category.Map} selectedCategory={category} setSelected={setCategory}/>
                                 </View>
-                                <View style={settingsDialogStyles.menu}>
-                                    <Text style={settingsDialogStyles.settingHeader}>settings will go here</Text>
-                                </View>
+                                <ScrollView style={settingsDialogStyles.menu}>
+                                    <Text style={settingsDialogStyles.settingHeader}>Settings will go here...</Text>
+                                </ScrollView>
                             </View>
                         </View>
                     </View>
