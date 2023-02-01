@@ -1,23 +1,21 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { View, Text, Pressable } from "react-native";
-
+import { Category } from "ui/components/Settings";
 import { settingsCategoryStyles, settingsDialogStyles } from "ui/styles";
 
 type SettingsDialogProps = {
-    categoryName: string,
-    initiallySelected: boolean,
+    categoryName: Category,
+    selectedCategory: Category,
+    setSelected: Dispatch<SetStateAction<Category>>
 }
 
 export const SettingCategory: React.FunctionComponent<SettingsDialogProps> = (props) => {
-    const { categoryName, initiallySelected } = props;
-
-    let [isSelected, setIsSelected] = React.useState(initiallySelected);
-
+    const { categoryName, selectedCategory, setSelected } = props;
     return (
         <View>
             {/* Style as a category. Also style as a categorySelected if isSelected */}
-            <Pressable style={[settingsCategoryStyles.category, isSelected && settingsCategoryStyles.categorySelected]}
-                       onPress={() => {setIsSelected(!isSelected)}}>
+            <Pressable style={[categoryName == selectedCategory ? settingsCategoryStyles.categorySelected : settingsCategoryStyles.category]}
+                       onPress={() => setSelected(categoryName)}>
                 <Text style={settingsCategoryStyles.categoryText}>{categoryName}</Text>
             </Pressable>
         </View>

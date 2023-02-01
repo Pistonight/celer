@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 
 import { SettingCategory } from "ui/components";
@@ -11,20 +11,16 @@ type SettingsDialogProps = {
     close: Function;
 }
 
-export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (props) => {
-    const { isOpen, close } = props;    
+export enum Category {
+    Document = "Document",
+    Map = "Map"
+}
 
-    // const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
-	// const {
-	// 	mapDisplayMode,
-	// 	setMapDisplayMode,
-	// 	theme,
-	// 	setTheme,
-	// 	splitSetting,
-	// 	setSplitSetting,
-	// 	enableSubsplits,
-	// 	setEnableSubsplits,
-	// } = useAppSetting();
+export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (props) => {
+    const { isOpen, close } = props;
+
+    const [category, setCategory] = useState(Category.Document);
+
     return (
         <View>
             {isOpen ? (
@@ -45,8 +41,8 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (pro
                             </View>
                             <View style={settingsDialogStyles.menuRow}>
                                 <View style={settingsDialogStyles.menuSelectionPanel}>
-                                    <SettingCategory categoryName={"Document"} initiallySelected={true}/>
-                                    <SettingCategory categoryName={"Map"} initiallySelected={false}/>
+                                    <SettingCategory categoryName={Category.Document} selectedCategory={category} setSelected={setCategory}/>
+                                    <SettingCategory categoryName={Category.Map} selectedCategory={category} setSelected={setCategory}/>
                                 </View>
                                 <View style={settingsDialogStyles.menu}>
                                     <Text style={settingsDialogStyles.settingHeader}>settings will go here</Text>
