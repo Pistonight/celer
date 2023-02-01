@@ -22,6 +22,7 @@ import { MapOverride } from "./MapOverride";
 import { MapSvg } from "./MapSvg";
 import { MapTile } from "./MapTile";
 import { useAppState } from "core/context";
+import { useCurrentBranch } from "core/experiments";
 
 export interface MapProps {
 	icons: NewMapIcon[];
@@ -51,6 +52,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 	const [iconVis, setIconVis] = useState(icons);
 	const { docCurrentSection } = useAppState();
 	const realZoom = animating ? animationZoom : zoom;
+	const currentBranchEnabled=useCurrentBranch();
 	// For zoom <= 6, a single canvas that covers the entire map is used, and it's not redrawn when dragging
 	// For zoom > 6, a single canvas would be too big, so we use a dynamic canvas and redraw it when dragging
 	const dynamicCanvasMode = realZoom > ZOOMTHRES;
@@ -119,8 +121,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 	useEffect(() => {
 		//Currently set to true, do not actually merge this until integrated with settings dialog
 		if (docCurrentSection != prevSection) {
-			console.log(docCurrentSection);
-			if (true) {
+			if (currentBranchEnabled) {
 				setIconVis(iconVis.map(({ iconName, section, coord }) => ({ iconName, section, visible: section === docCurrentSection, coord })));
 				setLineVis(lineVis.map(({ color, section, vertices }) => ({ color, section, visible: section === docCurrentSection, vertices })));
 			} else {
@@ -129,7 +130,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			}
 			setPrevSection(docCurrentSection);
 		}
-	}, [docCurrentSection])
+	}, [docCurrentSection, currentBranchEnabled])
 
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean) => {
 		setAnimating(true);
