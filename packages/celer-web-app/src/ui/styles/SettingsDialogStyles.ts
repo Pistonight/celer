@@ -14,9 +14,8 @@ export const settingsDialogStyles = StyleSheet.create({
 
     dialogBackground: {
         backgroundColor: CelerColors.main1,
-        marginVertical: 150,
-        // marginHorizontal: 400,
-        marginHorizontal: 150,
+        marginVertical: "5%",
+        marginHorizontal: "5%",
         paddingHorizontal: 15,
         paddingVertical: 0,
         borderRadius: 10,
