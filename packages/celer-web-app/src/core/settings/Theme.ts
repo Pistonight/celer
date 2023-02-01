@@ -23,12 +23,12 @@ export const Themes: {[key: string]: Theme} =
 export const OldThemes = {
 	Default: {
 		name: "Default",
-		next: ()=>Themes.Granatus
+		next: ()=>OldThemes.Granatus
 	},
 	Granatus: {
 		name: "Granatus",
-		next: ()=>Themes.Default
+		next: ()=>OldThemes.Default
 	},
-} as ReadonlyMapOf<Theme>;
+} as ReadonlyMapOf<OldTheme>;
 
-export const ThemeStorage = new SettingStorage("Theme", Themes, Themes.Default);
+export const ThemeStorage = new SettingStorage("Theme", OldThemes, OldThemes.Default);

@@ -3,6 +3,7 @@ import { SplitType } from "core/compiler";
 import { OldMapDisplayMode, SplitTypeSetting, OldTheme, MapDisplayModes, Themes, defaultSplitSetting, MapDisplay, splitSettings, Theme } from "core/settings";
 import { LocalStorageWrapper } from "data/storage";
 import { Consumer, emptyObject } from "data/util";
+import produce from "immer";
 
 export interface OldAppSetting {
 	mapDisplayMode: OldMapDisplayMode,
@@ -29,12 +30,10 @@ export type Setting =
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
 export const load = () => {
 	const stored = LocalStorageWrapper.load("Settings", defaultSettings);
-	const result = {
-		...stored,
-		theme: Themes[stored.theme.name],
-		mapDisplay: MapDisplayModes[stored.mapDisplay.name],
-	};
-	return result;
+	return produce(stored, (draft) => {
+		draft.theme = Themes[draft.theme.name];
+		draft.mapDisplay = MapDisplayModes[draft.mapDisplay.name];
+	});
 };
 
 interface SettingContext
