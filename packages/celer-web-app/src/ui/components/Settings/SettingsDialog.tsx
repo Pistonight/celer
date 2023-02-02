@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
 
-import { SettingCategory } from "ui/components";
-import { settingsDialogStyles } from "ui/styles";
-
-// import { useAppSetting} from "core/context";
+import { SettingCategory, SettingToggle } from "ui/components";
+import { settingsDialogStyles } from "./SettingsDialog.Style";
 
 type SettingsDialogProps = {
     isOpen: boolean;
@@ -16,9 +14,7 @@ export enum Category {
     Map = "Map"
 }
 
-export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (props) => {
-    const { isOpen, close } = props;
-
+export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({isOpen, close}) => {
     const [category, setCategory] = useState(Category.Document);
 
     return (
@@ -28,7 +24,6 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (pro
                     {/* Apply transparent background */}
                     <View style={settingsDialogStyles.pageBackground}>
                         {/* Create the outline of the settings dialog */}
-                        {/* TODO: make dialog have variable size depending on window dimenisons */}
                         <View style={settingsDialogStyles.dialogBackground}>
                             {/* Title and exit button */}
                             <View style={settingsDialogStyles.headerRow}>
@@ -40,76 +35,30 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = (pro
                                 </TouchableOpacity>
                             </View>
                             <View style={settingsDialogStyles.menuRow}>
+                                {/* Settings categories on left side of dialog */}
                                 <View style={settingsDialogStyles.menuSelectionPanel}>
                                     <SettingCategory categoryName={Category.Document} selectedCategory={category} setSelected={setCategory}/>
                                     <SettingCategory categoryName={Category.Map} selectedCategory={category} setSelected={setCategory}/>
                                 </View>
+                                {/* The individual settings themselves */}
+                                {/* TODO: ScrollView ouptuts an error to the console. */}
+                                {/* I believe either React or React-Native need to be upgraded. */}
                                 <ScrollView style={settingsDialogStyles.menu}>
-                                    <Text style={settingsDialogStyles.settingHeader}>Settings will go here...</Text>
+                                    <Text style={settingsDialogStyles.settingHeader}>My Wacky Label</Text>
+                                    <SettingToggle 
+                                        text={"My Silly Setting"}
+                                        action={() => console.log("Action being performed.")}
+                                        value={false}
+                                    />
                                 </ScrollView>
                             </View>
                         </View>
                     </View>
                 </Modal>
             ) : (
-                // If not open, return empty view
-                <View></View>
+                // If not open, return empty
+                <View/>
             ) }
         </View>
     );
 }
-
-
-
-        // <div className = "settingsDialogBackground" 
-        // style={SettingsOptions.settingsDialogBackground}>
-        //     <div className = "settingsDialogContainer">
-        //         <div className = "headerCloseButton">
-        //             <button onClick={() => openDialog(false)}>
-        //                 X
-        //             </button>
-        //         </div>
-        //         <div className = "settingsDialogTitle">
-        //             <p>     Settings     </p>
-        //         </div>
-        //         <div className = "settingsDialogBody">
-        //             {/* <p> Body of Dialog </p> */}
-        //             <div className = "settingsDialogSubmenu">
-        //                 {/* <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Shrine])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Shrine], SplitType.Shrine);
-        //                 }} text={"Shrine: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Tower])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Tower], SplitType.Tower);
-        //                 } } text={"Tower: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Memory])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Memory], SplitType.Memory);
-        //                 } } text={"Memory: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Warp])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Warp], SplitType.Warp);
-        //                 } } text={"Warp: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Hinox])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Hinox], SplitType.Hinox, SplitType.Talus, SplitType.Molduga);
-        //                 } } text={"Boss: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.Korok])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Korok], SplitType.Korok);
-        //                 } } text={"Korok: "} />
-        //                 <MenuItemWithValue value={getSplitSettingText(splitSetting[SplitType.UserDefined])} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.UserDefined], SplitType.UserDefined);
-        //                 } } text={"Other: "} />
-        //                 <MenuItemWithValue value={enableSubsplits?"On": "Off"} action={function (): void {
-        //                     setEnableSubsplits(!enableSubsplits);
-        //                 } } text={"Subsplits: "} /> */}
-        //                 <MenuItemTogglable value={splitSetting[SplitType.Shrine]} action={function (): void {
-        //                     setSplitSetting(!splitSetting[SplitType.Shrine], SplitType.Shrine);
-        //                 } } text={"Shrine Toggle: "} />
-
-        //             </div>
-        //         </div>
-        //         <div className = "settingsDialogFooter">
-        //             <button> Cancel </button>
-        //             <button> Confirm </button>
-        //         </div>
-        //     </div>
-        // </div>
-//     );
-// }

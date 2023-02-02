@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Category } from "ui/components/Settings";
-import { settingsCategoryStyles, settingsDialogStyles } from "ui/styles";
+import { settingCategoryStyles } from "./SettingCategory.Style";
 
 type SettingsDialogProps = {
     categoryName: Category,
@@ -13,10 +13,10 @@ export const SettingCategory: React.FunctionComponent<SettingsDialogProps> = (pr
     const { categoryName, selectedCategory, setSelected } = props;
     return (
         <View>
-            {/* Style as a category. Also style as a categorySelected if isSelected */}
-            <Pressable style={[settingsCategoryStyles.category, (categoryName == selectedCategory) && settingsCategoryStyles.categorySelected]}
+            {/* Always style as a category. Also style as a categorySelected if isSelected */}
+            <Pressable style={[settingCategoryStyles.category, (categoryName == selectedCategory) && settingCategoryStyles.categorySelected]}
                        onPress={() => setSelected(categoryName)}>
-                <Text style={settingsCategoryStyles.categoryText}>{categoryName}</Text>
+                <Text style={settingCategoryStyles.categoryText}>{categoryName}</Text>
             </Pressable>
         </View>
     );
