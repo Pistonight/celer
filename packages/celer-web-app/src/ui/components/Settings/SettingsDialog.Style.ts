@@ -1,10 +1,5 @@
-import { Dimensions, StyleSheet } from "react-native";
-
-import { CelerColors } from "./Colors";
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
+import { StyleSheet } from "react-native";
+import { CelerColors } from "ui/styles";
 
 export const settingsDialogStyles = StyleSheet.create({
     pageBackground: {
@@ -17,6 +12,7 @@ export const settingsDialogStyles = StyleSheet.create({
     dialogBackground: {
         backgroundColor: CelerColors.main1,
         width: "75%",
+        minWidth: 375,
         maxWidth: 600,
         height: "75%",
         maxHeight: 500,
@@ -54,8 +50,9 @@ export const settingsDialogStyles = StyleSheet.create({
 
     menuRow: {
         flexDirection: "row",
-        marginVertical: 10,
-        marginHorizontal: 5,
+        marginTop: 10,
+        marginBottom: 12,
+        marginRight: 3,
         flex: 1,
     },
 
@@ -80,22 +77,3 @@ export const settingsDialogStyles = StyleSheet.create({
     
 });
 
-export const settingsCategoryStyles = StyleSheet.create({
-    category: {
-        backgroundColor: CelerColors.main1,
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
-        padding: 5,
-    },
-
-    categorySelected: {
-        backgroundColor: CelerColors.main2,
-    },
-
-    categoryText: {
-        fontSize: 16,
-        fontWeight: "600",
-        color: "#000000",
-    },
-
-});
