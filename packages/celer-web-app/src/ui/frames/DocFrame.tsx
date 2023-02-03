@@ -1,12 +1,13 @@
 
 import clsx from "clsx";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useStyles } from "ui/StyleContext";
 import { DocLineComponent } from "ui/components";
-import { useAppState } from "core/context";
+import { useAppSetting, useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useExpScrollProgressTrackerEnabled } from "core/experiments";
+import { useExpScrollProgressTrackerEnabled, useNewSettings } from "core/experiments";
 import { InGameCoordinates } from "core/map";
+import { SplitTypeSetting } from "core/settings";
 
 export interface DocFrameProps {
 	docLines: DocLine[],
@@ -54,14 +55,75 @@ const searchForSection = (docLines: DocLine[], lineNum: number)=>{
 	return 0;
 };
 
+const scrollToLine = (targetLine: number, docLineRefs: React.RefObject<HTMLDivElement>[], setCurrentLine: any) => {
+	docLineRefs[targetLine].current?.scrollIntoView();
+	console.log(targetLine);
+	setCurrentLine(targetLine);
+};
+
+const findSplit = (currentLine: number, docLines: DocLine[], docLineRefs: React.RefObject<HTMLDivElement>[], splitSettings: SplitTypeSetting<boolean>, setCurrentLine: any, up: boolean) => {
+	let temp = currentLine;
+	if(up){
+		if(temp!=0){
+			temp--;
+		}
+	}else{
+		if(temp<docLines.length){
+			temp++;
+		}
+	}
+	while(temp>0 && temp<docLines.length-1){
+		let checkedLine= docLines[temp];
+		if(checkedLine.lineType==="DocLineTextWithIcon"){
+			if(splitSettings[checkedLine.splitType]){
+				break;
+			}
+		}
+		if(up){
+			temp--;
+		}else{
+			temp++;
+		}
+	}
+	scrollToLine(temp, docLineRefs, setCurrentLine);
+};
+
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
-	const {setDocCurrentLine, setDocCurrentSection, setMapCenter} = useAppState();
+	const {setDocCurrentLine, setDocCurrentSection, setMapCenter, docCurrentLine} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
+	const [currentLine, setCurrentLine] = useState(0);
+	const {setting} = useAppSetting();
 	const docFrameRef = useRef<HTMLDivElement>(null);
-
 	// Loading styles
 	const styles = useStyles();
+
+	const keyPressed = (e: KeyboardEvent) => {
+		switch(e.key){
+			case "ArrowUp":
+				e.preventDefault();
+				scrollToLine(docCurrentLine-1, docLineRefs, setDocCurrentLine);
+				break;
+			case "ArrowDown":
+				e.preventDefault();
+				scrollToLine(docCurrentLine+1, docLineRefs, setDocCurrentLine);
+				break;
+			case "PageUp":
+				e.preventDefault();
+				findSplit(docCurrentLine, docLines, docLineRefs, setting.splitSettings, setDocCurrentLine, true);
+				break;
+			case "PageDown":
+				e.preventDefault();
+				findSplit(docCurrentLine, docLines, docLineRefs, setting.splitSettings, setDocCurrentLine, false);
+				break;
+			default: 
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener('keydown', keyPressed);
+		return () => {document.removeEventListener('keydown', keyPressed)};
+	},[docCurrentLine, setting]);
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		// If the advanced scroll progress tracker is enabled, set docLineComponents and docLineRefs
