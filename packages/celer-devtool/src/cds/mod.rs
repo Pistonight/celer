@@ -36,7 +36,7 @@ fn set_interrupt(running: Arc<AtomicBool>) {
         println!("Shutting down dev server");
         running.store(false, Ordering::SeqCst)
     }) {
-        println!("warn: cds: Cannot set interrupt handler: {}", e);
+        println!("warn: cds: Cannot set interrupt handler: {e}");
         println!("Server may not shut down gracefully when interrupted");
         thread::sleep(Duration::from_secs(1));
     }
@@ -62,7 +62,7 @@ impl DevServerThread {
     /// Create and bind to port
     pub fn new(config: Config) -> Self {
         let server = match DevServer::new(config.port) {
-            Err(e) => panic!("error: cds: Error starting dev server: {}", e),
+            Err(e) => panic!("error: cds: Error starting dev server: {e}"),
             Ok(server) => server
         };
 

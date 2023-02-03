@@ -25,14 +25,14 @@ pub fn load_unbundled_route(out_errors: &mut ErrorState) -> serde_json::Value {
         let file_content = match std::fs::read_to_string(&p) {
             Ok(v) => v,
             Err(e) => {
-                out_errors.add(format!("{}", p.display()), format!("Cannot read file: {}", e));
+                out_errors.add(format!("{}", p.display()), format!("Cannot read file: {e}"));
                 continue
             }
         };
         let file_json: serde_json::Value = match load_yaml_object(&file_content) {
             Ok(file_json) => file_json,
             Err(e) => {
-                out_errors.add(format!("{}", p.display()), format!("Error loading object: {}", e));
+                out_errors.add(format!("{}", p.display()), format!("Error loading object: {e}"));
                 continue
             }
         };
@@ -54,7 +54,7 @@ fn load_yaml_object(yaml_str: &str) -> Result<serde_json::Value, String> {
             Err(String::from("Yaml must be an object"))
         },
         Err(e) => {
-            Err(format!("Yaml load error: {}", e))
+            Err(format!("Yaml load error: {e}"))
         }
     }
 }

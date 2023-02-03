@@ -21,7 +21,7 @@ impl BundlerError {
         }
     }
     pub fn root_location() -> String { String::from("_route") }
-    pub fn section_location(section: &str) -> String { format!("_section_{}", section) }
+    pub fn section_location(section: &str) -> String { format!("_section_{section}") }
     pub fn location_type(&self) -> &'static str {
         if self.location.eq("_route") {
             "route root"
@@ -76,7 +76,7 @@ impl Bundler {
     //     self.make_exception(module, message, "(^=) Bundler Error")
     // }
     fn make_exception(&mut self, module: &str, message: &str, head: &str) -> String {
-        let message_string = format!("{}: {}", head, message);
+        let message_string = format!("{head}: {message}");
         self.errors.push(BundlerError {
             location: String::from(module),
             message: message_string.clone()
@@ -141,7 +141,7 @@ impl Bundler {
         // Before bundling, check if module is already being bundled (circular dependency)
         for parent in dfs_parents.iter() {
             if name.eq(parent) {
-                return Err(format!("Circular Dependency Found: Trace: {:?} -> {}", dfs_parents, name))
+                return Err(format!("Circular Dependency Found: Trace: {dfs_parents:?} -> {name}"))
             }
         }
         dfs_parents.push(String::from(name));

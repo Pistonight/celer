@@ -10,13 +10,13 @@ impl DevClient {
     /// Create a new client to wrap the web socket
     pub fn new(stream: net::TcpStream) -> Result<DevClient, String> {
         if let Err(e) = stream.set_nonblocking(true) {
-            return Err(format!("{}", e));
+            return Err(format!("{e}"));
         }
         // create ws2 web socket
 
         match tungstenite::accept(stream) {
             Err(e) => {
-                Err(format!("{}", e))
+                Err(format!("{e}"))
             },
             Ok(ws) => Ok(DevClient {
                 ws,
@@ -42,13 +42,13 @@ impl DevClient {
                             // No new message from client
                         },
                         _ => {
-                            println!("error: cds: io: Error reading message from dev client: {:?}", io_error);
+                            println!("error: cds: io: Error reading message from dev client: {io_error:?}");
                             self.close();
                         }
                     }
                 }
                 _ => {
-                    println!("error: cds: Error reading message from dev client: {:?}", e);
+                    println!("error: cds: Error reading message from dev client: {e:?}");
                     self.close();
                 }
             }
@@ -58,7 +58,7 @@ impl DevClient {
     pub fn close(&mut self) {
         if !self.closed {
             if let Err(e) = self.ws.close(Option::None) {
-                println!("error: cds: Error when trying to close the client: {:?}", e);
+                println!("error: cds: Error when trying to close the client: {e:?}");
             }
             self.closed = true
         }
@@ -73,7 +73,7 @@ impl DevClient {
                     tungstenite::error::Error::ConnectionClosed => {},
                     tungstenite::error::Error::AlreadyClosed => {},
                     _ => {
-                        println!("error: cds: Error sending message to dev client: {:?}", e);
+                        println!("error: cds: Error sending message to dev client: {e:?}");
                     }
                 }
                 false

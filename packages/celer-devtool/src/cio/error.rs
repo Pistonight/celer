@@ -34,7 +34,7 @@ impl ErrorState {
             num_errors += new_errors;
             writeln!(out_string, "{} in {}:", x_error_s(new_errors), path).unwrap();
             for e in path_errors {
-                writeln!(out_string, "    {}", e).unwrap();
+                writeln!(out_string, "    {e}").unwrap();
             }
             out_string.push('\n')
         }

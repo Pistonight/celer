@@ -11,7 +11,7 @@ pub struct DevServer {
 impl DevServer {
     /// Start a new server
     pub fn new(port: u16) -> Result<DevServer, io::Error> {
-        let address = format!("localhost:{}", port);
+        let address = format!("localhost:{port}");
         let tcp_listener = net::TcpListener::bind(address)?;
         tcp_listener.set_nonblocking(true)?;
 
@@ -38,7 +38,7 @@ impl DevServer {
                 Ok(stream) => {
                     match DevClient::new(stream) {
                         Err(e_str) => {
-                            println!("error: cds: Failed to accept incoming connection: {}", e_str);
+                            println!("error: cds: Failed to accept incoming connection: {e_str}");
                         },
                         Ok(client) => {
                             self.clients.push(client);
@@ -50,7 +50,7 @@ impl DevServer {
                     // No incoming connection.
                 },
                 Err(e) => {
-                    println!("error: cds: Failed to accept incoming connection: {:?}", e);
+                    println!("error: cds: Failed to accept incoming connection: {e:?}");
                 }
             }
         }
