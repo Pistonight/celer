@@ -1,21 +1,21 @@
 import { StyleSheet } from "react-native";
 import { CelerColors } from "ui/styles";
 
-export const SettingStyle = StyleSheet.create({
+export const DropdownStyle = StyleSheet.create({
 
-    toggleRow: {
+    row: {
         flexDirection: "row",
         alignItems: "center",
         marginVertical: 5,
     },
 
-    toggleText: {
+    text: {
         width: "85%",
         fontSize: 16,
         color: "#222222",
     },
 
-    toggleSwitch: {
+    switch: {
         marginLeft: 10,
     },
 

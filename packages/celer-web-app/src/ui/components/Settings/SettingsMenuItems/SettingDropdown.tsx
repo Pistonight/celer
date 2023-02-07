@@ -3,7 +3,7 @@ import { View, Text, Switch } from "react-native";
 
 import { SettingProps } from "./Setting";
 import { CelerColors } from "ui/styles";
-import { ToggleStyle } from "./SettingToggle.Style";
+import { DropdownStyle } from "./SettingDropdown.Style";
 
 export interface SettingDropdownProps extends SettingProps {
     values: string,
@@ -17,8 +17,8 @@ export const SettingDropdown: React.FunctionComponent<SettingDropdownProps> = ({
     }   
 
     return (
-        <View style={ToggleStyle.row}>
-            <Text style={ToggleStyle.text}>{text}</Text>
+        <View style={DropdownStyle.row}>
+            <Text style={DropdownStyle.text}>{text}</Text>
         </View>
     );
 }
