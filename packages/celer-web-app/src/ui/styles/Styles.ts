@@ -1,5 +1,4 @@
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
-import { shouldProcessLinkClick } from 'react-router-dom/dist/dom'
+import { StyleSheet } from 'react-native';
 
 export const SettingsOptions = StyleSheet.create({
     settingspage:

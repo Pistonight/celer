@@ -1,2 +1,3 @@
-export * from "./Setting";
+export * from "./SettingLabel";
 export * from "./SettingToggle";
+

@@ -1,21 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, Switch } from "react-native";
-
-import { SettingProps } from "./Setting";
+import { SettingProps } from "./SettingLabel";
 import { CelerColors } from "ui/styles";
 import { ToggleStyle } from "./SettingToggle.Style";
 
-export interface SettingToggleProps extends SettingProps {
-    value: boolean;
-}
-
-export const SettingToggle: React.FunctionComponent<SettingToggleProps> = ({text, action, value}) => {
+export const SettingToggle: React.FunctionComponent<SettingProps> = ({text, action, value}) => {
     const [isEnabled, setIsEnabled] = useState(value);
     const toggle = () => {
         console.log(text + ": " + !isEnabled);
         setIsEnabled(!isEnabled);
         action();
-    }   
+    }
 
     return (
         <View style={ToggleStyle.row}>

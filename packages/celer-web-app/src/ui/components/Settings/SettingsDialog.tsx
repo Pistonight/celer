@@ -1,7 +1,8 @@
+import { Setting, useAppSetting } from "core/context";
+import produce from "immer";
 import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
-
-import { SettingCategory, SettingToggle } from "ui/components";
+import { SettingCategory, render, DocumentConfig } from "ui/components";
 import { settingsDialogStyles } from "./SettingsDialog.Style";
 
 type SettingsDialogProps = {
@@ -16,7 +17,7 @@ export enum Category {
 
 export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({isOpen, close}) => {
     const [category, setCategory] = useState(Category.Document);
-
+    const { setting, setSetting } = useAppSetting();
     return (
         <View>
             {isOpen ? (
@@ -44,12 +45,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
                                 {/* TODO: ScrollView ouptuts an error to the console. */}
                                 {/* I believe either React or React-Native need to be upgraded. */}
                                 <ScrollView style={settingsDialogStyles.menu}>
-                                    <Text style={settingsDialogStyles.settingHeader}>My Wacky Label</Text>
-                                    <SettingToggle 
-                                        text={"My Silly Setting"}
-                                        action={() => console.log("Action being performed.")}
-                                        value={false}
-                                    />
+                                    {category == Category.Document && DocumentConfig.map(c => render(c, setting, setSetting))}
                                 </ScrollView>
                             </View>
                         </View>

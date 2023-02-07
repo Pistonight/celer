@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { View, Text, Pressable } from "react-native";
-import { Category } from "ui/components/Settings";
+import { Category } from "ui/components";
 import { settingCategoryStyles } from "./SettingCategory.Style";
 
 type SettingsDialogProps = {

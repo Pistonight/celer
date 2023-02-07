@@ -1,7 +1,4 @@
-import produce from "immer";
 import React, { useState } from "react";
-import { Modal } from "react-native";
-
 import { useStyles } from "ui/StyleContext";
 
 import { MenuItem, MenuItemSubmenu, MenuItemWithValue, SettingsDialog } from "ui/components";
@@ -20,8 +17,6 @@ import { EmptyObject, MapOf, WebAppVersion } from "data/util";
 
 import { DocFrame } from "./DocFrame";
 import { MapFrame } from "./MapFrame";
-import { SettingsOptions } from "ui/styles/Styles";
-
 const getSplitSettingText = (value: boolean) => value?"Split":"Don't Split";
 
 const splitSettingsMenuItemRef = React.createRef<HTMLDivElement>();
