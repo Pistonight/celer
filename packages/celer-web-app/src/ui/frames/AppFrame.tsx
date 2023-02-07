@@ -85,7 +85,6 @@ export const AppFrame: React.FC<EmptyObject> = ()=>{
 							</div>
 							<div className={styles.menuAnchor} onClick={(e)=>{setShowMenu(true);e.stopPropagation();}}>
 								<span onClick = {() => {
-									console.log("Click");
 									setSettingsDialogOpen(true);
 								}}>
 									Options

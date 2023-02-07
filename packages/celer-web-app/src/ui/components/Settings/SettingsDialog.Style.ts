@@ -18,7 +18,7 @@ export const settingsDialogStyles = StyleSheet.create({
         maxHeight: 500,
         paddingHorizontal: 15,
         paddingVertical: 0,
-        borderRadius: 10,
+        // borderRadius: 10,
         borderWidth: 3,
     },
 
@@ -36,7 +36,7 @@ export const settingsDialogStyles = StyleSheet.create({
 
     closeButton: {
         backgroundColor: CelerColors.main6,
-        borderRadius: 3,
+        // borderRadius: 3,
         borderWidth: 1,
         borderColor: "#ffffff",
         textAlign: "center",
@@ -63,7 +63,7 @@ export const settingsDialogStyles = StyleSheet.create({
 
     menu: {
         backgroundColor: CelerColors.main2,
-        borderRadius: 10,
+        // borderRadius: 10,
         borderTopLeftRadius : 0,
         padding: 10,
         marginBottom: 5,
