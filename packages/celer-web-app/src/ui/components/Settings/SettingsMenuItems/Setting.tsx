@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 export interface SettingProps {
     text: string;
-    action: () => void;
+    action?: () => void;
     toolip?: string;
 }
 

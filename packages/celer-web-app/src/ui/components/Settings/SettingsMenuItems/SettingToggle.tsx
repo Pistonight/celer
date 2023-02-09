@@ -6,6 +6,7 @@ import { CelerColors } from "ui/styles";
 import { ToggleStyle } from "./SettingToggle.Style";
 
 export interface SettingToggleProps extends SettingProps {
+    action: () => void;
     value: boolean;
 }
 
