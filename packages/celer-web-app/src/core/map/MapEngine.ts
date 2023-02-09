@@ -12,7 +12,7 @@ export class MapEngine {
 	private currentIconCoord: Coord = {x:0, z:0};
 	private currentColor: string = DefaultLineColor;
 	private currentVertices: Coord[] = [];
-	private currentSection: number = 0;
+	private currentSection= 0;
 
 	public compute(route: DocLine[]): [MapIcon[], MapLine[]] {
 		// Start from SOR

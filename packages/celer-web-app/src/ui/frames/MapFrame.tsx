@@ -1,11 +1,10 @@
-import react, {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useStyles } from "ui/StyleContext";
 import { Map } from "ui/components";
 import { Coord } from "core/compiler";
-import { useDocument } from "core/context";
-import { inGameCoord, InGameCoordinates, MapIcon, MapLine, NewMapIcon, NewMapLine } from "core/map";
-import { useAppState } from "core/context";
+import { useDocument, useAppState } from "core/context";
 import { useCurrentBranch } from "core/experiments";
+import { inGameCoord, InGameCoordinates, MapIcon, MapLine, NewMapIcon, NewMapLine } from "core/map";
 
 type MapFrameProps = {
 	manualCenter: InGameCoordinates|undefined;
@@ -15,9 +14,9 @@ const updateCoord = ({x,z}: Coord): InGameCoordinates => {
 	return inGameCoord(x,z);
 };
 
-const checkVisible = (item: { visible: any; }) => {
+const checkVisible = (item: { visible: boolean; }) => {
 	return item.visible;
-}
+};
 
 const updateMapLines = (lines: MapLine[]): NewMapLine[] => lines.map(({color, section, visible, vertices})=>({color, section, visible, vertices: vertices.map(updateCoord)})).filter(checkVisible);
 
@@ -35,7 +34,6 @@ export const MapFrame: React.FC<MapFrameProps> = ({manualCenter})=>{
 	//Show only current section effect
 	useEffect(() => {
 		//Currently set to true, do not actually merge this until integrated with settings dialog
-		console.log("section is", docCurrentSection);
 		if (docCurrentSection != prevSection) {
 			if (currentBranchEnabled) {
 				setIconVis(mapIcons.map(({ iconName, section, coord, type }) => ({ iconName, section, visible: section === docCurrentSection, coord, type })));
@@ -48,9 +46,9 @@ export const MapFrame: React.FC<MapFrameProps> = ({manualCenter})=>{
 		}
 	}, [docCurrentSection, currentBranchEnabled]);
 
-	const filteredIcons = useMemo(() => updateIcon(iconVis), [iconVis])
-	const filteredLines = useMemo(() => updateMapLines(lineVis), [lineVis])
-	
+	const filteredIcons = useMemo(() => updateIcon(iconVis), [iconVis]);
+	const filteredLines = useMemo(() => updateMapLines(lineVis), [lineVis]);
+
 	return (
 		<div id="mapframe" className={styles.mapFrame}>
 			<Map manualCenter={manualCenter} icons={filteredIcons} lines={filteredLines} />

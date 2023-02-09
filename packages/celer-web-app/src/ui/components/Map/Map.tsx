@@ -85,7 +85,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 		}
 		mapCanvas.withStaticCoordinateTransformer(zoom, (transformer) => {
 			icons.forEach(({ coord, iconName}) => {
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
+				mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
 			});
 		});
 
@@ -101,7 +101,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 		}
 		mapCanvas.withDynamicCoordinateTransformer(center, zoom, (transformer) => {
 			icons.forEach(({ coord, iconName}) => {
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+				mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
 			});
 		});
 	}, [canvasRef, canvasRef.current, icons, zoom, center]);
@@ -118,7 +118,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			}
 			mapCanvas.withDynamicCoordinateTransformer(center, animationZoom, (transformer) => {
 				icons.forEach(({ coord, iconName}) => {
-						mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
 				});
 			});
 
@@ -133,8 +133,8 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			}
 
 			mapCanvas.withStaticCoordinateTransformer(animationZoom, (transformer) => {
-				icons.forEach(({ coord, iconName, visible }) => {
-						mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom < 3 ? IconSizeSmall : IconSize);
+				icons.forEach(({ coord, iconName}) => {
+					mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom < 3 ? IconSizeSmall : IconSize);
 				});
 			});
 
