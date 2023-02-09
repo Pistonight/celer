@@ -21,8 +21,6 @@ import Icons from "data/image";
 import { MapOverride } from "./MapOverride";
 import { MapSvg } from "./MapSvg";
 import { MapTile } from "./MapTile";
-import { useAppState } from "core/context";
-import { useCurrentBranch } from "core/experiments";
 
 export interface MapProps {
 	icons: NewMapIcon[];
@@ -47,12 +45,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 	const [animating, setAnimating] = useState<boolean>(false);
 	const [animationZoom, setAnimationZoom] = useState<number>(DefaultZoom);
 	const [center, setCenter] = useState<GeoCoordinates>(geoCoord(0, 0));
-	const [prevSection, setPrevSection] = useState(0);
-	const [lineVis, setLineVis] = useState(lines);
-	const [iconVis, setIconVis] = useState(icons);
-	const { docCurrentSection } = useAppState();
 	const realZoom = animating ? animationZoom : zoom;
-	const currentBranchEnabled=useCurrentBranch();
 	// For zoom <= 6, a single canvas that covers the entire map is used, and it's not redrawn when dragging
 	// For zoom > 6, a single canvas would be too big, so we use a dynamic canvas and redraw it when dragging
 	const dynamicCanvasMode = realZoom > ZOOMTHRES;
@@ -91,14 +84,12 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			return;
 		}
 		mapCanvas.withStaticCoordinateTransformer(zoom, (transformer) => {
-			iconVis.forEach(({ coord, iconName, visible }) => {
-				if(visible){
+			icons.forEach(({ coord, iconName}) => {
 					mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
-				}
 			});
 		});
 
-	}, [canvasRef, canvasRef.current, iconVis, zoom]);
+	}, [canvasRef, canvasRef.current, icons, zoom]);
 
 	// Dynamic canvas render
 	useEffect(() => {
@@ -109,28 +100,11 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			return;
 		}
 		mapCanvas.withDynamicCoordinateTransformer(center, zoom, (transformer) => {
-			iconVis.forEach(({ coord, iconName, visible }) => {
-				if(visible){
+			icons.forEach(({ coord, iconName}) => {
 					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
-				}
 			});
 		});
-	}, [canvasRef, canvasRef.current, iconVis, zoom, center]);
-
-	// Show only current section
-	useEffect(() => {
-		//Currently set to true, do not actually merge this until integrated with settings dialog
-		if (docCurrentSection != prevSection) {
-			if (currentBranchEnabled) {
-				setIconVis(iconVis.map(({ iconName, section, coord }) => ({ iconName, section, visible: section === docCurrentSection, coord })));
-				setLineVis(lineVis.map(({ color, section, vertices }) => ({ color, section, visible: section === docCurrentSection, vertices })));
-			} else {
-				setIconVis(iconVis.map(({ iconName, section, coord }) => ({ iconName, section, visible: true, coord })));
-				setLineVis(lineVis.map(({ color, section, vertices }) => ({ color, section, visible: true, vertices })));
-			}
-			setPrevSection(docCurrentSection);
-		}
-	}, [docCurrentSection, currentBranchEnabled])
+	}, [canvasRef, canvasRef.current, icons, zoom, center]);
 
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean) => {
 		setAnimating(true);
@@ -143,10 +117,8 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 				return;
 			}
 			mapCanvas.withDynamicCoordinateTransformer(center, animationZoom, (transformer) => {
-				iconVis.forEach(({ coord, iconName, visible }) => {
-					if (visible) {
+				icons.forEach(({ coord, iconName}) => {
 						mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
-					}
 				});
 			});
 
@@ -161,15 +133,13 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			}
 
 			mapCanvas.withStaticCoordinateTransformer(animationZoom, (transformer) => {
-				iconVis.forEach(({ coord, iconName, visible }) => {
-					if (visible) {
+				icons.forEach(({ coord, iconName, visible }) => {
 						mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom < 3 ? IconSizeSmall : IconSize);
-					}
 				});
 			});
 
 		}
-	}, [canvasRef, canvasRef.current, center, iconVis]);
+	}, [canvasRef, canvasRef.current, center, icons]);
 
 	const overrideProps = {
 		provider: internalTileUrl,
@@ -196,7 +166,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 				anchor={[InGameOriginGeoCoord.lat, InGameOriginGeoCoord.lng]}
 				offset={[SvgSizeX/2*zoomToSvgScale(realZoom),SvgSizeZ/2*zoomToSvgScale(realZoom)]}
 			>
-				<MapSvg zoom={realZoom} segs={lineVis} />
+				<MapSvg zoom={realZoom} segs={lines} />
 			</Overlay>
 			<Overlay
 				anchor={dynamicCanvasMode? dynamicCanvasAnchor :[DynamicCanvasAnchorGeoCoord.lat, DynamicCanvasAnchorGeoCoord.lng]}
