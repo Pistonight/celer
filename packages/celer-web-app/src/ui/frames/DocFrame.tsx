@@ -5,7 +5,7 @@ import { useStyles } from "ui/StyleContext";
 import { DocLineComponent } from "ui/components";
 import { useAppSetting, useAppState } from "core/context";
 import { DocLine, DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useExpScrollProgressTrackerEnabled, useNewSettings } from "core/experiments";
+import { useExpScrollProgressTrackerEnabled} from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import { SplitTypeSetting } from "core/settings";
 
@@ -55,13 +55,12 @@ const searchForSection = (docLines: DocLine[], lineNum: number)=>{
 	return 0;
 };
 
-const scrollToLine = (targetLine: number, docLineRefs: React.RefObject<HTMLDivElement>[], setCurrentLine: any) => {
+const scrollToLine = (targetLine: number, docLineRefs: React.RefObject<HTMLDivElement>[], setCurrentLine: React.Dispatch<React.SetStateAction<number>>) => {
 	docLineRefs[targetLine].current?.scrollIntoView();
-	console.log(targetLine);
 	setCurrentLine(targetLine);
 };
 
-const findSplit = (currentLine: number, docLines: DocLine[], docLineRefs: React.RefObject<HTMLDivElement>[], splitSettings: SplitTypeSetting<boolean>, setCurrentLine: any, up: boolean) => {
+const findSplit = (currentLine: number, docLines: DocLine[], docLineRefs: React.RefObject<HTMLDivElement>[], splitSettings: SplitTypeSetting<boolean>, setCurrentLine: React.Dispatch<React.SetStateAction<number>>, up: boolean) => {
 	let temp = currentLine;
 	if(up){
 		if(temp!=0){
@@ -73,7 +72,7 @@ const findSplit = (currentLine: number, docLines: DocLine[], docLineRefs: React.
 		}
 	}
 	while(temp>0 && temp<docLines.length-1){
-		let checkedLine= docLines[temp];
+		const checkedLine= docLines[temp];
 		if(checkedLine.lineType==="DocLineTextWithIcon"){
 			if(splitSettings[checkedLine.splitType]){
 				break;
@@ -90,7 +89,7 @@ const findSplit = (currentLine: number, docLines: DocLine[], docLineRefs: React.
 
 export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const [updateHandle, setUpdateHandle] = useState<number|undefined>(undefined);
-	const {setDocCurrentLine, setDocCurrentSection, setMapCenter, docCurrentLine} = useAppState();
+	const {setDocCurrentLine, setDocCurrentSection, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const [currentLine, setCurrentLine] = useState(0);
 	const {setting} = useAppSetting();
@@ -102,28 +101,28 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 		switch(e.key){
 			case "ArrowUp":
 				e.preventDefault();
-				scrollToLine(docCurrentLine-1, docLineRefs, setDocCurrentLine);
+				scrollToLine(currentLine-1, docLineRefs, setCurrentLine);
 				break;
 			case "ArrowDown":
 				e.preventDefault();
-				scrollToLine(docCurrentLine+1, docLineRefs, setDocCurrentLine);
+				scrollToLine(currentLine+1, docLineRefs, setCurrentLine);
 				break;
 			case "PageUp":
 				e.preventDefault();
-				findSplit(docCurrentLine, docLines, docLineRefs, setting.splitSettings, setDocCurrentLine, true);
+				findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, true);
 				break;
 			case "PageDown":
 				e.preventDefault();
-				findSplit(docCurrentLine, docLines, docLineRefs, setting.splitSettings, setDocCurrentLine, false);
+				findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, false);
 				break;
-			default: 
+			default:
 		}
 	};
 
 	useEffect(() => {
-		document.addEventListener('keydown', keyPressed);
-		return () => {document.removeEventListener('keydown', keyPressed)};
-	},[docCurrentLine, setting]);
+		document.addEventListener("keydown", keyPressed);
+		return () => {document.removeEventListener("keydown", keyPressed);};
+	},[currentLine, setting]);
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		// If the advanced scroll progress tracker is enabled, set docLineComponents and docLineRefs
@@ -165,6 +164,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			line = docLines[lineNumber];
 			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
 				setDocCurrentLine(lineNumber);
+				setCurrentLine(origLineNumber-1);
 				centerMapToLine(line, setMapCenter);
 				const sectionNumber = searchForSection(docLines, lineNumber);
 				setDocCurrentSection(sectionNumber);
@@ -176,6 +176,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 			line = docLines[lineNumber];
 			if (line.lineType === "DocLineText" || line.lineType === "DocLineTextWithIcon") {
 				setDocCurrentLine(lineNumber);
+				setCurrentLine(origLineNumber-1);
 				centerMapToLine(line, setMapCenter);
 				const sectionNumber = searchForSection(docLines, lineNumber);
 				setDocCurrentSection(sectionNumber);
