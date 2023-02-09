@@ -3,20 +3,35 @@ import { CelerColors } from "ui/styles";
 
 export const DropdownStyle = StyleSheet.create({
 
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
+    container: {
         marginVertical: 5,
     },
 
-    text: {
-        width: "85%",
+    title: {
         fontSize: 16,
         color: "#222222",
     },
 
-    switch: {
-        marginLeft: 10,
+    button: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#efefef',
+        height: 50,
+        width: '90%',
+        paddingHorizontal: 10,
+        zIndex: 1,
     },
+
+    buttonText: {
+        flex: 1,
+        textAlign: 'center',
+    },
+    
+    dropdown: {
+        position: 'absolute',
+        backgroundColor: '#fff',
+        top: 50,
+    },   
+
 
 });
