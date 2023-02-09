@@ -54,7 +54,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
                                     <SettingDropdown
                                         text={"My Epic Dropdown"}
                                         action={() => console.log("Dropdown selected.")}
-                                        values={["balls", "fart"]}
+                                        values={["test", "test2"]}
                                         selectedIndex={1}
                                     />
                                 </ScrollView>
