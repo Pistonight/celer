@@ -4,8 +4,6 @@ import { CelerColors } from "ui/styles";
 export const settingCategoryStyles = StyleSheet.create({
     category: {
         backgroundColor: CelerColors.main1,
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
         padding: 5,
     },
 

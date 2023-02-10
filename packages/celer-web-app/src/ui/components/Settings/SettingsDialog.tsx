@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { SettingCategory, render, DocumentConfig } from "ui/components";
 import { settingsDialogStyles } from "./SettingsDialog.Style";
+import { SettingDropdown } from "./SettingsMenuItems/SettingDropdown";
 
 type SettingsDialogProps = {
     isOpen: boolean;
