@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native"; 
+import { Modal, View, Text, Pressable } from "react-native"; 
 
 import { SettingProps } from "./Setting";
 import { CelerColors } from "ui/styles";
@@ -11,22 +11,37 @@ export interface SettingDropdownProps extends SettingProps {
 }
 
 export const SettingDropdown: React.FunctionComponent<SettingDropdownProps> = ({text, action, values, selectedIndex}) => {
- 
     const [selected, setSelected] = useState(selectedIndex);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const handleChange = (e: any) => {
-        setSelected(e.target.value);
-    }
-
-    const valuesObj = values.map((val, i) => ({label: val, value: i}));
+    const valuesObj = values.map((val, i) => ({label: val, index: i}));
 
     return (
         <View style={DropdownStyle.container}>
             <Text style={DropdownStyle.title}>{text}</Text>
-            <select value={selected} onChange={handleChange}>
-                {valuesObj.map((item) => <option value={item.value}>{item.label}</option>)}
-            </select>
-
+            <View style={DropdownStyle.menu}>
+                <Pressable 
+                    style={DropdownStyle.face}
+                    onPress={() => {setDropdownOpen(!dropdownOpen)}}
+                >
+                    <Text style={DropdownStyle.faceText}>{valuesObj[selected].label}</Text>
+                </Pressable>
+                <View style={dropdownOpen ? DropdownStyle.dropdownVisible : DropdownStyle.dropdownHidden}>
+                    {valuesObj.map((item) =>
+                        <View>
+                            <Pressable
+                                style={DropdownStyle.option}
+                                onPress={() => {
+                                    setSelected(item.index);
+                                    setDropdownOpen(false)}}
+                            >
+                                <Text style={DropdownStyle.optionText}>{item.label}</Text>
+                            </Pressable>
+                            <View style={DropdownStyle.separator}/>
+                        </View>
+                    )}
+                </View>
+            </View>
         </View>
     );
 }

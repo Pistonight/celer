@@ -57,6 +57,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
                                         values={["test", "test2"]}
                                         selectedIndex={1}
                                     />
+                                    <Text style={settingsDialogStyles.settingHeader}>Another Funky Label</Text>
                                 </ScrollView>
                             </View>
                         </View>
