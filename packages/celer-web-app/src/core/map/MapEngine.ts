@@ -45,8 +45,9 @@ export class MapEngine {
 		if(line.lineType === "DocLineSection"){
 			this.endCurrentPathIfNeed(outLines);
 			this.currentSection = line.sectionNumber;
+			return;
 		}
-		if(line.lineType === "DocLineBanner" || line.lineType === "DocLineSection") {
+		if(line.lineType === "DocLineBanner") {
 			return;
 		}
 		if(line.mapLineColor){
