@@ -97,29 +97,29 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	// Loading styles
 	const styles = useStyles();
 
-	const keyPressed = (e: KeyboardEvent) => {
-		switch(e.key){
-			case "ArrowUp":
-				e.preventDefault();
-				scrollToLine(currentLine-1, docLineRefs, setCurrentLine);
-				break;
-			case "ArrowDown":
-				e.preventDefault();
-				scrollToLine(currentLine+1, docLineRefs, setCurrentLine);
-				break;
-			case "PageUp":
-				e.preventDefault();
-				findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, true);
-				break;
-			case "PageDown":
-				e.preventDefault();
-				findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, false);
-				break;
-			default:
-		}
-	};
-
 	useEffect(() => {
+		const keyPressed = (e: KeyboardEvent) => {
+			switch(e.key){
+				case "ArrowUp":
+					e.preventDefault();
+					scrollToLine(currentLine-1, docLineRefs, setCurrentLine);
+					break;
+				case "ArrowDown":
+					e.preventDefault();
+					scrollToLine(currentLine+1, docLineRefs, setCurrentLine);
+					break;
+				case "PageUp":
+					e.preventDefault();
+					findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, true);
+					break;
+				case "PageDown":
+					e.preventDefault();
+					findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, false);
+					break;
+				default:
+			}
+		};
+
 		document.addEventListener("keydown", keyPressed);
 		return () => {document.removeEventListener("keydown", keyPressed);};
 	},[currentLine, setting]);
