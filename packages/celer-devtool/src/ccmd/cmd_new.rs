@@ -45,12 +45,12 @@ pub fn new() {
     let display = path.display();
 
     let mut file = match File::create(path) {
-        Err(why) => panic!("couldn't create {}: {}", display, why),
+        Err(why) => panic!("couldn't create {display}: {why}"),
         Ok(file) => file,
     };
 
     match file.write_all(source_object_str.as_bytes()) {
-        Err(why) => panic!("couldn't write to {}: {}", display, why),
-        Ok(_) => println!("successfully created {}", display),
+        Err(why) => panic!("couldn't write to {display}: {why}"),
+        Ok(_) => println!("successfully created {display}"),
     }
 }
