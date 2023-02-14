@@ -71,6 +71,5 @@ export const settingsDialogStyles = StyleSheet.create({
         color: "#444444",
         fontSize: 15,
     }
-    
-});
 
+});

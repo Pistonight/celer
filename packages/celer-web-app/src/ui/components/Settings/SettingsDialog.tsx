@@ -1,10 +1,8 @@
 import { Setting, useAppSetting } from "core/context";
-import produce from "immer";
 import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { SettingCategory, render, DocumentConfig } from "ui/components";
+import { SettingCategory, render, DocumentConfig, MapConfig } from "ui/components";
 import { settingsDialogStyles } from "./SettingsDialog.Style";
-import { SettingDropdown } from "./SettingsMenuItems/SettingDropdown";
 
 type SettingsDialogProps = {
     isOpen: boolean;
@@ -47,6 +45,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
                                 {/* I believe either React or React-Native need to be upgraded. */}
                                 <ScrollView style={settingsDialogStyles.menu}>
                                     {category == Category.Document && DocumentConfig.map(c => render(c, setting, setSetting))}
+                                    {category == Category.Map && MapConfig.map(c => render(c, setting, setSetting))}
                                 </ScrollView>
                             </View>
                         </View>

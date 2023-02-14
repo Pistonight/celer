@@ -1,36 +1,87 @@
-import React, { Consumer, Dispatch, FunctionComponentElement, SetStateAction } from "react";
+import React, { FunctionComponentElement } from "react";
 import { Setting } from "core/context";
 import produce from "immer";
 import { SplitType } from "core/compiler";
-import { SettingLabel, SettingToggle, SettingProps } from "./SettingsMenuItems";
+import { SettingLabel, SettingToggle, SettingProps, SettingDropdown } from "./SettingsMenuItems";
+import { MapDisplayModes, MapValues, Themes, ThemeValues } from "core/settings";
 
 export const StringToSetting: {[key: string]: React.FC<SettingProps>} = {
     settinglabel: SettingLabel,
-    settingtoggle: SettingToggle
+    settingtoggle: SettingToggle,
+    settingdropdown: SettingDropdown
 };
 
 export type ConfigSetting = {
     component: string,
     text: string,
     action: (draft: Setting) => void,
-    value: (setting: Setting) => boolean,
-    children?: ConfigSetting[]
+    value?: (setting: Setting) => boolean,
+    values?: string[],
+    children?: ConfigSetting[],
+    actionWithValue?: (setting: number) => (draft: Setting) => void,
 }
 
 export function render(config: ConfigSetting, setting: Setting, setSetting: (setting: Setting) => void): FunctionComponentElement<SettingProps>
 {
+    if(config.actionWithValue !== undefined)
+    {
+        return React.createElement(
+            StringToSetting[config.component],
+            {
+                text: config.text,
+                action: () => setSetting(produce(setting, config.action)),
+                value: config.value?.(setting),
+                values: config.values,
+                selectedIndex: config.values?.indexOf(setting.mapDisplay.name),
+                actionWithValue: config.actionWithValue,
+                actionWithValueUpdate: (func: (draft: Setting) => void) => setSetting(produce(setting, func)),
+            },
+            config.children && config.children.map(c => render(c, setting, setSetting))
+        );
+    }
     return React.createElement(
         StringToSetting[config.component],
         {
             text: config.text,
             action: () => setSetting(produce(setting, config.action)),
-            value: config.value(setting),
+            value: config.value?.(setting),
         },
         config.children && config.children.map(c => render(c, setting, setSetting))
     );
 }
 
+export const MapConfig = [
+    {
+        component: "settingdropdown",
+        text: "Map Display",
+        action: () => {},
+        value: () => {return false},
+        values: MapValues,
+        actionWithValue: (setting: number) => 
+        {
+            return (draft: Setting) => 
+            {
+                draft.mapDisplay = MapDisplayModes[MapValues[setting]];
+            }
+        }
+    }
+];
+
 export const DocumentConfig = [
+    {
+        component: "settingdropdown",
+        text: "Map Display",
+        action: () => {},
+        value: () => {return false},
+        values: ThemeValues,
+        actionWithValue: (setting: number) =>
+        {
+            return (draft: Setting) =>
+            {
+                draft.theme = Themes[ThemeValues[setting]];
+            }
+        }
+    },
     {
         component: "settinglabel",
         text: "Split Settings",
