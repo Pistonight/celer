@@ -6,11 +6,11 @@ import { CelerColors } from "ui/styles";
 import { DropdownStyle } from "./SettingDropdown.Style";
 
 
-export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, action, values, selectedIndex, actionWithValue, actionWithValueUpdate}) => {
+export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, values, selectedIndex, actionWithValue, actionWithValueUpdate}) => {
 
     const [selected, setSelected] = useState(selectedIndex);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
+    console.log(selectedIndex);
     return (
         <View style={DropdownStyle.container}>
             <Text style={DropdownStyle.title}>{text}</Text>
@@ -19,7 +19,9 @@ export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, ac
                     style={DropdownStyle.face}
                     onPress={() => {setDropdownOpen(!dropdownOpen)}}
                 >
-                    <Text style={DropdownStyle.faceText}>{values?[selectedIndex]}</Text>
+                    { values !== undefined && selectedIndex !== undefined &&
+                        <Text style={DropdownStyle.faceText}>{values[selectedIndex]}</Text>
+                    }
                 </Pressable>
                 <View style={dropdownOpen ? DropdownStyle.dropdownVisible : DropdownStyle.dropdownHidden}>
                     {values?.map((item) =>
@@ -28,6 +30,11 @@ export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, ac
                                 style={DropdownStyle.option}
                                 onPress={() => {
                                     setSelected(values.indexOf(item));
+                                    const value = actionWithValue?.(values.indexOf(item));
+                                    if(value !== undefined)
+                                    {
+                                        actionWithValueUpdate?.(value);
+                                    }
                                     setDropdownOpen(false)}}
                             >
                                 <Text style={DropdownStyle.optionText}>{item}</Text>

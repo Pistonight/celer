@@ -19,11 +19,12 @@ export type ConfigSetting = {
     values?: string[],
     children?: ConfigSetting[],
     actionWithValue?: (setting: number) => (draft: Setting) => void,
+    getIndex?: (setting: Setting) => string,
 }
 
 export function render(config: ConfigSetting, setting: Setting, setSetting: (setting: Setting) => void): FunctionComponentElement<SettingProps>
 {
-    if(config.actionWithValue !== undefined)
+    if(config.actionWithValue !== undefined && config.getIndex !== undefined)
     {
         return React.createElement(
             StringToSetting[config.component],
@@ -32,7 +33,7 @@ export function render(config: ConfigSetting, setting: Setting, setSetting: (set
                 action: () => setSetting(produce(setting, config.action)),
                 value: config.value?.(setting),
                 values: config.values,
-                selectedIndex: config.values?.indexOf(setting.mapDisplay.name),
+                selectedIndex: config.values?.indexOf(config.getIndex(setting)),
                 actionWithValue: config.actionWithValue,
                 actionWithValueUpdate: (func: (draft: Setting) => void) => setSetting(produce(setting, func)),
             },
@@ -63,6 +64,10 @@ export const MapConfig = [
             {
                 draft.mapDisplay = MapDisplayModes[MapValues[setting]];
             }
+        },
+        getIndex: (setting: Setting) => 
+        {
+            return setting.mapDisplay.name;
         }
     }
 ];
@@ -70,7 +75,7 @@ export const MapConfig = [
 export const DocumentConfig = [
     {
         component: "settingdropdown",
-        text: "Map Display",
+        text: "Theme",
         action: () => {},
         value: () => {return false},
         values: ThemeValues,
@@ -80,6 +85,10 @@ export const DocumentConfig = [
             {
                 draft.theme = Themes[ThemeValues[setting]];
             }
+        },
+        getIndex: (setting: Setting) =>
+        {
+            return setting.theme.name;
         }
     },
     {
