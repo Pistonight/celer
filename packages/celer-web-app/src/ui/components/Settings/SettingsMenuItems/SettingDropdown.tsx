@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Modal, View, Text, Pressable } from "react-native";
 
 import { SettingProps } from "./SettingLabel";
 import { CelerColors } from "ui/styles";
@@ -9,28 +9,34 @@ import { DropdownStyle } from "./SettingDropdown.Style";
 export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, action, values, selectedIndex, actionWithValue, actionWithValueUpdate}) => {
 
     const [selected, setSelected] = useState(selectedIndex);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const handleChange = (e: any) => {
-        setSelected(e.target.value);
-        const value = actionWithValue?.(e.target.value);
-        if(value !== undefined)
-        {
-            console.log(e.target.value);
-            actionWithValueUpdate?.(value);
-        }
-    }
-    if(values != null)
-    {
-        const valuesObj = values.map((val, i) => ({label: val, value: i}));
-        return (
-            <View style={DropdownStyle.container}>
-                <Text style={DropdownStyle.title}>{text}</Text>
-                <select value={selected} onChange={handleChange}>
-                    {valuesObj.map((item) => <option value={item.value}>{item.label}</option>)}
-                </select>
-
+    return (
+        <View style={DropdownStyle.container}>
+            <Text style={DropdownStyle.title}>{text}</Text>
+            <View style={DropdownStyle.menu}>
+                <Pressable 
+                    style={DropdownStyle.face}
+                    onPress={() => {setDropdownOpen(!dropdownOpen)}}
+                >
+                    <Text style={DropdownStyle.faceText}>{values?[selectedIndex]}</Text>
+                </Pressable>
+                <View style={dropdownOpen ? DropdownStyle.dropdownVisible : DropdownStyle.dropdownHidden}>
+                    {values?.map((item) =>
+                        <View>
+                            <Pressable
+                                style={DropdownStyle.option}
+                                onPress={() => {
+                                    setSelected(values.indexOf(item));
+                                    setDropdownOpen(false)}}
+                            >
+                                <Text style={DropdownStyle.optionText}>{item}</Text>
+                            </Pressable>
+                            <View style={DropdownStyle.separator}/>
+                        </View>
+                    )}
+                </View>
             </View>
-        );
-    }
-    return <View></View>
+        </View>
+    );
 }
