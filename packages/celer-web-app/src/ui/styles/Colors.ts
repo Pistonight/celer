@@ -10,7 +10,7 @@ export const CelerColors = {
 	main5: "#48676e",
 	main6: "#2f4858",
 	text1: "#525215",
-}
+};
 
 // Colors for the home page
 export const HomePageColors = {
@@ -25,7 +25,7 @@ export const SettingsColors = {
 	pageBackground: "ffffff99",
 	dialogBackground: "e3e3d5",
 	titleText: "525215",
-}
+};
 
 export const DefaultColors: AppColors = {
 	text: "black",

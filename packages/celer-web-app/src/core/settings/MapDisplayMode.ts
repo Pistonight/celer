@@ -12,7 +12,7 @@ export type MapDisplay =
 	mapSize: number,
 }
 
-export const MapValues = ["Auto", "Wide", "Half", "Narrow", "Hidden"]
+export const MapValues = ["Auto", "Wide", "Half", "Narrow", "Hidden"];
 
 export const MapDisplayModes: {[key: string]: MapDisplay} = {
 	Auto: {

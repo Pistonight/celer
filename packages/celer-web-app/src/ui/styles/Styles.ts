@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const SettingsOptions = StyleSheet.create({
-    settingspage:
-    {
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 0,
-    }
-})
+	settingspage:
+	{
+		justifyContent: "center",
+		alignItems: "center",
+		margin: 0,
+	}
+});

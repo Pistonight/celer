@@ -7,7 +7,7 @@ export type Theme = {
 	name: string,
 }
 
-export const ThemeValues = ["Default", "Granatus"]
+export const ThemeValues = ["Default", "Granatus"];
 
 export const Themes: {[key: string]: Theme} =
 {
