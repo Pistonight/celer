@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.1.0` - `01-01-2023` `LATEST`
+## `5.1.1` - `02-02-2023` `LATEST`
+- Refactor settings system
+
+## `5.1.0` - `01-01-2023`
 - Added error levels to engine. Error levels are determined from global config and engine defaults, and can be suppressed per step.
 - Removed `Exp.InferCoord`
 - Added a new korok variant `Apple` for F44

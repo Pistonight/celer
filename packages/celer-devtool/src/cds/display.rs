@@ -15,11 +15,11 @@ impl DevServerDisplay {
         let mut new_display = String::new();
         new_display.push_str("======== Celer Dev Server ========\n");
         if port != super::config::DEFAULT_PORT {
-            writeln!(new_display, "Port: {}", port).unwrap();
+            writeln!(new_display, "Port: {port}").unwrap();
         }
 
-        writeln!(new_display, "Watching project {}", project).unwrap();
-        writeln!(new_display, "Last update: {}", last_update).unwrap();
+        writeln!(new_display, "Watching project {project}").unwrap();
+        writeln!(new_display, "Last update: {last_update}").unwrap();
 
         if errors.is_empty() {
             new_display.push_str("No issue found\n");

@@ -16,7 +16,7 @@ fn find_main(path: &Path, out_errors: &mut ErrorState) -> bool {
     let entries = match fs::read_dir(path) {
         Ok(entries) => entries,
         Err(e) => {
-            out_errors.add(format!("{}", path.display()), format!("Unable to read directory: {}", e));
+            out_errors.add(format!("{}", path.display()), format!("Unable to read directory: {e}"));
             return false;
         }
     };
@@ -25,7 +25,7 @@ fn find_main(path: &Path, out_errors: &mut ErrorState) -> bool {
         let entry = match entry {
             Ok(entry) => entry,
             Err(e) => {
-                out_errors.add(format!("{}", path.display()), format!("Unable to read directory entry: {}", e));
+                out_errors.add(format!("{}", path.display()), format!("Unable to read directory entry: {e}"));
                 continue;
             }
         };
@@ -42,7 +42,7 @@ fn scan_dir(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorS
     let entries = match fs::read_dir(&path) {
         Ok(entries) => entries,
         Err(e) => {
-            out_errors.add(format!("{}", path.display()), format!("Unable to read directory: {}", e));
+            out_errors.add(format!("{}", path.display()), format!("Unable to read directory: {e}"));
             return 0;
         }
     };
@@ -53,7 +53,7 @@ fn scan_dir(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorS
         let entry = match entry {
             Ok(entry) => entry,
             Err(e) => {
-                out_errors.add(format!("{}", path.display()), format!("Unable to read directory entry: {}", e));
+                out_errors.add(format!("{}", path.display()), format!("Unable to read directory entry: {e}"));
                 continue;
             }
         };
@@ -62,7 +62,7 @@ fn scan_dir(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorS
         let metadata = match fs::metadata(&sub_path) {
             Ok(metadata) => metadata,
             Err(e) => {
-                out_errors.add(format!("{}", sub_path.display()), format!("Unable to read metadata: {}", e));
+                out_errors.add(format!("{}", sub_path.display()), format!("Unable to read metadata: {e}"));
                 continue;
             }
         };

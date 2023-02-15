@@ -169,7 +169,7 @@ impl SourceStepCustomization {
                     if let Some(str_value) = data::cast_to_str(v) {
                         vec_commands.push(str_value);
                     }else{
-                        out_errors.push(format!("{:?} is not a valid command", v));
+                        out_errors.push(format!("{v:?} is not a valid command"));
                     }
                 }
                 customization.commands = Some(vec_commands);
@@ -184,7 +184,7 @@ impl SourceStepCustomization {
                     if let Some(str_value) = data::cast_to_str(v) {
                         vec_suppress.push(str_value);
                     }else{
-                        out_errors.push(format!("{:?} is not a valid error to suppress", v));
+                        out_errors.push(format!("{v:?} is not a valid error to suppress"));
                     }
                 }
                 customization.suppress = Some(vec_suppress);
@@ -211,22 +211,22 @@ impl SourceStepCustomization {
             if let Some(i64_value) = v.as_i64() {
                 outmap.insert(String::from(k), i64_value);
             }else{
-                out_errors.push(format!("Variable \"{}\" in var-change is ignored because it is not an integer", k))
+                out_errors.push(format!("Variable \"{k}\" in var-change is ignored because it is not an integer"))
             }
         }
     }
 
     fn add_str_error(out_errors: &mut Vec<String>, property: &str) {
-        out_errors.push(format!("\"{}\" property must be a string or convertible to string. Try wrap the content in quotes (\")", property));
+        out_errors.push(format!("\"{property}\" property must be a string or convertible to string. Try wrap the content in quotes (\")"));
     }
     fn add_i64_error(out_errors: &mut Vec<String>, property: &str) {
-        out_errors.push(format!("\"{}\" property must be an integer", property));
+        out_errors.push(format!("\"{property}\" property must be an integer"));
     }
     fn add_obj_error(out_errors: &mut Vec<String>, property: &str) {
-        out_errors.push(format!("\"{}\" property must be an object. Did you indent correctly?", property));
+        out_errors.push(format!("\"{property}\" property must be an object. Did you indent correctly?"));
     }
     fn add_arr_error(out_errors: &mut Vec<String>, property: &str) {
-        out_errors.push(format!("\"{}\" property must be an array.", property));
+        out_errors.push(format!("\"{property}\" property must be an array."));
     }
 
     pub fn to_json(&self) -> serde_json::Value {
