@@ -11,15 +11,21 @@ export const StringToSetting: {[key: string]: React.FC<SettingProps>} = {
 	settingdropdown: SettingDropdown
 };
 
+enum SettingComponents {
+	label = "settinglabel",
+	toggle = "settingtoggle",
+	dropdown = "settingdropdown"
+}
+
 export type ConfigSetting = {
-	component: string,
-	text: string,
-	action: (draft: Setting) => void,
-	value?: (setting: Setting) => boolean,
-	values?: string[],
-	children?: ConfigSetting[],
-	actionWithValue?: (setting: number) => (draft: Setting) => void,
-	getIndex?: (setting: Setting) => string,
+	component: SettingComponents, //Name of the component to be rendered
+	text: string, //text to be displayed in the component
+	action: (draft: Setting) => void, //function to be passed to produce. This should take in a setting and change something about it
+	value?: (setting: Setting) => boolean, // If the component requires it, this is a function that takes in a setting and outputs a boolean value
+	values?: string[], // If the component requires it, this is an array of the values the component can have
+	children?: ConfigSetting[], //This is an array of all the component's children
+	actionWithValue?: (setting: number) => (draft: Setting) => void, // This returns a function with the same format as action based on an index
+	getIndex?: (setting: Setting) => string, // returns the index if the component has one
 }
 
 export function render(config: ConfigSetting, setting: Setting, setSetting: (setting: Setting) => void): FunctionComponentElement<SettingProps>
@@ -53,7 +59,7 @@ export function render(config: ConfigSetting, setting: Setting, setSetting: (set
 
 export const MapConfig = [
 	{
-		component: "settingdropdown",
+		component: SettingComponents.dropdown,
 		text: "Map Display",
 		action: () => {return;},
 		value: () => {return false;},
@@ -74,7 +80,7 @@ export const MapConfig = [
 
 export const DocumentConfig = [
 	{
-		component: "settingdropdown",
+		component: SettingComponents.dropdown,
 		text: "Theme",
 		action: () => {return;},
 		value: () => {return false;},
@@ -92,13 +98,13 @@ export const DocumentConfig = [
 		}
 	},
 	{
-		component: "settinglabel",
+		component: SettingComponents.label,
 		text: "Split Settings",
 		action: () => {return;},
 		value: () => {return false;},
 		children: [
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Shrine",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Shrine] = !draft.splitSettings[SplitType.Shrine];
@@ -108,7 +114,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Tower",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
@@ -118,7 +124,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Memory",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
@@ -128,7 +134,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Warp",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Warp] = !draft.splitSettings[SplitType.Warp];
@@ -138,7 +144,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Boss",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Hinox] = !draft.splitSettings[SplitType.Hinox];
@@ -150,7 +156,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Korok",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.Korok] = !draft.splitSettings[SplitType.Korok];
@@ -160,7 +166,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Other",
 				action: (draft: Setting) => {
 					draft.splitSettings[SplitType.UserDefined] = !draft.splitSettings[SplitType.UserDefined];
@@ -170,7 +176,7 @@ export const DocumentConfig = [
 				}
 			},
 			{
-				component: "settingtoggle",
+				component: SettingComponents.toggle,
 				text: "Enable Subsplits",
 				action: (draft: Setting) => {
 					draft.enableSubsplits = !draft.enableSubsplits;
