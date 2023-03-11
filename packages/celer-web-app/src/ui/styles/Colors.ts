@@ -1,6 +1,17 @@
 import { ReadonlyMapOf } from "data/util";
 import { AppColors } from "./types";
 
+// Celer color scheme
+export const CelerColors = {
+	main1: "#e3e3d5",
+	main2: "#b9c3b5",
+	main3: "#8fa49b",
+	main4: "#688584",
+	main5: "#48676e",
+	main6: "#2f4858",
+	text1: "#525215",
+};
+
 // Colors for the home page
 export const HomePageColors = {
 	background: "#e3e3d5",
@@ -8,6 +19,12 @@ export const HomePageColors = {
 	sectionTitleText: "#525215",
 	recentRoutesList: "#3d3d0d",
 	codeBlock: "#3d3d0d"
+};
+
+export const SettingsColors = {
+	pageBackground: "ffffff99",
+	dialogBackground: "e3e3d5",
+	titleText: "525215",
 };
 
 export const DefaultColors: AppColors = {

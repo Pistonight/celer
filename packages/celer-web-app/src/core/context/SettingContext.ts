@@ -28,13 +28,7 @@ export type Setting =
 
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
 export const load = () => {
-	const stored = LocalStorageWrapper.load("Settings", defaultSettings);
-	const result = {
-		...stored,
-		theme: Themes[stored.theme.name],
-		mapDisplay: MapDisplayModes[stored.mapDisplay.name],
-	};
-	return result;
+	return LocalStorageWrapper.load("Settings", defaultSettings);
 };
 
 interface SettingContext
