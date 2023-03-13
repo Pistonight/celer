@@ -108,6 +108,16 @@ export const DocumentConfig = [
 		}
 	},
 	{
+		component: SettingComponents.toggle,
+		text:"Enhanced Keyboard Controls",
+		action: (draft: Setting) => {
+			draft.keyboardControls = !draft.keyboardControls;
+		},
+		value: (setting: Setting) => {
+			return setting.keyboardControls;
+		}
+	},
+	{
 		component: SettingComponents.label,
 		text: "Split Settings",
 		action: () => {return;},
