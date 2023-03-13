@@ -1,7 +1,14 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.1.1` - `02-02-2023` `LATEST`
+## `5.2.0` - `03-13-2023` `LATEST`
+- Added new settings dialog
+- Added keyboard controls:
+  - Arrows keys to move up/down one line
+  - Page up/down to move up/down one split
+- Added option to display only the current branch
+
+## `5.1.1` - `02-02-2023`
 - Refactor settings system
 
 ## `5.1.0` - `01-01-2023`

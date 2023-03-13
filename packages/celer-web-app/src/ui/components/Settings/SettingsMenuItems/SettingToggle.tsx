@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Switch } from "react-native";
 import { CelerColors } from "ui/styles";
-import { SettingProps } from "./SettingLabel";
+import { SettingProps } from "./types";
 import { ToggleStyle } from "./SettingToggle.Style";
 
 export const SettingToggle: React.FunctionComponent<SettingProps> = ({text, action, value}) => {
