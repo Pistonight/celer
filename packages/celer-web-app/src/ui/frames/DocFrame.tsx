@@ -92,7 +92,7 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 	const {setDocCurrentLine, setDocCurrentSection, setMapCenter} = useAppState();
 	const ScrollProgressTrackerEnabled = useExpScrollProgressTrackerEnabled();
 	const [currentLine, setCurrentLine] = useState(0);
-	const {setting} = useAppSetting();
+	const settings = useAppSetting();
 	const docFrameRef = useRef<HTMLDivElement>(null);
 	// Loading styles
 	const styles = useStyles();
@@ -110,19 +110,20 @@ export const DocFrame: React.FC<DocFrameProps> = ({docLines})=>{
 					break;
 				case "PageUp":
 					e.preventDefault();
-					findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, true);
+					findSplit(currentLine, docLines, docLineRefs, settings.setting.splitSettings, setCurrentLine, true);
 					break;
 				case "PageDown":
 					e.preventDefault();
-					findSplit(currentLine, docLines, docLineRefs, setting.splitSettings, setCurrentLine, false);
+					findSplit(currentLine, docLines, docLineRefs, settings.setting.splitSettings, setCurrentLine, false);
 					break;
 				default:
 			}
 		};
-
-		document.addEventListener("keydown", keyPressed);
+		if(settings.setting.keyboardControls){
+			document.addEventListener("keydown", keyPressed);
+		}
 		return () => {document.removeEventListener("keydown", keyPressed);};
-	},[currentLine, setting]);
+	},[currentLine, settings]);
 
 	const [docLineComponents, docLineRefs] = useMemo(()=>{
 		// If the advanced scroll progress tracker is enabled, set docLineComponents and docLineRefs
