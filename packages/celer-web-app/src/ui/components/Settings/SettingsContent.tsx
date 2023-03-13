@@ -4,7 +4,6 @@ import { Setting, useAppSetting } from "core/context";
 import { MapDisplayModes, MapValues, Themes, ThemeValues } from "core/settings";
 import { SettingLabel, SettingToggle, SettingProps, SettingDropdown } from "./SettingsMenuItems";
 
-
 export type SettingsContentProps = {
 	component: React.ComponentType<SettingProps>, //Name of the component to be rendered
 	text: string, //text to be displayed in the component
@@ -45,8 +44,7 @@ export const SettingsContent: React.FC<SettingsContentProps> = ({component, text
 		</SettingComponent>
 	);
 
-}
-
+};
 
 export const MapConfig = [
 	{

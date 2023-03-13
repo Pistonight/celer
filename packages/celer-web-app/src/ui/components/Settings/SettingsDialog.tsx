@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { SettingsContent, DocumentConfig, MapConfig } from "./SettingsContent";
+import { getInterpolationFunction, SplitType } from "core/compiler";
 import { useAppSetting, useDocument } from "core/context";
-import { settingsDialogStyles } from "./SettingsDialog.Style";
-import { SettingCategory } from "./SettingCategory";
+import { createLiveSplitFile } from "core/external";
 import { saveAs, SplitTypeConfig, SplitTypeKeys } from "data/libs";
 import { MapOf } from "data/util";
-import { getInterpolationFunction, SplitType } from "core/compiler";
-import { createLiveSplitFile } from "core/external";
+
+import { SettingCategory } from "./SettingCategory";
+import { SettingsContent, DocumentConfig, MapConfig } from "./SettingsContent";
+import { settingsDialogStyles } from "./SettingsDialog.Style";
 
 type SettingsDialogProps = {
 	isOpen: boolean;
@@ -84,7 +85,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
 										</button>
 									</>}
 									{category == Category.Map && MapConfig.map((c, i) => <SettingsContent key={i} {...c} />)}
-									
+
 								</ScrollView>
 							</View>
 						</View>

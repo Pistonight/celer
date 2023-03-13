@@ -10,3 +10,4 @@ export interface SettingProps {
 	actionWithValue?: (setting: number) => (draft: Setting) => void;
 	actionWithValueUpdate?: (updateFunction: (draft: Setting) => void) => void;
 }
+

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Switch } from "react-native";
 import { CelerColors } from "ui/styles";
-import { SettingProps } from "./types";
 import { ToggleStyle } from "./SettingToggle.Style";
+import { SettingProps } from "./types";
 
 export const SettingToggle: React.FunctionComponent<SettingProps> = ({text, action, value}) => {
 	const [isEnabled, setIsEnabled] = useState(value);
