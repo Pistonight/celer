@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { DropdownStyle } from "./SettingDropdown.Style";
-import { SettingProps } from "./SettingLabel";
+import { SettingProps } from "./types";
 
 export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, values, selectedIndex, actionWithValue, actionWithValueUpdate}) => {
 
@@ -19,8 +19,8 @@ export const SettingDropdown: React.FunctionComponent<SettingProps> = ({text, va
 					}
 				</Pressable>
 				<View style={dropdownOpen ? DropdownStyle.dropdownVisible : DropdownStyle.dropdownHidden}>
-					{values?.map((item) =>
-						<View>
+					{values?.map((item, i) =>
+						<View key={i}>
 							<Pressable
 								style={DropdownStyle.option}
 								onPress={() => {

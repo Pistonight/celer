@@ -21,7 +21,7 @@ export class StyleEngine<CSArray extends Array<ComputeStyle<StyleMap>>> {
 	public compute(sizes: AppSizes, colors: AppColors, mapDisplayMode: MapDisplay): ComputedStyle<CSArray> {
 		let mainCss = "";
 		const alternatives: MapOf<string> = {};
-		if(mapDisplayMode === MapDisplayModes.Auto){
+		if(mapDisplayMode.name === MapDisplayModes.Auto.name){
 			mainCss = this.computeCssMemoized(sizes, colors, MapDisplayModes.Wide, RouteDocMode.Full);
 			this.addAlternativeOption(alternatives, sizes, colors, FullRouteSizeThreshold, MapDisplayModes.Wide.mapSize, MapDisplayModes.Half, RouteDocMode.Full);
 			this.addAlternativeOption(alternatives, sizes, colors, FullRouteSizeThreshold, MapDisplayModes.Half.mapSize, MapDisplayModes.Narrow, RouteDocMode.Full);

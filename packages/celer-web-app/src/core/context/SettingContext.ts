@@ -36,7 +36,7 @@ export const load = () => {
 interface SettingContext
 {
     setting: Setting
-    setSetting: Consumer<Setting>
+    setSetting: React.Dispatch<React.SetStateAction<Setting>>
 }
 
 export const defaultSettings =
