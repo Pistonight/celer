@@ -11,7 +11,7 @@ Rito: # Start: Shae Lota
     var-change:
       Wood: -1
       FireArrow: -1
-  
+
 - BLSS
 - _Shrine::AkhVaquot
 - +.dir(S) + Fire arrow
@@ -54,8 +54,7 @@ Rito: # Start: Shae Lota
 - .dir(E)
 - Clip into mountain
 - _Shrine::ToQuomo:
-    notes: Get claymore. 
+    notes: Get claymore.
 
 - __use__ CheckResources
 - ""
-

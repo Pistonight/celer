@@ -13,7 +13,7 @@ Wasteland: # Start: Keeha Yoog
 - Shield Surf SCW
 - .dir(S) LOOK UP
 - Campfire Activate:
-    var-change: 
+    var-change:
       Wood: -1
       FireArrow: -1
     notes: .v(Wood) wood left

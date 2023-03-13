@@ -22,3 +22,5 @@ export const useExpScrollProgressTrackerEnabled = ():boolean => useAppExperiment
 export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokComment", false);
 // [1-17] Enable new settings dialog
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
+// [1-26] Enable showing only the current branch
+export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);

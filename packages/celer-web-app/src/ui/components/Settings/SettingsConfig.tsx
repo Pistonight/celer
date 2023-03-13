@@ -75,6 +75,16 @@ export const MapConfig = [
 		{
 			return setting.mapDisplay.name;
 		}
+	},
+	{
+		component: SettingComponents.toggle,
+		text: "Show Only Current Branch",
+		action: (draft: Setting) => {
+			draft.showCurrentBranch = !draft.showCurrentBranch;
+		},
+		value: (setting: Setting) => {
+			return setting.showCurrentBranch;
+		}
 	}
 ];
 

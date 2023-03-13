@@ -9,7 +9,7 @@ Kakariko:
 - .dir(N.) Turn to fairy:
     coord: [950,500.1411246295402]
 - .dir(.N) Turn to forest:
-    notes: Land at the group of 5 endura shrooms. 
+    notes: Land at the group of 5 endura shrooms.
            Pick them up, then pick up 1 hylian shroom + 1 endura shroom + 1 radish (eat for wb in shrine)
 - _Shrine::KayaWan
 
@@ -35,11 +35,11 @@ Kakariko:
 - +_Cook<1 Speed>:
     comment: 3 Frog + Carrot + Gut
 - +_Cook<3-4 Endura>:
-    notes: 
+    notes:
       Faster to only have 2 endura left. If you have all 6 shrooms, cook 2 of them into one meal (or just cook 4).
       Use shroom, pepper, endura, butterfly, carrot to break 5 slots.
       Import .link([this simulator file]https://github.com/iTNTPiston/as3/blob/main/IST.txt)
-      to .link([the simulator]https://dupl.itntpiston.app/#options) to see the steps for IST. 
+      to .link([the simulator]https://dupl.itntpiston.app/#options) to see the steps for IST.
 - +_Equipment::Shield<Pot Lid>:
     hide-icon-on-map: true
 - +Do IST in arrow shop:
@@ -48,7 +48,7 @@ Kakariko:
     notes: ".v(Rupee) rupees left after IST. Rest: 360 FA + 240 SA + 80 RS + 80 IA"
 - Sell 355+ Fairy:
     var-change:
-      Rupee: 710 # 
+      Rupee: 710 #
 - +_Shop<20 Fire Arrow>:
     coord: [1827,1039.9681091017883]
     var-change:
