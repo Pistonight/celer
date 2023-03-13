@@ -24,6 +24,7 @@ export type Setting =
 	mapDisplay: MapDisplay
 	splitSettings: splitSettings
 	enableSubsplits: boolean
+	showCurrentBranch: boolean
 }
 
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
@@ -43,6 +44,7 @@ export const defaultSettings =
 	mapDisplay: MapDisplayModes.Auto,
 	splitSettings: defaultSplitSetting,
 	enableSubsplits: false,
+	showCurrentBranch: false,
 };
 
 export const OldSettingContext = React.createContext<OldAppSettingContextState>(emptyObject());

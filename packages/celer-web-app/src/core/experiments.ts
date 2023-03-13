@@ -23,4 +23,4 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 // [1-17] Enable new settings dialog
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [1-26] Enable showing only the current branch
-export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", false);
+export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);

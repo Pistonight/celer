@@ -10,7 +10,7 @@ export const AppStateProvider: React.FC = ({children})=>{
 		0
 	);
 	const [docCurrentSection, setDocCurrentSection] = useState(
-		0
+		1
 	);
 	useEffect(()=>{
 		LocalStorageWrapper.store(DOC_LINE_POS_KEY, docCurrentLine);

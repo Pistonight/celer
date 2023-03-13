@@ -30,7 +30,7 @@ export class MapEngine {
 
 		icons.push({
 			iconName: "sor",
-			section: 0,
+			section: 1,
 			visible: true,
 			coord: sorCoord,
 			type: SplitType.UserDefined,

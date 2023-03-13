@@ -6,5 +6,5 @@
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
     "UseNewKorokComment": true,
-    "UseCurrentBranch": false
+    "UseCurrentBranch": true
 }
