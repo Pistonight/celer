@@ -1,3 +1,4 @@
+The build has failed because of the following 14 errors
 14 errors in bundle emitted:
     In section _Equipment<section level preset extend>: (^!) Bundler Error: Step customization must be an object, but received: "hello"
     In section Test Validation Section: (^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?
@@ -15,11 +16,5 @@
     In module BadModule: (^!) Bundler Error: Step customization cannot be null. Did you put an extra ":" there?
 
 14 errors total
-
-The build has failed because of the following 1 error
-1 error in build step: bundle:
-    14 errors were generated, see output above
-
-1 error total
 
 ERROR: BUILD FAILED

@@ -1,5 +1,7 @@
 use std::collections::HashMap;
+use std::io;
 use serde_json::json;
+use crate::data;
 
 mod bundler;
 mod structs;
@@ -44,7 +46,17 @@ impl SourceObject {
             };
         }
         let metadata = Metadata::from(&value["_project"]);
-        let config = Config::from(&value["_config"]);
+
+        let mut config_errors = vec![];
+        let config = match Config::from(&value["_config"], &mut config_errors) {
+            Some(value) => value,
+            None => Config::new()
+        };
+
+        for err in config_errors {
+            out_bundler_errors.push(BundlerError::make_global(&err))
+        }
+
         let route = &value["_route"];
         if let Some(obj_route) = route.as_array() {
             let mut modules = HashMap::new();
@@ -87,6 +99,17 @@ impl SourceObject {
             obj["_globalError"] = json!(global_error);
         }
         obj
+    }
+
+    pub fn to_compressed_json(&self) -> io::Result<Vec<u8>> {
+        let value = self.to_json();
+        let string = serde_json::to_string(&value)?;
+        data::compress_str(&string)
+    }
+
+    pub fn to_b64(&self) -> io::Result<String> {
+        let bytes = self.to_compressed_json()?;
+        Ok(data::bytes_to_b64(&bytes))
     }
 }
 

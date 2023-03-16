@@ -11,23 +11,26 @@ import {
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
-import { ServiceCreator } from "./services";
+import { addPageToRecents } from "data/storage";
+import { DocumentCreator } from "./services";
 
 export type AppDocumentProviderProps = {
-	serviceCreator: ServiceCreator
+	createDocument: DocumentCreator
 }
 
 const routeEngine = new RouteEngine();
 const mapEngine = new MapEngine();
 
-export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ serviceCreator, children }) => {
+// AppDocumentProvider handles loading the document and passing it to the rest of the app
+export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ createDocument, children }) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableNewKorokComment = useNewKorokComment();
 
 	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
+
 	const useNew = useNewSettings();
 	const { setting } = useAppSetting();
-	const {splitSetting} = useOldAppSetting();
+	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
 
 	useEffect(() => {
@@ -39,12 +42,12 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 	const [error, setError] = useState<string | null>(null);
 	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject | null>(null);
 
+	// Load the document bundle
 	useEffect(() => {
-		const service = serviceCreator(params);
-		service.start((doc, error, status) => {
-			// After starting the service, add it to recent pages
-			if (doc) {
-				if (doc._globalError) {
+		const service = createDocument(params);
+		service.load(({doc, error, status})=>{
+			if(doc){
+				if(doc._globalError){
 					setError(doc._globalError);
 					setStatus(null);
 					setRouteSourceBundle(null);
@@ -53,19 +56,23 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 					setStatus(null);
 					setRouteSourceBundle(doc);
 				}
-			} else {
-				setError(error);
-				setStatus(status);
+			}else{
+				setError(error ?? null);
+				setStatus(status ?? null);
 				setRouteSourceBundle(null);
 			}
 		});
-		service.addToRecentPages();
+		const path = service.getPath();
+		if (path) {
+			addPageToRecents(path);
+		}
 		return () => {
 			service.release();
 		};
 
-	}, [serviceCreator, params]);
+	}, [createDocument, params]);
 
+	// Extract the metadata, config, and route assembly from the bundle
 	const { metadata, config, routeAssembly } = useMemo(() => {
 		if (routeSourceBundle === null) {
 			// This is likely when doc is still loading
@@ -94,6 +101,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ servic
 		};
 	}, [routeSourceBundle]);
 
+	// Compute the document lines and map data
 	const { docLines, mapIcons, mapLines } = useMemo(() => {
 		routeEngine.setSplitSetting(splits);
 		const docLines = routeEngine.compute(routeAssembly, config.engine || {});

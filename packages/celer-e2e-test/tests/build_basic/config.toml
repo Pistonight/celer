@@ -61,6 +61,27 @@ expected = ["expected_bundle_yaml", "../../inputs/basic"]
 error = true
 stdout = "stdout.expected.txt"
 
+[[test]]
+args = ["build", "-z"]
+input = ["basic"]
+expected = ["expected_bundle_binary", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "--gzip"]
+input = ["basic"]
+expected = ["expected_bundle_binary", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
+[[test]]
+args = ["build", "-z", "-t", "bundle"]
+input = ["basic"]
+expected = ["expected_bundle_binary", "../../inputs/basic"]
+error = true
+stdout = "stdout.expected.txt"
+
 # Error cases
 [[test]]
 args = ["--build"] # invalid subcommand
@@ -74,5 +95,15 @@ error = true
 
 [[test]]
 args = ["build", "-D", "-y"] # use debug and yaml
+expected = []
+error = true
+
+[[test]]
+args = ["build", "-D", "-b"] # use debug and binary
+expected = []
+error = true
+
+[[test]]
+args = ["build", "-y", "-b"] # use binary and yaml
 expected = []
 error = true

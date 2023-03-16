@@ -5,7 +5,7 @@ list:
 # Install or update tools
 install:
     rustup update
-    cargo install wasm-pack
+    cargo install wasm-pack --features curl/static-curl
     just packages/celer-vscode-extension/install
     just packages/celer-web-app/install
 
@@ -14,8 +14,8 @@ check:
     just packages/celer-code-generator/verify
 
 # Check versions are consistent in packages
-vsync:
-    python3 scripts/version.py
+vsync UPGRADE="":
+    python3 scripts/version-sync scripts/version-sync.toml {{UPGRADE}}
 
 # Invoke code generator
 buildc:
@@ -36,7 +36,6 @@ lintpy EXTRA="":
     rm -f packages/celer-e2e-test/celer
     python3 scripts/base-lint . -c -p scripts/base-lint.toml {{EXTRA}}
     pylint scripts/release.py
-    pylint scripts/version.py
     pylint scripts/rsvalidateimport.py
     @just packages/celer-code-generator/lint
     @just packages/celer-e2e-test/lint

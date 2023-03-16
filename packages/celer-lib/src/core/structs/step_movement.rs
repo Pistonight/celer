@@ -34,11 +34,9 @@ impl Movement {
             return None;
         }
 
-        let away = data::cast_to_bool(&value["away"]);
-        let warp = data::cast_to_bool(&value["warp"]);
-        if away {
+        if data::cast_to_bool(&value["away"]) {
             movement.away = MovementFlag::Away;
-        } else if warp {
+        } else if data::cast_to_bool(&value["warp"]) {
             movement.away = MovementFlag::Warp;
         }
 
@@ -54,7 +52,7 @@ impl Movement {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum MovementFlag {
     Normal,
     Away,
@@ -92,7 +90,7 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!(1), &mut out_errors);
             assert_eq!(result, None);
-            assert_eq!(out_errors.len(), 1)
+            assert_eq!(out_errors.len(), 1);
         }
 
         #[test]
@@ -100,7 +98,7 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!([1]), &mut out_errors);
             assert_eq!(result, None);
-            assert_eq!(out_errors.len(), 1)
+            assert_eq!(out_errors.len(), 1);
         }
 
         #[test]
@@ -108,7 +106,7 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!([1,2,3,4]), &mut out_errors);
             assert_eq!(result, None);
-            assert_eq!(out_errors.len(), 1)
+            assert_eq!(out_errors.len(), 1);
         }
 
         #[test]
@@ -116,7 +114,7 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!(["test","test"]), &mut out_errors);
             assert_eq!(result, None);
-            assert_eq!(out_errors.len(), 1)
+            assert_eq!(out_errors.len(), 1);
         }
 
         #[test]
@@ -124,7 +122,7 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!([1,2]), &mut out_errors);
             assert_eq!(result, Some(vec![1.0,2.0]));
-            assert_eq!(out_errors.len(), 0)
+            assert_eq!(out_errors.len(), 0);
         }
 
         #[test]
@@ -132,8 +130,103 @@ mod tests {
             let mut out_errors = vec![];
             let result = validate_coord_array(&json!([1,2,3]), &mut out_errors);
             assert_eq!(result, Some(vec![1.0,2.0,3.0]));
-            assert_eq!(out_errors.len(), 0)
+            assert_eq!(out_errors.len(), 0);
         }
     }
 
+    mod test_from_json{
+        use super::super::{Movement, MovementFlag};
+        use serde_json::json;
+
+        #[test]
+        fn error_if_scalar(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!(1), &mut out_errors);
+            assert!(movement.is_none());
+            assert_eq!(out_errors.len(), 1);
+        }
+        #[test]
+        fn error_if_array(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!([1,2]), &mut out_errors);
+            assert!(movement.is_none());
+            assert_eq!(out_errors.len(), 1);
+        }
+        #[test]
+        fn error_if_emtpy_obj(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({}), &mut out_errors);
+            assert!(movement.is_none());
+            assert_eq!(out_errors.len(), 1);
+        }
+        #[test]
+        fn error_if_obj_without_to(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"key": "value"}), &mut out_errors);
+            assert!(movement.is_none());
+            assert_eq!(out_errors.len(), 1);
+        }
+
+        #[test]
+        fn error_if_invalid_to(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": "value"}), &mut out_errors);
+            assert!(movement.is_none());
+            assert_eq!(out_errors.len(), 1);
+        }
+
+        #[test]
+        fn ok_if_valid_to(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2]}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Normal);
+            assert_eq!(out_errors.len(), 0);
+        }
+
+        #[test]
+        fn with_away_true(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2], "away": true}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Away);
+            assert_eq!(out_errors.len(), 0);
+        }
+
+        #[test]
+        fn with_away_false(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2], "away": false}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Normal);
+            assert_eq!(out_errors.len(), 0);
+        }
+
+        #[test]
+        fn with_warp_true(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2], "warp": true}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Warp);
+            assert_eq!(out_errors.len(), 0);
+        }
+
+        #[test]
+        fn with_warp_false(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2], "warp": false}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Normal);
+            assert_eq!(out_errors.len(), 0);
+        }
+
+        #[test]
+        fn with_away_and_warp(){
+            let mut out_errors = vec![];
+            let movement = Movement::from(&json!({"to": [1, 2], "warp": true, "away": true}), &mut out_errors).unwrap();
+            assert_eq!(movement.to, vec![1.0, 2.0]);
+            assert_eq!(movement.away, MovementFlag::Away);
+            assert_eq!(out_errors.len(), 0);
+        }
+    }
 }

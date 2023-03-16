@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.2.0` - `03-13-2023` `LATEST`
+## `5.2.1` - `03-16-2023` `LATEST`
+- Added capability of the devtool client to load gzipped route, base64 encoded.
+
+## `5.2.0` - `03-13-2023`
 - Added new settings dialog
 - Added keyboard controls:
   - Arrows keys to move up/down one line

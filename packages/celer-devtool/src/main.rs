@@ -3,7 +3,7 @@ mod ccmd;   // Celer Command Module
 mod cds;    // Celer Dev Server
 mod cio;    // Celer IO
 
-pub const VERSION: &str = "2.1.0";
+pub const VERSION: &str = "2.2.0";
 
 #[cfg(not(debug_assertions))]
 fn ship_panic(panic_info: &std::panic::PanicInfo) {

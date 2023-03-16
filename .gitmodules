@@ -1,3 +1,6 @@
 [submodule "scripts/base-lint"]
 	path = scripts/base-lint
 	url = git@github.com:iTNTPiston/base-lint
+[submodule "scripts/version-sync"]
+	path = scripts/version-sync
+	url = git@github.com:iTNTPiston/version-sync

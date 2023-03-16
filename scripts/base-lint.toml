@@ -10,6 +10,7 @@ ignore = [
     "target/",
     "binaryen-version_105/",
     "scripts/base-lint/",
+    "scripts/version-sync/",
     "pkg/",
     "wasm/",
     ".cargo/",
