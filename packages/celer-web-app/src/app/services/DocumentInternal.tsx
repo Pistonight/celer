@@ -1,8 +1,8 @@
 import { Params } from "react-router-dom";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { SourceObject } from "data/libs";
-import { Document, DocumentResponse } from "./types";
 import { Consumer } from "data/util";
+import { Document, DocumentResponse } from "./types";
 
 class DocumentInternal implements Document {
 	private doc?: SourceObject;
@@ -21,7 +21,7 @@ class DocumentInternal implements Document {
 	release(): void {
 		// no-op
 	}
-	
+
 	getPath(): string {
 		return "docs/" + this.reference;
 	}

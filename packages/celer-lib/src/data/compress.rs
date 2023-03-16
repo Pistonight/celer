@@ -1,12 +1,11 @@
-use std::io;
-use std::io::{Read, Write};
-use flate2::write::GzEncoder;
-use flate2::bufread::GzDecoder;
+use std::io::{self, Read, Write};
 use flate2::Compression;
+use flate2::bufread::GzDecoder;
+use flate2::write::GzEncoder;
 
 pub fn compress_str(input: &str) -> io::Result<Vec<u8>> {
     let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
-    encoder.write(&input.as_bytes())?;
+    encoder.write_all(input.as_bytes())?;
     encoder.finish()
 }
 

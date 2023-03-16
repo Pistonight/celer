@@ -11,8 +11,8 @@ import {
 	RouteMetadata,
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
-import { DocumentCreator } from "./services";
 import { addPageToRecents } from "data/storage";
+import { DocumentCreator } from "./services";
 
 export type AppDocumentProviderProps = {
 	createDocument: DocumentCreator

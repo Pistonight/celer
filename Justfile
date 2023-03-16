@@ -36,7 +36,6 @@ lintpy EXTRA="":
     rm -f packages/celer-e2e-test/celer
     python3 scripts/base-lint . -c -p scripts/base-lint.toml {{EXTRA}}
     pylint scripts/release.py
-    pylint scripts/version.py
     pylint scripts/rsvalidateimport.py
     @just packages/celer-code-generator/lint
     @just packages/celer-e2e-test/lint

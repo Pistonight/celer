@@ -1,7 +1,8 @@
 use crate::cio::ErrorState;
 
-pub mod bundle;
 mod config;
+
+pub mod bundle;
 pub use config::{Config, get_subcommand};
 
 /// Entry point for celer build
@@ -20,8 +21,8 @@ fn merge(config: Config) {
         config::Format::Yaml => bundle_context.write_source_yaml(),
         _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
     }
-    
-    fail_build_on_error(&bundle_context.get_error());
+
+    fail_build_on_error(bundle_context.get_error());
 }
 
 fn bundle(config: Config) {
@@ -32,8 +33,8 @@ fn bundle(config: Config) {
         config::Format::Gzip => bundle_context.write_bundle_gzip(),
         // _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
     }
-    
-    fail_build_on_error(&bundle_context.get_error());
+
+    fail_build_on_error(bundle_context.get_error());
 }
 
 fn fail_build_on_error(errors: &ErrorState) {
@@ -43,13 +44,3 @@ fn fail_build_on_error(errors: &ErrorState) {
         panic!("BUILD FAILED");
     }
 }
-
-// fn show_and_continue_on_error(step_name: &str, errors: &mut ErrorState) {
-//     if !errors.is_empty() {
-//         println!("{}", errors.report());
-
-//         let message_string = format!("{} {} generated, see output above", errors.x_error_s(), errors.was_verb());
-//         errors.clear();
-//         errors.add(format!("build step: {step_name}"), message_string);
-//     }
-// }

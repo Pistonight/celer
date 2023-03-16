@@ -10,7 +10,7 @@ export type DocumentResponse = {
 };
 
 export interface Document {
-    // Executes any async tasks to get the document 
+    // Executes any async tasks to get the document
     // and return the document through the callback
     load(callback: Consumer<DocumentResponse>): void,
     // Clean up and destroys the service. Any pending tasks must be cancelled

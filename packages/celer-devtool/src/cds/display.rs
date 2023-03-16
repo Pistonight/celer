@@ -17,7 +17,7 @@ impl DevServerDisplay {
         if port != super::config::DEFAULT_PORT {
             writeln!(new_display, "Port: {port}").unwrap();
         }
-        
+
         writeln!(new_display, "Watching project {}", bundle_context.get_project_name()).unwrap();
         writeln!(new_display, "Last update: {}", last_update).unwrap();
 

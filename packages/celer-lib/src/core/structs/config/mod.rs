@@ -47,7 +47,7 @@ impl Config {
             if value_split_format.is_object() {
                 config.split_format = Some(ConfigMap::from(&value_split_format));
             }else{
-                out_errors.push(format!("Config \"split-format\" should be a mapping. Check your formatting."));
+                out_errors.push("Config \"split-format\" should be a mapping. Check your formatting.".to_string());
             }
         }
 
@@ -55,7 +55,7 @@ impl Config {
             if value_icons.is_object() {
                 config.icons = Some(ConfigMap::from(&value_icons));
             }else{
-                out_errors.push(format!("Config \"icons\" should be a mapping. Check your formatting."));
+                out_errors.push("Config \"icons\" should be a mapping. Check your formatting.".to_string());
             }
         }
 

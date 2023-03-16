@@ -1,4 +1,3 @@
-use base64;
 
 pub fn bytes_to_b64(input: &[u8]) -> String {
     base64::encode(input)

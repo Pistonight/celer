@@ -1,6 +1,6 @@
-import { SourceObject, wasmBundle, wasmBundleFromBase64 } from "data/libs";
-import { Consumer } from "data/util";
 import { Params } from "react-router-dom";
+import { wasmBundle, wasmBundleFromBase64 } from "data/libs";
+import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
 class DocumentDev implements Document {
@@ -33,12 +33,12 @@ class DocumentDev implements Document {
 					}
 					return;
 				}
-				// Fallback to old protocol	
+				// Fallback to old protocol
 			}
 
 			const bundleResult = wasmBundle(dataObject).bundle; //Discard the errors for now
 			callback({doc: bundleResult});
-			
+
 		};
 		newws.onopen = () => {
 			callback({ status: "Waiting for data"});
@@ -49,7 +49,7 @@ class DocumentDev implements Document {
 	release(): void {
 		this.ws?.close();
 	}
-	
+
 	getPath(): string {
 		return "dev/" + this.port;
 	}

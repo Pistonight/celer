@@ -59,7 +59,7 @@ impl Config {
     pub fn from(args: &clap::ArgMatches) -> Self {
         let debug = arg::has_flag(args, arg::DEBUG);
         let target = args.get_one::<String>("target").unwrap().to_string();
-        
+
         let mut format = Format::Json;
         if arg::has_flag(args, "yaml"){
             format = Format::Yaml;

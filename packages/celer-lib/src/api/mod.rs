@@ -1,5 +1,4 @@
 use crate::core;
-// COMMON API
 
 mod clean_bundle_json;
 pub use clean_bundle_json::clean_bundle_json;

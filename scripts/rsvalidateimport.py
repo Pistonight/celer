@@ -145,7 +145,7 @@ f"Pub import type {pub_import.name} must preceed the {current_pub_import.name} t
                     if last_accepted is not None and mod_name < last_accepted:
                         append_error(errors, i, line,
 f"Pub import must be sorted alphabetically within types. \
-{mod_name} should be after {last_accepted}")
+{mod_name} should be before {last_accepted}")
                         continue
                     last_accepted = mod_name
                 else:
@@ -158,7 +158,7 @@ f"Pub import must be sorted alphabetically within types. \
                 if last_accepted is not None and mod_name < last_accepted:
                     append_error(errors, i, line,
 f"Statements must be sorted alphabetically within groups. \
-{mod_name} should be after {last_accepted}")
+{mod_name} should be before {last_accepted}")
                     continue
                 last_accepted = mod_name
 

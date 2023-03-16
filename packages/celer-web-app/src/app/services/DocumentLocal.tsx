@@ -19,7 +19,7 @@ class DocumentLocal implements Document {
 	release(): void {
 		// no-op
 	}
-	
+
 	getPath(): string {
 		return "local";
 	}

@@ -90,7 +90,7 @@ impl DevServerThread {
         self.bundle_context.reset();
         let (source, _unused_bundle, changed) = self.bundle_context.get_bundle();
 
-        // if clients changed, update regardless of file change    
+        // if clients changed, update regardless of file change
         if changed || new_clients {
             // send update
             let source_str = serde_json::to_string(&source).unwrap();
@@ -116,9 +116,9 @@ impl DevServerThread {
             Some(time) => format!("{}", time.format("%Y-%m-%d %H:%M:%S")),
             None => String::from("never"),
         };
-        
+
         self.display.update(self.config.port, &last_update_str, &self.bundle_context);
-        
+
         for _ in 0..self.delay_mgr.get_delay() {
             if !self.running.load(Ordering::SeqCst) {
                 return false

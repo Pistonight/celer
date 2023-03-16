@@ -34,7 +34,7 @@ pub fn ensure_config(input_config: &JsValue) -> JsValue {
     let input_config_json = input_config.into_serde().unwrap();
     let mut _ignored_errors = vec![];
     let output_config = crate::core::Config::from(&input_config_json, &mut _ignored_errors)
-        .or(Some(crate::core::Config::new())).unwrap();
+        .unwrap_or(crate::core::Config::new());
     let output_config_json = output_config.to_json();
 
     JsValue::from_serde(&output_config_json).unwrap()
@@ -56,10 +56,10 @@ pub fn ensure_metadata(input_metadata: &JsValue) -> JsValue {
 /// Output: SourceObject | undefined
 #[wasm_bindgen(js_name="wasmBundleFromGzip")]
 pub fn bundle_from_gzip(bytes: &[u8]) -> JsValue {
-    if let Ok(str_value) = crate::data::decompress_str(&bytes) {
+    if let Ok(str_value) = crate::data::decompress_str(bytes) {
         if let Ok(mut json_value) = serde_json::from_str(&str_value) {
-            let clean_bundle = crate::api::clean_bundle_json(&mut json_value);
-            return JsValue::from_serde(&clean_bundle).unwrap()
+            crate::api::clean_bundle_json(&mut json_value);
+            return JsValue::from_serde(&json_value).unwrap()
         }
     }
 
