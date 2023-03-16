@@ -6,12 +6,6 @@
 
 import { useAppExperiment } from "./context";
 
-// Enabling the binary search version for scroll tracking, currently WIP
-export const useExpEnhancedScrollTrackerEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
-// Sync map when scrolling, currently have performance issue
-export const useExpMapSyncToDocScrollEnabled = ():boolean => useAppExperiment("EnhancedScrollTrackerEnabled", false);
-// Disable scroll tracking. scroll tracking currently have performance issue
-export const useExpNoTrackDocPos = ():boolean => useAppExperiment("NoTrackDocPos", true);
 // Enable engine warning for negative variables
 export const useExpWarnNegativeVar = (): boolean => useAppExperiment("WarnNegativeVar", true);
 // [11-03] Enable new home page
@@ -24,7 +18,5 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [1-26] Enable showing only the current branch
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
-// [pending] Extract web dev logic to WebSocketDevClient
-export const useExpWebSocketDevClient = () => useAppExperiment("WebSocketDevClient", true);
-// [pending] Enable loading binary bundle
-export const useExpBinaryBundle = () => useAppExperiment("BinaryBundle", true);
+// [pending] Enable loading base64 bundle from the dev server
+export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);

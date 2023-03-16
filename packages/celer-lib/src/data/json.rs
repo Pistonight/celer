@@ -38,3 +38,16 @@ pub fn cast_to_bool(value: &serde_json::Value) -> bool {
 
     false
 }
+
+pub fn to_str_vec(value: &serde_json::Value) -> Vec<String> {
+    let mut output = vec![];
+    if let Some(arr_value) = value.as_array() {
+        for element in arr_value {
+            if let Some(str_value) = cast_to_str(element) {
+                output.push(str_value);
+            }
+        }
+    }
+
+    output
+}

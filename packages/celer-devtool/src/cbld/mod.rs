@@ -29,7 +29,7 @@ fn bundle(config: Config) {
     match config.format {
         config::Format::Json => bundle_context.write_bundle_json(config.debug),
         config::Format::Yaml => bundle_context.write_bundle_yaml(),
-        config::Format::Binary => bundle_context.write_bundle_bin(),
+        config::Format::Gzip => bundle_context.write_bundle_gzip(),
         // _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
     }
     

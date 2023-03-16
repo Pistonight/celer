@@ -101,14 +101,14 @@ impl SourceObject {
         obj
     }
 
-    pub fn to_bytes(&self) -> io::Result<Vec<u8>> {
+    pub fn to_compressed_json(&self) -> io::Result<Vec<u8>> {
         let value = self.to_json();
         let string = serde_json::to_string(&value)?;
         data::compress_str(&string)
     }
 
     pub fn to_b64(&self) -> io::Result<String> {
-        let bytes = self.to_bytes()?;
+        let bytes = self.to_compressed_json()?;
         Ok(data::bytes_to_b64(&bytes))
     }
 }

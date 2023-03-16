@@ -1,42 +1,46 @@
 import axios from "axios";
-import { SourceObject } from "data/libs";
+import { SourceObject, wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
 import { addPageToRecents } from "data/storage";
-import { DocumentService } from "./types";
+import { Consumer } from "data/util";
+import { Document, DocumentResponse } from "./types";
 
-export class UrlService implements DocumentService {
-	private config: UrlServiceConfig[];
+export type DocumentUrlConfig = {
+	url: string,
+	type: "json" | "gzip"
+}
+
+export class DocumentUrl implements Document {
+	private config: DocumentUrlConfig[];
 	private controller: AbortController = new AbortController();
-	private enableBinary: boolean;
 
-	constructor(url: string) {
-		this.url = url;
+	constructor(config: DocumentUrlConfig[]) {
+		this.config = config;
 	}
 
-	start(callback: (doc: SourceObject | null, error: string | null, status: string | null) => void): void {
-		axios.get(this.url, { signal: this.controller.signal }).then(response => {
-			callback(response.data, null, null);
-		}, (rejectReason) => {
-			if (typeof rejectReason === "string") {
-				callback(null, rejectReason, null);
-			} else if (rejectReason && rejectReason.message) {
-				callback(null, rejectReason.message, null);
-			} else {
-				callback(null, "Unknown Error", null);
+	load(callback: Consumer<DocumentResponse>): void {
+		this.fetchRouteAsync().then((response) => {
+			if (response.error) {
+				callback({ error: response.error });
+				return;
 			}
+			if (response.doc) {
+				callback({ doc: response.doc });
+				return;
+			}
+			callback({ error: "Unknown error" });
 		});
-		
-		
 	}
 
-	async fetchRouteAsync(): Promise<ServiceResponse> {
+	async fetchRouteAsync(): Promise<DocumentResponse> {
 		let lastError: any = "";
 		for(let i=0;i<this.config.length;i++){
 			const {url, type} = this.config[i];
+
 			try{
-				let response: ServiceResponse;
+				let response: DocumentResponse;
 				switch(type){
-					case "bin":
-						response = await this.fetchBinaryRouteAsync(url);
+					case "gzip":
+						response = await this.fetchGzipRouteAsync(url);
 						break;
 					case "json":
 						response = await this.fetchJsonRouteAsync(url);
@@ -64,20 +68,20 @@ export class UrlService implements DocumentService {
 		return {error: lastError};
 	}
 
-	async fetchBinaryRouteAsync(url: string): Promise<ServiceResponse> {
+	async fetchGzipRouteAsync(url: string): Promise<DocumentResponse> {
 		const {data} = await axios.get<Uint8Array>(url, {
 			responseType: 'arraybuffer', //This will make axios parse data as uint8array
 			signal: this.controller.signal
 		});
 		
-		const bundle = wasmBundleFromBytes(data);
+		const bundle = wasmBundleFromGzip(data);
 		if(bundle){
 			return {doc: bundle};
 		}
-		return {error: "Unable to parse binary data"};
+		return {error: "Unable to parse gzip data"};
 	}
 
-	async fetchJsonRouteAsync(url: string): Promise<ServiceResponse> {
+	async fetchJsonRouteAsync(url: string): Promise<DocumentResponse> {
 		const {data} = await axios.get(url, {
 			signal: this.controller.signal
 		});
@@ -89,14 +93,15 @@ export class UrlService implements DocumentService {
 	release(): void {
 		this.controller.abort();
 	}
+
 	addToRecentPages(): void {
 		// If this is a github service, shorten the URL and add it to recent pages
-		if (this.url.startsWith("https://raw.githubusercontent.com")) {
-			let relativeURL = this.url;
-			relativeURL = relativeURL.replace("https://raw.githubusercontent.com", "gh");
-			relativeURL = relativeURL.replace("/bundle.json", "");
-			addPageToRecents(relativeURL);
-		}
+		// if (this.url.startsWith("https://raw.githubusercontent.com")) {
+		// 	let relativeURL = this.url;
+		// 	relativeURL = relativeURL.replace("https://raw.githubusercontent.com", "gh");
+		// 	relativeURL = relativeURL.replace("/bundle.json", "");
+		// 	addPageToRecents(relativeURL);
+		// }
 		// Other URL types not yet supported
 	}
 }

@@ -1,6 +1,7 @@
-export * from "./GitHubService";
-export * from "./InternalDocumentService";
-export * from "./WsDevService";
-export * from "./UrlService";
+export * from "./DocumentLocal";
+export * from "./DocumentGitHub";
+export * from "./DocumentInternal";
+export * from "./DocumentDev";
+export * from "./DocumentUrl";
 export * from "./types";
-export * from "./LocalService";
+

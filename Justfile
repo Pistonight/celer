@@ -5,7 +5,7 @@ list:
 # Install or update tools
 install:
     rustup update
-    cargo install wasm-pack
+    cargo install wasm-pack --features curl/static-curl
     just packages/celer-vscode-extension/install
     just packages/celer-web-app/install
 

@@ -1,12 +1,11 @@
-import { wasmCleanBundleJson } from "data/libs";
 import { LocalStorageWrapper } from "data/storage";
 import { Consumer } from "data/util";
-import { DocumentService, ServiceResponse } from "./types";
+import { Document, DocumentResponse } from "./types";
 
 const KEY = "TmpBundleString";
 
-class LocalService implements DocumentService {
-	start(callback: Consumer<ServiceResponse>): void {
+class DocumentLocal implements Document {
+	load(callback: Consumer<DocumentResponse>): void {
 		const bundle = LocalStorageWrapper.load<string>(KEY, "");
 		if(bundle){
 			const bundleJson = JSON.parse(bundle);
@@ -18,11 +17,11 @@ class LocalService implements DocumentService {
 	}
 
 	release(): void {
-		//no-op
+		// no-op
 	}
 	addToRecentPages(): void {
-		// Adding LocalService to recent pages not yet supported
+		// Adding local document to recent pages not yet supported
 	}
 }
 
-export const createLocalService = () => new LocalService();
+export const createDocumentLocal = () => new DocumentLocal();

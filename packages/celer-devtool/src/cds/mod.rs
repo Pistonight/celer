@@ -17,8 +17,6 @@ pub use config::{Config, get_subcommand};
 pub fn start(config: Config) {
     println!("Starting dev server...");
     let mut thread = DevServerThread::new(config);
-    //println!("Loading route for the first time...");
-    //thread.load_files();
 
     while thread.main_loop() {}
 
@@ -50,10 +48,6 @@ struct DevServerThread {
 
     last_update: Option<DateTime<Local>>,
     bundle_context: bundle::BundleContext,
-    // unbundled_route: serde_json::Value,
-    // metadata: core::Metadata,
-    // errors: ErrorState
-
 }
 
 impl DevServerThread {
@@ -81,9 +75,6 @@ impl DevServerThread {
             display: DevServerDisplay::new(),
             last_update: None,
             bundle_context: bundle::BundleContext::new(&current_dir)
-            // unbundled_route: json!({}),
-            // metadata: core::Metadata::new(),
-            // errors: ErrorState::new(),
         }
 
     }
@@ -97,20 +88,18 @@ impl DevServerThread {
     pub fn main_loop(&mut self) -> bool{
         let new_clients = self.server.query_clients();
         self.bundle_context.reset();
-        let (source, _bundle, changed) = self.bundle_context.get_bundle();
-        //let (bundle, _) = self.bundle_context.get_bundle();
+        let (source, _unused_bundle, changed) = self.bundle_context.get_bundle();
 
-        // let changed = self.load_files();
-        // if clients changed, then update regardless of file change    
+        // if clients changed, update regardless of file change    
         if changed || new_clients {
-            
             // send update
             let source_str = serde_json::to_string(&source).unwrap();
             let new_update_count = self.server.send(&source_str);
             if new_update_count > 0 {
                 self.last_update = Option::Some(Local::now());
             }
-            // Write update
+
+            // Write updated bundle.json if changed
             if changed && self.config.emit_bundle {
                 self.bundle_context.write_bundle_json(self.config.debug);
             }
@@ -140,26 +129,4 @@ impl DevServerThread {
         self.running.load(Ordering::SeqCst)
     }
 
-    // /// Reload route files. 
-    // /// Returns if the unbundled source has changed
-    // /// Emits bundle.json if emit_bundle is set to true in Config
-    // fn load_files(&mut self) -> bool {
-    //     self.errors.clear();
-    //     let (unbundled_route, metadata) = bundle::load_unbundled_route_with_metadata(&mut self.errors);
-    //     let changed = !self.unbundled_route.eq(&unbundled_route);
-    //     if changed {
-    //         if self.config.emit_bundle{ 
-    //             let mut bundler_errors = Vec::new();
-    //             let source_object = api::bundle(&unbundled_route, &mut bundler_errors);
-
-    //             bundle::add_bundle_errors(&bundler_errors, &mut self.errors);
-
-    //             bundle::write_bundle_json(&source_object, self.config.debug, &mut self.errors);
-    //         }
-    //         self.unbundled_route = unbundled_route;
-    //         self.metadata = metadata;
-    //     }
-
-    //     changed
-    // }
 }

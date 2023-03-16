@@ -16,7 +16,7 @@ pub fn get_subcommand() -> clap::Command<'static> {
                 .value_parser(TARGETS)
                 .action(clap::ArgAction::Set)
                 .number_of_values(1)
-                .default_value(const_format::formatcp!("{}", TARGETS[0]))
+                .default_value(TARGETS[0])
         )
         .arg(
             clap::Arg::new("yaml")
@@ -24,14 +24,14 @@ pub fn get_subcommand() -> clap::Command<'static> {
                 .long("yaml")
                 .help("Output in YAML format instead of JSON. Output file names will be *.yaml")
                 .conflicts_with(arg::DEBUG)
-                .conflicts_with("binary")
+                .conflicts_with("gzip")
                 .action(clap::ArgAction::SetTrue)
         )
         .arg(
-            clap::Arg::new("binary")
-                .short('b')
-                .long("binary")
-                .help("Output in gzipped binary format. Output file names will be *.bin")
+            clap::Arg::new("gzip")
+                .short('z')
+                .long("gzip")
+                .help("Output in gzipped json format. Output file names will be *.json.gz")
                 .conflicts_with(arg::DEBUG)
                 .conflicts_with("yaml")
                 .action(clap::ArgAction::SetTrue)
@@ -44,7 +44,7 @@ pub fn get_subcommand() -> clap::Command<'static> {
 pub enum Format {
     Json,
     Yaml,
-    Binary
+    Gzip
 }
 
 /// Configuration of celer build
@@ -63,8 +63,8 @@ impl Config {
         let mut format = Format::Json;
         if arg::has_flag(args, "yaml"){
             format = Format::Yaml;
-        }else if arg::has_flag(args, "binary"){
-            format = Format::Binary;
+        }else if arg::has_flag(args, "gzip"){
+            format = Format::Gzip;
         }
 
         Self {

@@ -1,12 +1,8 @@
 {
-    "EnhancedScrollTrackerEnabled": false,
-    "MapSyncToDocScrollEnabled": false,
-    "NoTrackDocPos": true,
     "WarnNegativeVar": true,
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
     "UseNewKorokComment": true,
     "UseCurrentBranch": true,
-    "WebSocketDevClient": true,
-    "BinaryBundle": true
+    "DevServerBase64": false
 }

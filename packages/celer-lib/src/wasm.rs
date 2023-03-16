@@ -54,8 +54,8 @@ pub fn ensure_metadata(input_metadata: &JsValue) -> JsValue {
 /// The input will be validated, and output will always be a valid SourceObject or undefined
 /// Input: Uint8Array
 /// Output: SourceObject | undefined
-#[wasm_bindgen(js_name="wasmBundleFromBytes")]
-pub fn bundle_from_bytes(bytes: &[u8]) -> JsValue {
+#[wasm_bindgen(js_name="wasmBundleFromGzip")]
+pub fn bundle_from_gzip(bytes: &[u8]) -> JsValue {
     if let Ok(str_value) = crate::data::decompress_str(&bytes) {
         if let Ok(mut json_value) = serde_json::from_str(&str_value) {
             let clean_bundle = crate::api::clean_bundle_json(&mut json_value);
@@ -73,7 +73,7 @@ pub fn bundle_from_bytes(bytes: &[u8]) -> JsValue {
 #[wasm_bindgen(js_name="wasmBundleFromBase64")]
 pub fn bundle_from_base64(input: String) -> JsValue {
     if let Some(bytes) = crate::data::b64_to_bytes(&input) {
-        return bundle_from_bytes(&bytes);
+        return bundle_from_gzip(&bytes);
     }
 
     JsValue::undefined()

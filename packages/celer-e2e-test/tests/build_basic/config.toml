@@ -62,21 +62,21 @@ error = true
 stdout = "stdout.expected.txt"
 
 [[test]]
-args = ["build", "-b"]
+args = ["build", "-z"]
 input = ["basic"]
 expected = ["expected_bundle_binary", "../../inputs/basic"]
 error = true
 stdout = "stdout.expected.txt"
 
 [[test]]
-args = ["build", "--binary"]
+args = ["build", "--gzip"]
 input = ["basic"]
 expected = ["expected_bundle_binary", "../../inputs/basic"]
 error = true
 stdout = "stdout.expected.txt"
 
 [[test]]
-args = ["build", "-b", "-t", "bundle"]
+args = ["build", "-z", "-t", "bundle"]
 input = ["basic"]
 expected = ["expected_bundle_binary", "../../inputs/basic"]
 error = true

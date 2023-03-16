@@ -22,14 +22,10 @@ impl Config {
         }
     }
 
-    pub fn from(value: &serde_json::Value) -> Self {
+    pub fn from(value: &serde_json::Value, out_errors: &mut Vec<String>) -> Option<Self> {
         let mut config = Config::new();
         if value.is_null(){
             return Some(config);
-        }
-
-        if let Some(value_split_format) = value.get("split-format"){
-            config.split_format = Some(ConfigMap::<String>::from(value_split_format));
         }
 
         if let Some(value_engine) = value.get("engine"){

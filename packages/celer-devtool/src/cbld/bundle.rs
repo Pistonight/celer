@@ -55,7 +55,7 @@ impl BundleContext {
         self.dirty = false
     }
 
-    /// Get ubundled route. 
+    /// Get unbundled route. 
     /// Loads the route files if they are not loaded. However, the bundler is not invoked
     /// Also does not reload the route files if they are changed
     /// Returns null if it fails to load the route files, and it will reattempt the load on the next call
@@ -128,6 +128,7 @@ impl BundleContext {
     }
 
     /// Output source.json
+    /// /// Attempts to load the bundle if needed
     pub fn write_source_json(&mut self, pretty: bool) {
         self.try_load_and_bundle_if_need();
         file::write_json_file(&self.unbundle, "source.json", pretty, &mut self.errors);
@@ -139,7 +140,7 @@ impl BundleContext {
     }
 
     /// Output bundle.json
-    /// Attempts to load and/or bundle the file
+    /// Attempts to load the bundle if needed
     pub fn write_bundle_json(&mut self, pretty: bool) {
         self.try_load_and_bundle_if_need();
         file::write_json_file(&self.bundle.to_json(), "bundle.json", pretty, &mut self.errors);
@@ -150,16 +151,16 @@ impl BundleContext {
         file::write_yaml_file(&self.bundle.to_json(), "bundle.yaml", &mut self.errors);
     }
 
-    pub fn write_bundle_bin(&mut self) {
+    pub fn write_bundle_gzip(&mut self) {
         self.try_load_and_bundle_if_need();
-        let bytes = match self.bundle.to_bytes(){
+        let bytes = match self.bundle.to_compressed_json(){
             Err(_) => {
-                self.errors.add("bundle.bin", "Failed to compress bundle to binary");
+                self.errors.add("bundle.json.gz", "Failed to gzip bundle");
                 return;
             }
             Ok(x) => x
         };
-        file::write_file(&bytes, "bundle.bin", &mut self.errors);
+        file::write_file(&bytes, "bundle.json.gz", &mut self.errors);
     }
 }
 
