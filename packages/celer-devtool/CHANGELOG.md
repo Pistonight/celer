@@ -1,8 +1,8 @@
 # Change Log
 This is the change log for celer-devtool
 
-## `2.2.0` - `10-27-2022` `LATEST`
-- Added `-b` `--binary` flag to bundle to `bundle.gz`, which is a gzipped `bundle.json`.
+## `2.2.0` - `03-16-2023` `LATEST`
+- Added `-z` `--gzip` flag to bundle to `bundle.json.gz`, which is a gzipped `bundle.json`.
   - In the future, the web app will be able to load this to theoretically be a bit faster
   - The dev server would utilize this to include custom icons in the bundle to send to the web app
 

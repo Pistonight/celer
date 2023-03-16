@@ -49,8 +49,9 @@ class DocumentDev implements Document {
 	release(): void {
 		this.ws?.close();
 	}
-	addToRecentPages(): void {
-		// Adding WebSocketDevService to recent pages not yet supported
+	
+	getPath(): string {
+		return "dev/" + this.port;
 	}
 }
 

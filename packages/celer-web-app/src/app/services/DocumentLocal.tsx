@@ -19,8 +19,9 @@ class DocumentLocal implements Document {
 	release(): void {
 		// no-op
 	}
-	addToRecentPages(): void {
-		// Adding local document to recent pages not yet supported
+	
+	getPath(): string {
+		return "local";
 	}
 }
 

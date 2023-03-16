@@ -12,6 +12,7 @@ import {
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
 import { DocumentCreator } from "./services";
+import { addPageToRecents } from "data/storage";
 
 export type AppDocumentProviderProps = {
 	createDocument: DocumentCreator
@@ -61,7 +62,10 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 				setRouteSourceBundle(null);
 			}
 		});
-		service.addToRecentPages();
+		const path = service.getPath();
+		if (path) {
+			addPageToRecents(path);
+		}
 		return () => {
 			service.release();
 		};

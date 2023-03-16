@@ -4,6 +4,7 @@ import { DocumentUrl } from "./DocumentUrl";
 export const createDocumentGitHub = ({user, repo, branch}: Params) => {
 	return new DocumentUrl([{
 		url: `https://raw.githubusercontent.com/${user}/${repo}/${branch ?? "main"}/bundle.json`,
+		path: `gh/${user}/${repo}${branch ? `/${branch}` : ""}`,
 		type: "json"
 	}]);
 };

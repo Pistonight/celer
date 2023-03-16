@@ -14,8 +14,8 @@ check:
     just packages/celer-code-generator/verify
 
 # Check versions are consistent in packages
-vsync:
-    python3 scripts/version.py
+vsync UPGRADE="":
+    python3 scripts/version-sync scripts/version-sync.toml {{UPGRADE}}
 
 # Invoke code generator
 buildc:

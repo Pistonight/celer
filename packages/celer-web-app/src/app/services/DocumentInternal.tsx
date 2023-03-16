@@ -6,8 +6,10 @@ import { Consumer } from "data/util";
 
 class DocumentInternal implements Document {
 	private doc?: SourceObject;
-	constructor(doc?: SourceObject) {
+	private reference: string;
+	constructor(reference: string, doc?: SourceObject) {
 		this.doc = doc;
+		this.reference = reference;
 	}
 	load(callback: Consumer<DocumentResponse>): void {
 		if(this.doc){
@@ -19,18 +21,19 @@ class DocumentInternal implements Document {
 	release(): void {
 		// no-op
 	}
-	addToRecentPages(): void {
-		// Adding InternalDocument to recent pages not yet supported
+	
+	getPath(): string {
+		return "docs/" + this.reference;
 	}
 }
 
 export const createDocumentInternal = ({ reference }: Params<string>) => {
 	switch (reference) {
 		case "presets":
-			return new DocumentInternal(exampleRouteScriptPresets as unknown as SourceObject);
+			return new DocumentInternal(reference, exampleRouteScriptPresets as unknown as SourceObject);
 		case "functions":
-			return new DocumentInternal(exampleRouteScriptFunctions as unknown as SourceObject);
+			return new DocumentInternal(reference, exampleRouteScriptFunctions as unknown as SourceObject);
 	}
-	return new DocumentInternal();
+	return new DocumentInternal(reference ?? "");
 
 };

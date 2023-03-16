@@ -15,6 +15,6 @@ export interface Document {
     load(callback: Consumer<DocumentResponse>): void,
     // Clean up and destroys the service. Any pending tasks must be cancelled
     release(): void,
-    // Adds the document to the recent pages list, if applicable
-    addToRecentPages(): void,
+    // Get the document path (the part after #/ in the url, for example, gh/username/repo)
+    getPath(): string,
 }

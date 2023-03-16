@@ -6,15 +6,18 @@ import { Document, DocumentResponse } from "./types";
 
 export type DocumentUrlConfig = {
 	url: string,
+	path: string,
 	type: "json" | "gzip"
 }
 
 export class DocumentUrl implements Document {
 	private config: DocumentUrlConfig[];
+	private path: string;
 	private controller: AbortController = new AbortController();
 
 	constructor(config: DocumentUrlConfig[]) {
 		this.config = config;
+		this.path = "";
 	}
 
 	load(callback: Consumer<DocumentResponse>): void {
@@ -34,7 +37,7 @@ export class DocumentUrl implements Document {
 	async fetchRouteAsync(): Promise<DocumentResponse> {
 		let lastError: any = "";
 		for(let i=0;i<this.config.length;i++){
-			const {url, type} = this.config[i];
+			const {url, path, type} = this.config[i];
 
 			try{
 				let response: DocumentResponse;
@@ -51,6 +54,7 @@ export class DocumentUrl implements Document {
 				}
 				if (response.doc){
 					console.log(`Loaded route from ${url}`);
+					this.path = path;
 					return response;
 				}
 				if (response.error){
@@ -94,14 +98,7 @@ export class DocumentUrl implements Document {
 		this.controller.abort();
 	}
 
-	addToRecentPages(): void {
-		// If this is a github service, shorten the URL and add it to recent pages
-		// if (this.url.startsWith("https://raw.githubusercontent.com")) {
-		// 	let relativeURL = this.url;
-		// 	relativeURL = relativeURL.replace("https://raw.githubusercontent.com", "gh");
-		// 	relativeURL = relativeURL.replace("/bundle.json", "");
-		// 	addPageToRecents(relativeURL);
-		// }
-		// Other URL types not yet supported
+	getPath(): string {
+		return this.path;
 	}
 }
