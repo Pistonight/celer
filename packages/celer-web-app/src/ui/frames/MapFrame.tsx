@@ -42,7 +42,7 @@ export const MapFrame: React.FC<MapFrameProps> = ({ manualCenter }) => {
 			setLineVis(mapLines.map(({ color, section, vertices }) => ({ color, section, visible: true, vertices })));
 		}
 
-	}, [docCurrentSection, currentBranchEnabled, settings]);
+	}, [docCurrentSection, currentBranchEnabled, settings, mapIcons, mapLines]);
 
 	const filteredIcons = useMemo(() => updateIcon(iconVis), [iconVis]);
 	const filteredLines = useMemo(() => updateMapLines(lineVis), [lineVis]);
