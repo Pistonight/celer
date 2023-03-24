@@ -4,7 +4,7 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting, useOldAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useNewKorokComment, useNewSettings } from "core/experiments";
+import { useExpNewIconResolution, useExpWarnNegativeVar, useNewKorokComment, useNewSettings } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
 	RouteConfig,
@@ -25,8 +25,9 @@ const mapEngine = new MapEngine();
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ createDocument, children }) => {
 	const warnNegativeVar = useExpWarnNegativeVar();
 	const enableNewKorokComment = useNewKorokComment();
+	const enableEarlyIconResolution = useExpNewIconResolution();
 
-	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
+	const compiler = useMemo(()=>new Compiler(enableNewKorokComment, enableEarlyIconResolution), [enableNewKorokComment, enableEarlyIconResolution]);
 
 	const useNew = useNewSettings();
 	const { setting } = useAppSetting();
@@ -92,7 +93,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 		const config: RouteConfig = wasmEnsureRouteConfig(routeSourceBundle._config);
 		const route = routeSourceBundle._route;
 
-		const routeAssembly = compiler.compile(route);
+		const routeAssembly = compiler.compile(route, config);
 
 		return {
 			metadata,

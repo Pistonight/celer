@@ -1,3 +1,5 @@
+use std::time::UNIX_EPOCH;
+use std::{fs, time::SystemTime};
 use std::path::PathBuf;
 use serde_json::json;
 use celer::{api, core};
@@ -5,6 +7,12 @@ use crate::cio::{self, file, ErrorState};
 
 /// Context used by cbld and cds for interfacing with the bundle process
 pub struct BundleContext {
+    /// The path for main.celer
+    main_module: String,
+    /// The path for the module directory
+    module_path: String,
+    /// The last modified time
+    last_modified: SystemTime,
     /// The unbundled json
     unbundle: serde_json::Value,
     /// Flag for whether bundle is valid
@@ -13,7 +21,7 @@ pub struct BundleContext {
     bundle: core::SourceObject,
     /// The errors
     errors: ErrorState,
-    /// Flag for dirty state (i.e. changed)
+    /// Flag for dirty state (i.e. if update should be sent to clients)
     dirty: bool
 }
 
@@ -21,15 +29,18 @@ impl BundleContext {
     /// Create a new BundleContext
     /// BundleContext can be reused across bundle attempts,
     /// the dev server reuses the same context when reloading the route
-    pub fn new(project_name: &str) -> Self {
+    pub fn new(project_name: &str, main_module: &str, module_path: &str) -> Self {
         let mut metadata = core::Metadata::new();
         metadata.name = String::from(project_name);
         Self {
+            main_module: String::from(main_module),
+            module_path: String::from(module_path),
             unbundle: json!(null),
             is_bundled: false,
             bundle: core::SourceObject::new(metadata, vec![]),
             errors: ErrorState::new(),
             dirty: true,
+            last_modified: UNIX_EPOCH
         }
     }
 
@@ -55,7 +66,7 @@ impl BundleContext {
     }
 
     /// Get unbundled route.
-    /// Loads the route files if they are not loaded. However, the bundler is not invoked
+    /// Loads the route files and bundle them if needed
     /// Also does not reload the route files if they are changed
     /// Returns null if it fails to load the route files, and it will reattempt the load on the next call
     /// The second return value is the dirty flag (i.e. bundle has changed since the last clear_dirty() call)
@@ -81,15 +92,13 @@ impl BundleContext {
     /// However, the metadata will still be attempted to load
     fn try_load_and_bundle(&mut self) {
         let mut new_errors = ErrorState::new();
-        let mut unbundled_route = load_route_files(&mut new_errors);
-
+        let mut unbundled_route = match self.load_route_files(self.unbundle.is_null(), &mut new_errors) {
+            Some(v) => v,
+            None => return // not changed, skip update
+        };
+        
         if !new_errors.is_empty(){
             unbundled_route = json!(null)
-        }
-
-        if self.unbundle == unbundled_route{
-            // not changed, skip update
-            return;
         }
 
         self.unbundle = unbundled_route;
@@ -106,10 +115,72 @@ impl BundleContext {
         }
 
         let mut bundler_errors = vec![];
-        let source_object = api::bundle(&self.unbundle, &mut bundler_errors);
-        add_bundle_errors(&bundler_errors, &mut self.errors);
+        let mut source_object = api::bundle(&self.unbundle, &mut bundler_errors);
+
+        for error in &bundler_errors {
+            self.errors.add("bundle emitted", format!("In {} {}: {}", error.location_type(), error.location_name(), error.message()))
+        }
+
+        super::icon::load_local_icons(&mut source_object, &self.module_path, &mut self.errors);
+
         self.is_bundled = true;
         self.bundle = source_object;
+    }
+
+    /// Scan for files, add errors to self.errors and return the loaded json
+    /// The return value will either be None, incidating the files have not been updated since last load,
+    /// or be a mapping, even if some module(s) fail to load
+    fn load_route_files(&mut self, force_update: bool, errors: &mut ErrorState) -> Option<serde_json::Value> {
+        let mut updated = false;
+        let mut paths: Vec<PathBuf> = Vec::new();
+
+        cio::scan_for_celer_files(&self.main_module, &self.module_path, &mut paths, errors);
+
+        // Check if any file has been updated
+        for p in &paths {
+            fs::metadata(p).map(|m| {
+                m.modified().map(|t| {
+                    if t > self.last_modified {
+                        updated = true;
+                        self.last_modified = t;
+                    }
+                }).unwrap_or(()); // ignore error
+            }).unwrap_or(()); // ignore error;
+        }
+
+        if force_update {
+            updated = true;
+        }
+
+        if !updated {
+            return None;
+        }
+            
+        // Load the files
+        let mut combined_json = json!({});
+        for p in paths {
+            if cio::file::is_celer_module(&p) {
+                let file_content = match std::fs::read_to_string(&p) {
+                    Ok(v) => v,
+                    Err(e) => {
+                        errors.add(format!("{}", p.display()), format!("Cannot read file: {}", e));
+                        continue
+                    }
+                };
+                let file_json: serde_json::Value = match load_yaml_object(&file_content) {
+                    Ok(file_json) => file_json,
+                    Err(e) => {
+                        errors.add(format!("{}", p.display()), format!("Error loading object: {}", e));
+                        continue
+                    }
+                };
+                for (k, v) in file_json.as_object().unwrap() {
+                    combined_json[k.to_string()] = v.clone();
+                }
+            }
+        }
+
+        Some(combined_json)
     }
 
     /// Get error string or specified no error string
@@ -124,6 +195,11 @@ impl BundleContext {
     /// Get error
     pub fn get_error(&self) -> &ErrorState {
         &self.errors
+    }
+
+    /// Get mutable error
+    pub fn get_error_mut(&mut self) -> &mut ErrorState {
+        &mut self.errors
     }
 
     /// Output source.json
@@ -163,37 +239,6 @@ impl BundleContext {
     }
 }
 
-/// Load route files, add errors to self.errors and return the loaded json
-/// The return value will always be a mapping, even if some module(s) fail to load
-fn load_route_files(errors: &mut ErrorState) -> serde_json::Value {
-
-    let mut paths: Vec<PathBuf> = Vec::new();
-
-    cio::scan_for_celer_files(&mut paths, errors);
-
-    let mut combined_json = json!({});
-    for p in paths {
-        let file_content = match std::fs::read_to_string(&p) {
-            Ok(v) => v,
-            Err(e) => {
-                errors.add(format!("{}", p.display()), format!("Cannot read file: {}", e));
-                continue
-            }
-        };
-        let file_json: serde_json::Value = match load_yaml_object(&file_content) {
-            Ok(file_json) => file_json,
-            Err(e) => {
-                errors.add(format!("{}", p.display()), format!("Error loading object: {}", e));
-                continue
-            }
-        };
-        for (k, v) in file_json.as_object().unwrap() {
-            combined_json[k.to_string()] = v.clone();
-        }
-    }
-
-    combined_json
-}
 
 fn load_yaml_object(yaml_str: &str) -> Result<serde_json::Value, String> {
     let yaml_result: serde_yaml::Result<serde_json::Value> = serde_yaml::from_str(yaml_str);
@@ -207,11 +252,5 @@ fn load_yaml_object(yaml_str: &str) -> Result<serde_json::Value, String> {
         Err(e) => {
             Err(format!("Yaml load error: {}", e))
         }
-    }
-}
-
-fn add_bundle_errors(bundle_errors: &[core::BundlerError], out_errors: &mut ErrorState) {
-    for error in bundle_errors {
-        out_errors.add("bundle emitted", format!("In {} {}: {}", error.location_type(), error.location_name(), error.message()))
     }
 }

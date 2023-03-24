@@ -4,7 +4,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useNewSettings } from "core/experiments";
+import { useExpNewIconResolution, useNewSettings } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
@@ -196,6 +196,8 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			textStyleName = styles.instructionMoldugaColor;
 			break;
 	}
+
+	const iconAlreadyResolved = useExpNewIconResolution();
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumberWithIcon docLine={docLine} />
@@ -203,7 +205,7 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			<StepNumberWithIcon docLine={docLine}/>
 			<div className={clsx(styles.instruction, styles.instructionWithIcon, textStyleName)}>
 				<div className={styles.icon}>
-					<img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+					<img width={"100%"} height={"auto"} src={iconAlreadyResolved ? icon : Icons[icon]} alt={icon}/>
 				</div>
 				<div className={styles.iconSideText}>
 					<TypedStringComponent content={text} variables={variables} isNotes={false}/>

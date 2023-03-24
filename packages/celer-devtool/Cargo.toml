@@ -17,3 +17,4 @@ chrono = "0.4.19"
 clap = { version = "3.2.17", features = ["derive"] }
 panic-message = "0.3.0"
 const_format = "0.2.26"
+base64 = "0.13.0"

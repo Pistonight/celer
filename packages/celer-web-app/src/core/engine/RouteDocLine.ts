@@ -45,6 +45,7 @@ export interface DocLineTextWithIcon extends Omit<DocLineText, "lineType"> {
 
     splitType: SplitType;
     comment?: TypedString;
+    // The icon name (The resolved icon with NewIconResolution)
     icon: string;
     counterValue: string;
 

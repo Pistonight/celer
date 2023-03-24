@@ -1,6 +1,7 @@
 use crate::cio::ErrorState;
 
 mod config;
+mod icon;
 
 pub mod bundle;
 pub use config::{Config, get_subcommand};
@@ -15,7 +16,7 @@ pub fn run(config: Config) {
 }
 
 fn merge(config: Config) {
-    let mut bundle_context = bundle::BundleContext::new("");
+    let mut bundle_context = bundle::BundleContext::new("", &config.main_module, &config.module_path);
     match config.format {
         config::Format::Json => bundle_context.write_source_json(config.debug),
         config::Format::Yaml => bundle_context.write_source_yaml(),
@@ -26,12 +27,11 @@ fn merge(config: Config) {
 }
 
 fn bundle(config: Config) {
-    let mut bundle_context = bundle::BundleContext::new("");
+    let mut bundle_context = bundle::BundleContext::new("", &config.main_module, &config.module_path);
     match config.format {
         config::Format::Json => bundle_context.write_bundle_json(config.debug),
         config::Format::Yaml => bundle_context.write_bundle_yaml(),
         config::Format::Gzip => bundle_context.write_bundle_gzip(),
-        // _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
     }
 
     fail_build_on_error(bundle_context.get_error());

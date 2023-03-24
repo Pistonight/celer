@@ -8,6 +8,8 @@ pub fn get_subcommand() -> clap::Command<'static> {
     clap::Command::new("build")
         .about("Build project")
         .arg(arg::debug_flag())
+        .arg(arg::main_module_flag())
+        .arg(arg::module_path_flag())
         .arg(
             clap::Arg::new("target")
                 .short('t')
@@ -50,9 +52,16 @@ pub enum Format {
 /// Configuration of celer build
 #[derive(Debug)]
 pub struct Config {
+    /// If output files should be in debug (pretty) mode
     pub debug: bool,
+    /// The build target
     pub target: String,
+    /// Output format
     pub format: Format,
+    /// The main module
+    pub main_module: String,
+    /// The module path
+    pub module_path: String,
 }
 
 impl Config {
@@ -67,10 +76,15 @@ impl Config {
             format = Format::Gzip;
         }
 
+        let main_module = args.get_one::<String>("main").unwrap().to_string();
+        let module_path = args.get_one::<String>("module-path").unwrap().to_string();
+
         Self {
             debug,
             target,
-            format
+            format,
+            main_module,
+            module_path,
         }
     }
 }

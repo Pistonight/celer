@@ -1,3 +1,4 @@
+
 mod cbld;   // Celer Build
 mod ccmd;   // Celer Command Module
 mod cds;    // Celer Dev Server
@@ -25,7 +26,7 @@ fn main() {
     init();
     // Common args
 
-    // Setup command arg parser
+    //Setup command arg parser
     let matches = clap::Command::new("celer-devtool")
         .bin_name("celer")
         .about("Celer Devtool")

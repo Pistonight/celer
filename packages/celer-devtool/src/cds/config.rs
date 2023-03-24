@@ -16,6 +16,8 @@ pub fn get_subcommand() -> clap::Command<'static> {
                 .default_value(const_format::formatcp!("{}", DEFAULT_PORT))
         )
         .arg(ccmd::arg::debug_flag())
+        .arg(ccmd::arg::main_module_flag())
+        .arg(ccmd::arg::module_path_flag())
         .arg(
             clap::Arg::new("no-emit-bundle")
                 .short('n')
@@ -34,7 +36,11 @@ pub struct Config {
     /// If running dev server emits bundle.json on file update
     pub emit_bundle: bool,
     /// If output files should be in debug (pretty) mode
-    pub debug: bool
+    pub debug: bool,
+    /// The main module
+    pub main_module: String,
+    /// The module path
+    pub module_path: String,
 }
 
 impl Config {
@@ -43,11 +49,15 @@ impl Config {
 
         let emit_bundle = !*args.get_one::<bool>("no-emit-bundle").unwrap();
         let debug = ccmd::arg::has_flag(args, ccmd::arg::DEBUG);
+        let main_module = args.get_one::<String>("main").unwrap().to_string();
+        let module_path = args.get_one::<String>("module-path").unwrap().to_string();
 
         Self {
             port,
             emit_bundle,
-            debug
+            debug,
+            main_module,
+            module_path,
         }
     }
 }

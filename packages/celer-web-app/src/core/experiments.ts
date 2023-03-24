@@ -18,5 +18,7 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [1-26] Enable showing only the current branch
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
-// [pending] Enable loading base64 bundle from the dev server
-export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);
+// [pending custom icon] Enable loading base64 bundle from the dev server
+export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", false);
+// [pending custom icon] Enable resolving the icon in the compiler
+export const useExpNewIconResolution = () => useAppExperiment("NewIconResolution", false);

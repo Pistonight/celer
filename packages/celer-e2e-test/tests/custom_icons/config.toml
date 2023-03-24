@@ -1,0 +1,4 @@
+[[test]]
+args = ["build", "--yaml", "-M", "main.celer", "--module-path", "modules"]
+input = ["custom_icons"]
+expected = ["expected_yaml", "../../inputs/custom_icons"]

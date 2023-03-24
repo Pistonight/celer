@@ -1,0 +1,19 @@
+_config:
+  icons:
+    my-custom-icon: https://raw.githubusercontent.com/iTNTPiston/botw-as-icons/main/sample/DLCShrine.png
+    castle-medoh: SmallCastle_Medoh_.png
+_project:
+  authors:
+  - test
+  description: ''
+  name: Custom Icon Test
+  url: test
+  version: 0.1.0
+_route:
+- (==) Welcome to celer!
+- Hello World:
+  - My first line:
+      icon: my-custom-icon
+  - _Shrine::JaBaij
+  - custom:
+      icon: castle-medoh

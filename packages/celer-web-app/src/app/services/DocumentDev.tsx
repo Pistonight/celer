@@ -1,5 +1,5 @@
 import { Params } from "react-router-dom";
-import { wasmBundle, wasmBundleFromBase64 } from "data/libs";
+import { SourceObject, wasmBundle, wasmBundleFromBase64 } from "data/libs";
 import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
@@ -26,7 +26,14 @@ class DocumentDev implements Document {
 			if (this.enableBase64) {
 				if (dataObject.type) {
 					if (dataObject.type === "base64") {
-						const doc = wasmBundleFromBase64(dataObject.data).bundle; //Discard the errors for now
+						const doc: SourceObject | undefined = wasmBundleFromBase64(dataObject.data);
+						if (!doc) {
+							callback({error: "Failed to read bundle."});
+							return;
+						}
+						if (doc._globalError) {
+							callback({error: doc._globalError});
+						}
 						callback({doc});
 					} else {
 						callback({error: "Unknown data type"});

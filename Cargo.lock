@@ -68,6 +68,7 @@ checksum = "f0b3de4a0c5e67e16066a0715723abd91edc2f9001d09c46e1dca929351e130e"
 name = "celer-devtool"
 version = "2.2.0"
 dependencies = [
+ "base64",
  "celer-lib",
  "chrono",
  "clap",
