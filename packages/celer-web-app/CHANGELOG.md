@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.2.1` - `03-16-2023` `LATEST`
+## `5.2.2` - `03-24-2023` `LATEST`
+- Fixed the bug where the map doesn't update when using the dev server.
+
+## `5.2.1` - `03-16-2023`
 - Added capability of the devtool client to load gzipped route, base64 encoded.
 
 ## `5.2.0` - `03-13-2023`
