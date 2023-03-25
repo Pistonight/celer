@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { View, Text } from "react-native";
 import { HomePageColors, Sizes, Fonts } from "ui/styles";
-import { useNewHomePage } from "core/experiments";
+import { useExpUseNewRecentPath, useNewHomePage } from "core/experiments";
 import { LocalStorageWrapper, loadRecentPages } from "data/storage";
 import { EmptyObject } from "data/util";
 
+// Remove with useExpUseNewRecentPath
 // Function that automatically populates the Recent Pages table
 function populateRecentPages() {
 	const recentPages = loadRecentPages();
@@ -22,10 +23,19 @@ function populateRecentPages() {
 
 export const Home: React.FC<EmptyObject> = () => {
 	const [textBundle, setTextBundle] = useState(LocalStorageWrapper.load<string>("TmpBundleString", ""));
+	// Remove with useExpUseNewRecentPath
 	const [recentPages, _] = useState(populateRecentPages());
 	const SITE_PADDING = "2em";
 	const MIN_WIDTH_BEFORE_COLLAPSE = 325;
 	const NEW_PAGE = useNewHomePage();
+
+	const enableNewPath = useExpUseNewRecentPath();
+	const recentPageLinks = useMemo(() => {
+		return loadRecentPages().map( url =>
+			url.startsWith("/") ? url : "/" + url
+		);
+	}, [enableNewPath]);
+
 	if (NEW_PAGE)
 	{
 		return (
@@ -43,7 +53,18 @@ export const Home: React.FC<EmptyObject> = () => {
 								<h2 style={{ color: HomePageColors.sectionTitleText, fontSize: Sizes.sectionTitleText }}>My Recent Routes</h2>
 								{/* TODO: apply the RecentRoutesList styles to each list item */}
 								<ul>
-									{recentPages}
+									{
+										enableNewPath ? 
+										recentPages
+										:
+										recentPageLinks.map( (url, i) => (
+											<li key={i}>
+												<a href={url}>
+													{url}
+												</a>
+											</li>
+										))
+									}
 								</ul>
 							</View>
 						}

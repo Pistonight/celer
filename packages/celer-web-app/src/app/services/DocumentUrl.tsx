@@ -19,21 +19,7 @@ export class DocumentUrl implements Document {
 		this.path = "";
 	}
 
-	load(callback: Consumer<DocumentResponse>): void {
-		this.fetchRouteAsync().then((response) => {
-			if (response.error) {
-				callback({ error: response.error });
-				return;
-			}
-			if (response.doc) {
-				callback({ doc: response.doc });
-				return;
-			}
-			callback({ error: "Unknown error" });
-		});
-	}
-
-	async fetchRouteAsync(): Promise<DocumentResponse> {
+	async load(): Promise<DocumentResponse> {
 		let lastError: unknown = "";
 		for(let i=0;i<this.config.length;i++){
 			const {url, path, type} = this.config[i];
@@ -96,6 +82,6 @@ export class DocumentUrl implements Document {
 	}
 
 	getPath(): string {
-		return this.path;
+		return this.path; // Remove with useExpUseNewRecentPath
 	}
 }

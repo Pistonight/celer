@@ -11,11 +11,11 @@ class DocumentInternal implements Document {
 		this.doc = doc;
 		this.reference = reference;
 	}
-	load(callback: Consumer<DocumentResponse>): void {
+	async load(): Promise<DocumentResponse> {
 		if(this.doc){
-			callback( {doc: this.doc});
+			return {doc: this.doc};
 		}else{
-			callback({error: "The URL you entered is not a valid internal document"});
+			return {error: "The URL you entered is not a valid internal document"};
 		}
 	}
 	release(): void {
@@ -23,7 +23,7 @@ class DocumentInternal implements Document {
 	}
 
 	getPath(): string {
-		return "docs/" + this.reference;
+		return "docs/" + this.reference; // Remove with useExpUseNewRecentPath
 	}
 }
 

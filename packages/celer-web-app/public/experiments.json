@@ -5,5 +5,7 @@
     "UseNewKorokComment": true,
     "UseCurrentBranch": true,
     "DevServerBase64": false,
-    "NewIconResolution": false
+    "NewIconResolution": false,
+    "LoadDocFromRelease": false,
+    "UseNewRecentPath": true
 }

@@ -22,3 +22,7 @@ export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranc
 export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", false);
 // [pending custom icon] Enable resolving the icon in the compiler
 export const useExpNewIconResolution = () => useAppExperiment("NewIconResolution", false);
+// [pending custom icon] Enable loading bundle from release API
+export const useExpLoadDocFromRelease = () => useAppExperiment("LoadDocFromRelease", false);
+// [3/24] Use router to get paths for recent paths
+export const useExpUseNewRecentPath = () => useAppExperiment("UseNewRecentPath", false);

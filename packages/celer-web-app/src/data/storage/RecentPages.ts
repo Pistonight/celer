@@ -30,6 +30,5 @@ export function addPageToRecents(url: string): void {
 
 // Returns the most recently visited pages from localStorage
 export function loadRecentPages(): string[] {
-	const recentlyVisited = LocalStorageWrapper.load<string[]>(KEY, []);
-	return recentlyVisited;
+	return LocalStorageWrapper.load<string[]>(KEY, []);
 }

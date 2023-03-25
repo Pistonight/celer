@@ -14,12 +14,14 @@ class DocumentDev implements Document {
 		}
 		this.enableBase64 = enableBase64;
 	}
-	load(callback: Consumer<DocumentResponse>): void {
+	async load(callback: Consumer<DocumentResponse>): Promise<DocumentResponse> {
 		console.log("Connecting to local ws dev server " + this.port); // eslint-disable-line no-console
 		const newws = new WebSocket("ws://localhost:" + this.port);
 		newws.onerror = (e) => {
 			console.error(e);
-			callback({error: "Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again"});
+			return {
+				error: "Cannot connect to the dev server. Make sure the dev server is running and refresh the page to try again"
+			};
 		};
 		newws.onmessage = (e) => {
 			const dataObject = JSON.parse(e.data);
@@ -51,14 +53,14 @@ class DocumentDev implements Document {
 			callback({ status: "Waiting for data"});
 		};
 		this.ws = newws;
-		callback({ status: "Connecting to dev server" });
+		return { status: "Connecting to dev server" };
 	}
 	release(): void {
 		this.ws?.close();
 	}
 
 	getPath(): string {
-		return "dev/" + this.port;
+		return "dev/" + this.port; // Remove with useExpUseNewRecentPath
 	}
 }
 
