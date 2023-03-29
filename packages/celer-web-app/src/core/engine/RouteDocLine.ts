@@ -35,6 +35,7 @@ export interface DocLineText {
     centerCoord?: InGameCoordinates;
     movements: Movement[];
     mapLineColor?: string;
+    lineNumberColor?: string;
 
     variables: MapOf<number>;
 

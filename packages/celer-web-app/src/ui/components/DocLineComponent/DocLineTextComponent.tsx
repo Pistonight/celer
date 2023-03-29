@@ -29,9 +29,18 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 };
 
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {lineNumber} = docLine;
+	const {lineNumber, lineNumberColor} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
+	const { setting } = useAppSetting();
+	if(setting.colorCodeDocument)
+	{
+		return (
+			<div className={styles.lineNumber} style={{color:lineNumberColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+				<span className="code">{lineNumber}</span>
+			</div>
+		);
+	}
 	return (
 		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
@@ -40,10 +49,19 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 };
 
 const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {lineNumber} = docLine;
+	const {lineNumber, lineNumberColor} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-
+	const { setting } = useAppSetting();
+	if(setting.colorCodeDocument)
+	{
+		return (
+			<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} style={{color:lineNumberColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+				<span className="code">{lineNumber}</span>
+				<div className={styles.commentFont}>&nbsp;</div>
+			</div>
+		);
+	}
 	return (
 		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>

@@ -107,6 +107,16 @@ export const DocumentConfig = [
 		}
 	},
 	{
+		component: SettingToggle,
+		text:"Color-Code Document",
+		action: (draft: Setting) => {
+			draft.colorCodeDocument = !draft.colorCodeDocument;
+		},
+		value: (setting: Setting) => {
+			return setting.colorCodeDocument;
+		}
+	},
+	{
 		component: SettingLabel,
 		text: "Split Settings",
 		action: () => {return;},

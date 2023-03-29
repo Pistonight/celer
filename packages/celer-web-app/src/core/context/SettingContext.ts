@@ -26,6 +26,7 @@ export type Setting =
 	enableSubsplits: boolean
 	showCurrentBranch: boolean
 	keyboardControls: boolean
+	colorCodeDocument: boolean
 }
 
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
@@ -47,6 +48,7 @@ export const defaultSettings =
 	enableSubsplits: false,
 	showCurrentBranch: false,
 	keyboardControls: true,
+	colorCodeDocument: false,
 };
 
 export const OldSettingContext = React.createContext<OldAppSettingContextState>(emptyObject());

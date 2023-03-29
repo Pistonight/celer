@@ -65,6 +65,7 @@ export class MapEngine {
 				type: line.splitType
 			});
 		}
+		line.lineNumberColor = this.currentColor;
 	}
 
 	private computeMovement(movement: Movement, outLines: MapLine[]): void {
