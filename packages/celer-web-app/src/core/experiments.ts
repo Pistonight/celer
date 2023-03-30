@@ -22,3 +22,5 @@ export const useExpScrollProgressTrackerEnabled = ():boolean => useAppExperiment
 export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokComment", false);
 // [1-17] Enable new settings dialog
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
+// [3-30] Enable collapsing notes into buttons UI option
+export const useCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
