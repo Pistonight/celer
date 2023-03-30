@@ -4,7 +4,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useNewSettings } from "core/experiments";
+import { useNewSettings, useExpCollapseNotes } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
@@ -136,22 +136,59 @@ const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 
 const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, altNotesColor})=>{
 	const {notes, variables} = docLine;
+    const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
+
+    // If the notes should be collapsed, render as a button if there are notes
+    if (collapseNotes) {
+        if (!notes) {
+            return (
+                <div className={styles.notesCollapsedEmpty}>
+                    <span>no</span>
+                </div>               
+            );
+        }
+        return (
+            <div className={styles.notesCollapsed}>
+                <span>yes</span>
+            </div>
+        );
+    }
+
+    // If there are no notes for this step, return null
 	if(!notes){
 		return null;
 	}
 
-	return  (
-		<div className={clsx(styles.notes, altNotesColor && styles.notesAlt)}>
-			<TypedStringComponent content={notes} variables={variables} isNotes/>
-		</div>
-	);
+    // Otherwise, return as a standard note block
+    return  (
+        <div className={clsx(styles.notes, altNotesColor && styles.notesAlt)}>
+            <TypedStringComponent content={notes} variables={variables} isNotes/>
+        </div>
+    );
 };
 
 export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, variables} = docLine;
+    const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
 
+    // If the notes should be collapsed, render the instruction as wider
+    if (collapseNotes) {
+        return (
+            <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
+                <LineNumber docLine={docLine} />
+                <NoCounter />
+                <StepNumber docLine={docLine} />
+                <span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
+                    <TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
+                </span>
+                <Notes docLine={docLine} altNotesColor={altNotesColor} />
+            </div>
+        );
+    }
+
+    // Otherwise, render the instructions at standard width
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
@@ -167,6 +204,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 
 export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, icon, comment, splitType, variables} = docLine;
+    const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
 
 	let textStyleName = styles.instructionDefaultColor;
@@ -196,6 +234,29 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			textStyleName = styles.instructionMoldugaColor;
 			break;
 	}
+
+    if (collapseNotes) {
+        
+	return (
+		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
+			<LineNumberWithIcon docLine={docLine} />
+			<Counter docLine={docLine} />
+			<StepNumberWithIcon docLine={docLine}/>
+			<div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
+				<div className={styles.icon}>
+					<img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+				</div>
+				<div className={styles.iconSideText}>
+					<TypedStringComponent content={text} variables={variables} isNotes={false}/>
+					<div className={clsx(styles.commentFont, styles.commentColor)}>
+						{comment && <TypedStringComponent content={comment} variables={variables} isNotes={false}/>}{"\u200b"}
+					</div>
+				</div>
+			</div>
+			<Notes docLine={docLine} altNotesColor={altNotesColor} />
+		</div>
+	);
+    }
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumberWithIcon docLine={docLine} />
