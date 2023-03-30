@@ -1,16 +1,25 @@
 import { Params } from "react-router-dom";
-import { DocumentUrl } from "./DocumentUrl";
+import { DocumentUrl, DocumentUrlConfig } from "./DocumentUrl";
 import { Document, DocumentResponse } from "./types";
 import { makeJsonResource, makeUInt8Resource, NetworkResource } from "data/util";
 import { SourceObject, wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
 
 // Remove with LoadDocFromRelease
-export const createDocumentGitHub = ({user, repo, ref}: Params) => {
-	return new DocumentUrl([{
+export const createDocumentGitHub = ({user, repo, ref}: Params, enableGzip: boolean) => {
+	const config: DocumentUrlConfig[] = [];
+	if (enableGzip) {
+		config.push({
+			url: `https://raw.githubusercontent.com/${user}/${repo}/${ref ?? "main"}/bundle.json.gz`,
+			path: `gh/${user}/${repo}${ref ? `/${ref}` : ""}`,
+			type: "gzip"
+		});
+	}
+	config.push({
 		url: `https://raw.githubusercontent.com/${user}/${repo}/${ref ?? "main"}/bundle.json`,
 		path: `gh/${user}/${repo}${ref ? `/${ref}` : ""}`,
 		type: "json"
-	}]);
+	});
+	return new DocumentUrl(config);
 };
 
 const getRawContentUrl = (owner: string, repo: string, ref?: string) => `https://raw.githubusercontent.com/${owner}/${repo}/${ref ?? "main"}/bundle.json`;

@@ -196,7 +196,7 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			textStyleName = styles.instructionMoldugaColor;
 			break;
 	}
-
+	console.log(icon);
 	const iconAlreadyResolved = useExpNewIconResolution();
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>

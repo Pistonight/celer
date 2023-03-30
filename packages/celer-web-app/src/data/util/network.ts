@@ -24,11 +24,11 @@ export const makeJsonResource = <T>(url: string): NetworkResource<T> => {
 export const makeUInt8Resource = (url: string): NetworkResource<Uint8Array> => {
     const controller = new AbortController();
     const request = async () => {
-        const {data} = await axios.get<Uint8Array>(url, {
-            responseType: "arraybuffer", // This will make axios parse data as uint8array
+        const {data} = await axios.get<ArrayBuffer>(url, {
+            responseType: "arraybuffer", // This will make axios return data as ArrayBuffer
             signal: controller.signal
         });
-        return data;
+        return new Uint8Array(data);
     }
     
     const cancel = () => controller.abort();

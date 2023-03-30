@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { HashRouter, Outlet, Route, Routes} from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
-import { useExpDevServerBase64, useExpLoadDocFromRelease } from "core/experiments";
+import { useExpDevServerBase64, useExpLoadDocFromGzip, useExpLoadDocFromRelease } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -44,7 +44,15 @@ const WsDevDocumentLayer: React.FC = () => {
 
 const GitHubDocumentLayer: React.FC = () => {
 	const enableRelease = useExpLoadDocFromRelease();
-	return <DocumentLayer createDocument={enableRelease ? createDocumentGitHubNew : createDocumentGitHub}/>;
+	const enableGzip = useExpLoadDocFromGzip();
+	const creatorWrapper = useCallback((params) => {
+		if (enableRelease) {
+			return createDocumentGitHubNew(params);
+		} else {
+			return createDocumentGitHub(params, enableGzip);
+		}
+	}, [enableRelease, enableGzip]);
+	return <DocumentLayer createDocument={creatorWrapper}/>;
 }
 
 // Router for the app

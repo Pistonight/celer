@@ -21,6 +21,7 @@ import Icons from "data/image";
 import { MapOverride } from "./MapOverride";
 import { MapSvg } from "./MapSvg";
 import { MapTile } from "./MapTile";
+import { useExpNewIconResolution } from "core/experiments";
 
 export interface MapProps {
 	icons: NewMapIcon[];
@@ -41,6 +42,8 @@ const InGameOriginGeoCoord = inGameToGeoCoord(inGameCoord(0, 0));
 const DynamicCanvasAnchorGeoCoord = inGameToGeoCoord(inGameCoord(-DynamicCanvasSizeX, -DynamicCanvasSizeZ));
 
 export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
+	const iconAlreadyResolved = useExpNewIconResolution();
+
 	const [zoom, setZoom] = useState<number>(DefaultZoom);
 	const [animating, setAnimating] = useState<boolean>(false);
 	const [animationZoom, setAnimationZoom] = useState<number>(DefaultZoom);
@@ -85,11 +88,11 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 		}
 		mapCanvas.withStaticCoordinateTransformer(zoom, (transformer) => {
 			icons.forEach(({ coord, iconName}) => {
-				mapCanvas.renderIcon(Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
+				mapCanvas.renderIcon(iconAlreadyResolved ? iconName : Icons[iconName], transformer(coord), zoom === 2 ? IconSizeSmall : IconSize);
 			});
 		});
 
-	}, [canvasRef, canvasRef.current, icons, zoom]);
+	}, [canvasRef, canvasRef.current, icons, zoom, iconAlreadyResolved]);
 
 	// Dynamic canvas render
 	useEffect(() => {
@@ -101,10 +104,10 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 		}
 		mapCanvas.withDynamicCoordinateTransformer(center, zoom, (transformer) => {
 			icons.forEach(({ coord, iconName}) => {
-				mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+				mapCanvas.renderIcon(iconAlreadyResolved ? iconName : Icons[iconName], transformer(coord), IconSize);
 			});
 		});
-	}, [canvasRef, canvasRef.current, icons, zoom, center]);
+	}, [canvasRef, canvasRef.current, icons, zoom, center, iconAlreadyResolved]);
 
 	const onAnimationZoomCallback = useCallback((animationZoom: number, _animationEnded: boolean) => {
 		setAnimating(true);
@@ -118,7 +121,7 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 			}
 			mapCanvas.withDynamicCoordinateTransformer(center, animationZoom, (transformer) => {
 				icons.forEach(({ coord, iconName}) => {
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), IconSize);
+					mapCanvas.renderIcon(iconAlreadyResolved ? iconName : Icons[iconName], transformer(coord), IconSize);
 				});
 			});
 
@@ -134,12 +137,12 @@ export const Map: React.FC<MapProps> = ({ icons, lines, manualCenter }) => {
 
 			mapCanvas.withStaticCoordinateTransformer(animationZoom, (transformer) => {
 				icons.forEach(({ coord, iconName}) => {
-					mapCanvas.renderIcon(Icons[iconName], transformer(coord), animationZoom < 3 ? IconSizeSmall : IconSize);
+					mapCanvas.renderIcon(iconAlreadyResolved ? iconName : Icons[iconName], transformer(coord), animationZoom < 3 ? IconSizeSmall : IconSize);
 				});
 			});
 
 		}
-	}, [canvasRef, canvasRef.current, center, icons]);
+	}, [canvasRef, canvasRef.current, center, icons, iconAlreadyResolved]);
 
 	const overrideProps = {
 		provider: internalTileUrl,

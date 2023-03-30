@@ -56,12 +56,14 @@ export class DocumentUrl implements Document {
 	}
 
 	async fetchGzipRouteAsync(url: string): Promise<DocumentResponse> {
-		const {data} = await axios.get<Uint8Array>(url, {
+		const {data} = await axios.get<ArrayBuffer>(url, {
 			responseType: "arraybuffer", //This will make axios parse data as uint8array
-			signal: this.controller.signal
+			signal: this.controller.signal,
 		});
 
-		const bundle = wasmBundleFromGzip(data);
+		console.log(data);
+
+		const bundle = wasmBundleFromGzip(new Uint8Array(data));
 		if(bundle){
 			return {doc: bundle};
 		}
