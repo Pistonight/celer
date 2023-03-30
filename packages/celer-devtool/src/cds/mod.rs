@@ -4,18 +4,19 @@ use std::time::Duration;
 use chrono::{DateTime, Local};
 use serde_json::json;
 use crate::cbld::bundle;
+use crate::ccmd;
 mod client;
-mod config;
 mod delay;
 mod display;
 mod server;
 use delay::DelayMgr;
 use display::DevServerDisplay;
 use server::DevServer;
-pub use config::{Config, get_subcommand};
+
+pub const DEFAULT_PORT: u16 = 2222;
 
 /// Entry point for cds
-pub fn start(config: Config) {
+pub fn start(config: ccmd::arg::DevServerConfig) {
     println!("Starting dev server...");
     let mut thread = DevServerThread::new(config);
 
@@ -42,7 +43,7 @@ struct DevServerThread {
     /// Underlying wrapper for TcpListener, for communicating with clients
     server: DevServer,
 
-    config: Config,
+    config: ccmd::arg::DevServerConfig,
     running: Arc<AtomicBool>,
     delay_mgr: DelayMgr,
     display: DevServerDisplay,
@@ -53,7 +54,7 @@ struct DevServerThread {
 
 impl DevServerThread {
     /// Create and bind to port
-    pub fn new(config: Config) -> Self {
+    pub fn new(config: ccmd::arg::DevServerConfig) -> Self {
         let server = match DevServer::new(config.port) {
             Err(e) => panic!("error: cds: Error starting dev server: {e}"),
             Ok(server) => server
@@ -74,7 +75,7 @@ impl DevServerThread {
             delay_mgr: DelayMgr::new(),
             display: DevServerDisplay::new(),
             last_update: None,
-            bundle_context: bundle::BundleContext::new(&current_dir, &config.main_module, &config.module_path),
+            bundle_context: bundle::BundleContext::new(&current_dir, config.bundle_config.clone()),
             config, // Need to move this after bundle_context
         }
 
@@ -119,7 +120,7 @@ impl DevServerThread {
 
             // Write updated bundle.json if changed
             if changed && self.config.emit_bundle {
-                self.bundle_context.write_bundle_json(self.config.debug);
+                self.bundle_context.write_bundle();
             }
 
             self.bundle_context.clear_dirty();

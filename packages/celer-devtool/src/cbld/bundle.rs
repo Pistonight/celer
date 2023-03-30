@@ -4,13 +4,12 @@ use std::path::PathBuf;
 use serde_json::json;
 use celer::{api, core};
 use crate::cio::{self, file, ErrorState};
+use crate::ccmd;
 
 /// Context used by cbld and cds for interfacing with the bundle process
 pub struct BundleContext {
-    /// The path for main.celer
-    main_module: String,
-    /// The path for the module directory
-    module_path: String,
+    /// The config
+    config: ccmd::arg::BundleConfig,
     /// The last modified time
     last_modified: SystemTime,
     /// The unbundled json
@@ -29,12 +28,11 @@ impl BundleContext {
     /// Create a new BundleContext
     /// BundleContext can be reused across bundle attempts,
     /// the dev server reuses the same context when reloading the route
-    pub fn new(project_name: &str, main_module: &str, module_path: &str) -> Self {
+    pub fn new(project_name: &str, config: ccmd::arg::BundleConfig) -> Self {
         let mut metadata = core::Metadata::new();
         metadata.name = String::from(project_name);
         Self {
-            main_module: String::from(main_module),
-            module_path: String::from(module_path),
+            config,
             unbundle: json!(null),
             is_bundled: false,
             bundle: core::SourceObject::new(metadata, vec![]),
@@ -121,7 +119,7 @@ impl BundleContext {
             self.errors.add("bundle emitted", format!("In {} {}: {}", error.location_type(), error.location_name(), error.message()))
         }
 
-        super::icon::load_local_icons(&mut source_object, &self.module_path, &mut self.errors);
+        super::icon::load_local_icons(&mut source_object, &self.config.module_path, &mut self.errors);
 
         self.is_bundled = true;
         self.bundle = source_object;
@@ -134,7 +132,7 @@ impl BundleContext {
         let mut updated = false;
         let mut paths: Vec<PathBuf> = Vec::new();
 
-        cio::scan_for_celer_files(&self.main_module, &self.module_path, &mut paths, errors);
+        cio::scan_for_celer_files(&self.config.main_module, &self.config.module_path, &mut paths, errors);
 
         // Check if any file has been updated
         for p in &paths {
@@ -203,39 +201,64 @@ impl BundleContext {
     }
 
     /// Output source.json
-    /// /// Attempts to load the bundle if needed
-    pub fn write_source_json(&mut self, pretty: bool) {
+    /// Attempts to load the bundle if needed
+    pub fn write_source(&mut self) {
+        match self.config.format {
+            ccmd::arg::Format::Json => self.write_source_json(),
+            ccmd::arg::Format::Yaml => self.write_source_yaml(),
+            _ => panic!("Output target \"source\" does not support the {:?} format", self.config.format)
+        }
+    }
+    fn write_source_json(&mut self) {
         self.try_load_and_bundle_if_need();
-        file::write_json_file(&self.unbundle, "source.json", pretty, &mut self.errors);
+        let pretty = self.config.debug;
+        file::write_json_file(&self.unbundle, &self.resolve_output_file_name("source.json"), pretty, &mut self.errors);
     }
 
-    pub fn write_source_yaml(&mut self) {
+    fn write_source_yaml(&mut self) {
         self.try_load_and_bundle_if_need();
-        file::write_yaml_file(&self.unbundle, "source.yaml", &mut self.errors);
+        file::write_yaml_file(&self.unbundle, &self.resolve_output_file_name("source.yaml"), &mut self.errors);
     }
 
     /// Output bundle.json
     /// Attempts to load the bundle if needed
-    pub fn write_bundle_json(&mut self, pretty: bool) {
+    pub fn write_bundle(&mut self) {
+        match self.config.format {
+            ccmd::arg::Format::Json => self.write_bundle_json(),
+            ccmd::arg::Format::Yaml => self.write_bundle_yaml(),
+            ccmd::arg::Format::Gzip => self.write_bundle_gzip(),
+        }
+    }
+    fn write_bundle_json(&mut self) {
         self.try_load_and_bundle_if_need();
-        file::write_json_file(&self.bundle.to_json(), "bundle.json", pretty, &mut self.errors);
+        let pretty = self.config.debug;
+        file::write_json_file(&self.bundle.to_json(), &self.resolve_output_file_name("bundle.json"), pretty, &mut self.errors);
     }
 
-    pub fn write_bundle_yaml(&mut self) {
+    fn write_bundle_yaml(&mut self) {
         self.try_load_and_bundle_if_need();
-        file::write_yaml_file(&self.bundle.to_json(), "bundle.yaml", &mut self.errors);
+        file::write_yaml_file(&self.bundle.to_json(), &self.resolve_output_file_name("bundle.yaml"), &mut self.errors);
     }
 
-    pub fn write_bundle_gzip(&mut self) {
+    fn write_bundle_gzip(&mut self) {
         self.try_load_and_bundle_if_need();
         let bytes = match self.bundle.to_compressed_json(){
             Err(_) => {
-                self.errors.add("bundle.json.gz", "Failed to gzip bundle");
+                self.errors.add("gzip bundle", "Failed to gzip bundle");
                 return;
             }
             Ok(x) => x
         };
-        file::write_file(&bytes, "bundle.json.gz", &mut self.errors);
+        file::write_file(&bytes, &self.resolve_output_file_name("bundle.json.gz"), &mut self.errors);
+    }
+
+    pub fn resolve_output_file_name(&self, file_name: &str) -> String {
+        let output_path = PathBuf::from(self.config.output_path.clone());
+        if output_path.is_dir() {
+            output_path.join(file_name).to_str().unwrap().to_string()
+        } else {
+            output_path.to_str().unwrap().to_string()
+        }
     }
 }
 
