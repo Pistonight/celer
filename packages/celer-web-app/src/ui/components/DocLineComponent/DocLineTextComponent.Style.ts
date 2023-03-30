@@ -62,7 +62,28 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 	},
 	instruction: {
 		width: `calc( ${sizes.instruction} + ${sizes.instructionIcon} )`,
-
+		display: "inline-block",
+		borderLeft: `1px solid ${colors.docTextBorder}`,
+		borderRight: `1px solid ${colors.docTextBorder}`,
+		borderBottom: `1px solid ${colors.docTextBorder}`,
+		borderTop: "1px solid transparent",
+		padding: sizes.cellPadding,
+		margin: "0",
+		boxSizing: "border-box"
+	},
+	instructionNotesCollapsed: {
+        width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.collapsedNote} )`,
+		display: "inline-block",
+		borderLeft: `1px solid ${colors.docTextBorder}`,
+		borderRight: `1px solid ${colors.docTextBorder}`,
+		borderBottom: `1px solid ${colors.docTextBorder}`,
+		borderTop: "1px solid transparent",
+		padding: sizes.cellPadding,
+		margin: "0",
+		boxSizing: "border-box"
+	},
+	instructionWithIconNotesCollapsed: {
+        width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} -${sizes.instructionIcon} - ${sizes.collapsedNote} )`,
 		display: "inline-block",
 		borderLeft: `1px solid ${colors.docTextBorder}`,
 		borderRight: `1px solid ${colors.docTextBorder}`,
@@ -174,5 +195,28 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		backgroundColor: colors.docNotesBackgroundAlt,
 		color: colors.docNotesColorAlt
 	},
-
+    notesCollapsed: {
+		position: "relative",
+		display: "inline-block",
+		float: "right",
+		width: `${sizes.collapsedNote}`,
+		backgroundColor: "red",
+		borderTop: "1px solid transparent",
+		borderBottom: "1px solid transparent",
+		boxSizing: "border-box",
+		padding: sizes.cellPadding,
+		color: colors.docNotesColor
+	},
+    notesCollapsedEmpty: {
+		position: "relative",
+		display: "inline-block",
+		float: "right",
+		width: `${sizes.collapsedNote}`,
+		backgroundColor: "transparent",
+		borderTop: "1px solid transparent",
+		borderBottom: "1px solid transparent",
+		boxSizing: "border-box",
+		padding: sizes.cellPadding,
+		color: colors.docNotesColor
+	},
 };
