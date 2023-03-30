@@ -23,4 +23,4 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 // [1-17] Enable new settings dialog
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [3-30] Enable collapsing notes into buttons UI option
-export const useCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
+export const useExpCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
