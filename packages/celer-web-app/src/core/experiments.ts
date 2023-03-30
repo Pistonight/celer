@@ -21,4 +21,4 @@ export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranc
 // [pending] Enable loading base64 bundle from the dev server
 export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);
 // [3-30] Enable collapsing notes into buttons UI option
-export const useCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
+export const useExpCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
