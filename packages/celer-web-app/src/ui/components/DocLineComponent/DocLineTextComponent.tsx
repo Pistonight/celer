@@ -143,14 +143,14 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
     if (collapseNotes) {
         if (!notes) {
             return (
-                <div className={styles.notesCollapsedEmpty}>
-                    <span>no</span>
+                <div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
+                    <span></span>
                 </div>               
             );
         }
         return (
-            <div className={styles.notesCollapsed}>
-                <span>yes</span>
+            <div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
+                <span>•••</span>
             </div>
         );
     }
@@ -236,26 +236,25 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 	}
 
     if (collapseNotes) {
-        
-	return (
-		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-			<LineNumberWithIcon docLine={docLine} />
-			<Counter docLine={docLine} />
-			<StepNumberWithIcon docLine={docLine}/>
-			<div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
-				<div className={styles.icon}>
-					<img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
-				</div>
-				<div className={styles.iconSideText}>
-					<TypedStringComponent content={text} variables={variables} isNotes={false}/>
-					<div className={clsx(styles.commentFont, styles.commentColor)}>
-						{comment && <TypedStringComponent content={comment} variables={variables} isNotes={false}/>}{"\u200b"}
-					</div>
-				</div>
-			</div>
-			<Notes docLine={docLine} altNotesColor={altNotesColor} />
-		</div>
-	);
+        return (
+            <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
+                <LineNumberWithIcon docLine={docLine} />
+                <Counter docLine={docLine} />
+                <StepNumberWithIcon docLine={docLine}/>
+                <div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
+                    <div className={styles.icon}>
+                        <img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+                    </div>
+                    <div className={styles.iconSideText}>
+                        <TypedStringComponent content={text} variables={variables} isNotes={false}/>
+                        <div className={clsx(styles.commentFont, styles.commentColor)}>
+                            {comment && <TypedStringComponent content={comment} variables={variables} isNotes={false}/>}{"\u200b"}
+                        </div>
+                    </div>
+                </div>
+                <Notes docLine={docLine} altNotesColor={altNotesColor} />
+            </div>
+	    );
     }
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>

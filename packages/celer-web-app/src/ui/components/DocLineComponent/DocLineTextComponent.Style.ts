@@ -183,7 +183,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		position: "relative",
 		display: "inline-block",
 		float: "right",
-		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.instruction} - ${sizes.instructionIcon} )`,
+		width: `calc( 100% - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.instruction} - ${sizes.instructionIcon} )`,
 		backgroundColor: colors.docNotesBackground,
 		borderTop: "1px solid transparent",
 		borderBottom: "1px solid transparent",
@@ -196,27 +196,10 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		color: colors.docNotesColorAlt
 	},
     notesCollapsed: {
-		position: "relative",
-		display: "inline-block",
-		float: "right",
 		width: `${sizes.collapsedNote}`,
-		backgroundColor: "red",
-		borderTop: "1px solid transparent",
-		borderBottom: "1px solid transparent",
-		boxSizing: "border-box",
-		padding: sizes.cellPadding,
-		color: colors.docNotesColor
+        textAlign: "center",
 	},
     notesCollapsedEmpty: {
-		position: "relative",
-		display: "inline-block",
-		float: "right",
-		width: `${sizes.collapsedNote}`,
 		backgroundColor: "transparent",
-		borderTop: "1px solid transparent",
-		borderBottom: "1px solid transparent",
-		boxSizing: "border-box",
-		padding: sizes.cellPadding,
-		color: colors.docNotesColor
 	},
 };
