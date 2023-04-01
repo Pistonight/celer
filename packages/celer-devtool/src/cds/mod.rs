@@ -116,7 +116,7 @@ impl DevServerThread {
                 Err(err) => {
                     self.bundle_context.get_error_mut().add("dev server", format!("error encoding bundle to base64: {err}"));
                 }
-            }           
+            }
 
             // Write updated bundle.json if changed
             if changed && self.config.emit_bundle {

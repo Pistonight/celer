@@ -311,7 +311,7 @@ export class Compiler {
 
 	private makeCompilerError(error: string): RouteAssembly {
 		return this.makeBanner(error, false, false);
-	} 
+	}
 
 	private makeCompilerErrorWithTriangle(error: string): RouteAssembly {
 		return this.makeBanner(error, true, false);

@@ -1,8 +1,8 @@
 import { Params } from "react-router-dom";
+import { SourceObject, wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
+import { makeJsonResource, makeUInt8Resource, NetworkResource } from "data/util";
 import { DocumentUrl, DocumentUrlConfig } from "./DocumentUrl";
 import { Document, DocumentResponse } from "./types";
-import { makeJsonResource, makeUInt8Resource, NetworkResource } from "data/util";
-import { SourceObject, wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
 
 // Remove with LoadDocFromRelease
 export const createDocumentGitHub = ({user, repo, ref}: Params, enableGzip: boolean) => {
@@ -76,7 +76,7 @@ export class DocumentGitHub implements Document {
 				console.error(e);
 				return { error: "Unable to fetch route from repo" };
 			}
-			
+
 		}
 
 		// Try latest release + bundle.json as name
@@ -148,7 +148,7 @@ export class DocumentGitHub implements Document {
 	async loadUrl(url: string): Promise<DocumentResponse> {
 		const bundleResource = makeJsonResource<SourceObject>(url);
 		this.pendingResource = bundleResource;
-		
+
 		const bundle = await bundleResource.request();
 		this.pendingResource = undefined;
 		return { doc: wasmCleanBundleJson(bundle) };
@@ -171,4 +171,3 @@ export const createDocumentGitHubNew = ({user, repo, ref, release}: Params) => {
 	}
 	return new DocumentGitHub(user, repo, ref, release);
 };
-

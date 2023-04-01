@@ -1,6 +1,6 @@
+use std::path::PathBuf;
 use std::time::UNIX_EPOCH;
 use std::{fs, time::SystemTime};
-use std::path::PathBuf;
 use serde_json::json;
 use celer::{api, core};
 use crate::cio::{self, file, ErrorState};
@@ -94,7 +94,7 @@ impl BundleContext {
             Some(v) => v,
             None => return // not changed, skip update
         };
-        
+
         if !new_errors.is_empty(){
             unbundled_route = json!(null)
         }
@@ -153,7 +153,7 @@ impl BundleContext {
         if !updated {
             return None;
         }
-            
+
         // Load the files
         let mut combined_json = json!({});
         for p in paths {

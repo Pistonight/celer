@@ -1,5 +1,6 @@
 import { Overlay, MapProps as PigeonMapProps } from "pigeon-maps";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useExpNewIconResolution } from "core/experiments";
 import {
 	DynamicCanvasSizeX,
 	DynamicCanvasSizeZ,
@@ -21,7 +22,6 @@ import Icons from "data/image";
 import { MapOverride } from "./MapOverride";
 import { MapSvg } from "./MapSvg";
 import { MapTile } from "./MapTile";
-import { useExpNewIconResolution } from "core/experiments";
 
 export interface MapProps {
 	icons: NewMapIcon[];

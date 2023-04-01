@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use super::ErrorState;
 
 pub fn write_json_file(value: &serde_json::Value, file_name: &str, pretty: bool, out_errors: &mut ErrorState) {
@@ -50,12 +50,12 @@ pub fn write_file(content: &[u8], file_name: &str, out_errors: &mut ErrorState) 
     }
 }
 
-pub fn is_celer_module(file_name: &PathBuf) -> bool {
+pub fn is_celer_module(file_name: &Path) -> bool {
     let file_name = file_name.file_name().and_then(|x| x.to_str()).unwrap_or("");
     file_name.ends_with(".celer") || file_name.ends_with(".yaml")
 }
 
-pub fn is_related_module(file_name: &PathBuf) -> bool {
+pub fn is_related_module(file_name: &Path) -> bool {
     let file_name = file_name.file_name().and_then(|x| x.to_str()).unwrap_or("");
     file_name.ends_with(".celer") || file_name.ends_with(".yaml") || file_name.ends_with(".png")
 }

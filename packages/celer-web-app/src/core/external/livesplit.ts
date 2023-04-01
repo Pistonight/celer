@@ -1,10 +1,7 @@
 import { SplitType } from "core/compiler";
 import { DocLine } from "core/engine";
 import Icons from "data/image";
-import { MapOf } from "data/util";
-import { makeUInt8Resource } from "data/util";
-
-
+import { MapOf, makeUInt8Resource } from "data/util";
 
 // DEPRECATED Remove with Exp NewIconResolution
 export const toLiveSplitEncodedImage = (webpackImageData: string):string => {
@@ -156,7 +153,7 @@ const createSegmentTagAsync = async (splitName: string, resolvedIcon: string, ic
 		iconCache[resolvedIcon] = iconTag;
 	}
 	return `<Segment><Name>${cleanString(splitName)}</Name><Icon>${iconTag}</Icon><SplitTimes><SplitTime name="Personal Best" /></SplitTimes><BestSegmentTime /><SegmentHistory /></Segment>`;
-}
+};
 
 const cleanString = (input: string): string => {
 	return input.replaceAll("&", "&amp;").replaceAll("\"", "&quot;").replaceAll("'", "&apos;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -181,7 +178,7 @@ const toLiveSplitEncodedImageTagAsync = async (resolvedImage: string): Promise<s
 	const imageBase64String = resolvedImage.substring(resolvedImage.indexOf(",")+1);
 	const imageBuff = Buffer.from(imageBase64String, "base64");
 	return imageToCDataTag(imageBuff);
-}
+};
 
 const imageToCDataTag = (imageBuff: Buffer): string => {
 	// Livesplit magic
@@ -200,4 +197,4 @@ const imageToCDataTag = (imageBuff: Buffer): string => {
 
 	const livesplitEncodedBase64String = livesplitEncodedBase64Buff.toString("base64");
 	return `<![CDATA[${livesplitEncodedBase64String}]]>`;
-}
+};

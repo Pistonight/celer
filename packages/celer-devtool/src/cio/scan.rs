@@ -29,10 +29,8 @@ pub fn scan_for_celer_files(main_path: &str, module_path: &str, out_paths: &mut 
 fn scan_path(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorState) {
     if path.is_dir() {
         scan_dir(path, out_paths, out_errors);
-    }else if path.is_file() {
-        if super::file::is_related_module(&path) {
-            out_paths.push(path);
-        }
+    } else if path.is_file() && super::file::is_related_module(&path) {
+        out_paths.push(path);
     }
 }
 
@@ -58,4 +56,3 @@ fn scan_dir(path: PathBuf, out_paths: &mut Vec<PathBuf>, out_errors: &mut ErrorS
     }
 
 }
-

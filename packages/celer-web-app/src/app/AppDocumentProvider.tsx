@@ -59,22 +59,22 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 		const service = createDocument(params);
 		const doUpdate = (response: DocumentResponse) => {
 			const {doc, error, status} = response;
-				if(doc){
-					if(doc._globalError){
-						setError(doc._globalError);
-						setStatus(null);
-						setRouteSourceBundle(null);
-					} else {
-						setError(null);
-						setStatus(null);
-						setRouteSourceBundle(doc);
-					}
-				}else{
-					setError(error ?? null);
-					setStatus(status ?? null);
+			if(doc){
+				if(doc._globalError){
+					setError(doc._globalError);
+					setStatus(null);
 					setRouteSourceBundle(null);
+				} else {
+					setError(null);
+					setStatus(null);
+					setRouteSourceBundle(doc);
 				}
-		}
+			}else{
+				setError(error ?? null);
+				setStatus(status ?? null);
+				setRouteSourceBundle(null);
+			}
+		};
 		const doLoad = async () => {
 			try {
 				doUpdate(await service.load(doUpdate));
@@ -84,7 +84,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 				setStatus(null);
 				setRouteSourceBundle(null);
 			}
-		}
+		};
 		doLoad();
 		if (!enableNewPath) {
 			const path = service.getPath();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { getInterpolationFunction, SplitType } from "core/compiler";
 import { useAppSetting, useDocument } from "core/context";
+import { useExpNewIconResolution } from "core/experiments";
 import { createLiveSplitFile, createLiveSplitFileAsync } from "core/external";
 import { saveAs, SplitTypeConfig, SplitTypeKeys } from "data/libs";
 import { MapOf } from "data/util";
@@ -9,7 +10,6 @@ import { MapOf } from "data/util";
 import { SettingCategory } from "./SettingCategory";
 import { SettingsContent, DocumentConfig, MapConfig } from "./SettingsContent";
 import { settingsDialogStyles } from "./SettingsDialog.Style";
-import { useExpNewIconResolution } from "core/experiments";
 
 type SettingsDialogProps = {
 	isOpen: boolean;
@@ -86,7 +86,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
 												return processed;
 											}
 											return lineText;
-										}
+										};
 
 										if (!iconAlreadyResolved) {
 											const splitContent = createLiveSplitFile(docLines, setting.enableSubsplits, formatter);
@@ -97,8 +97,8 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
 										const doCreateSplits = async () => {
 											const splitContent = await createLiveSplitFileAsync(docLines, setting.enableSubsplits, formatter);
 											saveAs(splitContent, (metadata.name || "celer-splits").replaceAll(" ", "-")+".lss");
-										}
-										doCreateSplits();										
+										};
+										doCreateSplits();
 									} }>
 										Download Splits (.lss)
 									</button>

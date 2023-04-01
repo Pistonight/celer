@@ -1,6 +1,5 @@
 import axios from "axios";
 import { wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
-import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
 export type DocumentUrlConfig = {
@@ -60,8 +59,6 @@ export class DocumentUrl implements Document {
 			responseType: "arraybuffer", //This will make axios parse data as uint8array
 			signal: this.controller.signal,
 		});
-
-		console.log(data);
 
 		const bundle = wasmBundleFromGzip(new Uint8Array(data));
 		if(bundle){

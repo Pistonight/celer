@@ -1,7 +1,6 @@
 import { Params } from "react-router-dom";
 import { exampleRouteScriptPresets, exampleRouteScriptFunctions } from "data/docs";
 import { SourceObject } from "data/libs";
-import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
 class DocumentInternal implements Document {

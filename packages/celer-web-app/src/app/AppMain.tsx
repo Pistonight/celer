@@ -53,7 +53,7 @@ const GitHubDocumentLayer: React.FC = () => {
 		}
 	}, [enableRelease, enableGzip]);
 	return <DocumentLayer createDocument={creatorWrapper}/>;
-}
+};
 
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {

@@ -54,16 +54,16 @@ export const Home: React.FC<EmptyObject> = () => {
 								{/* TODO: apply the RecentRoutesList styles to each list item */}
 								<ul>
 									{
-										enableNewPath ? 
-										recentPages
-										:
-										recentPageLinks.map( (url, i) => (
-											<li key={i}>
-												<a href={url}>
-													{url}
-												</a>
-											</li>
-										))
+										enableNewPath ?
+											recentPages
+											:
+											recentPageLinks.map( (url, i) =>
+												<li key={i}>
+													<a href={url}>
+														{url}
+													</a>
+												</li>
+											)
 									}
 								</ul>
 							</View>
