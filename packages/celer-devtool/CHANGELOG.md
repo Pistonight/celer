@@ -1,7 +1,13 @@
 # Change Log
 This is the change log for celer-devtool
 
-## `2.2.0` - `03-16-2023` `LATEST`
+## `2.3.0` - `03-23-2023` `LATEST`
+- Added `-M` `--main` flag to specify a main module other than `main.celer`
+- Added `-m` `--module-path` flag to specify a directory/file to load modules, other than the current directory
+- Added `-o` `--output` flag to specify a output directory or file.
+- The bundler now loads local icons and store them in `_config.icons` as data urls
+
+## `2.2.0` - `03-16-2023`
 - Added `-z` `--gzip` flag to bundle to `bundle.json.gz`, which is a gzipped `bundle.json`.
   - In the future, the web app will be able to load this to theoretically be a bit faster
   - The dev server would utilize this to include custom icons in the bundle to send to the web app

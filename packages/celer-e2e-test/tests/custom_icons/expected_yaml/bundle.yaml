@@ -1,0 +1,21 @@
+_config:
+  icons:
+    castle-medoh: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACVUlEQVR4nO2aTW7CMBCFh6qn6AkicZ9IcAsQG07AJoJbgMSy1+gaiRtUPUW6mspYjj125idS51uBlcR+z+OJPQDgOI7jOI7j6NMP3dgP3Wg5hjerjkPhliaYGICC99sT7LenlzZt1A0IxSOWJqgakBKPWJmgZkBK/Pl6hPP1+PfdwgQVA6bEpz5rmyBuQE78bfeA2+7x0hZeq2GCqAEl8YilCWIG5BIeFQ0TRAyYEp+afSQVBeEzpExgN6AknoKmCSvOh5Wy/f3wXPVDN952D9hc1i/3Yhteg+2pZ90PT7Zxs0VASXwr0omRxUnKmk/NeMhUROSeyxEJsyOAY82XkMwJsxykik9lfQpxVEhEQnMEpNwP9/b3w/MD22MhFMJ7UGB8dsiNhcp7y03YIc4sDjb6/h1n9BbC2c311w/d2BIJ1RFgXcLK0TK2KsfiNV+T6GrzQM2yicdTEwnkCMhVciyZW1kiOUXJ9lMzHK9XKqX7wgiZ83YwqwovBZIB4WsoJHR+c1k3ve5qifuZuzcgRwDFBG04NkZVS2BJJnDtCqtzwBJM4NwSNyVBSxO4zwPNb4EpE75+Pkn3YzKrSZ7xs00PQ2HHrSbUICEegGEfoGGClHgApo2QpAmS4gEYd4ISiVGyFIawboU5TdAQDyBwFuBYDtJhHyJyGJpjgqZ4AOYfRmJKx2gURb1OAlEDAOiVYwvxAAr1AEpitBIPoBABCPXnck3xAIoVoalICNEWD6BcEsuZYCEewKAmmDLBSjyAYg6IiUvXFuLNWcKfpR3HcRzHcf4tv/q07DdSQ0OlAAAAAElFTkSuQmCC
+    my-custom-icon: https://raw.githubusercontent.com/iTNTPiston/botw-as-icons/main/sample/DLCShrine.png
+_project:
+  authors:
+  - test
+  description: ''
+  name: Custom Icon Test
+  url: test
+  version: 0.1.0
+_route:
+- (==) Welcome to celer!
+- Hello World:
+  - My first line:
+      icon: my-custom-icon
+      split-type: UserDefined
+  - _Shrine::JaBaij
+  - custom:
+      icon: castle-medoh
+      split-type: UserDefined

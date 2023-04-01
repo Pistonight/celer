@@ -18,5 +18,13 @@ export const useNewKorokComment = (): boolean => useAppExperiment("UseNewKorokCo
 export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", true);
 // [1-26] Enable showing only the current branch
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
-// [pending] Enable loading base64 bundle from the dev server
+// [3-31 custom icon] Enable loading base64 bundle from the dev server
 export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);
+// [3-31 custom icon] Enable resolving the icon in the compiler
+export const useExpNewIconResolution = () => useAppExperiment("NewIconResolution", true);
+// [3-31 custom icon] Enable loading bundle.json.gz from repo
+export const useExpLoadDocFromGzip = () => useAppExperiment("LoadDocFromGzip", true);
+// Enable loading bundle from release API (doesn't work due to CORS)
+export const useExpLoadDocFromRelease = () => useAppExperiment("LoadDocFromRelease", false);
+// [3/24] Use router to get paths for recent paths
+export const useExpUseNewRecentPath = () => useAppExperiment("UseNewRecentPath", true);

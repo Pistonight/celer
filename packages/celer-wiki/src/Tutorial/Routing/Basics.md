@@ -52,3 +52,4 @@ And here's a table of all available configs and the specs
 |-|-|
 |`split-format`|Customize split format for individual split types. Details see [here](../WebApp/Customize%20Split%20Format%20and%20Export%20Splits.md)
 |`engine`|Engine configuration. Details see [here](./Engine%20Config.md)
+|`icons`|Icon configuration. Details see [here](./Custom%20Icons.md)

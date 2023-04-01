@@ -1,7 +1,11 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.2.2` - `03-24-2023` `LATEST`
+## `5.3.0` - `03-31-2023` `LATEST`
+- Fixed the bug where local bundles are not loaded correctly
+- Moved icon resolution to Engine (`Exp.NewIconResolution`). This allows the icons to be resolved in a centralized manner and be available to the rest of the app.
+
+## `5.2.2` - `03-24-2023`
 - Fixed the bug where the map doesn't update when using the dev server.
 
 ## `5.2.1` - `03-16-2023`

@@ -4,5 +4,9 @@
     "UseNewHomePage": true,
     "UseNewKorokComment": true,
     "UseCurrentBranch": true,
-    "DevServerBase64": false
+    "DevServerBase64": true,
+    "NewIconResolution": true,
+    "LoadDocFromGzip": true,
+    "LoadDocFromRelease": false,
+    "UseNewRecentPath": true
 }
