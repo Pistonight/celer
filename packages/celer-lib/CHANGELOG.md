@@ -1,10 +1,10 @@
 # Change Log
 This is the change log for celer-lib
 
-## `2.2.0` - `03-16-2023` `LATEST`
-- Added binary format support and the bundler now recognizes "icons" config (does nothing, only recognizes)
+## `2.3.0` - `03-31-2023` `LATEST`
+- Minor updates to the bundler API
 
-## `2.2.0` - `03-16-2023` `LATEST`
+## `2.2.0` - `03-16-2023`
 - Added binary format support and the bundler now recognizes "icons" config (does nothing, only recognizes)
 
 ## `2.1.0` - `01-01-2023`

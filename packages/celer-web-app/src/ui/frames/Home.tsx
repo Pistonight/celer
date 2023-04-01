@@ -10,7 +10,7 @@ import { EmptyObject } from "data/util";
 function populateRecentPages() {
 	const recentPages = loadRecentPages();
 	return recentPages.map((url) => {
-		const link = "#/" + url;
+		const link = "#" + url;
 		return (
 			<li key={url}>
 				<a href={link}>
