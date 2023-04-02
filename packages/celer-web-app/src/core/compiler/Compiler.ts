@@ -18,8 +18,8 @@ export class Compiler {
 	private modules: CompilerPresetModule[];
 	private resolveIcon: boolean;
 
-	constructor(useNewKorokComment: boolean, resolveIcon: boolean) {
-		this.modules = getModules(useNewKorokComment);
+	constructor(resolveIcon: boolean) {
+		this.modules = getModules();
 		this.resolveIcon = resolveIcon;
 	}
 

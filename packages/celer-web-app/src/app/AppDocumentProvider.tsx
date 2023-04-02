@@ -4,7 +4,7 @@ import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting, useOldAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpNewIconResolution, useExpUseNewRecentPath, useExpWarnNegativeVar, useNewKorokComment, useNewSettings } from "core/experiments";
+import { useExpNewIconResolution, useExpUseNewRecentPath, useNewSettings } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
 	RouteConfig,
@@ -23,20 +23,14 @@ const mapEngine = new MapEngine();
 
 // AppDocumentProvider handles loading the document and passing it to the rest of the app
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ createDocument, children }) => {
-	const warnNegativeVar = useExpWarnNegativeVar();
-	const enableNewKorokComment = useNewKorokComment();
 	const enableEarlyIconResolution = useExpNewIconResolution();
 
-	const compiler = useMemo(()=>new Compiler(enableNewKorokComment, enableEarlyIconResolution), [enableNewKorokComment, enableEarlyIconResolution]);
+	const compiler = useMemo(()=>new Compiler(enableEarlyIconResolution), [enableEarlyIconResolution]);
 
 	const useNew = useNewSettings();
 	const { setting } = useAppSetting();
 	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
-
-	useEffect(() => {
-		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
-	}, [warnNegativeVar]);
 
 	const params = useParams();
 	const [status, setStatus] = useState<string | null>(null);

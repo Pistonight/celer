@@ -1,7 +1,6 @@
 import BossModule from "./Boss";
 import CustomModule from "./Custom";
 import KorokModule from "./Korok";
-import KorokOld from "./Korok.old";
 import MaterialModule from "./Material";
 import MemoryModule from "./Memory";
 import ShrineModule from "./Shrine";
@@ -10,8 +9,8 @@ import TodModule from "./Tod";
 import TowerModule from "./Tower";
 import WarpModule from "./Warp";
 
-export const getModules = (useNewKorokComment: boolean)=>[
-	useNewKorokComment ? KorokModule : KorokOld,
+export const getModules = ()=>[
+	KorokModule,
 	MaterialModule,
 	ShrineModule,
 	TowerModule,
