@@ -24,6 +24,7 @@ buildc:
 # Lint TS code
 lintts:
     @just packages/celer-vscode-extension/lint
+    python scripts/typescript-layers packages/celer-web-app/src -b . -b .. -l app -l ui -l core -l data -s 1
     @just packages/celer-web-app/lint
 
 # Lint RS code
