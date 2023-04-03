@@ -1,8 +1,6 @@
 {
-    "WarnNegativeVar": true,
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
-    "UseNewKorokComment": true,
     "UseCurrentBranch": true,
     "DevServerBase64": true,
     "NewIconResolution": true,
