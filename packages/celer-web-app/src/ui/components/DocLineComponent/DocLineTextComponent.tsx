@@ -141,9 +141,10 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
     const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
 	const [notesDialogOpen, setNotesDialogOpen] = useState(false);
+	const settings = useAppSetting();
 
     // If the notes should be collapsed, render as a button if there are notes
-    if (collapseNotes) {
+    if (collapseNotes && settings.setting.collapseNotes) {
         if (!notes) {
             return (
                 <div>

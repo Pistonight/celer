@@ -107,6 +107,16 @@ export const DocumentConfig = [
 		}
 	},
 	{
+		component: SettingToggle,
+		text:"Collapse Notes",
+		action: (draft: Setting) => {
+			draft.collapseNotes = !draft.collapseNotes;
+		},
+		value: (setting: Setting) => {
+			return setting.collapseNotes;
+		}
+	},
+	{
 		component: SettingLabel,
 		text: "Split Settings",
 		action: () => {return;},
