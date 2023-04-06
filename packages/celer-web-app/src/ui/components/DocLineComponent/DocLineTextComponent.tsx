@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React, { useState } from "react";
 
 import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
@@ -7,6 +8,7 @@ import { DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useNewSettings, useExpCollapseNotes } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
+import { NotesDialog } from "./NotesDialog";
 import { TypedStringComponent } from "../TypedStringComponent";
 
 export interface DocLineTextProps{
@@ -138,19 +140,29 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
 	const {notes, variables} = docLine;
     const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
+	const [notesDialogOpen, setNotesDialogOpen] = useState(false);
 
     // If the notes should be collapsed, render as a button if there are notes
     if (collapseNotes) {
         if (!notes) {
             return (
-                <div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
-                    <span></span>
-                </div>               
+                <div>
+                    <div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
+                        <span></span>
+                    </div>
+                </div>              
             );
         }
         return (
             <div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
-                <span>•••</span>
+                <div>
+                    <span onClick = {() => {
+                        setNotesDialogOpen(true);
+                    }}>•••</span> 
+                    <NotesDialog {... {isOpen: notesDialogOpen,
+                                       close: () => {setNotesDialogOpen(false);},
+                                       docLine: docLine}}/>
+                </div>
             </div>
         );
     }
