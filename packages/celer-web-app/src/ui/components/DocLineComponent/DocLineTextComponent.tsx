@@ -29,17 +29,10 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 };
 
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {lineNumber, mapLineColor} = docLine;
+	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	if(useColorCodeDocument())
-	{
-		return (
-			<div className={styles.lineNumber} style={{color: mapLineColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
-				<span className="code">{lineNumber}</span>
-			</div>
-		);
-	}
+
 	return (
 		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
@@ -48,18 +41,10 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 };
 
 const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {lineNumber, mapLineColor} = docLine;
+	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	if(useColorCodeDocument())
-	{
-		return (
-			<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} style={{color: mapLineColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
-				<span className="code">{lineNumber}</span>
-				<div className={styles.commentFont}>&nbsp;</div>
-			</div>
-		);
-	}
+
 	return (
 		<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
@@ -69,17 +54,20 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 };
 
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {counterValue, splitType} = docLine;
+	const {counterValue, splitType, mapLineColor} = docLine;
 	const styles = useStyles();
 	const useNew = useNewSettings();
 	const {setting} = useAppSetting();
 	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
+	const enableColorCode = useColorCodeDocument();
+	
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
 		const showSplit = splitType === SplitType.UserDefined && splits[SplitType.UserDefined];
+		const lineStyle = (!showSplit && enableColorCode) ? {borderRight: `4px solid ${mapLineColor}`} as const: {};
 		return (
-			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)}>
-				<span className="code">{showSplit ? "SPLT" : "." }</span>
+			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)} style={lineStyle}>
+				<span className="code">{showSplit ? "SPLT" : (enableColorCode ? "\u00A0":".") }</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>
 		);
@@ -120,11 +108,14 @@ const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	);
 };
 
-const NoCounter: React.FC = ()=>{
+const NoCounter: React.FC<DocLineTextProps> = ({docLine})=>{
+	const {mapLineColor} = docLine;
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
+	const lineStyle = enableColorCode ? {borderRight: `4px solid ${mapLineColor}`} as const : {};
 	return (
-		<div className={clsx(styles.counterNumber, styles.counterTypeNone)}>
-			<span className="code">.</span>
+		<div className={clsx(styles.counterNumber, styles.counterTypeNone)} style={lineStyle}>
+			<span className="code">{enableColorCode ? "\u00A0":"."}</span>
 		</div>
 	);
 };
@@ -171,7 +162,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
-			<NoCounter />
+			<NoCounter docLine={docLine} />
 			<StepNumber docLine={docLine} />
 			<span className={clsx(styles.instruction, styles.instructionDefaultColor)}>
 				<TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
