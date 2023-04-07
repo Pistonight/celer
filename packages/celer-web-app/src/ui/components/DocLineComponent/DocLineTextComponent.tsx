@@ -4,7 +4,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useNewSettings } from "core/experiments";
+import { useColorCodeDocument, useNewSettings } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
@@ -29,14 +29,13 @@ const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCente
 };
 
 const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {lineNumber, lineNumberColor} = docLine;
+	const {lineNumber, mapLineColor} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	const { setting } = useAppSetting();
-	if(setting.colorCodeDocument)
+	if(useColorCodeDocument())
 	{
 		return (
-			<div className={styles.lineNumber} style={{color:lineNumberColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+			<div className={styles.lineNumber} style={{color: mapLineColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 				<span className="code">{lineNumber}</span>
 			</div>
 		);
@@ -49,14 +48,13 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 };
 
 const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {lineNumber, lineNumberColor} = docLine;
+	const {lineNumber, mapLineColor} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
-	const { setting } = useAppSetting();
-	if(setting.colorCodeDocument)
+	if(useColorCodeDocument())
 	{
 		return (
-			<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} style={{color:lineNumberColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
+			<div className={clsx(styles.lineNumber, styles.lineNumberWithIcon)} style={{color: mapLineColor}} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 				<span className="code">{lineNumber}</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>

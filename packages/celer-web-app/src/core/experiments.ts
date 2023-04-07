@@ -20,3 +20,5 @@ export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", 
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
 // [pending] Enable loading base64 bundle from the dev server
 export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);
+// [pending] Enable color coding document
+export const useColorCodeDocument = () => useAppExperiment("UseColorCodeDocument", true);

@@ -4,7 +4,7 @@ import { DocLine } from "core/engine";
 // Takes computed lines and emittes icons and lines on the map
 
 const AssistLineColor = "#ffffff";
-const DefaultLineColor = "#3388ff";
+export const DefaultLineColor = "#3388ff";
 
 export class MapEngine {
 
@@ -65,7 +65,6 @@ export class MapEngine {
 				type: line.splitType
 			});
 		}
-		line.lineNumberColor = this.currentColor;
 	}
 
 	private computeMovement(movement: Movement, outLines: MapLine[]): void {
