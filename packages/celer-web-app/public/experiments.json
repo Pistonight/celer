@@ -6,5 +6,7 @@
     "NewIconResolution": true,
     "LoadDocFromGzip": true,
     "LoadDocFromRelease": false,
-    "UseNewRecentPath": true
+    "UseNewRecentPath": true,
+    "UseNewSettings": true,
+    "UseColorCodeDocument": true
 }

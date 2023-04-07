@@ -20,8 +20,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		borderTop: "1px solid transparent",
 		borderBottom: "1px solid transparent",
 		textAlign: "right",
-		backgroundColor: colors.lineNumberBackground,
-		color: colors.lineNumberColor
+		backgroundColor: colors.lineNumberBackground
 	},
 	lineNumberWithIcon: {
 		verticalAlign: "top",

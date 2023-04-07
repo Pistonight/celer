@@ -24,3 +24,5 @@ export const useExpLoadDocFromGzip = () => useAppExperiment("LoadDocFromGzip", t
 export const useExpLoadDocFromRelease = () => useAppExperiment("LoadDocFromRelease", false);
 // [3/24] Use router to get paths for recent paths
 export const useExpUseNewRecentPath = () => useAppExperiment("UseNewRecentPath", true);
+// [pending] Enable color coding document
+export const useColorCodeDocument = () => useAppExperiment("UseColorCodeDocument", true);
