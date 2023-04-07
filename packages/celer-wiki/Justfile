@@ -2,6 +2,8 @@ lint:
     pylint scripts
 
 build:
+    rm -rf build
+    mkdir build
     python3 scripts/build.py
 
 release: clean

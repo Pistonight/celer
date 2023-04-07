@@ -118,6 +118,15 @@ impl ConfigMap<String> {
         }
         obj
     }
+
+    pub fn underlying(&self) -> &HashMap<String, String> {
+        &self.underlying_map
+    }
+
+    pub fn underlying_mut(&mut self) -> &mut HashMap<String, String> {
+        &mut self.underlying_map
+    }
+
 }
 
 // ===TESTS===

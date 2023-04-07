@@ -1303,16 +1303,18 @@ class KorokModule implements CompilerPresetModule {
 			timeOverride: mapKorokToEstimate(type),
 
 		});
-
 	}
 
 	private addMovement(id: string, x: number, z: number): void {
-		const korok = this.map[id]();
-		korok.movements?.splice(-1,0,{to: {x, z},
-			isAway: false,
-			isWarp: false
-		});
-		this.map[id] = ()=>korok;
+		const oldGenerator = this.map[id];
+		this.map[id] = ()=>{
+			const korok = oldGenerator();
+			korok.movements?.splice(-1,0,{to: {x, z},
+				isAway: false,
+				isWarp: false
+			});
+			return korok;
+		};
 	}
 
 }

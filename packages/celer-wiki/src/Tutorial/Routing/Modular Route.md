@@ -117,3 +117,37 @@ _route:
   - Bundler Error! Circular Dependency Detected ...
 ```
 You will see the message when loading the bundle using the engine. The error message will contain the dependency chain for you to debug
+
+# Sharing Module Between Routes
+Starting from devtool v2.3.0, you can also have multiple routes share `.celer` files by leverage the `--main` and `--module-path` command line options.
+
+For example, given the following directory structure
+```
+my-repo
+├── all_shrines_main.celer
+├── all_shrines_ex_main.celer
+├── modules
+│   ├── a_shared_branch.celer
+│   ├── something_as_only.celer
+│   └── something_asx_only.celer
+└── README.md
+```
+Let's assume that `all_shrines_main.celer` and `all_shrines_ex_main.celer` are the main files for the routes, and `a_shared_branch.celer` contains a branch used by both routes.
+
+`something_as_only.celer` and `something_asx_only.celer` are modules that are only used in the `all_shrines_main.celer` and `all_shrines_ex_main.celer` routes respectively.
+
+You can use the following command to bundle the all shrines route:
+```
+celer build --main all_shrines_main.celer --module-path modules
+```
+Here, `build` is the command to bundle the route. `all_shrines_main.celer` is the main file for the route, and `modules` is the path to the directory containing the modules. While the bundler does recursively search subdirectories, we specify `modules` as the root directory to search so that `all_shrines_ex_main.celer` does not get bundled.
+
+The default main file is `main.celer` and the default module path is the current directory.
+
+You can also use `--output` to specify the path for the output bundle.
+```
+celer build -M all_shrines_main.celer -m modules --output all_shrines.bundle.json
+```
+The parent directories must exist for the output path.
+
+The dev server has the same capabilities. Just replace `build` with `dev` in the commands above.

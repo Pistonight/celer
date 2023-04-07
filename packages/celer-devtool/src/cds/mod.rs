@@ -2,19 +2,21 @@ use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::thread;
 use std::time::Duration;
 use chrono::{DateTime, Local};
+use serde_json::json;
 use crate::cbld::bundle;
+use crate::ccmd;
 mod client;
-mod config;
 mod delay;
 mod display;
 mod server;
 use delay::DelayMgr;
 use display::DevServerDisplay;
 use server::DevServer;
-pub use config::{Config, get_subcommand};
+
+pub const DEFAULT_PORT: u16 = 2222;
 
 /// Entry point for cds
-pub fn start(config: Config) {
+pub fn start(config: ccmd::arg::DevServerConfig) {
     println!("Starting dev server...");
     let mut thread = DevServerThread::new(config);
 
@@ -41,7 +43,7 @@ struct DevServerThread {
     /// Underlying wrapper for TcpListener, for communicating with clients
     server: DevServer,
 
-    config: Config,
+    config: ccmd::arg::DevServerConfig,
     running: Arc<AtomicBool>,
     delay_mgr: DelayMgr,
     display: DevServerDisplay,
@@ -52,7 +54,7 @@ struct DevServerThread {
 
 impl DevServerThread {
     /// Create and bind to port
-    pub fn new(config: Config) -> Self {
+    pub fn new(config: ccmd::arg::DevServerConfig) -> Self {
         let server = match DevServer::new(config.port) {
             Err(e) => panic!("error: cds: Error starting dev server: {e}"),
             Ok(server) => server
@@ -69,12 +71,12 @@ impl DevServerThread {
 
         Self {
             server,
-            config,
             running,
             delay_mgr: DelayMgr::new(),
             display: DevServerDisplay::new(),
             last_update: None,
-            bundle_context: bundle::BundleContext::new(&current_dir)
+            bundle_context: bundle::BundleContext::new(&current_dir, config.bundle_config.clone()),
+            config, // Need to move this after bundle_context
         }
 
     }
@@ -88,20 +90,37 @@ impl DevServerThread {
     pub fn main_loop(&mut self) -> bool{
         let new_clients = self.server.query_clients();
         self.bundle_context.reset();
-        let (source, _unused_bundle, changed) = self.bundle_context.get_bundle();
+        let (_unused_source, bundle, changed) = self.bundle_context.get_bundle();
 
         // if clients changed, update regardless of file change
         if changed || new_clients {
             // send update
-            let source_str = serde_json::to_string(&source).unwrap();
-            let new_update_count = self.server.send(&source_str);
-            if new_update_count > 0 {
-                self.last_update = Option::Some(Local::now());
+            match bundle.to_b64() {
+                Ok(bundle_data) => {
+                    let update_data = json!({
+                        "type": "base64",
+                        "data": bundle_data
+                    });
+                    match serde_json::to_string(&update_data) {
+                        Ok(update_data_str) => {
+                            let new_update_count = self.server.send(&update_data_str);
+                            if new_update_count > 0 {
+                                self.last_update = Option::Some(Local::now());
+                            }
+                        },
+                        Err(err) => {
+                            self.bundle_context.get_error_mut().add("dev server", format!("error encoding update data: {err}"));
+                        }
+                    }
+                },
+                Err(err) => {
+                    self.bundle_context.get_error_mut().add("dev server", format!("error encoding bundle to base64: {err}"));
+                }
             }
 
             // Write updated bundle.json if changed
             if changed && self.config.emit_bundle {
-                self.bundle_context.write_bundle_json(self.config.debug);
+                self.bundle_context.write_bundle();
             }
 
             self.bundle_context.clear_dirty();
@@ -120,12 +139,16 @@ impl DevServerThread {
         self.display.update(self.config.port, &last_update_str, &self.bundle_context);
 
         for _ in 0..self.delay_mgr.get_delay() {
-            if !self.running.load(Ordering::SeqCst) {
+            if !self.is_running() {
                 return false
             }
             thread::sleep(Duration::from_secs(1));
         }
 
+        self.is_running()
+    }
+
+    fn is_running(&self) -> bool{
         self.running.load(Ordering::SeqCst)
     }
 

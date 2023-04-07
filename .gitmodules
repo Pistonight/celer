@@ -4,3 +4,6 @@
 [submodule "scripts/version-sync"]
 	path = scripts/version-sync
 	url = git@github.com:iTNTPiston/version-sync
+[submodule "scripts/typescript-layers"]
+	path = scripts/typescript-layers
+	url = git@github.com:iTNTPiston/typescript-layers

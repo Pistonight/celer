@@ -17,3 +17,8 @@ expected = ["expected_yaml", "../../inputs/all_shrines"]
 args = ["build", "--yaml", "-t", "merge"]
 input = ["all_shrines"]
 expected = ["expected_merge", "../../inputs/all_shrines"]
+
+[[test]]
+args = ["build", "-o", "branches/output.json", "-M", "main.celer"]
+input = ["all_shrines"]
+expected = ["expected_output_redirect", "../../inputs/all_shrines"]

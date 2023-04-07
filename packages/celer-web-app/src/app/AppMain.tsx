@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { HashRouter, Outlet, Route, Routes} from "react-router-dom";
 import { AppFrame, Home, LoadingFrame } from "ui/frames";
-import { useExpDevServerBase64 } from "core/experiments";
+import { useExpDevServerBase64, useExpLoadDocFromGzip, useExpLoadDocFromRelease } from "core/experiments";
 import { EmptyObject } from "data/util";
 import { AppDocumentProvider, AppDocumentProviderProps } from "./AppDocumentProvider";
 import { AppExperimentsProvider } from "./AppExperiments";
@@ -12,7 +12,8 @@ import {
 	createDocumentDev,
 	createDocumentGitHub,
 	createDocumentLocal,
-	createDocumentInternal
+	createDocumentInternal,
+	createDocumentGitHubNew
 } from "./services";
 
 const RootLayer: React.FC = ()=>
@@ -41,6 +42,19 @@ const WsDevDocumentLayer: React.FC = () => {
 	return <DocumentLayer createDocument={creatorWrapper}/>;
 };
 
+const GitHubDocumentLayer: React.FC = () => {
+	const enableRelease = useExpLoadDocFromRelease();
+	const enableGzip = useExpLoadDocFromGzip();
+	const creatorWrapper = useCallback((params) => {
+		if (enableRelease) {
+			return createDocumentGitHubNew(params);
+		} else {
+			return createDocumentGitHub(params, enableGzip);
+		}
+	}, [enableRelease, enableGzip]);
+	return <DocumentLayer createDocument={creatorWrapper}/>;
+};
+
 // Router for the app
 export const AppMain: React.FC<EmptyObject> = () => {
 	return (
@@ -55,9 +69,10 @@ export const AppMain: React.FC<EmptyObject> = () => {
 						<Route index element={<AppFrame />}/>
 						<Route path=":port" element={<AppFrame />}/>
 					</Route>
-					<Route path="gh" element={<DocumentLayer createDocument={createDocumentGitHub}/>}>
+					<Route path="gh" element={<GitHubDocumentLayer />}>
 						<Route path=":user/:repo" element={<AppFrame />}/>
-						<Route path=":user/:repo/:branch" element={<AppFrame />}/>
+						<Route path=":user/:repo/:ref" element={<AppFrame />}/>
+						<Route path=":user/:repo/:ref/:release" element={<AppFrame />}/>
 					</Route>
 					<Route path="local" element={<DocumentLayer createDocument={createDocumentLocal}/>}>
 						<Route index element={<AppFrame />}/>

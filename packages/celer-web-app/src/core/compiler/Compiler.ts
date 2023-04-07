@@ -1,5 +1,7 @@
+import Icons from "data/image";
 import {
 	EngineError,
+	RouteConfig,
 	SourceSection,
 	SourceStep,
 	SourceStepCustomization,
@@ -14,14 +16,16 @@ import { BannerType, RouteAssembly, RouteAssemblySection, RouteCommand, Movement
 
 export class Compiler {
 	private modules: CompilerPresetModule[];
+	private resolveIcon: boolean;
 
-	constructor(useNewKorokComment: boolean) {
-		this.modules = getModules(useNewKorokComment);
+	constructor(resolveIcon: boolean) {
+		this.modules = getModules();
+		this.resolveIcon = resolveIcon;
 	}
 
-	public compile(sections: SourceSection[]): RouteAssemblySection[] {
+	public compile(sections: SourceSection[], config: RouteConfig): RouteAssemblySection[] {
 		try{
-			const compiled = this.compileSections(sections);
+			const compiled = this.compileSections(sections, config);
 
 			//put 20 empty lines at the end
 			const emptyLines = [];
@@ -42,9 +46,9 @@ export class Compiler {
 
 	}
 
-	private compileSections(sections: SourceSection[]): RouteAssemblySection[] {
+	private compileSections(sections: SourceSection[], config: RouteConfig): RouteAssemblySection[] {
 		if(Array.isArray(sections)){
-			return sections.map(this.compileSection.bind(this));
+			return sections.map(section => this.compileSection(section, config));
 		}
 
 		return [{
@@ -54,7 +58,7 @@ export class Compiler {
 		}];
 	}
 
-	private compileSection(section: SourceSection): RouteAssemblySection{
+	private compileSection(section: SourceSection, config: RouteConfig): RouteAssemblySection{
 		const sectionErrorHandler = (s: string)=>({
 			route: [
 				this.makeCompilerError("Error when compiling section, caused by: " + s)
@@ -66,16 +70,16 @@ export class Compiler {
 					(stringModule)=>{
 						return {
 							name,
-							route: this.compileStep(stringModule)
+							route: this.compileStep(stringModule, config)
 						};
 					}, (preset, extend)=>{
 						return {
 							name,
-							route: this.compileStep({[preset]: extend})
+							route: this.compileStep({[preset]: extend}, config)
 						};
 					}, (arrayModule)=>{
 						const route: RouteAssembly[] = [];
-						arrayModule.forEach(m=>route.push(...this.compileStep(m)));
+						arrayModule.forEach(m=>route.push(...this.compileStep(m, config)));
 						return {
 							name,
 							route
@@ -84,18 +88,18 @@ export class Compiler {
 			},sectionErrorHandler);
 	}
 
-	private compileStep(step: SourceStep): RouteAssembly[]{
+	private compileStep(step: SourceStep, config: RouteConfig): RouteAssembly[]{
 		return switchStep<RouteAssembly[]>(step,
 			(stringStep)=>{
 				if(stringStep.startsWith("_")){
-					const stepAssembly = this.compilePresetExtend(stringStep, {});
+					const stepAssembly = this.compilePresetExtend(stringStep, {}, config);
 					if(stepAssembly) {
 						return stepAssembly;
 					}
 				}
 				return [this.compileStepString(stringStep.trim())];
 			},(preset, extend)=>{
-				const stepAssembly = this.compilePresetExtend(preset, extend);
+				const stepAssembly = this.compilePresetExtend(preset, extend, config);
 				if(stepAssembly) {
 					return stepAssembly;
 				}
@@ -131,12 +135,17 @@ export class Compiler {
 		return this.makeCompilerError("Unexpected Error Compiler.compileStepString. This is likely a bug in the compiler");
 	}
 
-	private compilePresetExtend(preset:string, extend: SourceStepCustomization): RouteAssembly[] | undefined{
+	private compilePresetExtend(preset:string, extend: SourceStepCustomization, config: RouteConfig): RouteAssembly[] | undefined{
 		const { header, typedString } = StringParser.parseStringBlock(preset);
 		for(let i = 0;i<this.modules.length;i++){
 			const stepAssembly = this.modules[i].compile(typedString);
 			if(stepAssembly){
-				const lines = this.applyExtend(stepAssembly, extend);
+				if (this.resolveIcon && stepAssembly.icon && !extend.icon) {
+					// Currently, presets have unresolved icons.
+					// Until that is changed, we need to apply the icon to the extend so it is resolved
+					extend.icon = stepAssembly.icon;
+				}
+				const lines = this.applyExtend(stepAssembly, extend, config);
 				if(header.isStep){
 					stepAssembly.isStep = true;
 				}
@@ -152,7 +161,7 @@ export class Compiler {
 		return [this.makeCompilerError("Unexpected Error Compiler.compilePresetExtend. This is likely a bug in the compiler")];
 	}
 
-	private applyExtend(data: RouteAssembly, extend: SourceStepCustomization): RouteAssembly[] {
+	private applyExtend(data: RouteAssembly, extend: SourceStepCustomization, config: RouteConfig): RouteAssembly[] {
 		const lines = [data];
 		if(extend.text){
 			data.text = StringParser.parseStringBlockSimple(extend.text);
@@ -163,7 +172,16 @@ export class Compiler {
 		}
 
 		if(extend.icon){
-			data.icon = extend.icon;
+			if (this.resolveIcon) {
+				const [resolvedIcon, errorLine] = this.processIcon(extend.icon, config);
+				if (errorLine) {
+					lines.push(errorLine);
+				} else {
+					data.icon = resolvedIcon;
+				}
+			}else{
+				data.icon = extend.icon;
+			}
 		}
 
 		if(extend.notes){
@@ -267,6 +285,28 @@ export class Compiler {
 			isAway: !!movement.away,
 			isWarp: !!movement.warp
 		};
+	}
+
+	private processIcon(icon: string, config: RouteConfig): [string|undefined, RouteAssembly|undefined] {
+		if (config.icons) {
+			const iconData = config.icons[icon];
+			if (iconData) {
+				if (!this.validateIcon(iconData)) {
+					return [undefined, this.makeCompilerErrorWithTriangle(`Icon has invalid config: ${icon}`)];
+				}
+				return [iconData, undefined];
+			}
+			// If the icon is not in the config, fall through
+		}
+		if (icon in Icons) {
+			// Built-in icons
+			return [Icons[icon as keyof typeof Icons], undefined];
+		}
+		return [undefined, this.makeCompilerErrorWithTriangle(`Icon not found: ${icon}`)];
+	}
+
+	private validateIcon(icon: string): boolean {
+		return icon.startsWith("https://") || icon.startsWith("data:");
 	}
 
 	private makeCompilerError(error: string): RouteAssembly {

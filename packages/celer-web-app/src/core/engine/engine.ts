@@ -38,7 +38,6 @@ enum ErrorAction {
 export class RouteEngine{
 	// Engine configuration
 	private splitSetting: SplitTypeSetting<boolean> = defaultSplitSetting;
-	public warnNegativeNumberEnable = false;
 
 	private sectionNumber = 0;
 	private lineNumber = 0;
@@ -191,13 +190,12 @@ export class RouteEngine{
 			step = this.step;
 			this.incStep();
 		}
-		if(this.warnNegativeNumberEnable && data.variableChange){
+		if(data.variableChange){
 			for (const key in data.variableChange){
 				if(this.variables[key] < 0){
 					this.addError(data, EngineError.NegativeVar, `Variable "${key}" has a negative value`);
 				}
 			}
-
 		}
 
 		const common = {

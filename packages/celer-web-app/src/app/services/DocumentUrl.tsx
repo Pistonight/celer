@@ -1,6 +1,5 @@
 import axios from "axios";
 import { wasmBundleFromGzip, wasmCleanBundleJson } from "data/libs";
-import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
 export type DocumentUrlConfig = {
@@ -19,21 +18,7 @@ export class DocumentUrl implements Document {
 		this.path = "";
 	}
 
-	load(callback: Consumer<DocumentResponse>): void {
-		this.fetchRouteAsync().then((response) => {
-			if (response.error) {
-				callback({ error: response.error });
-				return;
-			}
-			if (response.doc) {
-				callback({ doc: response.doc });
-				return;
-			}
-			callback({ error: "Unknown error" });
-		});
-	}
-
-	async fetchRouteAsync(): Promise<DocumentResponse> {
+	async load(): Promise<DocumentResponse> {
 		let lastError: unknown = "";
 		for(let i=0;i<this.config.length;i++){
 			const {url, path, type} = this.config[i];
@@ -70,12 +55,12 @@ export class DocumentUrl implements Document {
 	}
 
 	async fetchGzipRouteAsync(url: string): Promise<DocumentResponse> {
-		const {data} = await axios.get<Uint8Array>(url, {
+		const {data} = await axios.get<ArrayBuffer>(url, {
 			responseType: "arraybuffer", //This will make axios parse data as uint8array
-			signal: this.controller.signal
+			signal: this.controller.signal,
 		});
 
-		const bundle = wasmBundleFromGzip(data);
+		const bundle = wasmBundleFromGzip(new Uint8Array(data));
 		if(bundle){
 			return {doc: bundle};
 		}
@@ -96,6 +81,6 @@ export class DocumentUrl implements Document {
 	}
 
 	getPath(): string {
-		return this.path;
+		return this.path; // Remove with useExpUseNewRecentPath
 	}
 }

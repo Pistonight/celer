@@ -10,7 +10,8 @@ export type SourceObject = {
 // Bundled Route config
 export type RouteConfig = {
     "split-format"?: SplitTypeConfig<string>,
-    "engine"?: EngineConfig
+    "engine"?: EngineConfig,
+    "icons"?: Record<string, string>,
 }
 
 export enum EngineError {

@@ -13,8 +13,9 @@ export type RouteAssembly = { //RouteAssembly
 	// Banner mode. If not undefined, text is treated as a banner and everything else is ignored
 	bannerType?: BannerType,
 	bannerTriangle?: boolean,
-	// Icon and comment to make a 2-line instruction
+	// The icon name (The resolved icon with NewIconResolution)
 	icon?: string,
+	// The second line of lines with icon
 	comment?: TypedString,
 	// Detailed Notes
 	notes?: TypedString,
