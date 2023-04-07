@@ -61,13 +61,13 @@ const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
 	const enableColorCode = useColorCodeDocument();
-	
+
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
 		const showSplit = splitType === SplitType.UserDefined && splits[SplitType.UserDefined];
-		const lineStyle = (!showSplit && enableColorCode) ? {borderRight: `4px solid ${mapLineColor}`} as const: {};
+		const lineStyle = !showSplit && enableColorCode ? {borderRight: `4px solid ${mapLineColor}`} as const: {};
 		return (
 			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)} style={lineStyle}>
-				<span className="code">{showSplit ? "SPLT" : (enableColorCode ? "\u00A0":".") }</span>
+				<span className="code">{showSplit ? "SPLT" : enableColorCode ? "\u00A0":"." }</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>
 		);
