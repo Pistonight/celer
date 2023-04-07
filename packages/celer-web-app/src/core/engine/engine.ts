@@ -10,8 +10,8 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
+import { DefaultLineColor } from "core/map";
 import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
-import {DefaultLineColor} from "core/map";
 import { EngineConfig, EngineError } from "data/libs";
 import { MapOf } from "data/util";
 import { postProcessLines } from "./postprocess";
