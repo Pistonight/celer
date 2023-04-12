@@ -1,7 +1,10 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.3.1` - `04-06-2023` `LATEST`
+## `5.4.0` - `04-12-2023` `LATEST`
+- Show line color on the document
+
+## `5.3.1` - `04-06-2023`
 - Fixed a bug where the korok module doesn't return a clean reference for koroks with movements
 
 ## `5.3.0` - `03-31-2023`

@@ -54,7 +54,7 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 };
 
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {counterValue, splitType, mapLineColor} = docLine;
+	const {counterValue, splitType } = docLine;
 	const styles = useStyles();
 	const useNew = useNewSettings();
 	const {setting} = useAppSetting();
@@ -64,9 +64,8 @@ const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
 		const showSplit = splitType === SplitType.UserDefined && splits[SplitType.UserDefined];
-		const lineStyle = !showSplit && enableColorCode ? {borderRight: `4px solid ${mapLineColor}`} as const: {};
 		return (
-			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)} style={lineStyle}>
+			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)}>
 				<span className="code">{showSplit ? "SPLT" : enableColorCode ? "\u00A0":"." }</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>
@@ -108,33 +107,36 @@ const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	);
 };
 
-const NoCounter: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {mapLineColor} = docLine;
+const NoCounter: React.FC<DocLineTextProps> = ()=>{
 	const styles = useStyles();
 	const enableColorCode = useColorCodeDocument();
-	const lineStyle = enableColorCode ? {borderRight: `4px solid ${mapLineColor}`} as const : {};
 	return (
-		<div className={clsx(styles.counterNumber, styles.counterTypeNone)} style={lineStyle}>
+		<div className={clsx(styles.counterNumber, styles.counterTypeNone)}>
 			<span className="code">{enableColorCode ? "\u00A0":"."}</span>
 		</div>
 	);
 };
 
 const StepNumber: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {stepNumber} = docLine;
+	const {stepNumber, mapLineColor} = docLine;
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
+	const lineStyle = enableColorCode ? {borderLeft: `4px solid ${mapLineColor}`} as const : {};
+
 	return (
-		<div className={styles.stepNumber}>
+		<div className={styles.stepNumber} style={lineStyle}>
 			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 		</div>
 	);
 };
 
 const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {stepNumber} = docLine;
+	const {stepNumber, mapLineColor} = docLine;
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
+	const lineStyle = enableColorCode ? {borderLeft: `4px solid ${mapLineColor}`} as const : {};
 	return (
-		<div className={styles.stepNumber}>
+		<div className={styles.stepNumber} style={lineStyle}>
 			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>
