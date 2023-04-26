@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
-import { DocLineText, DocLineTextWithIcon } from "core/engine";
+import { DocLineBanner, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useNewSettings, useExpCollapseNotes } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { NotesDialog } from "./NotesDialog";
+import { BannerType, StringType, TypedStringSingle } from "core/compiler";
 import { TypedStringComponent } from "../TypedStringComponent";
+import { DocLineBannerComponent } from "./DocLineBannerComponent";
 
 export interface DocLineTextProps{
     docLine: DocLineText,
@@ -154,15 +156,28 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
                 </div>              
             );
         }
+
+        // Defining the note banner to be displayed
+        const noteBanner: DocLineBanner = {
+            lineType: "DocLineBanner",
+            text: new TypedStringSingle({
+                content: docLine.notes?.toString() || "No notes available for this step.",
+                type: StringType.Normal
+            }),
+            bannerType: BannerType.Notes,
+            showTriangle: true,
+            variables: {}};
+
         return (
             <div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
                 <div>
                     <span onClick = {() => {
                         setNotesDialogOpen(true);
-                    }}>•••</span> 
-                    <NotesDialog {... {isOpen: notesDialogOpen,
+                    }}>•••</span>
+                    <DocLineBannerComponent docLine={noteBanner}/>
+                    {/* <NotesDialog {... {isOpen: notesDialogOpen,
                                        close: () => {setNotesDialogOpen(false);},
-                                       docLine: docLine}}/>
+                                       docLine: docLine}}/> */}
                 </div>
             </div>
         );
