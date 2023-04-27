@@ -8,7 +8,6 @@ import { DocLineBanner, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { useNewSettings, useExpCollapseNotes } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
-import { NotesDialog } from "./NotesDialog";
 import { BannerType, StringType, TypedStringSingle } from "core/compiler";
 import { TypedStringComponent } from "../TypedStringComponent";
 import { DocLineBannerComponent, NoteBannerComponent } from "./DocLineBannerComponent";
