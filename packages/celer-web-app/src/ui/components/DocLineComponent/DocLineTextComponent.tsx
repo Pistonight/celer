@@ -11,7 +11,7 @@ import Icons from "data/image";
 import { NotesDialog } from "./NotesDialog";
 import { BannerType, StringType, TypedStringSingle } from "core/compiler";
 import { TypedStringComponent } from "../TypedStringComponent";
-import { DocLineBannerComponent } from "./DocLineBannerComponent";
+import { DocLineBannerComponent, NoteBannerComponent } from "./DocLineBannerComponent";
 
 export interface DocLineTextProps{
     docLine: DocLineText,
@@ -19,10 +19,26 @@ export interface DocLineTextProps{
     altNotesColor?: boolean,
 }
 
+export interface DocLineTextCollapsedProps {
+    docLine: DocLineText,
+    altLineColor?: boolean,
+    altNotesColor?: boolean,
+    bannerOpen: boolean,
+    toggleBanner: (newState: boolean) => void;
+}
+
 export interface DocLineTextWithIconProps{
     docLine: DocLineTextWithIcon,
     altLineColor?: boolean,
     altNotesColor?: boolean,
+}
+
+export interface DocLineTextWithIconCollapsedProps {
+    docLine: DocLineTextWithIcon,
+    altLineColor?: boolean,
+    altNotesColor?: boolean,
+    bannerOpen: boolean,
+    toggleBanner: (newState: boolean) => void;
 }
 
 const centerMapToLine = (docLine: DocLineText | DocLineTextWithIcon, setMapCenter: (igc: InGameCoordinates)=>void): void => {
@@ -140,48 +156,7 @@ const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 
 const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, altNotesColor})=>{
 	const {notes, variables} = docLine;
-    const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
-	const [notesDialogOpen, setNotesDialogOpen] = useState(false);
-	const settings = useAppSetting();
-
-    // If the notes should be collapsed, render as a button if there are notes
-    if (collapseNotes && settings.setting.collapseNotes) {
-        if (!notes) {
-            return (
-                <div>
-                    <div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
-                        <span></span>
-                    </div>
-                </div>              
-            );
-        }
-
-        // Defining the note banner to be displayed
-        const noteBanner: DocLineBanner = {
-            lineType: "DocLineBanner",
-            text: new TypedStringSingle({
-                content: docLine.notes?.toString() || "No notes available for this step.",
-                type: StringType.Normal
-            }),
-            bannerType: BannerType.Notes,
-            showTriangle: true,
-            variables: {}};
-
-        return (
-            <div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
-                <div>
-                    <span onClick = {() => {
-                        setNotesDialogOpen(true);
-                    }}>•••</span>
-                    <DocLineBannerComponent docLine={noteBanner}/>
-                    {/* <NotesDialog {... {isOpen: notesDialogOpen,
-                                       close: () => {setNotesDialogOpen(false);},
-                                       docLine: docLine}}/> */}
-                </div>
-            </div>
-        );
-    }
 
     // If there are no notes for this step, return null
 	if(!notes){
@@ -196,27 +171,58 @@ const Notes: React.FC<DocLineTextProps | DocLineTextWithIconProps> = ({docLine, 
     );
 };
 
+const NotesCollapsed: React.FC<DocLineTextCollapsedProps | DocLineTextWithIconCollapsedProps> = ({docLine, altNotesColor, bannerOpen, toggleBanner})=>{
+	const {notes, variables} = docLine;
+	const styles = useStyles();
+	const settings = useAppSetting();
+
+    if (!notes) {
+        return (
+            <div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
+                <span></span>
+            </div>         
+        );
+    }
+
+    return (
+        <div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
+            <div>
+                <span onClick = {() => {
+                    toggleBanner(!bannerOpen);
+                }}>•••</span>
+            </div>
+        </div>
+    );
+};
+
 export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLineColor,altNotesColor})=> {
 	const {text, variables} = docLine;
     const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
+	const settings = useAppSetting();
+	const [notesBannerOpen, setNotesBannerOpen] = useState(false);
 
     // If the notes should be collapsed, render the instruction as wider
-    if (collapseNotes) {
+    // and give the settings banner a new line
+    if (collapseNotes && settings.setting.collapseNotes) {
         return (
-            <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-                <LineNumber docLine={docLine} />
-                <NoCounter />
-                <StepNumber docLine={docLine} />
-                <span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
-                    <TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
-                </span>
-                <Notes docLine={docLine} altNotesColor={altNotesColor} />
+            <div>
+                <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
+                    <LineNumber docLine={docLine} />
+                    <NoCounter />
+                    <StepNumber docLine={docLine} />
+                    <span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
+                        <TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
+                    </span>
+                    <NotesCollapsed docLine={docLine} altNotesColor={altNotesColor}
+                                    bannerOpen={notesBannerOpen} toggleBanner={setNotesBannerOpen}/>
+                </div>
+                {notesBannerOpen && <NoteBannerComponent docLine={docLine} altNotesColor={altNotesColor}/>}
             </div>
         );
     }
 
-    // Otherwise, render the instructions at standard width
+    // Otherwise, render the instructions normally
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
@@ -234,6 +240,8 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 	const {text, icon, comment, splitType, variables} = docLine;
     const collapseNotes = useExpCollapseNotes();
 	const styles = useStyles();
+	const settings = useAppSetting();
+	const [notesBannerOpen, setNotesBannerOpen] = useState(false);
 
 	let textStyleName = styles.instructionDefaultColor;
 	switch(splitType){
@@ -263,24 +271,28 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			break;
 	}
 
-    if (collapseNotes) {
+    if (collapseNotes && settings.setting.collapseNotes) {
         return (
-            <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-                <LineNumberWithIcon docLine={docLine} />
-                <Counter docLine={docLine} />
-                <StepNumberWithIcon docLine={docLine}/>
-                <div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
-                    <div className={styles.icon}>
-                        <img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
-                    </div>
-                    <div className={styles.iconSideText}>
-                        <TypedStringComponent content={text} variables={variables} isNotes={false}/>
-                        <div className={clsx(styles.commentFont, styles.commentColor)}>
-                            {comment && <TypedStringComponent content={comment} variables={variables} isNotes={false}/>}{"\u200b"}
+            <div>
+                <div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
+                    <LineNumberWithIcon docLine={docLine} />
+                    <Counter docLine={docLine} />
+                    <StepNumberWithIcon docLine={docLine}/>
+                    <div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
+                        <div className={styles.icon}>
+                            <img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+                        </div>
+                        <div className={styles.iconSideText}>
+                            <TypedStringComponent content={text} variables={variables} isNotes={false}/>
+                            <div className={clsx(styles.commentFont, styles.commentColor)}>
+                                {comment && <TypedStringComponent content={comment} variables={variables} isNotes={false}/>}{"\u200b"}
+                            </div>
                         </div>
                     </div>
+                        <NotesCollapsed docLine={docLine} altNotesColor={altNotesColor}
+                                        bannerOpen={notesBannerOpen} toggleBanner={setNotesBannerOpen}/>
                 </div>
-                <Notes docLine={docLine} altNotesColor={altNotesColor} />
+                {notesBannerOpen && <NoteBannerComponent docLine={docLine} altNotesColor={altNotesColor}/>}
             </div>
 	    );
     }
