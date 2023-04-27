@@ -48,7 +48,7 @@ export const defaultSettings =
 	enableSubsplits: false,
 	showCurrentBranch: false,
 	keyboardControls: true,
-    collapseNotes: false,
+	collapseNotes: false,
 };
 
 export const OldSettingContext = React.createContext<OldAppSettingContextState>(emptyObject());

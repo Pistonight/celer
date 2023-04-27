@@ -3,15 +3,14 @@ import { useStyles } from "ui/StyleContext";
 import { BannerType } from "core/compiler";
 import { DocLineBanner, DocLineText, DocLineTextWithIcon } from "core/engine";
 import { TypedStringComponent } from "../TypedStringComponent";
-import { StringType, TypedStringSingle } from "core/compiler";
 
 export interface DocLineBannerProps{
-    docLine: DocLineBanner
+	docLine: DocLineBanner
 }
 
 export interface NoteBannerProps {
-    docLine: DocLineText | DocLineTextWithIcon,
-    altNotesColor: boolean | undefined
+	docLine: DocLineText | DocLineTextWithIcon,
+	altNotesColor: boolean | undefined
 }
 
 export const DocLineBannerComponent: React.FC<DocLineBannerProps> = ({docLine})=> {
@@ -47,19 +46,19 @@ export const DocLineBannerComponent: React.FC<DocLineBannerProps> = ({docLine})=
 };
 
 export const NoteBannerComponent: React.FC<NoteBannerProps> = ({docLine, altNotesColor}) => {
-    const {notes, variables} = docLine;
+	const {notes, variables} = docLine;
 	const styles = useStyles();
 
-    const showTriangle = false;
-    const containerColorStyle = altNotesColor ? styles.notesAlt : styles.bannerContainerColorNotes;
-    const triangleColorStyle = styles.bannerTriangleColorNotes;
+	const showTriangle = false;
+	const containerColorStyle = altNotesColor ? styles.notesAlt : styles.bannerContainerColorNotes;
+	const triangleColorStyle = styles.bannerTriangleColorNotes;
 
-    // If notes are empty, return nothing
-    if (!notes) {
-        return (
-            <div></div>
-        )
-    }
+	// If notes are empty, return nothing
+	if (!notes) {
+		return (
+			<div></div>
+		);
+	}
 	return (
 		<div className={clsx(showTriangle && styles.bannerRootWithTriangle)}>
 			{showTriangle && <div className={clsx(styles.bannerTriangle, triangleColorStyle)} />}
@@ -70,4 +69,4 @@ export const NoteBannerComponent: React.FC<NoteBannerProps> = ({docLine, altNote
 			</div>
 		</div>
 	);
-}
+};

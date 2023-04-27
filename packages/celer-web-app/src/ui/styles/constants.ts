@@ -28,8 +28,8 @@ export const Sizes = <const>{
 	instruction: "12em",
 	// Doc instruction icon size
 	instructionIcon: "2.5em",
-    // Collapsed note block icon size
-    collapsedNote: "2em",
+	// Collapsed note block icon size
+	collapsedNote: "2em",
 	// Home page title text size
 	titleText: "2.75em",
 	// Home page section title text

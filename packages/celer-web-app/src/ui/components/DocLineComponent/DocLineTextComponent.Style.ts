@@ -72,7 +72,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		boxSizing: "border-box"
 	},
 	instructionNotesCollapsed: {
-        width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.collapsedNote} )`,
+		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} - ${sizes.collapsedNote} )`,
 		display: "inline-block",
 		borderLeft: `1px solid ${colors.docTextBorder}`,
 		borderRight: `1px solid ${colors.docTextBorder}`,
@@ -83,7 +83,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		boxSizing: "border-box"
 	},
 	instructionWithIconNotesCollapsed: {
-        width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} -${sizes.instructionIcon} - ${sizes.collapsedNote} )`,
+		width: `calc( 100% - ${sizes.lineNumber} - ${sizes.counterNumber} - ${sizes.stepNumber} -${sizes.instructionIcon} - ${sizes.collapsedNote} )`,
 		display: "inline-block",
 		borderLeft: `1px solid ${colors.docTextBorder}`,
 		borderRight: `1px solid ${colors.docTextBorder}`,
@@ -195,11 +195,11 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		backgroundColor: colors.docNotesBackgroundAlt,
 		color: colors.docNotesColorAlt
 	},
-    notesCollapsed: {
+	notesCollapsed: {
 		width: `${sizes.collapsedNote}`,
-        textAlign: "center",
+		textAlign: "center",
 	},
-    notesCollapsedEmpty: {
+	notesCollapsedEmpty: {
 		backgroundColor: "transparent",
 	},
 };
