@@ -181,10 +181,15 @@ const NotesCollapsed: React.FC<DocLineTextCollapsedProps | DocLineTextWithIconCo
 		);
 	}
 
+    const {setMapCenter} = useAppState();
 	return (
 		<div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
 			<div>
 				<span onClick = {() => {
+                    // If the banner is being opened, recenter the map
+                    if (!bannerOpen && docLine.centerCoord) {
+                        setMapCenter(docLine.centerCoord);
+                    }
 					toggleBanner(!bannerOpen);
 				}}>•••</span>
 			</div>
@@ -202,6 +207,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 	// If the notes should be collapsed, render the instruction as wider
 	// and give the settings banner a new line
 	if (collapseNotes && settings.setting.collapseNotes) {
+	    const {setMapCenter} = useAppState();
 		return (
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
