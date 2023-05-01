@@ -200,7 +200,8 @@ const NotesCollapsed: React.FC<DocLineTextCollapsedProps | DocLineTextWithIconCo
                         setMapCenter(docLine.centerCoord);
                     }
 					toggleBanner(!bannerOpen);
-				}}>•••</span>
+                // &#x2022; is unicode for bullet character
+				}}>&#x2022;&#x2022;&#x2022;</span>
 			</div>
 		</div>
 	);
