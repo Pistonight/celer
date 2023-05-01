@@ -4,4 +4,5 @@ Presets for Shrines, Koroks, etc.md
 Step Customization.md
 Typed String System.md
 Modular Route.md
+Custom Icons.md
 Engine Config.md

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { LoadingFrame } from "ui/frames";
 import { Compiler } from "core/compiler";
 import { DocumentContext, useAppSetting, useOldAppSetting } from "core/context";
 import { RouteEngine } from "core/engine";
-import { useExpWarnNegativeVar, useNewKorokComment, useNewSettings } from "core/experiments";
+import { useExpNewIconResolution, useExpUseNewRecentPath, useNewSettings } from "core/experiments";
 import { MapEngine } from "core/map";
 import {
 	RouteConfig,
@@ -12,7 +12,7 @@ import {
 	SourceObject, wasmEnsureRouteConfig, wasmEnsureRouteMetadata
 } from "data/libs";
 import { addPageToRecents } from "data/storage";
-import { DocumentCreator } from "./services";
+import { DocumentCreator, DocumentResponse } from "./services";
 
 export type AppDocumentProviderProps = {
 	createDocument: DocumentCreator
@@ -23,29 +23,36 @@ const mapEngine = new MapEngine();
 
 // AppDocumentProvider handles loading the document and passing it to the rest of the app
 export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ createDocument, children }) => {
-	const warnNegativeVar = useExpWarnNegativeVar();
-	const enableNewKorokComment = useNewKorokComment();
+	const enableEarlyIconResolution = useExpNewIconResolution();
 
-	const compiler = useMemo(()=>new Compiler(enableNewKorokComment), [enableNewKorokComment]);
+	const compiler = useMemo(()=>new Compiler(enableEarlyIconResolution), [enableEarlyIconResolution]);
 
 	const useNew = useNewSettings();
 	const { setting } = useAppSetting();
 	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
 
-	useEffect(() => {
-		routeEngine.warnNegativeNumberEnable = warnNegativeVar;
-	}, [warnNegativeVar]);
-
 	const params = useParams();
 	const [status, setStatus] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [routeSourceBundle, setRouteSourceBundle] = useState<SourceObject | null>(null);
 
+	const location = useLocation();
+	const enableNewPath = useExpUseNewRecentPath();
+	useEffect(() => {
+		if (!enableNewPath) {
+			return;
+		}
+		const path = location.pathname;
+		if (path) {
+			addPageToRecents(path);
+		}
+	}, [enableNewPath, location]);
 	// Load the document bundle
 	useEffect(() => {
 		const service = createDocument(params);
-		service.load(({doc, error, status})=>{
+		const doUpdate = (response: DocumentResponse) => {
+			const {doc, error, status} = response;
 			if(doc){
 				if(doc._globalError){
 					setError(doc._globalError);
@@ -61,16 +68,29 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 				setStatus(status ?? null);
 				setRouteSourceBundle(null);
 			}
-		});
-		const path = service.getPath();
-		if (path) {
-			addPageToRecents(path);
+		};
+		const doLoad = async () => {
+			try {
+				doUpdate(await service.load(doUpdate));
+			} catch (e) {
+				console.error(e);
+				setError("An error occured. Check the console for more details.");
+				setStatus(null);
+				setRouteSourceBundle(null);
+			}
+		};
+		doLoad();
+		if (!enableNewPath) {
+			const path = service.getPath();
+			if (path) {
+				addPageToRecents(path);
+			}
 		}
 		return () => {
 			service.release();
 		};
 
-	}, [createDocument, params]);
+	}, [createDocument, params, enableNewPath]);
 
 	// Extract the metadata, config, and route assembly from the bundle
 	const { metadata, config, routeAssembly } = useMemo(() => {
@@ -92,7 +112,7 @@ export const AppDocumentProvider: React.FC<AppDocumentProviderProps> = ({ create
 		const config: RouteConfig = wasmEnsureRouteConfig(routeSourceBundle._config);
 		const route = routeSourceBundle._route;
 
-		const routeAssembly = compiler.compile(route);
+		const routeAssembly = compiler.compile(route, config);
 
 		return {
 			metadata,

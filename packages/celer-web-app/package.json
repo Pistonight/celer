@@ -1,7 +1,7 @@
 {
   "name": "celer-web-app",
   "homepage": "https://celer.itntpiston.app",
-  "version": "5.2.2",
+  "version": "5.4.0",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",

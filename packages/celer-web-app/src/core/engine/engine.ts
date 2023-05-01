@@ -10,6 +10,7 @@ import {
 	RouteCommand,
 } from "core/compiler";
 import { DocLine } from "core/engine";
+import { DefaultLineColor } from "core/map";
 import { defaultSplitSetting, SplitTypeSetting } from "core/settings";
 import { EngineConfig, EngineError } from "data/libs";
 import { MapOf } from "data/util";
@@ -37,7 +38,6 @@ enum ErrorAction {
 export class RouteEngine{
 	// Engine configuration
 	private splitSetting: SplitTypeSetting<boolean> = defaultSplitSetting;
-	public warnNegativeNumberEnable = false;
 
 	private sectionNumber = 0;
 	private lineNumber = 0;
@@ -51,6 +51,7 @@ export class RouteEngine{
 	private talusCount = 0;
 	private hinoxCount = 0;
 	private moldugaCount = 0;
+	private lineColor = DefaultLineColor;
 	private abilityCount = {
 		gale: 3,
 		fury: 3
@@ -83,6 +84,7 @@ export class RouteEngine{
 		this.talusCount = 0;
 		this.hinoxCount = 0;
 		this.moldugaCount = 0;
+		this.lineColor = DefaultLineColor;
 		this.abilityCount = {
 			gale: 3,
 			fury: 3
@@ -188,13 +190,12 @@ export class RouteEngine{
 			step = this.step;
 			this.incStep();
 		}
-		if(this.warnNegativeNumberEnable && data.variableChange){
+		if(data.variableChange){
 			for (const key in data.variableChange){
 				if(this.variables[key] < 0){
 					this.addError(data, EngineError.NegativeVar, `Variable "${key}" has a negative value`);
 				}
 			}
-
 		}
 
 		const common = {
@@ -206,9 +207,15 @@ export class RouteEngine{
 			variables: {...this.variables}
 		};
 
+		if(data.lineColor !== undefined)
+		{
+			this.lineColor = data.lineColor;
+		}
+
 		if(!data.icon){
 			output.push({
 				...common,
+				mapLineColor: this.lineColor,
 				lineType: "DocLineText",
 			});
 		}else{
@@ -295,7 +302,7 @@ export class RouteEngine{
 				comment: this.applyAbilityTextBlockOptional(data, data.comment, furyText, galeText),
 				counterValue: counter,
 				splitType: data.splitType,
-				mapLineColor: data.lineColor,
+				mapLineColor: this.lineColor,
 				hideIconOnMap: data.hideIconOnMap
 			});
 		}

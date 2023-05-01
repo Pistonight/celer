@@ -5,7 +5,7 @@ import { useStyles } from "ui/StyleContext";
 import { SplitType } from "core/compiler";
 import { useAppSetting, useOldAppSetting, useAppState } from "core/context";
 import { DocLineText, DocLineTextWithIcon } from "core/engine";
-import { useNewSettings, useExpCollapseNotes } from "core/experiments";
+import { useColorCodeDocument, useExpNewIconResolution, useNewSettings, useExpCollapseNotes } from "core/experiments";
 import { InGameCoordinates } from "core/map";
 import Icons from "data/image";
 import { TypedStringComponent } from "../TypedStringComponent";
@@ -50,6 +50,7 @@ const LineNumber: React.FC<DocLineTextProps> = ({docLine})=>{
 	const {lineNumber} = docLine;
 	const styles = useStyles();
 	const {setMapCenter} = useAppState();
+
 	return (
 		<div className={styles.lineNumber} onClick={()=>centerMapToLine(docLine, setMapCenter)}>
 			<span className="code">{lineNumber}</span>
@@ -71,17 +72,19 @@ const LineNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 };
 
 const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {counterValue, splitType} = docLine;
+	const {counterValue, splitType } = docLine;
 	const styles = useStyles();
 	const useNew = useNewSettings();
 	const {setting} = useAppSetting();
 	const { splitSetting } = useOldAppSetting();
 	const splits = useNew ? setting.splitSettings : splitSetting;
+	const enableColorCode = useColorCodeDocument();
+
 	if(splitType === SplitType.None || splitType === SplitType.UserDefined){
 		const showSplit = splitType === SplitType.UserDefined && splits[SplitType.UserDefined];
 		return (
 			<div className={clsx(styles.counterNumber, styles.counterNumberContainer, styles.counterTypeNone)}>
-				<span className="code">{showSplit ? "SPLT" : "." }</span>
+				<span className="code">{showSplit ? "SPLT" : enableColorCode ? "\u00A0":"." }</span>
 				<div className={styles.commentFont}>&nbsp;</div>
 			</div>
 		);
@@ -122,30 +125,36 @@ const Counter: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
 	);
 };
 
-const NoCounter: React.FC = ()=>{
+const NoCounter: React.FC<DocLineTextProps> = ()=>{
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
 	return (
 		<div className={clsx(styles.counterNumber, styles.counterTypeNone)}>
-			<span className="code">.</span>
+			<span className="code">{enableColorCode ? "\u00A0":"."}</span>
 		</div>
 	);
 };
 
 const StepNumber: React.FC<DocLineTextProps> = ({docLine})=>{
-	const {stepNumber} = docLine;
+	const {stepNumber, mapLineColor} = docLine;
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
+	const lineStyle = enableColorCode ? {borderLeft: `4px solid ${mapLineColor}`} as const : {};
+
 	return (
-		<div className={styles.stepNumber}>
+		<div className={styles.stepNumber} style={lineStyle}>
 			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 		</div>
 	);
 };
 
 const StepNumberWithIcon: React.FC<DocLineTextWithIconProps> = ({docLine})=>{
-	const {stepNumber} = docLine;
+	const {stepNumber, mapLineColor} = docLine;
 	const styles = useStyles();
+	const enableColorCode = useColorCodeDocument();
+	const lineStyle = enableColorCode ? {borderLeft: `4px solid ${mapLineColor}`} as const : {};
 	return (
-		<div className={styles.stepNumber}>
+		<div className={styles.stepNumber} style={lineStyle}>
 			{stepNumber ? <span className="code">{stepNumber}</span> : <span className="code">&nbsp;</span>}
 			<div className={styles.commentFont}>&nbsp;</div>
 		</div>
@@ -212,7 +221,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 					<LineNumber docLine={docLine} />
-					<NoCounter />
+					<NoCounter docLine={docLine}/>
 					<StepNumber docLine={docLine} />
 					<span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
 						<TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
@@ -228,7 +237,7 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 	return (
 		<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
 			<LineNumber docLine={docLine} />
-			<NoCounter />
+			<NoCounter docLine={docLine} />
 			<StepNumber docLine={docLine} />
 			<span className={clsx(styles.instruction, styles.instructionDefaultColor)}>
 				<TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
@@ -272,6 +281,7 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			textStyleName = styles.instructionMoldugaColor;
 			break;
 	}
+	const iconAlreadyResolved = useExpNewIconResolution();
 
 	if (collapseNotes && settings.setting.collapseNotes) {
 		return (
@@ -304,7 +314,7 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 			<StepNumberWithIcon docLine={docLine}/>
 			<div className={clsx(styles.instruction, styles.instructionWithIcon, textStyleName)}>
 				<div className={styles.icon}>
-					<img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+					<img width={"100%"} height={"auto"} src={iconAlreadyResolved ? icon : Icons[icon]} alt={icon}/>
 				</div>
 				<div className={styles.iconSideText}>
 					<TypedStringComponent content={text} variables={variables} isNotes={false}/>

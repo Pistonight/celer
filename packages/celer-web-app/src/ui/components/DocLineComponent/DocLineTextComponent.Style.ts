@@ -20,8 +20,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		borderTop: "1px solid transparent",
 		borderBottom: "1px solid transparent",
 		textAlign: "right",
-		backgroundColor: colors.lineNumberBackground,
-		color: colors.lineNumberColor
+		backgroundColor: colors.lineNumberBackground
 	},
 	lineNumberWithIcon: {
 		verticalAlign: "top",
@@ -53,7 +52,6 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 		backgroundColor: colors.stepNumberBackground,
 		color: colors.stepNumberText,
 		borderTop: "1px solid transparent",
-		borderLeft: `1px solid ${colors.stepNumberBorder}`,
 		borderBottom: `1px solid ${colors.stepNumberBorder}`,
 		boxSizing: "border-box",
 		overflow: "visible",

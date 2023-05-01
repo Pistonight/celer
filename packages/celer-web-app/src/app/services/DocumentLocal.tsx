@@ -1,19 +1,18 @@
 import { LocalStorageWrapper } from "data/storage";
-import { Consumer } from "data/util";
 import { Document, DocumentResponse } from "./types";
 
 const KEY = "TmpBundleString";
 
 class DocumentLocal implements Document {
-	load(callback: Consumer<DocumentResponse>): void {
+	async load(): Promise<DocumentResponse> {
 		const bundle = LocalStorageWrapper.load<string>(KEY, "");
 		if(bundle){
 			const bundleJson = JSON.parse(bundle);
 			if (bundleJson){
-				callback({ doc: JSON.parse(bundle) });
+				return { doc: bundleJson };
 			}
 		}
-		callback({ error: "Invalid Route Data" });
+		return { error: "Invalid Route Data" };
 	}
 
 	release(): void {
@@ -21,7 +20,7 @@ class DocumentLocal implements Document {
 	}
 
 	getPath(): string {
-		return "local";
+		return "local"; // Remove with useExpUseNewRecentPath
 	}
 }
 

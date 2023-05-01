@@ -11,6 +11,7 @@ ignore = [
     "binaryen-version_105/",
     "scripts/base-lint/",
     "scripts/version-sync/",
+    "scripts/typescript-layers/",
     "pkg/",
     "wasm/",
     ".cargo/",

@@ -1,9 +1,13 @@
 {
-    "WarnNegativeVar": true,
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
-    "UseNewKorokComment": true,
     "UseCurrentBranch": true,
-    "DevServerBase64": false,
-    "UseCollapseNotes": true
+    "UseCollapseNotes": true,
+    "DevServerBase64": true,
+    "NewIconResolution": true,
+    "LoadDocFromGzip": true,
+    "LoadDocFromRelease": false,
+    "UseNewRecentPath": true,
+    "UseNewSettings": true,
+    "UseColorCodeDocument": true
 }

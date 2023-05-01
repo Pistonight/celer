@@ -106,7 +106,7 @@ def verify_test(test_path, return_code, stdout, stderr, config, index):
                 if os.path.isfile(full_src_path):
                     shutil.copyfile(full_src_path, f"{output_expected_dir}/{subpath_to_copy}")
                 elif os.path.isdir(full_src_path):
-                    shutil.copytree(full_src_path, f"{output_expected_dir}/{subpath_to_copy}")
+                    shutil.copytree(full_src_path, f"{output_expected_dir}/{subpath_to_copy}", dirs_exist_ok=True)
 
         dir_same = dir_match(
             f"tests/{test_path}/test_output/{index}/actual",

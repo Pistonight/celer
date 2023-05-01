@@ -1,38 +1,34 @@
 use crate::cio::ErrorState;
+use crate::ccmd;
 
-mod config;
+mod icon;
 
 pub mod bundle;
-pub use config::{Config, get_subcommand};
+
+// Build Targets
+pub const T_BUNDLE: &str = "bundle";
+pub const T_MERGE: &str = "merge";
+pub const BUILD_TARGETS: [&str; 2] = [T_BUNDLE, T_MERGE];
 
 /// Entry point for celer build
-pub fn run(config: Config) {
+pub fn run(config: ccmd::arg::BundleConfig) {
     match config.target.as_str() {
-        config::T_BUNDLE => bundle(config),
-        config::T_MERGE => merge(config),
+        T_BUNDLE => bundle(config),
+        T_MERGE => merge(config),
         _ => panic!("Unknown target {}", config.target)
     }
 }
 
-fn merge(config: Config) {
-    let mut bundle_context = bundle::BundleContext::new("");
-    match config.format {
-        config::Format::Json => bundle_context.write_source_json(config.debug),
-        config::Format::Yaml => bundle_context.write_source_yaml(),
-        _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
-    }
+fn merge(config: ccmd::arg::BundleConfig) {
+    let mut bundle_context = bundle::BundleContext::new("", config);
+    bundle_context.write_source();
 
     fail_build_on_error(bundle_context.get_error());
 }
 
-fn bundle(config: Config) {
-    let mut bundle_context = bundle::BundleContext::new("");
-    match config.format {
-        config::Format::Json => bundle_context.write_bundle_json(config.debug),
-        config::Format::Yaml => bundle_context.write_bundle_yaml(),
-        config::Format::Gzip => bundle_context.write_bundle_gzip(),
-        // _ => panic!("The {} target does not support the {:?} format", config.target, config.format)
-    }
+fn bundle(config: ccmd::arg::BundleConfig) {
+    let mut bundle_context = bundle::BundleContext::new("", config);
+    bundle_context.write_bundle();
 
     fail_build_on_error(bundle_context.get_error());
 }

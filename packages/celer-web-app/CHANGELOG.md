@@ -1,7 +1,17 @@
 # Change Log
 This is the change log for celer-web-app
 
-## `5.2.2` - `03-24-2023` `LATEST`
+## `5.4.0` - `04-12-2023` `LATEST`
+- Show line color on the document
+
+## `5.3.1` - `04-06-2023`
+- Fixed a bug where the korok module doesn't return a clean reference for koroks with movements
+
+## `5.3.0` - `03-31-2023`
+- Fixed the bug where local bundles are not loaded correctly
+- Moved icon resolution to Engine (`Exp.NewIconResolution`). This allows the icons to be resolved in a centralized manner and be available to the rest of the app.
+
+## `5.2.2` - `03-24-2023`
 - Fixed the bug where the map doesn't update when using the dev server.
 
 ## `5.2.1` - `03-16-2023`
