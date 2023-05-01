@@ -216,16 +216,15 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 	// If the notes should be collapsed, render the instruction as wider
 	// and give the settings banner a new line
 	if (collapseNotes && settings.setting.collapseNotes) {
-	    const {setMapCenter} = useAppState();
 		return (
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-					<LineNumber docLine={docLine} />
-					<NoCounter docLine={docLine}/>
-					<StepNumber docLine={docLine} />
-					<span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
-						<TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
-					</span>
+                <LineNumber docLine={docLine} />
+                <NoCounter docLine={docLine} />
+                <StepNumber docLine={docLine} />
+                <span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
+                    <TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
+                </span>
 					<NotesCollapsed docLine={docLine} altNotesColor={altNotesColor} bannerOpen={notesBannerOpen} toggleBanner={setNotesBannerOpen}/>
 				</div>
 				{notesBannerOpen && <NoteBannerComponent docLine={docLine} altNotesColor={altNotesColor}/>}
@@ -287,12 +286,12 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 		return (
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-					<LineNumberWithIcon docLine={docLine} />
-					<Counter docLine={docLine} />
-					<StepNumberWithIcon docLine={docLine}/>
-					<div className={clsx(styles.instructionNotesCollapsed, styles.instructionWithIconNotesCollapsed, textStyleName)}>
+                    <LineNumberWithIcon docLine={docLine} />
+                    <Counter docLine={docLine} />
+                    <StepNumberWithIcon docLine={docLine}/>
+					<div className={clsx(styles.instructionWithIconNotesCollapsed, textStyleName)}>
 						<div className={styles.icon}>
-							<img width={"100%"} height={"auto"} src={Icons[icon]} alt={icon}/>
+							<img width={"100%"} height={"auto"} src={iconAlreadyResolved ? icon : Icons[icon]} alt={icon}/>
 						</div>
 						<div className={styles.iconSideText}>
 							<TypedStringComponent content={text} variables={variables} isNotes={false}/>
