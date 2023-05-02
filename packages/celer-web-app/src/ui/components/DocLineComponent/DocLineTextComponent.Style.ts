@@ -195,6 +195,7 @@ export const DocLineTextComponentStyle =({colors, sizes}: ComputeStyleInputs)=> 
 	},
 	notesCollapsed: {
 		width: `${sizes.collapsedNote}`,
+        cursor: "pointer",
 		textAlign: "center",
 	},
 	notesCollapsedEmpty: {
