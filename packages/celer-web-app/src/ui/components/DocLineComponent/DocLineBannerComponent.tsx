@@ -56,7 +56,7 @@ export const NoteBannerComponent: React.FC<NoteBannerProps> = ({docLine, altNote
 	if (!notes) {
 		return null;
 	}
-	
+
 	return (
 		<div className={styles.bannerRootWithTriangle}>
 			<div className={clsx(styles.bannerTriangle, triangleColorStyle)}/>

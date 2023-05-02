@@ -186,7 +186,7 @@ const NotesCollapsed: React.FC<DocLineTextCollapsedProps | DocLineTextWithIconCo
 		return (
 			<div className={clsx(styles.notes, styles.notesCollapsed, styles.notesCollapsedEmpty)}>
 				<span></span>
-			</div>         
+			</div>
 		);
 	}
 
