@@ -190,17 +190,17 @@ const NotesCollapsed: React.FC<DocLineTextCollapsedProps | DocLineTextWithIconCo
 		);
 	}
 
-    const {setMapCenter} = useAppState();
+	const {setMapCenter} = useAppState();
 	return (
 		<div className={clsx(styles.notes, styles.notesCollapsed, altNotesColor && styles.notesAlt)}>
 			<div>
 				<span onClick = {() => {
-                    // If the banner is being opened, recenter the map
-                    if (!bannerOpen && docLine.centerCoord) {
-                        setMapCenter(docLine.centerCoord);
-                    }
+					// If the banner is being opened, recenter the map
+					if (!bannerOpen && docLine.centerCoord) {
+						setMapCenter(docLine.centerCoord);
+					}
 					toggleBanner(!bannerOpen);
-                // &#x2022; is unicode for bullet character
+				// &#x2022; is unicode for bullet character
 				}}>&#x2022;&#x2022;&#x2022;</span>
 			</div>
 		</div>
@@ -220,12 +220,12 @@ export const DocLineTextComponent: React.FC<DocLineTextProps> = ({docLine,altLin
 		return (
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-                <LineNumber docLine={docLine} />
-                <NoCounter docLine={docLine} />
-                <StepNumber docLine={docLine} />
-                <span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
-                    <TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
-                </span>
+					<LineNumber docLine={docLine} />
+					<NoCounter docLine={docLine} />
+					<StepNumber docLine={docLine} />
+					<span className={clsx(styles.instructionNotesCollapsed, styles.instructionDefaultColor)}>
+						<TypedStringComponent content={text} variables={variables} isNotes={false}/>{"\u200b"}
+					</span>
 					<NotesCollapsed docLine={docLine} altNotesColor={altNotesColor} bannerOpen={notesBannerOpen} toggleBanner={setNotesBannerOpen}/>
 				</div>
 				{notesBannerOpen && <NoteBannerComponent docLine={docLine} altNotesColor={altNotesColor}/>}
@@ -287,9 +287,9 @@ export const DocLineTextWithIconComponent: React.FC<DocLineTextWithIconProps> = 
 		return (
 			<div>
 				<div className={clsx(styles.lineContainer, altLineColor && styles.lineContainerAlt)}>
-                    <LineNumberWithIcon docLine={docLine} />
-                    <Counter docLine={docLine} />
-                    <StepNumberWithIcon docLine={docLine}/>
+					<LineNumberWithIcon docLine={docLine} />
+					<Counter docLine={docLine} />
+					<StepNumberWithIcon docLine={docLine}/>
 					<div className={clsx(styles.instructionWithIconNotesCollapsed, textStyleName)}>
 						<div className={styles.icon}>
 							<img width={"100%"} height={"auto"} src={iconAlreadyResolved ? icon : Icons[icon]} alt={icon}/>

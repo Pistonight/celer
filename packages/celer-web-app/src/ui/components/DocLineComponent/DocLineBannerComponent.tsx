@@ -56,12 +56,15 @@ export const NoteBannerComponent: React.FC<NoteBannerProps> = ({docLine, altNote
 	if (!notes) {
 		return null;
 	}
-    
+	
 	return (
-        <div className={clsx(styles.bannerContainer, containerColorStyle)}>
-            <p className={styles.bannerText} >
-                <TypedStringComponent content={notes} variables={variables || {}} isNotes={false}/>
-            </p>
-        </div>
+		<div className={styles.bannerRootWithTriangle}>
+			<div className={clsx(styles.bannerTriangle, triangleColorStyle)}/>
+			<div className={clsx(styles.bannerContainer, styles.bannerContainerWithTriangle, containerColorStyle)}>
+				<p className={clsx(styles.bannerText, styles.bannerTextWithTriangle)} >
+					<TypedStringComponent content={notes} variables={variables || {}} isNotes={false}/>
+				</p>
+			</div>
+		</div>
 	);
 };
