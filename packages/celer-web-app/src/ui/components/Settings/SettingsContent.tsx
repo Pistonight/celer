@@ -207,3 +207,125 @@ export const DocumentConfig = [
 		]
 	}
 ];
+
+
+export const DocumentConfigNoCollapseNotes = [
+	{
+		component: SettingDropdown,
+		text: "Theme",
+		action: () => {return;},
+		value: () => {return false;},
+		values: ThemeValues,
+		actionWithValue: (setting: number) =>
+		{
+			return (draft: Setting) =>
+			{
+				draft.theme = Themes[ThemeValues[setting]];
+			};
+		},
+		getIndex: (setting: Setting) =>
+		{
+			return setting.theme.name;
+		}
+	},
+	{
+		component: SettingToggle,
+		text:"Keyboard Controls",
+		action: (draft: Setting) => {
+			draft.keyboardControls = !draft.keyboardControls;
+		},
+		value: (setting: Setting) => {
+			return setting.keyboardControls;
+		}
+	},
+	{
+		component: SettingLabel,
+		text: "Split Settings",
+		action: () => {return;},
+		value: () => {return false;},
+		subsettings: [
+			{
+				component: SettingToggle,
+				text: "Shrine",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Shrine] = !draft.splitSettings[SplitType.Shrine];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Shrine];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Tower",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Tower];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Memory",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Memory];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Warp",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Warp] = !draft.splitSettings[SplitType.Warp];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Warp];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Boss",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Hinox] = !draft.splitSettings[SplitType.Hinox];
+					draft.splitSettings[SplitType.Talus] = !draft.splitSettings[SplitType.Talus];
+					draft.splitSettings[SplitType.Molduga] = !draft.splitSettings[SplitType.Molduga];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Hinox];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Korok",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.Korok] = !draft.splitSettings[SplitType.Korok];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.Korok];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Other",
+				action: (draft: Setting) => {
+					draft.splitSettings[SplitType.UserDefined] = !draft.splitSettings[SplitType.UserDefined];
+				},
+				value: (setting: Setting) => {
+					return setting.splitSettings[SplitType.UserDefined];
+				}
+			},
+			{
+				component: SettingToggle,
+				text: "Enable Subsplits",
+				action: (draft: Setting) => {
+					draft.enableSubsplits = !draft.enableSubsplits;
+				},
+				value: (setting: Setting) => {
+					return setting.enableSubsplits;
+				}
+			},
+		]
+	}
+];
