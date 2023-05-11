@@ -6,7 +6,6 @@ import { useExpCollapseNotes, useExpNewIconResolution } from "core/experiments";
 import { createLiveSplitFile, createLiveSplitFileAsync } from "core/external";
 import { saveAs, SplitTypeConfig, SplitTypeKeys } from "data/libs";
 import { MapOf } from "data/util";
-
 import { SettingCategory } from "./SettingCategory";
 import { SettingsContent, DocumentConfig, MapConfig, DocumentConfigNoCollapseNotes } from "./SettingsContent";
 import { settingsDialogStyles } from "./SettingsDialog.Style";
@@ -25,16 +24,13 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
 	const [category, setCategory] = useState(Category.Document);
 	const { docLines, metadata, config } = useDocument();
 	const { setting } = useAppSetting();
-    const collapseNotes = useExpCollapseNotes();
+	const collapseNotes = useExpCollapseNotes();
 
 	const iconAlreadyResolved = useExpNewIconResolution();
 
 	if (!isOpen) {
 		return <View><View /></View>;
 	}
-    
-    // Select which version of the document config to render
-    const docConfig = collapseNotes ? DocumentConfig : DocumentConfigNoCollapseNotes;
 
 	return (
 		<View>
@@ -62,7 +58,7 @@ export const SettingsDialog: React.FunctionComponent<SettingsDialogProps> = ({is
 							<ScrollView style={settingsDialogStyles.menu}>
 								{category == Category.Document && <>
 									{
-                                        docConfig.map((c, i) => <SettingsContent key={i} {...c} />)   
+										DocumentConfig.map((c, i) => <SettingsContent key={i} {...c} />)
 									}
 									{/* Temporary because we really need the download splits function */}
 									<button onClick={ () => {
