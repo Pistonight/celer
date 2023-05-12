@@ -1,8 +1,8 @@
 import produce from "immer";
 import { SplitType } from "core/compiler";
 import { Setting, useAppSetting } from "core/context";
-import { MapDisplayModes, MapValues, Themes, ThemeValues } from "core/settings";
 import { useExpCollapseNotes } from "core/experiments";
+import { MapDisplayModes, MapValues, Themes, ThemeValues } from "core/settings";
 import { SettingLabel, SettingToggle, SettingProps, SettingDropdown } from "./SettingsMenuItems";
 
 export type SettingsContentProps = {
