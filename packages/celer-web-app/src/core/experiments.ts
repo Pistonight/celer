@@ -16,6 +16,8 @@ export const useNewSettings = (): boolean => useAppExperiment("UseNewSettings", 
 export const useCurrentBranch = (): boolean => useAppExperiment("UseCurrentBranch", true);
 // [3-31 custom icon] Enable loading base64 bundle from the dev server
 export const useExpDevServerBase64 = () => useAppExperiment("DevServerBase64", true);
+// [3-30] Enable collapsing notes into buttons UI option
+export const useExpCollapseNotes = (): boolean => useAppExperiment("UseCollapseNotes", true);
 // [3-31 custom icon] Enable resolving the icon in the compiler
 export const useExpNewIconResolution = () => useAppExperiment("NewIconResolution", true);
 // [3-31 custom icon] Enable loading bundle.json.gz from repo

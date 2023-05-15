@@ -6,7 +6,6 @@ import { useExpNewIconResolution } from "core/experiments";
 import { createLiveSplitFile, createLiveSplitFileAsync } from "core/external";
 import { saveAs, SplitTypeConfig, SplitTypeKeys } from "data/libs";
 import { MapOf } from "data/util";
-
 import { SettingCategory } from "./SettingCategory";
 import { SettingsContent, DocumentConfig, MapConfig } from "./SettingsContent";
 import { settingsDialogStyles } from "./SettingsDialog.Style";

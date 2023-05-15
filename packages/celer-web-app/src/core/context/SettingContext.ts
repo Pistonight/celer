@@ -26,6 +26,7 @@ export type Setting =
 	enableSubsplits: boolean
 	showCurrentBranch: boolean
 	keyboardControls: boolean
+    collapseNotes: boolean
 }
 
 export const save = (setting: Setting) => { return LocalStorageWrapper.store("Settings", setting);};
@@ -47,6 +48,7 @@ export const defaultSettings =
 	enableSubsplits: false,
 	showCurrentBranch: false,
 	keyboardControls: true,
+	collapseNotes: false,
 };
 
 export const OldSettingContext = React.createContext<OldAppSettingContextState>(emptyObject());

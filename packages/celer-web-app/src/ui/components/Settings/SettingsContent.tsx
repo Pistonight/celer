@@ -1,6 +1,7 @@
 import produce from "immer";
 import { SplitType } from "core/compiler";
 import { Setting, useAppSetting } from "core/context";
+import { useExpCollapseNotes } from "core/experiments";
 import { MapDisplayModes, MapValues, Themes, ThemeValues } from "core/settings";
 import { SettingLabel, SettingToggle, SettingProps, SettingDropdown } from "./SettingsMenuItems";
 
@@ -13,12 +14,17 @@ export type SettingsContentProps = {
 	subsettings?: SettingsContentProps[], //This is an array of all the component's children
 	actionWithValue?: (setting: number) => (draft: Setting) => void, // This returns a function with the same format as action based on an index
 	getIndex?: (setting: Setting) => string, // returns the index if the component has one
+	display?: () => boolean, // Optional function that returns false if the function should not be rendered in the dialog
 }
 
-export const SettingsContent: React.FC<SettingsContentProps> = ({component, text, action, value, values, subsettings, actionWithValue, getIndex}) => {
+export const SettingsContent: React.FC<SettingsContentProps> = ({component, text, action, value, values, subsettings, actionWithValue, getIndex, display}) => {
 	const {setting, setSetting} = useAppSetting();
 	const SettingComponent = component;
-	if(actionWithValue !== undefined && getIndex !== undefined)
+	// If this setting is set to not display, return null
+	if (display && !display()) {
+		return null;
+	}
+	if (actionWithValue !== undefined && getIndex !== undefined)
 	{
 		return (
 			<SettingComponent
@@ -105,6 +111,17 @@ export const DocumentConfig = [
 		value: (setting: Setting) => {
 			return setting.keyboardControls;
 		}
+	},
+	{
+		component: SettingToggle,
+		text:"Collapse Notes",
+		action: (draft: Setting) => {
+			draft.collapseNotes = !draft.collapseNotes;
+		},
+		value: (setting: Setting) => {
+			return setting.collapseNotes;
+		},
+		display: useExpCollapseNotes
 	},
 	{
 		component: SettingLabel,
