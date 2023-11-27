@@ -2,6 +2,7 @@
     "ScrollProgressTrackerEnabled": true,
     "UseNewHomePage": true,
     "UseCurrentBranch": true,
+    "UseCollapseNotes": true,
     "DevServerBase64": true,
     "NewIconResolution": true,
     "LoadDocFromGzip": true,
