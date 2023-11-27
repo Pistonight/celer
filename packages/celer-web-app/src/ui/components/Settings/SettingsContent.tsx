@@ -153,7 +153,7 @@ export const DocumentConfig = [
 				component: SettingToggle,
 				text: "Memory",
 				action: (draft: Setting) => {
-					draft.splitSettings[SplitType.Tower] = !draft.splitSettings[SplitType.Tower];
+					draft.splitSettings[SplitType.Memory] = !draft.splitSettings[SplitType.Memory];
 				},
 				value: (setting: Setting) => {
 					return setting.splitSettings[SplitType.Memory];

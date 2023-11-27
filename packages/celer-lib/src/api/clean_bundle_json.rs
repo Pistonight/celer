@@ -11,7 +11,7 @@ pub fn clean_bundle_json(input: &mut serde_json::Value) {
     let input_config_json = &input["_config"];
     let mut _ignored_errors = vec![];
     let output_config = core::Config::from(input_config_json, &mut _ignored_errors)
-        .unwrap_or(core::Config::new());
+        .unwrap_or_default();
     input["_config"] = output_config.to_json();
     // Clean route
     if !&input["_route"].is_array() {
