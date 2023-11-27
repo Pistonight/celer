@@ -34,7 +34,7 @@ pub fn ensure_config(input_config: &JsValue) -> JsValue {
     let input_config_json = input_config.into_serde().unwrap();
     let mut _ignored_errors = vec![];
     let output_config = crate::core::Config::from(&input_config_json, &mut _ignored_errors)
-        .unwrap_or(crate::core::Config::new());
+        .unwrap_or_default();
     let output_config_json = output_config.to_json();
 
     JsValue::from_serde(&output_config_json).unwrap()
